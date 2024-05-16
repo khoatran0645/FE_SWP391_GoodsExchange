@@ -1,4 +1,49 @@
-# React + Vite
+
+# Goods Exchange for Students at FPT University HCM
+
+Students at FPT University will be able to communicate with one another and trade school supplies with the assistance of this project.
+
+## Tech Stack
+
+**Client:** React, Material UI
+
+**Server:** .NET Core
+
+**Database:** Microsoft SQL Server
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://link-to-project
+```
+
+Go to the project directory
+
+```bash
+  cd my-project
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run dev
+```
+
+## Related
+
+Here are some related projects
+
+[Goods Exchange Backend](https://github.com/hauzanq/BE_SWP391_GoodsExchange.git)
+
+## Acknowledgements
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
