@@ -1,23 +1,32 @@
-import { Grid, Typography, Container, Box, ImageList } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Container,
+  Box,
+  ImageList,
+  Card,
+  CardContent,
+  CardMedia,
+  CardActionArea,
+} from "@mui/material";
+
+import { Link, useNavigate } from "react-router-dom";
+
 export default function Home() {
+
+  const navigate = useNavigate();
   const data = [
     {
       id: "1",
       title: "pen",
       price: "5.000",
-      image:
-        "https://m.media-amazon.com/images/I/71XmnK4NmXL._AC_SL1500_.jpg",
+      image: "https://m.media-amazon.com/images/I/71XmnK4NmXL._AC_SL1500_.jpg",
     },
     {
       id: "2",
       title: "eraser",
       price: "2.000",
-      image:
-        "https://m.media-amazon.com/images/I/716YBLPCc7L.jpg",
+      image: "https://m.media-amazon.com/images/I/716YBLPCc7L.jpg",
     },
     {
       id: "3",
@@ -51,8 +60,7 @@ export default function Home() {
       id: "7",
       title: "wifi router",
       price: "500.000",
-      image:
-        "https://m.media-amazon.com/images/I/51R2a9p-vNL._AC_SL1000_.jpg",
+      image: "https://m.media-amazon.com/images/I/51R2a9p-vNL._AC_SL1000_.jpg",
     },
     {
       id: "8",
@@ -77,6 +85,7 @@ export default function Home() {
     },
   ];
 
+
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -92,27 +101,29 @@ export default function Home() {
         >
           {data.map((item) => (
             <Card key={item.id} sx={{ maxWidth: 200, minWidth: 345 }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={`${item.image}?w=150&h=150&fit=crop&auto=format`}
-                  alt="laptop"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h4" component="div">
-                    {item.title}
-                  </Typography>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {item.price} vnd
-                  </Typography>
-                  {/* <Typography variant="body2" color="text.secondary">
+              
+                <CardActionArea onClick={()=>{navigate(`products/${item.id}`, { state: item }) }}>
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={`${item.image}?w=150&h=150&fit=crop&auto=format`}
+                    alt="laptop"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h4" component="div">
+                      {item.title}
+                    </Typography>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {item.price} vnd
+                    </Typography>
+                    {/* <Typography variant="body2" color="text.secondary">
                       Lizards are a widespread group of squamate reptiles, with
                       over 6,000 species, ranging across all continents except
                       Antarctica
                     </Typography> */}
-                </CardContent>
-              </CardActionArea>
+                  </CardContent>
+                </CardActionArea>
+              
             </Card>
           ))}
         </ImageList>
