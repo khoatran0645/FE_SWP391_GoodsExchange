@@ -39,14 +39,17 @@ export default function Product() {
           <img
             src={location.state.image}
             alt={location.state.title}
-            style={{ maxWidth: "50%", height: "auto" }}
+            style={{
+              maxWidth: "50%",
+              height: "auto",
+              border: "2px solid grey",
+            }}
           />
-          <Box display="flex" flexDirection="column" marginLeft={2}>
+          <Box display="flex" flexDirection="column" marginLeft={15}>
             <Typography variant="h2">{location.state.title}</Typography>
             {renderStars(location.state.rating)}
             <Typography variant="h3">{location.state.price}</Typography>
-
-            {/* Add the star rating here */}
+            <Typography variant="p">{location.state.description}</Typography>
           </Box>
         </Box>
       </Grid>
