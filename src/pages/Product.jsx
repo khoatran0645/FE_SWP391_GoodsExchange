@@ -9,9 +9,9 @@ export default function Product() {
     <Grid container>
       <Typography variant="h6">Product detail</Typography>
       <Grid item>
-        <img  src={location.state.image} alt={location.state.title} />
+        <img  src={location.state.image} alt={location.state.title}/>
         <Typography variant="h2">{location.state.title}</Typography>
-        <Typography variant="h3">{location.state.price}</Typography>
+        <Typography variant="h3">{location.state.price} vnd</Typography>
       </Grid>
     </Grid>
   );
