@@ -1,6 +1,7 @@
 import { Typography, Grid } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import NavBar from "../components/common/NavBar";
+import StickyFooter from "../pages/Footer";
 
 export default function HomeLayout() {
   return (
@@ -12,7 +13,7 @@ export default function HomeLayout() {
         <Outlet />
       </Grid>
       <Grid item xs={12}>
-        <Typography variant="h1">Footer</Typography>
+        <StickyFooter />
       </Grid>
     </Grid>
   );

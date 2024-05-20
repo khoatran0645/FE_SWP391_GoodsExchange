@@ -35,6 +35,7 @@ export default function Product() {
     <Grid container>
       <Typography variant="h6">Product detail</Typography>
       <Grid item>
+
         <Box display="flex" flexDirection="row" alignItems="center">
           <img
             src={location.state.image}
@@ -52,6 +53,7 @@ export default function Product() {
             <Typography variant="p">{location.state.description}</Typography>
           </Box>
         </Box>
+
       </Grid>
     </Grid>
   );
