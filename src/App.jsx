@@ -3,6 +3,8 @@ import HomeLayout from "./layouts/HomeLayout";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
 import NotFound from "./pages/NotFound";
+import EmptyLayout from "./layouts/EmptyLayout";
+import Login from "./features/auth/Login";
 
 export default function App() {
   return (
@@ -11,6 +13,9 @@ export default function App() {
         <Route index element={<Home />} />
         <Route path="products/:id" element={<Product />} />
       </Route>
+      <Route path="/auth/" element={<EmptyLayout />}>
+        <Route path="/auth/login" element={<Login />} />
+        </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

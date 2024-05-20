@@ -7,4 +7,7 @@ export default defineConfig({
   optimizeDeps: {
     include: ['@mui/material/Tooltip', '@emotion/styled', '@mui/material/Unstable_Grid2', '@mui/material/Grid'],
   },
+  server: {
+    host: "0.0.0.0"
+  }
 })
