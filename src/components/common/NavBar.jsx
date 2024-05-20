@@ -19,7 +19,7 @@ import { NavLink, Link } from "react-router-dom";
 
 export default function NavBar() {
   const pages = ["Categories"];
-  const settings = ["Profile", "Account", "Dashboard", "Logout"];
+  const settings = ["Profile", "Logout"];
   const options = ["Electronics", "Stationery", "Papers", "Sensors", "Pen"];
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -41,7 +41,7 @@ export default function NavBar() {
   };
 
   return (
-    <AppBar position="static" >
+    <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -59,7 +59,7 @@ export default function NavBar() {
                 textDecoration: "none",
               }}
             >
-              Goods Exchange
+              GoodsExchange <font color="orange">FU</font>
             </Typography>
           </Link>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -125,8 +125,6 @@ export default function NavBar() {
                 <TextField {...params} label="Category" variant="standard" />
               )}
             />
-
-            <TextField label="Search" variant="standard" />
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
