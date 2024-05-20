@@ -2,6 +2,9 @@ import { Grid, Typography, Box } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { useLocation } from "react-router-dom";
+import { AccountCircle, Description } from "@mui/icons-material";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+
 export default function Product() {
   let location = useLocation();
 
@@ -33,9 +36,10 @@ export default function Product() {
   console.log("location", location.state);
   return (
     <Grid container>
-      <Typography variant="h6">Product detail</Typography>
+      <Typography variant="h6" align="center">
+        Product detail
+      </Typography>
       <Grid item>
-
         <Box display="flex" flexDirection="row" alignItems="center">
           <img
             src={location.state.image}
@@ -47,13 +51,31 @@ export default function Product() {
             }}
           />
           <Box display="flex" flexDirection="column" marginLeft={15}>
-            <Typography variant="h2">{location.state.title}</Typography>
+            <Typography variant="h1">
+              {location.state.title.charAt(0).toUpperCase() +
+                location.state.title.slice(1)}
+            </Typography>
+
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <AccountCircle sx={{ width: 30 }} />
+              <Typography variant="h3" marginX={0.5} marginY={1}>
+                {location.state.nameOfPoster.charAt(0).toUpperCase() +
+                  location.state.nameOfPoster.slice(1)}
+              </Typography>
+            </Box>
+
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <LocalPhoneIcon sx={{ width: 30 }} />
+              <Typography variant="h4" marginX={0.5} marginY={1}>
+                {location.state.phoneOfPoster}
+              </Typography>
+            </Box>
+
             {renderStars(location.state.rating)}
-            <Typography variant="h3">{location.state.price}</Typography>
+            <Typography variant="h3">{location.state.price} VND</Typography>
             <Typography variant="p">{location.state.description}</Typography>
           </Box>
         </Box>
-
       </Grid>
     </Grid>
   );
