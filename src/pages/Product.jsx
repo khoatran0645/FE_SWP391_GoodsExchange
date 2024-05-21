@@ -1,11 +1,12 @@
-import { Grid, Typography, Box } from "@mui/material";
+import { Grid, Typography, Box, Button } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { useLocation } from "react-router-dom";
 import { AccountCircle, Description } from "@mui/icons-material";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-
+import { useState } from "react";
 export default function Product() {
+  const [showPhoneNumber, setshowPhoneNumber] = useState(false);
   let location = useLocation();
 
   const getStarColor = (index, rating) => {
@@ -33,7 +34,8 @@ export default function Product() {
       </Box>
     );
   };
-  console.log("location", location.state);
+  // console.log("location", location.state);
+
   return (
     <Grid container>
       <Typography variant="h6" align="center">
@@ -45,20 +47,20 @@ export default function Product() {
             src={location.state.image}
             alt={location.state.title}
             style={{
-              maxWidth: "50%",
+              maxWidth: "35%",
               height: "auto",
-              border: "2px solid grey",
+              // border: "2px solid grey",
             }}
           />
           <Box display="flex" flexDirection="column" marginLeft={15}>
-            <Typography variant="h1">
+            <Typography variant="h2">
               {location.state.title.charAt(0).toUpperCase() +
                 location.state.title.slice(1)}
             </Typography>
 
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <AccountCircle sx={{ width: 30 }} />
-              <Typography variant="h3" marginX={0.5} marginY={1}>
+              <Typography variant="h4" marginX={0.5} marginY={1}>
                 {location.state.nameOfPoster.charAt(0).toUpperCase() +
                   location.state.nameOfPoster.slice(1)}
               </Typography>
@@ -74,6 +76,15 @@ export default function Product() {
             {renderStars(location.state.rating)}
             <Typography variant="h3">{location.state.price} VND</Typography>
             <Typography variant="p">{location.state.description}</Typography>
+            {!showPhoneNumber ? (
+              <Button onClick={() => setshowPhoneNumber(true)}>
+                Chat with seller
+              </Button>
+            ) : (
+              <Typography sx={{ textAlign: "center" }}>{location.state.phoneOfPoster}</Typography>
+            )}
+
+            <Button>Chat with seller</Button>
           </Box>
         </Box>
       </Grid>
