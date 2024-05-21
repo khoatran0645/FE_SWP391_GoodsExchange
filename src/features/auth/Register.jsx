@@ -1,5 +1,5 @@
 
-export default function Signup(){
+export default function Register(){
     return(
         <div>
             <h1>Signup</h1>
