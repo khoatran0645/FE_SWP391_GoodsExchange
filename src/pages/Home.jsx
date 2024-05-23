@@ -9,6 +9,8 @@ import {
   CardMedia,
   CardActionArea,
 } from "@mui/material";
+import * as React from "react";
+import Add from "@mui/icons-material/Add";
 
 import { Link, useNavigate } from "react-router-dom";
 
@@ -145,8 +147,11 @@ export default function Home() {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Typography variant="h2" align="center">New Posts</Typography>
+        <Typography variant="h2" align="center">
+          New Posts
+        </Typography>
       </Grid>
+
       <Grid item xs={12}>
         {/* <Container> */}
         {/* <Box sx={{ bgcolor: "#cfe8fc", height: "100vh" }}> */}
