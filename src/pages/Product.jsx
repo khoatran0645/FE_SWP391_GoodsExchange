@@ -5,6 +5,8 @@ import { useLocation } from "react-router-dom";
 import { AccountCircle, Description } from "@mui/icons-material";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { useState } from "react";
+import ReportIcon from "@mui/icons-material/Report";
+
 export default function Product() {
   const [showPhoneNumber, setshowPhoneNumber] = useState(false);
   let location = useLocation();
@@ -38,9 +40,7 @@ export default function Product() {
 
   return (
     <Grid container>
-      <Typography variant="h6" align="center">
-        Product detail
-      </Typography>
+      <Typography variant="h6">Product detail</Typography>
       <Grid item>
         <Box display="flex" flexDirection="row" alignItems="center">
           <img
@@ -67,10 +67,10 @@ export default function Product() {
             </Box>
 
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <LocalPhoneIcon sx={{ width: 30 }} />
-              <Typography variant="h4" marginX={0.5} marginY={1}>
+              {/* <LocalPhoneIcon sx={{ width: 30 }} /> */}
+              {/* <Typography variant="h4" marginX={0.5} marginY={1}>
                 {location.state.phoneOfPoster}
-              </Typography>
+              </Typography> */}
             </Box>
 
             {renderStars(location.state.rating)}
@@ -78,10 +78,12 @@ export default function Product() {
             <Typography variant="p">{location.state.description}</Typography>
             {!showPhoneNumber ? (
               <Button onClick={() => setshowPhoneNumber(true)}>
-                Chat with seller
+                Show Phone Number
               </Button>
             ) : (
-              <Typography sx={{ textAlign: "center" }}>{location.state.phoneOfPoster}</Typography>
+              <Typography sx={{ textAlign: "center" }}>
+                {location.state.phoneOfPoster}
+              </Typography>
             )}
 
             <Button>Chat with seller</Button>
