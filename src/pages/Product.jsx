@@ -5,7 +5,12 @@ import { useLocation } from "react-router-dom";
 import { AccountCircle, Description } from "@mui/icons-material";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { useState } from "react";
+
+import Avatar from "@mui/material/Avatar";
+import { deepOrange, deepPurple } from "@mui/material/colors";
+
 import ReportIcon from "@mui/icons-material/Report";
+
 
 export default function Product() {
   const [showPhoneNumber, setshowPhoneNumber] = useState(false);
@@ -39,20 +44,66 @@ export default function Product() {
   // console.log("location", location.state);
 
   return (
+
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Typography variant="h6" align="center">
+          Product Detail
+        </Typography>
+      </Grid>
+      <Grid item xs={4}>
+        <Box display="flex" flexDirection="column" alignItems="center">
+
     <Grid container>
       <Typography variant="h6">Product detail</Typography>
       <Grid item>
         <Box display="flex" flexDirection="row" alignItems="center">
+
           <img
             src={location.state.image}
             alt={location.state.title}
             style={{
+
+              maxWidth: "100%",
+              height: "auto",
+              margin: 12,
+              borderRadius: 30,
+
               maxWidth: "35%",
               height: "auto",
               // border: "2px solid grey",
+
             }}
           />
+        </Box>
+      </Grid>
+      <Grid item xs={4}>
+        <Box display="flex" flexDirection="column">
+          <Typography variant="h2">
+            {location.state.title.charAt(0).toUpperCase() +
+              location.state.title.slice(1)}
+          </Typography>
+          <Typography variant="h4">{location.state.price} VND</Typography>
+          <Typography variant="body1">{location.state.description}</Typography>
+        </Box>
+      </Grid>
+
+      <Grid item xs={4}>
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="top"
+          justifyContent="center"
+          minHeight="15vh"
+          sx={{ backgroundColor: "lightblue", borderRadius: 4 }}
+        >
           <Box display="flex" flexDirection="column" marginLeft={15}>
+
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Avatar sx={{ bgcolor: deepOrange[500], width: 56, height: 56 }}>
+                Thanh
+              </Avatar>
+
             <Typography variant="h2">
               {location.state.title.charAt(0).toUpperCase() +
                 location.state.title.slice(1)}
@@ -60,11 +111,35 @@ export default function Product() {
 
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <AccountCircle sx={{ width: 30 }} />
+
               <Typography variant="h4" marginX={0.5} marginY={1}>
                 {location.state.nameOfPoster.charAt(0).toUpperCase() +
                   location.state.nameOfPoster.slice(1)}
               </Typography>
             </Box>
+
+            {renderStars(location.state.rating)}
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <LocalPhoneIcon sx={{ width: 30 }} />
+              <Typography variant="h4" marginX={0.5} marginY={1}>
+                {location.state.phoneOfPoster}
+              </Typography>
+            </Box>
+
+            {!showPhoneNumber ? (
+              <Button
+                onClick={() => setshowPhoneNumber(true)}
+                sx={{
+                  backgroundColor: "green",
+                  color: "blue", // Change text color to blue or any color you prefer
+                  borderRadius: 2.5,
+                  "&:hover": {
+                    backgroundColor: "rgba(0, 0, 0, 0.04)",
+                  },
+                }}
+              >
+                Chat with seller
+
 
             <Box sx={{ display: "flex", alignItems: "center" }}>
               {/* <LocalPhoneIcon sx={{ width: 30 }} /> */}
@@ -79,6 +154,7 @@ export default function Product() {
             {!showPhoneNumber ? (
               <Button onClick={() => setshowPhoneNumber(true)}>
                 Show Phone Number
+
               </Button>
             ) : (
               <Typography sx={{ textAlign: "center" }}>
@@ -86,7 +162,16 @@ export default function Product() {
               </Typography>
             )}
 
+            <Button
+              sx={{
+                marginTop: 1.5,
+              }}
+            >
+              Chat with seller
+            </Button>
+
             <Button>Chat with seller</Button>
+
           </Box>
         </Box>
       </Grid>
