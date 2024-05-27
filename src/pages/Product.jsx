@@ -82,7 +82,7 @@ export default function Product() {
           <Box display="flex" flexDirection="column" marginLeft={15}>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Avatar sx={{ bgcolor: deepOrange[500], width: 56, height: 56 }}>
-                T
+                Thanh
               </Avatar>
               <Typography variant="h4" marginX={0.5} marginY={1}>
                 {location.state.nameOfPoster.charAt(0).toUpperCase() +
