@@ -15,7 +15,7 @@ export default function HomeLayout() {
         <Outlet />
       </Grid>
       <Grid item xs={12}>
-      <StickyFooter />
+        <StickyFooter />
       </Grid>
     </Grid>
   );

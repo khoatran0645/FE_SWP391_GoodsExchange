@@ -8,6 +8,8 @@ import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -54,7 +56,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchAppBar() {
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }} marginLeft={6}>
       <AppBar
         position="static"
         sx={{ backgroundColor: "transparent", boxShadow: "none", marginTop: 2 }}
@@ -69,6 +71,11 @@ export default function SearchAppBar() {
               inputProps={{ "aria-label": "search" }}
             />
           </Search>
+          <Box sx={{ "& > :not(style)": { m: 2 } }}>
+            <Fab color="primary" aria-label="add" size="medium">
+              <AddIcon />
+            </Fab>
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>
