@@ -9,6 +9,7 @@ import {
   CardMedia,
   CardActionArea,
 } from "@mui/material";
+import * as React from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 
@@ -20,6 +21,8 @@ export default function Home() {
       title: "pen",
       price: "5.000",
       rating: "3.5",
+      nameOfPoster: "Thanh",
+      phoneOfPoster: "0909999900",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit architecto quibusdam vero, harum, dicta eaque ea, esse cum temporibus unde porro! Autem, aspernatur repellat dolores excepturi voluptate ipsa eum laboriosam.",
 
@@ -30,6 +33,8 @@ export default function Home() {
       title: "eraser",
       price: "2.000",
       rating: "3",
+      nameOfPoster: "Thanh",
+      phoneOfPoster: "0909999900",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit architecto quibusdam vero, harum, dicta eaque ea, esse cum temporibus unde porro! Autem, aspernatur repellat dolores excepturi voluptate ipsa eum laboriosam.",
 
@@ -40,6 +45,8 @@ export default function Home() {
       title: "phone",
       price: "20.000.000",
       rating: "2.5",
+      nameOfPoster: "Thanh",
+      phoneOfPoster: "0909999900",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit architecto quibusdam vero, harum, dicta eaque ea, esse cum temporibus unde porro! Autem, aspernatur repellat dolores excepturi voluptate ipsa eum laboriosam.",
 
@@ -51,6 +58,8 @@ export default function Home() {
       title: "papers",
       price: "50.000",
       rating: "3.5",
+      nameOfPoster: "Thanh",
+      phoneOfPoster: "0909999900",
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa iure quasi quae facere hic ipsum perferendis voluptas ad excepturi, ipsam rem nemo a. Corporis eaque, facilis ipsa ipsum quis atque?",
       image:
@@ -61,6 +70,8 @@ export default function Home() {
       title: "fan",
       price: "175.000",
       rating: "3.5",
+      nameOfPoster: "Thanh",
+      phoneOfPoster: "0909999900",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit architecto quibusdam vero, harum, dicta eaque ea, esse cum temporibus unde porro! Autem, aspernatur repellat dolores excepturi voluptate ipsa eum laboriosam.",
       image:
@@ -71,6 +82,8 @@ export default function Home() {
       title: "charger",
       price: "250.000",
       rating: "3.5",
+      nameOfPoster: "Thanh",
+      phoneOfPoster: "0909999900",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit architecto quibusdam vero, harum, dicta eaque ea, esse cum temporibus unde porro! Autem, aspernatur repellat dolores excepturi voluptate ipsa eum laboriosam.",
 
@@ -82,6 +95,8 @@ export default function Home() {
       title: "wifi router",
       price: "500.000",
       rating: "3.5",
+      nameOfPoster: "Thanh",
+      phoneOfPoster: "0909999900",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit architecto quibusdam vero, harum, dicta eaque ea, esse cum temporibus unde porro! Autem, aspernatur repellat dolores excepturi voluptate ipsa eum laboriosam.",
 
@@ -92,6 +107,8 @@ export default function Home() {
       title: "wallet",
       price: "50.000",
       rating: "3.5",
+      nameOfPoster: "Thanh",
+      phoneOfPoster: "0909999900",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit architecto quibusdam vero, harum, dicta eaque ea, esse cum temporibus unde porro! Autem, aspernatur repellat dolores excepturi voluptate ipsa eum laboriosam.",
 
@@ -103,6 +120,8 @@ export default function Home() {
       title: "headphones",
       price: "100.000",
       rating: "3.5",
+      nameOfPoster: "Thanh",
+      phoneOfPoster: "0909999900",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit architecto quibusdam vero, harum, dicta eaque ea, esse cum temporibus unde porro! Autem, aspernatur repellat dolores excepturi voluptate ipsa eum laboriosam.",
 
@@ -114,6 +133,8 @@ export default function Home() {
       title: "macbook",
       price: "100.000.000",
       rating: "3.5",
+      nameOfPoster: "Thanh",
+      phoneOfPoster: "0909999900",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit architecto quibusdam vero, harum, dicta eaque ea, esse cum temporibus unde porro! Autem, aspernatur repellat dolores excepturi voluptate ipsa eum laboriosam.",
 
@@ -125,8 +146,11 @@ export default function Home() {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Typography variant="h1">Homepage</Typography>
+        <Typography variant="h2" align="center">
+          New Posts
+        </Typography>
       </Grid>
+
       <Grid item xs={12}>
         {/* <Container> */}
         {/* <Box sx={{ bgcolor: "#cfe8fc", height: "100vh" }}> */}
@@ -153,7 +177,7 @@ export default function Home() {
                     {item.title}
                   </Typography>
                   <Typography gutterBottom variant="h5" component="div">
-                    {item.price} vnd
+                    {item.price} VND
                   </Typography>
                   {/* <Typography variant="body2" color="text.secondary">
                       Lizards are a widespread group of squamate reptiles, with
