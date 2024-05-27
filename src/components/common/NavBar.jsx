@@ -15,12 +15,26 @@ import {
   TextField,
 } from "@mui/material";
 
+import ChatIcon from "@mui/icons-material/Chat";
+import Badge from "@mui/material/Badge";
+import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
 
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useStore } from "../../app/store";
+
 export default function NavBar() {
+  function notificationsLabel(count) {
+    if (count === 0) {
+      return "no notifications";
+    }
+    if (count > 99) {
+      return "more than 99 notifications";
+    }
+    return `${count} notifications`;
+  }
+
   const toggleAuth = useStore((state) => state.toggleAuth);
 
   const pages = ["Categories"];
@@ -137,6 +151,17 @@ export default function NavBar() {
 
           {auth ? (
             <Box sx={{ flexGrow: 0 }}>
+              <IconButton aria-label={notificationsLabel(100)}>
+                <Typography marginX={2}>
+                  <Badge
+                    badgeContent={100}
+                    color="secondary"
+                    anchorOrigin={{ vertical: "top", horizontal: "left" }}
+                  >
+                    <ChatIcon />
+                  </Badge>
+                </Typography>
+              </IconButton>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
