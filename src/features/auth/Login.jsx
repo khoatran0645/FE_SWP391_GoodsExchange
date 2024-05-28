@@ -23,6 +23,7 @@ import { useStore } from "../../app/store";
 
 export default function Login() {
   const toggleAuth = useStore((state) => state.toggleAuth);
+  const postLogin = useStore((state) => state.postLogin);
   const navigate = useNavigate();
   const responseMessage = (response) => {
     console.log(response);
@@ -55,8 +56,9 @@ export default function Login() {
   const onLoginClick = (e) => {
     e.preventDefault();
     console.log(formData);
-    toggleAuth();
-    navigate("/");
+    postLogin(formData);
+    // toggleAuth();
+    // navigate("/");
   };
 
   return (

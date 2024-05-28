@@ -7,6 +7,7 @@ import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import { deepOrange, deepPurple } from "@mui/material/colors";
+
 export default function Product() {
   const [showPhoneNumber, setshowPhoneNumber] = useState(false);
   let location = useLocation();
@@ -109,7 +110,7 @@ export default function Product() {
                   },
                 }}
               >
-                Chat with seller
+                Show phone number
               </Button>
             ) : (
               <Typography sx={{ textAlign: "center" }}>
