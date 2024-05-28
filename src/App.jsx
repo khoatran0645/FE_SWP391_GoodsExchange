@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-
+import CssBaseline from "@mui/material/CssBaseline";
 import HomeLayout from "./layouts/HomeLayout";
 import EmptyLayout from "./layouts/EmptyLayout";
 
@@ -8,7 +8,9 @@ import Product from "./pages/Product";
 import NotFound from "./pages/NotFound";
 import Login from "./features/auth/Login";
 
-import CssBaseline from "@mui/material/CssBaseline";
+import User from "./pages/User";
+
+
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import { useStore } from "./app/store";
@@ -27,6 +29,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomeLayout />}>
           <Route index element={<Home />} />
+          <Route path="user" element={<User />} />
           <Route path="products/:id" element={<Product />} />
         </Route>
         <Route path="/" element={<EmptyLayout />}>

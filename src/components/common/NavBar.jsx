@@ -37,7 +37,7 @@ export default function NavBar() {
 
   const toggleAuth = useStore((state) => state.toggleAuth);
 
-  const pages = ["Categories"];
+  const pages = ["User"];
   const settings = ["Profile", "Logout"];
   const options = ["Electronics", "Stationery", "Papers", "Sensors", "Pen"];
 
@@ -124,7 +124,7 @@ export default function NavBar() {
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {/* {pages.map((page) => (
+            {pages.map((page) => (
               <Button
                 key={page}
                 sx={{ my: 2, color: "white", display: "block" }}
@@ -137,7 +137,7 @@ export default function NavBar() {
                   {page}
                 </Link>
               </Button>
-            ))} */}
+            ))}
             <Autocomplete
               disablePortal
               id="combo-box-demo"
