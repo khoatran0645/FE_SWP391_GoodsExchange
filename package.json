@@ -22,7 +22,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",
     "styled-components": "^6.1.11",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.2",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.11.0",
