@@ -245,7 +245,7 @@ export default function Register() {
                             textDecoration: "none",
                             color: "#2E86AB",
                         }}
-                        to="/auth/login"
+                        to="/login"
                     >
                         Login to your Account
                     </NavLink>
@@ -259,7 +259,7 @@ export default function Register() {
                     alignSelf: "center",
                     marginTop: "15px",
                 }}
-                to="/auth/register"
+                to="/forgotpassword"
             >
                 Forgot password?
             </NavLink>

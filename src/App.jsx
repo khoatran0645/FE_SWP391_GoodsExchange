@@ -33,9 +33,9 @@ export default function App() {
           <Route path="user" element={<User />} />
           <Route path="products/:id" element={<Product />} />
         </Route>
-        <Route path="/auth" element={<EmptyLayout />}>
-          <Route path="/auth/login" element={<Login />} />
-          <Route path="/auth/register" element={<Register />} />
+        <Route path="/" element={<EmptyLayout />}>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
