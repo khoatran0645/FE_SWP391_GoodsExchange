@@ -1,29 +1,51 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
-import Autocomplete from "@mui/material/Autocomplete";
-import TextField from "@mui/material/TextField";
+import { useState } from "react";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Avatar,
+  Button,
+  Tooltip,
+  MenuItem,
+  Autocomplete,
+  TextField,
+} from "@mui/material";
 
-import { NavLink, Link } from "react-router-dom";
+import ChatIcon from "@mui/icons-material/Chat";
+import Badge from "@mui/material/Badge";
+import MailIcon from "@mui/icons-material/Mail";
+import MenuIcon from "@mui/icons-material/Menu";
+import AdbIcon from "@mui/icons-material/Adb";
+
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { useStore } from "../../app/store";
 
 export default function NavBar() {
-  const pages = ["Categories"];
-  const settings = ["Profile", "Account", "Dashboard", "Logout"];
+  function notificationsLabel(count) {
+    if (count === 0) {
+      return "no notifications";
+    }
+    if (count > 99) {
+      return "more than 99 notifications";
+    }
+    return `${count} notifications`;
+  }
+
+  const toggleAuth = useStore((state) => state.toggleAuth);
+
+  const pages = ["User"];
+  const settings = ["Profile", "Logout"];
   const options = ["Electronics", "Stationery", "Papers", "Sensors", "Pen"];
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
+  const auth = useStore((state) => state.auth);
+
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -41,7 +63,7 @@ export default function NavBar() {
   };
 
   return (
-    <AppBar position="static" >
+    <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -59,7 +81,7 @@ export default function NavBar() {
                 textDecoration: "none",
               }}
             >
-              Goods Exchange
+              GoodsExchange <font color="orange">FU</font>
             </Typography>
           </Link>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -102,7 +124,7 @@ export default function NavBar() {
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {/* {pages.map((page) => (
+            {pages.map((page) => (
               <Button
                 key={page}
                 sx={{ my: 2, color: "white", display: "block" }}
@@ -115,7 +137,7 @@ export default function NavBar() {
                   {page}
                 </Link>
               </Button>
-            ))} */}
+            ))}
             <Autocomplete
               disablePortal
               id="combo-box-demo"
@@ -125,39 +147,66 @@ export default function NavBar() {
                 <TextField {...params} label="Category" variant="standard" />
               )}
             />
-
-            <TextField label="Search" variant="standard" />
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+          {auth ? (
+            <Box sx={{ flexGrow: 0 }}>
+              <IconButton aria-label={notificationsLabel(100)}>
+                <Typography marginX={2}>
+                  <Badge
+                    badgeContent={100}
+                    color="secondary"
+                    anchorOrigin={{ vertical: "top", horizontal: "left" }}
+                  >
+                    <ChatIcon />
+                  </Badge>
+                </Typography>
               </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    {setting === "Logout" ? (
+                      <Typography
+                        onClick={() => {
+                          toggleAuth();
+                          navigate("/");
+                        }}
+                        textAlign="center"
+                      >
+                        {setting}
+                      </Typography>
+                    ) : (
+                      <Typography textAlign="center">{setting}</Typography>
+                    )}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          ) : (
+            <Button sx={{ color: "white" }} onClick={() => navigate("login")}>
+              Login
+            </Button>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
