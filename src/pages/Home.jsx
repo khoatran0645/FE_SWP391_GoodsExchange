@@ -21,6 +21,7 @@ export default function Home() {
       title: "pen",
       price: "5.000",
       rating: "4.5",
+      numberOfReviews: "667",
       nameOfPoster: "Thanh",
       phoneOfPoster: "0909999900",
       description:
@@ -33,6 +34,7 @@ export default function Home() {
       title: "eraser",
       price: "2.000",
       rating: "3",
+      numberOfReviews: "667",
       nameOfPoster: "Thanh",
       phoneOfPoster: "0909999900",
       description:
@@ -44,7 +46,8 @@ export default function Home() {
       id: "3",
       title: "phone",
       price: "20.000.000",
-      rating: "2.5",
+      rating: "1.5",
+      numberOfReviews: "667",
       nameOfPoster: "Thanh",
       phoneOfPoster: "0909999900",
       description:
@@ -58,6 +61,7 @@ export default function Home() {
       title: "papers",
       price: "50.000",
       rating: "3.5",
+      numberOfReviews: "667",
       nameOfPoster: "Thanh",
       phoneOfPoster: "0909999900",
       description:
@@ -70,6 +74,7 @@ export default function Home() {
       title: "fan",
       price: "175.000",
       rating: "3.5",
+      numberOfReviews: "667",
       nameOfPoster: "Thanh",
       phoneOfPoster: "0909999900",
       description:
@@ -82,6 +87,7 @@ export default function Home() {
       title: "charger",
       price: "250.000",
       rating: "3.5",
+      numberOfReviews: "667",
       nameOfPoster: "Thanh",
       phoneOfPoster: "0909999900",
       description:
@@ -95,6 +101,7 @@ export default function Home() {
       title: "wifi router",
       price: "500.000",
       rating: "3.5",
+      numberOfReviews: "667",
       nameOfPoster: "Thanh",
       phoneOfPoster: "0909999900",
       description:
@@ -107,6 +114,7 @@ export default function Home() {
       title: "wallet",
       price: "50.000",
       rating: "3.5",
+      numberOfReviews: "667",
       nameOfPoster: "Thanh",
       phoneOfPoster: "0909999900",
       description:
@@ -120,6 +128,7 @@ export default function Home() {
       title: "headphones",
       price: "100.000",
       rating: "3.5",
+      numberOfReviews: "123",
       nameOfPoster: "Thanh",
       phoneOfPoster: "0909999900",
       description:
@@ -133,6 +142,7 @@ export default function Home() {
       title: "macbook",
       price: "100.000.000",
       rating: "3.5",
+      numberOfReviews: "123",
       nameOfPoster: "Thanh",
       phoneOfPoster: "0909999900",
       description:

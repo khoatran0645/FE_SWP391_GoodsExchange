@@ -7,36 +7,37 @@ import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import { deepOrange, deepPurple } from "@mui/material/colors";
+import Rating from "@mui/material/Rating";
 
 export default function Product() {
   const [showPhoneNumber, setshowPhoneNumber] = useState(false);
   let location = useLocation();
 
-  const getStarColor = (index, rating) => {
-    // Change the color intensity based on the rating
-    const color = index < rating ? "gold" : "gray";
-    return color;
-  };
+  // const getStarColor = (index, rating) => {
+  //   // Change the color intensity based on the rating
+  //   const color = index < rating ? "gold" : "gray";
+  //   return color;
+  // };
 
-  const renderStars = (rating, maxRating = 5) => {
-    return (
-      <Box display="flex" alignItems="center">
-        {Array.from({ length: maxRating }, (_, index) =>
-          index < rating ? (
-            <StarIcon
-              key={index}
-              style={{ color: getStarColor(index, rating) }}
-            />
-          ) : (
-            <StarBorderIcon
-              key={index}
-              style={{ color: getStarColor(index, rating) }}
-            />
-          )
-        )}
-      </Box>
-    );
-  };
+  // const renderStars = (rating, maxRating = 5) => {
+  //   return (
+  //     <Box display="flex" alignItems="center">
+  //       {Array.from({ length: maxRating }, (_, index) =>
+  //         index < rating ? (
+  //           <StarIcon
+  //             key={index}
+  //             style={{ color: getStarColor(index, rating) }}
+  //           />
+  //         ) : (
+  //           <StarBorderIcon
+  //             key={index}
+  //             style={{ color: getStarColor(index, rating) }}
+  //           />
+  //         )
+  //       )}
+  //     </Box>
+  //   );
+  // };
   // console.log("location", location.state);
 
   return (
@@ -98,10 +99,33 @@ export default function Product() {
                   location.state.nameOfPoster.slice(1)}
               </Typography>
             </Box>
-            <Box
+            {/* <Box
               sx={{ display: "flex", justifyContent: "center", marginTop: 1 }}
             >
               {renderStars(location.state.rating)}
+            </Box> */}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+              marginTop={0.5}
+            >
+              <Rating
+                name="read-only"
+                value={location.state.rating}
+                readOnly
+                precision={0.5}
+                size="small"
+              />
+              <Box>
+                <Typography variant="body2" component="p" marginLeft={0.5}>
+                  {location.state.rating}
+                  {" "}
+                  ({location.state.numberOfReviews}{" "}
+                  reviews)
+                </Typography>
+              </Box>
             </Box>
 
             {!showPhoneNumber ? (
@@ -113,7 +137,7 @@ export default function Product() {
                   marginTop: 1, // Add margin for spacing
                   width: "200%",
                   "&:hover": {
-                    backgroundColor: "red", 
+                    backgroundColor: "#5C88C4",
                     color: "#ffffff",
                   },
                 }}
@@ -133,12 +157,25 @@ export default function Product() {
                 marginTop: 1,
                 width: "200%",
                 "&:hover": {
-                  backgroundColor: "#00cc00", // Hover background color
+                  backgroundColor: "#40A578", // Hover background color
                   color: "#ffffff", // Hover text color
                 },
               }}
             >
               Chat with seller
+            </Button>
+            <Button
+              sx={{
+                borderRadius: 2,
+                marginTop: 1,
+                width: "200%",
+                "&:hover": {
+                  backgroundColor: "red", // Hover background color
+                  color: "#ffffff", // Hover text color
+                },
+              }}
+            >
+              Report
             </Button>
           </Box>
         </Box>
