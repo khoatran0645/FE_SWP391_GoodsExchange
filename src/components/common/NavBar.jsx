@@ -22,7 +22,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
 
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { useStore } from "../../app/store";
+import  useStore  from "../../app/store";
 
 export default function NavBar() {
   function notificationsLabel(count) {
