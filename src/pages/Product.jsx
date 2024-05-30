@@ -1,7 +1,7 @@
 import { Grid, Typography, Box, Button } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AccountCircle, Description } from "@mui/icons-material";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { useState } from "react";
@@ -12,6 +12,7 @@ import Rating from "@mui/material/Rating";
 export default function Product() {
   const [showPhoneNumber, setshowPhoneNumber] = useState(false);
   let location = useLocation();
+  const navigate = useNavigate();
 
   // const getStarColor = (index, rating) => {
   //   // Change the color intensity based on the rating
@@ -161,6 +162,7 @@ export default function Product() {
                   color: "#ffffff", // Hover text color
                 },
               }}
+              onClick={() => navigate("/chat")}
             >
               Chat with seller
             </Button>
@@ -174,6 +176,7 @@ export default function Product() {
                   color: "#ffffff", // Hover text color
                 },
               }}
+              onClick={() => navigate("/chat")}
             >
               Report
             </Button>
