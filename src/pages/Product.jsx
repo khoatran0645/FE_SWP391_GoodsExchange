@@ -176,6 +176,7 @@ export default function Product() {
                   color: "#ffffff", // Hover text color
                 },
               }}
+              onClick={() => navigate("/chat")}
             >
               Report
             </Button>
