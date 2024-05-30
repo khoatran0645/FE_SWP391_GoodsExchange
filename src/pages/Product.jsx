@@ -42,8 +42,8 @@ export default function Product() {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Typography variant="h6" align="center">
-          Product Detail
+        <Typography variant="h5" align="center">
+          PRODUCT DETAIL
         </Typography>
       </Grid>
       <Grid item xs={4}>
@@ -53,74 +53,89 @@ export default function Product() {
             alt={location.state.title}
             style={{
               maxWidth: "100%",
-              height: "auto",
+              height: "50%",
               margin: 12,
               borderRadius: 30,
             }}
           />
         </Box>
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={8}>
         <Box display="flex" flexDirection="column">
-          <Typography variant="h2">
+          <Typography variant="h3">
             {location.state.title.charAt(0).toUpperCase() +
               location.state.title.slice(1)}
           </Typography>
           <Typography variant="h4">{location.state.price} VND</Typography>
           <Typography variant="body1">{location.state.description}</Typography>
         </Box>
-      </Grid>
-
-      <Grid item xs={4}>
+        <hr />
         <Box
           display="flex"
           flexDirection="column"
-          alignItems="top"
+          alignItems="center"
           justifyContent="center"
           minHeight="15vh"
-          sx={{ backgroundColor: "lightblue", borderRadius: 4 }}
         >
-          <Box display="flex" flexDirection="column" marginLeft={15}>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Avatar sx={{ bgcolor: deepOrange[500], width: 56, height: 56 }}>
-                Thanh
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            marginTop={0.5}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Avatar sx={{ bgcolor: deepOrange[500], width: 50, height: 50 }}>
+                {location.state.nameOfPoster.charAt(0).toUpperCase()}
               </Avatar>
-              <Typography variant="h4" marginX={0.5} marginY={1}>
+              <Typography variant="h4" marginX={0.75} marginY={1}>
                 {location.state.nameOfPoster.charAt(0).toUpperCase() +
                   location.state.nameOfPoster.slice(1)}
               </Typography>
             </Box>
-            {renderStars(location.state.rating)}
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <LocalPhoneIcon sx={{ width: 30 }} />
-              <Typography variant="h4" marginX={0.5} marginY={1}>
-                {location.state.phoneOfPoster}
-              </Typography>
+            <Box
+              sx={{ display: "flex", justifyContent: "center", marginTop: 1 }}
+            >
+              {renderStars(location.state.rating)}
             </Box>
 
             {!showPhoneNumber ? (
               <Button
                 onClick={() => setshowPhoneNumber(true)}
                 sx={{
-                  backgroundColor: "green",
-                  color: "blue", // Change text color to blue or any color you prefer
-                  borderRadius: 2.5,
+                  // Change text color to blue or any color you prefer
+                  borderRadius: 2,
+                  marginTop: 1, // Add margin for spacing
+                  width: "200%",
                   "&:hover": {
-                    backgroundColor: "rgba(0, 0, 0, 0.04)",
+                    backgroundColor: "red", 
+                    color: "#ffffff",
                   },
                 }}
               >
                 Show phone number
               </Button>
             ) : (
-              <Typography sx={{ textAlign: "center" }}>
+              <Typography
+                sx={{ textAlign: "center", marginTop: 1, fontSize: 23 }}
+              >
                 {location.state.phoneOfPoster}
               </Typography>
             )}
-
             <Button
               sx={{
-                marginTop: 1.5,
+                borderRadius: 2,
+                marginTop: 1,
+                width: "200%",
+                "&:hover": {
+                  backgroundColor: "#00cc00", // Hover background color
+                  color: "#ffffff", // Hover text color
+                },
               }}
             >
               Chat with seller
