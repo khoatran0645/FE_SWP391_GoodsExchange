@@ -19,11 +19,16 @@ import { Padding } from "@mui/icons-material";
 import { GoogleLogin } from "@react-oauth/google";
 import { NavLink, useNavigate } from "react-router-dom";
 
-import { useStore } from "../../app/store";
+import useStore from "../../app/store";
+import { toast } from "react-toastify";
 
 export default function Login() {
+  const isLoading = useStore((state) => state.isLoading);
+  const error = useStore((state) => state.error);
+  const userInfo = useStore((state) => state.userInfo);
   const toggleAuth = useStore((state) => state.toggleAuth);
   const postLogin = useStore((state) => state.postLogin);
+
   const navigate = useNavigate();
   const responseMessage = (response) => {
     console.log(response);
@@ -53,12 +58,14 @@ export default function Login() {
     password: "",
     rememberme: false,
   });
-  const onLoginClick = (e) => {
+
+  const onLoginClick = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    postLogin(formData);
-    // toggleAuth();
-    // navigate("/");
+    
+    await postLogin(formData);
+    console.log("isLoading2", isLoading);
+    console.log("error2", error);
+    console.log("userInfo2", userInfo);
   };
 
   return (

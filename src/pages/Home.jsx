@@ -160,7 +160,7 @@ export default function Home() {
           // rowHeight={164}
         >
           {data.map((item) => (
-            <Card key={item.id} sx={{ maxWidth: 200, minWidth: 345 }}>
+            <Card key={item.id} sx={{ maxWidth: 200, minWidth: 200 }}>
               <CardActionArea
                 onClick={() => {
                   navigate(`products/${item.id}`, { state: item });
