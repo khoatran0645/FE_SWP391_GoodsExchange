@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -10,6 +11,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -55,8 +63,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }} marginLeft={6}>
+      <Box sx={{ "& > :not(style)": { m: 2 } }}>
+        <Typography align="right">
+          <Fab
+            color="primary"
+            aria-label="add"
+            size="medium"
+            variant="extended"
+          >
+            Create New Post
+          </Fab>
+        </Typography>
+      </Box>
       <AppBar
         position="static"
         sx={{ backgroundColor: "transparent", boxShadow: "none", marginTop: 2 }}
@@ -71,13 +101,37 @@ export default function SearchAppBar() {
               inputProps={{ "aria-label": "search" }}
             />
           </Search>
-          <Box sx={{ "& > :not(style)": { m: 2 } }}>
-            <Fab color="primary" aria-label="add" size="medium">
-              <AddIcon />
-            </Fab>
-          </Box>
         </Toolbar>
       </AppBar>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Create a New Post</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To create a new post, please enter the details here.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Post Title"
+            type="text"
+            fullWidth
+            variant="standard"
+          />
+          <TextField
+            margin="dense"
+            id="description"
+            label="Description"
+            type="text"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>Submit</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
