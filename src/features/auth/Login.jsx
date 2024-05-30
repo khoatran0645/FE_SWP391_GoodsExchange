@@ -168,7 +168,7 @@ export default function Login() {
             textDecoration: "none",
             color: "#2E86ab",
           }}
-          to="/auth/register"
+          to="/register"
         >
           Create an account
         </NavLink>

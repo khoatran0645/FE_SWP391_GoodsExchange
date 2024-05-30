@@ -20,7 +20,7 @@ export default function Home() {
       id: "1",
       title: "pen",
       price: "5.000",
-      rating: "3.5",
+      rating: "4.5",
       nameOfPoster: "Thanh",
       phoneOfPoster: "0909999900",
       description:

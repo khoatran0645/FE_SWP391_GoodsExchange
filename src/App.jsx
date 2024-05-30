@@ -8,8 +8,10 @@ import Home from "./pages/Home";
 import Product from "./pages/Product";
 import NotFound from "./pages/NotFound";
 import Login from "./features/auth/Login";
+
 import Chat from "./pages/Chat";
 import ChatDetail from "./features/chat/ChatDetail";
+import Register from "./features/auth/Register"
 
 import User from "./pages/User";
 
@@ -42,7 +44,7 @@ export default function App() {
         </Route>
         <Route path="/" element={<EmptyLayout />}>
           <Route path="login" element={<Login />} />
-          <Route path="register" element={<Login />} />
+          <Route path="register" element={<Register />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
