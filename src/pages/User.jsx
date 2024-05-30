@@ -1,31 +1,35 @@
-import { useStore } from "../app/store";
+import { Password } from "@mui/icons-material";
+import useStore from "../app/store";
 import { useEffect } from "react";
 export default function User() {
-  const { users, loading, error, getProducts, products } = useStore((state) => state);
-  console.log("user", users);
-  console.log("loading", loading);
+  const { userInfo, getProducts, products, postLogin } = useStore((state) => state);
+  const isLoading = useStore((state) => state.isLoading);
+  const error = useStore((state) => state.error);
+  console.log("userInfo", userInfo);
+  console.log("loading", isLoading);
   console.log("error", error);
 
   useEffect(() => {
-    getProducts();
+    // getProducts();
   }, []);
-
 
   const getProductFromApi = (event) => {
     event.preventDefault();
-    getProducts();
+    const form = {
+      userName: "string",
+      password: "string"
+    }
+    postLogin(form);
   };
   return (
     <>
       <h1>User</h1>
-      {loading ? (
+      {isLoading ? (
         <h2>Loading</h2>
       ) : (
         <ol>
           {products?.items?.map((product) => (
-            <li key={product.productId}>
-              {product.productName}
-            </li>
+            <li key={product.productId}>{product.productName}</li>
           ))}
         </ol>
       )}
