@@ -74,7 +74,7 @@ export default function SearchAppBar() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }} marginLeft={6}>
+    <Box sx={{ flexGrow: 1 }}>
       <Box sx={{ "& > :not(style)": { m: 2 } }}>
         <Typography align="right">
           <Fab
@@ -83,7 +83,7 @@ export default function SearchAppBar() {
             size="medium"
             variant="extended"
           >
-            Create New Post
+            New Product
           </Fab>
         </Typography>
       </Box>
@@ -103,7 +103,7 @@ export default function SearchAppBar() {
           </Search>
         </Toolbar>
       </AppBar>
-      <Dialog open={open} onClose={handleClose}>
+      {/* <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Create a New Post</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -131,7 +131,7 @@ export default function SearchAppBar() {
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleClose}>Submit</Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </Box>
   );
 }
