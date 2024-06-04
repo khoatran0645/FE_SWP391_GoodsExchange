@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AppBar,
   Box,
@@ -22,7 +22,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
 
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import  useStore  from "../../app/store";
+import useStore from "../../app/store";
 
 export default function NavBar() {
   function notificationsLabel(count) {
@@ -39,13 +39,27 @@ export default function NavBar() {
 
   const pages = ["User"];
   const settings = ["Profile", "Logout"];
-  const options = ["Electronics", "Stationery", "Papers", "Sensors", "Pen"];
+  // const options = ["Electronics", "Stationery", "Papers", "Sensors", "Pen"];
 
   const navigate = useNavigate();
   const auth = useStore((state) => state.auth);
+  const getAllCategories = useStore((state) => state.getAllCategories);
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+
+  useEffect(() => {
+    getAllCategories();
+  }, []);
+
+  const categories = useStore((state) => state.categories);
+  console.log("categories", categories);
+  const options = categories?.data?.map(category => ({
+    key: category.categoryId,
+    label: category.categoryName,
+  })) || [];
+
+  console.log("options", options);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -124,7 +138,7 @@ export default function NavBar() {
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {/* {pages.map((page) => (
               <Button
                 key={page}
                 sx={{ my: 2, color: "white", display: "block" }}
@@ -137,11 +151,12 @@ export default function NavBar() {
                   {page}
                 </Link>
               </Button>
-            ))}
+            ))} */}
             <Autocomplete
               disablePortal
               id="combo-box-demo"
               options={options}
+              getOptionLabel={(option) => option.label}
               sx={{ width: 300 }}
               renderInput={(params) => (
                 <TextField {...params} label="Category" variant="standard" />
