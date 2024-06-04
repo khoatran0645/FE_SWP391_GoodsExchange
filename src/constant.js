@@ -4,21 +4,26 @@
 //! alert, warning
 //TODO task
 
-
 //* URL for BE local
 export const BE_BASE_URL = "http://localhost:5000/api/v1";
 
-
 //* Category APIs
-//TODO create, get, edit, delete categories
-
+export const API_CREATE_CATEGORY = "/categories";
+export const API_GET_ALL_CATEGORIES = "/categories";
+export const API_UPDATE_CATEGORY = "/categories";
+export const API_GET_CATEGORY_BY_ID = "/categories/{id}";
+//! DANGER
+export const API_DELETE_CATEGORY = "/categories";
 
 //* Product APIs
 //TODO create, get by Id, get all, update, delete products, update status and isApproved of products
 //? can use only one update for update, update status and isApproved of products
 export const API_CREATE_PRODUCT = "/products/create";
-export const API_GET_PRODUCTS = "/products/all?PageIndex=1&PageSize=10&Status=true&IsApproved=true&CategoryName=Books%20and%20Materials";
-
+export const API_GET_PRODUCT_BY_ID = "/products/{id}";
+export const API_GET_ALL_PRODUCTS =
+  "/products/all?PageIndex=1&PageSize=10&Status=true&IsApproved=true&CategoryName=Books%20and%20Materials";
+//! DANGER
+export const API_DELETE_PRODUCT = "/products/{id}";
 
 //* Rating APIs
 //TODO create, get, update, hide rating
