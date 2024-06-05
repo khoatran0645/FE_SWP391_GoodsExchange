@@ -16,7 +16,7 @@ Students at FPT University will be able to communicate with one another and trad
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone [https://github.com/khoatran0645/FE_SWP391_GoodsExchange.git](https://github.com/khoatran0645/FE_SWP391_GoodsExchange.git)
 ```
 
 Go to the project directory
