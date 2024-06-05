@@ -1,11 +1,11 @@
 import { Grid, Typography } from "@mui/material";
 import { Outlet } from "react-router-dom";
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
 
 const bull = (
   <Box
@@ -16,11 +16,13 @@ const bull = (
   </Box>
 );
 
-const CreateProduct = () => {
+export default function CreateNewProductLayout() {
   return (
     <Box
       sx={{
         display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
         flexWrap: "wrap",
         "& > :not(style)": {
           m: 1,
@@ -30,7 +32,10 @@ const CreateProduct = () => {
         justifyContent: "center",
       }}
     >
-      <Typography variant="h3">Create New Product</Typography>
+      <Box>
+        <Typography variant="h3">Create New Product</Typography>
+      </Box>
+
       <Card sx={{ minWidth: 275 }}>
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -54,6 +59,4 @@ const CreateProduct = () => {
       </Card>
     </Box>
   );
-};
-
-export default CreateProduct;
+}

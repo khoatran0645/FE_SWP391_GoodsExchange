@@ -11,12 +11,13 @@ import Login from "./features/auth/Login";
 
 import Chat from "./pages/Chat";
 import ChatDetail from "./features/chat/ChatDetail";
-import Register from "./features/auth/Register"
+import Register from "./features/auth/Register";
 
 import Test from "./pages/Test";
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import useStore from "./app/store";
+import CreateNewProductLayout from "./layouts/CreateNewProductLayout";
 
 export default function App() {
   const colorMode = useStore((state) => state.colorMode);
@@ -41,6 +42,7 @@ export default function App() {
               <Route path=":id" element={<ChatDetail />} />
             </Route>
           </Route>
+          <Route path="create_new_product" element={<CreateNewProductLayout />} />
         </Route>
         <Route path="/" element={<EmptyLayout />}>
           <Route path="login" element={<Login />} />

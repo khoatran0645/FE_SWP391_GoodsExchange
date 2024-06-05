@@ -54,10 +54,11 @@ export default function NavBar() {
 
   const categories = useStore((state) => state.categories);
   console.log("categories", categories);
-  const options = categories?.data?.map(category => ({
-    key: category.categoryId,
-    label: category.categoryName,
-  })) || [];
+  const options =
+    categories?.data?.map((category) => ({
+      key: category.categoryId,
+      label: category.categoryName,
+    })) || [];
 
   console.log("options", options);
 
@@ -78,7 +79,12 @@ export default function NavBar() {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Container
+        maxWidth="xl"
+        // sx={{
+        //   backgroundImage: "linear-gradient(to right, #23074d, #cc5333)"
+        // }}
+      >
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>

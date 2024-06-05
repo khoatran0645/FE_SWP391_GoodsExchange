@@ -1,5 +1,6 @@
+import React, { useState, useEffect } from "react";
 import { Typography, Grid } from "@mui/material";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import NavBar from "../components/common/NavBar";
 import SearchAppBar from "../pages/SearchBar";
 import StickyFooter from "../components/common/Footer";

@@ -1,23 +1,13 @@
-import * as React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
+import SearchIcon from "@mui/icons-material/Search";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -47,10 +37,8 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   width: "100%",
-
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     [theme.breakpoints.up("sm")]: {
@@ -63,33 +51,52 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
-  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [showSearchAppBar, setShowSearchAppBar] = useState(true);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  useEffect(() => {
+    const noSearchAppBarRoutes = ["/chat", "/create_new_product", "/products/"];
+    setShowSearchAppBar(!noSearchAppBarRoutes.includes(location.pathname));
+  }, [location.pathname]);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  if (!showSearchAppBar) return null;
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Box sx={{ "& > :not(style)": { m: 2 } }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        // backgroundImage: "linear-gradient(to right, #373B44, #c471ed, #f64f59)",
+      }}
+    >
+      <Box sx={{ "& > :not(style)": { m: 0 } }}>
         <Typography align="right">
           <Fab
             color="primary"
             aria-label="add"
             size="medium"
             variant="extended"
+            sx={{
+              "&:focus, &:focus-visible": {
+                outline: "none",
+                boxShadow: "none",
+              },
+              marginTop:2
+            }}
+            onClick={() => navigate("/create_new_product")}
           >
             New Product
           </Fab>
         </Typography>
       </Box>
+
       <AppBar
         position="static"
-        sx={{ backgroundColor: "transparent", boxShadow: "none", marginTop: 2 }}
+        sx={{
+          backgroundColor: "transparent",
+          boxShadow: "none",
+          marginTop: 2,
+        }}
       >
         <Toolbar sx={{ justifyContent: "center" }}>
           <Search>
@@ -103,35 +110,6 @@ export default function SearchAppBar() {
           </Search>
         </Toolbar>
       </AppBar>
-      {/* <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Create a New Post</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            To create a new post, please enter the details here.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Post Title"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            margin="dense"
-            id="description"
-            label="Description"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Submit</Button>
-        </DialogActions>
-      </Dialog> */}
     </Box>
   );
 }

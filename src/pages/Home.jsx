@@ -1,3 +1,4 @@
+import { Gradient } from "@mui/icons-material";
 import {
   Grid,
   Typography,
@@ -8,6 +9,7 @@ import {
   CardContent,
   CardMedia,
   CardActionArea,
+  LinearProgress,
 } from "@mui/material";
 import * as React from "react";
 
@@ -154,19 +156,22 @@ export default function Home() {
   ];
 
   return (
-    <Grid container>
+    <Grid container sx={{
+      // backgroundImage: "linear-gradient(to right, #373B44, #c471ed, #f64f59)"
+      alignItems:"center", justifyContent:"center",
+    }}>
       <Grid item xs={12}>
         <Typography variant="h2" align="center">
           New Posts
         </Typography>
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid item xs={12} sx={{}}>
         {/* <Container> */}
         {/* <Box sx={{ bgcolor: "#cfe8fc", height: "100vh" }}> */}
         <ImageList
           sx={{ width: "100%" }}
-          cols={4}
+          cols={6}
           // rowHeight={164}
         >
           {data.map((item) => (
@@ -179,7 +184,7 @@ export default function Home() {
                 <CardMedia
                   component="img"
                   height="200"
-                  image={`${item.image}?w=150&h=150&fit=crop&auto=format`}
+                  image={`${item.image}?w=100&h=100&fit=crop&auto=format`}
                   alt="laptop"
                 />
                 <CardContent>
