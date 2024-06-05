@@ -1,11 +1,12 @@
 import { create } from "zustand";
 import axiosClient from "../services/axiosClient";
+import { immer } from "zustand/middleware/immer";
 import {
   API_GET_ALL_CATEGORIES,
   API_GET_ALL_PRODUCTS,
   API_LOGIN,
 } from "./../constant";
-import { immer } from "zustand/middleware/immer";
+
 const useStore = create(
   immer((set) => ({
     //* init state
@@ -27,6 +28,7 @@ const useStore = create(
       })),
 
     //* async actions
+    // PRODUCT API
     getProducts: async () => {
       set({ isLoading: true });
       try {

@@ -19,6 +19,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
+import CreateNewProduct from "../features/products/CreateNewProduct";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -63,28 +64,29 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Box sx={{ "& > :not(style)": { m: 2 } }}>
         <Typography align="right">
-          <Fab
+          {/* <Fab
             color="primary"
             aria-label="add"
             size="medium"
             variant="extended"
           >
             New Product
-          </Fab>
+          </Fab> */}
+          <CreateNewProduct />
         </Typography>
       </Box>
       <AppBar

@@ -33,5 +33,5 @@ export const API_DELETE_PRODUCT = "/products/{id}";
 
 //* User APIs
 //TODO login, register, update user info, ban account, get seller profile
-export const API_LOGIN = "/users/authenticate";
+export const API_LOGIN = "/users/login";
 export const API_REGISTER = "/users/register";

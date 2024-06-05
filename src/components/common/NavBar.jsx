@@ -53,13 +53,13 @@ export default function NavBar() {
   }, []);
 
   const categories = useStore((state) => state.categories);
-  console.log("categories", categories);
+  // console.log("categories", categories);
   const options = categories?.data?.map(category => ({
     key: category.categoryId,
     label: category.categoryName,
   })) || [];
 
-  console.log("options", options);
+  // console.log("options", options);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
