@@ -5,7 +5,7 @@ import EmptyLayout from "./layouts/EmptyLayout";
 import ChatLayout from "./layouts/ChatLayout";
 
 import Home from "./pages/Home";
-import Product from "./pages/Product";
+import Product from "./features/products/Product";
 import NotFound from "./pages/NotFound";
 import Login from "./features/auth/Login";
 
@@ -13,7 +13,7 @@ import Chat from "./pages/Chat";
 import ChatDetail from "./features/chat/ChatDetail";
 import Register from "./features/auth/Register"
 
-import User from "./pages/User";
+import Test from "./pages/Test";
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import useStore from "./app/store";
@@ -32,7 +32,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomeLayout />}>
           <Route index element={<Home />} />
-          <Route path="user" element={<User />} />
+          <Route path="user" element={<Test />} />
           <Route path="products/:id" element={<Product />} />
           <Route path="/" element={<ChatLayout />}>
             <Route index element={<Chat />} />

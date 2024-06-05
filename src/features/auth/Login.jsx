@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useRef } from "react";
 import {
   Box,
   Typography,
@@ -14,7 +14,6 @@ import {
 
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
-import { Padding } from "@mui/icons-material";
 
 import { GoogleLogin } from "@react-oauth/google";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -23,13 +22,9 @@ import useStore from "../../app/store";
 import { toast } from "react-toastify";
 
 export default function Login() {
-  const isLoading = useStore((state) => state.isLoading);
-  const error = useStore((state) => state.error);
-  const userInfo = useStore((state) => state.userInfo);
-  const toggleAuth = useStore((state) => state.toggleAuth);
   const postLogin = useStore((state) => state.postLogin);
-
   const navigate = useNavigate();
+
   const responseMessage = (response) => {
     console.log(response);
   };
@@ -48,28 +43,40 @@ export default function Login() {
     borderRadius: "7px",
     boxShadow: "3px 7px 5px 0px #000000",
   };
+
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const [formData, setFormData] = useState({
+
+  const formDataRef = useRef({
     username: "",
     password: "",
     rememberme: false,
   });
 
+  const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    formDataRef.current[name] = type === "checkbox" ? checked : value;
+  };
+
   const onLoginClick = async (e) => {
     e.preventDefault();
-    
-    await postLogin(formData);
-    console.log("isLoading2", isLoading);
-    console.log("error2", error);
-    console.log("userInfo2", userInfo);
+    const { username, password, rememberme } = formDataRef.current;
+    await postLogin({ username, password, rememberme });
+    const userInfo = useStore.getState().userInfo;
+    if (userInfo?.isSuccessed) {
+      localStorage.setItem("token", userInfo.data);
+      console.log(localStorage.getItem("token"));
+      navigate("/");
+    } else {
+      toast.error(userInfo?.message);
+    }
   };
 
   return (
-    // formStyle : css
     <Box sx={formStyle}>
       <Typography
         sx={{
@@ -105,11 +112,10 @@ export default function Login() {
         <InputLabel htmlFor="outlined-username">Username</InputLabel>
         <OutlinedInput
           id="outlined-username"
+          name="username"
           label="Username"
-          value={formData.username}
-          onChange={(e) => {
-            setFormData({ ...formData, username: e.target.value });
-          }}
+          onChange={handleChange}
+          defaultValue={formDataRef.current.username}
         />
       </FormControl>
 
@@ -117,6 +123,7 @@ export default function Login() {
         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
         <OutlinedInput
           id="outlined-adornment-password"
+          name="password"
           type={showPassword ? "text" : "password"}
           endAdornment={
             <InputAdornment position="end">
@@ -131,22 +138,17 @@ export default function Login() {
             </InputAdornment>
           }
           label="Password"
-          value={formData.password}
-          onChange={(e) => {
-            setFormData({ ...formData, password: e.target.value });
-          }}
+          onChange={handleChange}
+          defaultValue={formDataRef.current.password}
         />
       </FormControl>
 
       <FormControlLabel
         control={
           <Checkbox
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                rememberme: e.target.checked,
-              })
-            }
+            name="rememberme"
+            onChange={handleChange}
+            defaultChecked={formDataRef.current.rememberme}
           />
         }
         label="Remember me"
@@ -162,7 +164,6 @@ export default function Login() {
       </Button>
       <Typography>
         Not registered yet?
-        {/* Navlink => chuyen link */}
         <NavLink
           style={{
             textDecoration: "none",
