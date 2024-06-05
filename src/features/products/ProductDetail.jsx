@@ -8,50 +8,37 @@ import {
   GradientRounded,
 } from "@mui/icons-material";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import { deepOrange, deepPurple, red } from "@mui/material/colors";
 import Rating from "@mui/material/Rating";
+import useStore from "../../app/store";
+import CreateReport from "../report/CreateReport";
 
 export default function Product() {
-  const [showPhoneNumber, setshowPhoneNumber] = useState(false);
+  const [showPhoneNumber, setShowPhoneNumber] = useState(false);
   let location = useLocation();
   const navigate = useNavigate();
 
-  // const getStarColor = (index, rating) => {
-  //   // Change the color intensity based on the rating
-  //   const color = index < rating ? "gold" : "gray";
-  //   return color;
-  // };
-
-  // const renderStars = (rating, maxRating = 5) => {
-  //   return (
-  //     <Box display="flex" alignItems="center">
-  //       {Array.from({ length: maxRating }, (_, index) =>
-  //         index < rating ? (
-  //           <StarIcon
-  //             key={index}
-  //             style={{ color: getStarColor(index, rating) }}
-  //           />
-  //         ) : (
-  //           <StarBorderIcon
-  //             key={index}
-  //             style={{ color: getStarColor(index, rating) }}
-  //           />
-  //         )
-  //       )}
-  //     </Box>
-  //   );
-  // };
   // console.log("location", location.state);
+
+  const getProductById = useStore((state) => state.getProductById);
+
+  useEffect(() => {
+    getProductById(location.state.productId);
+  }, []);
+
+  const productDetail = useStore((state) => state.productDetail);
+  // console.log("productDetail", productDetail?.data);
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Typography variant="h5" align="center">
+        {/* <Typography variant="h5" align="center">
           PRODUCT DETAIL
-        </Typography>
+        </Typography> */}
       </Grid>
+<<<<<<< HEAD:src/features/products/Product.jsx
       <Box
         display="flex"
         gap={2}
@@ -86,6 +73,39 @@ export default function Product() {
             </Typography>
           </Box>
           <hr />
+=======
+      <Grid item xs={4}>
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <img
+            src={location?.state.productImageUrl}
+            alt={location?.state.productName}
+            style={{
+              maxWidth: "100%",
+              height: "50%",
+              margin: 12,
+              borderRadius: 30,
+            }}
+          />
+        </Box>
+      </Grid>
+      <Grid item xs={8} sx={{ width: "100%", maxWidth: "327px" }}>
+        <Box display="flex" flexDirection="column">
+          <Typography variant="h3" sx={{ flexGrow: 1, flexShrink: 1, overflowWrap: "break-word"}}>
+            {location?.state.productName.charAt(0).toUpperCase() +
+              location?.state.productName.slice(1)}
+          </Typography>
+          <Typography variant="h4">{location.state.price} VND</Typography>
+          <Typography variant="body1">{location?.state.description}</Typography>
+        </Box>
+        <hr />
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          minHeight="15vh"
+        >
+>>>>>>> main:src/features/products/ProductDetail.jsx
           <Box
             display="flex"
             flexDirection="column"
@@ -99,6 +119,7 @@ export default function Product() {
               alignItems="center"
               marginTop={0.5}
             >
+<<<<<<< HEAD:src/features/products/Product.jsx
               <Box
                 sx={{
                   display: "flex",
@@ -173,7 +194,52 @@ export default function Product() {
                   "&:hover": {
                     backgroundColor: "#40A578",
                     color: "#ffffff",
+=======
+              <Avatar sx={{ bgcolor: deepOrange[500], width: 50, height: 50 }}>
+                {productDetail?.data.userUpload.charAt(0).toUpperCase()}
+              </Avatar>
+              <Typography variant="h4" marginX={0.75} marginY={1}>
+                {(
+                  productDetail?.data.userUpload.charAt(0).toUpperCase() +
+                  productDetail?.data.userUpload.slice(1)
+                ).toString()}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+              marginTop={0.5}
+            >
+              <Rating
+                name="read-only"
+                value={
+                  productDetail ? productDetail.data.averageNumberStars : 0
+                }
+                readOnly
+                precision={0.5}
+                size="small"
+              />
+              <Box>
+                <Typography variant="body2" component="p" marginLeft={0.5}>
+                  {location.state.averageNumberStars} (
+                  {productDetail?.data.numberOfRatings} reviews)
+                </Typography>
+              </Box>
+            </Box>
+
+            {!showPhoneNumber ? (
+              <Button
+                onClick={() => setShowPhoneNumber(true)}
+                sx={{
+                  backgroundColor: "#5C88C4",
+                  color: "#ffffff",
+                  "&:hover": {
+                    backgroundColor: "#5C88C4",
+>>>>>>> main:src/features/products/ProductDetail.jsx
                   },
+                  marginTop: 1,
                 }}
                 onClick={() => navigate("/chat")}
               >
@@ -191,9 +257,41 @@ export default function Product() {
                 }}
                 onClick={() => navigate("/chat")}
               >
+<<<<<<< HEAD:src/features/products/Product.jsx
                 Report
               </Button>
             </Box>
+=======
+                {productDetail?.data.userPhoneNumber}
+              </Typography>
+            )}
+            <Button
+              sx={{
+                backgroundColor: "#40A578",
+                color: "#ffffff",
+                "&:hover": {
+                  backgroundColor: "#40A578",
+                },
+                marginTop: 0.8,
+              }}
+              onClick={() => navigate("/chat")}
+            >
+              Chat with seller
+            </Button>
+            <Button
+              sx={{
+                backgroundColor: "red",
+                color: "#ffffff",
+                "&:hover": {
+                  backgroundColor: "red",
+                },
+                height: "2.6em",
+                marginTop: 0.8,
+              }}
+            >
+              <CreateReport />
+            </Button>
+>>>>>>> main:src/features/products/ProductDetail.jsx
           </Box>
         </Grid>
       </Box>

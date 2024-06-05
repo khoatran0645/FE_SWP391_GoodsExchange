@@ -20,35 +20,46 @@ function Copyright() {
   );
 }
 
+const theme = createTheme();
+
 export default function StickyFooter() {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "30vh",
-      }}
-    >
-      <CssBaseline />
+    <ThemeProvider theme={theme}>
       <Box
-        component="footer"
         sx={{
-          py: 3,
-          px: 2,
-          mt: "auto",
-          backgroundColor: (theme) =>
-            theme.palette.mode === "light"
-              ? theme.palette.grey[200]
-              : theme.palette.grey[800],
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100vh',
         }}
       >
-        <Container maxWidth="sm">
-          <Typography variant="body1" align="center">
-            GoodsExchange <font color="orange">FU</font>
-          </Typography>
-          <Copyright />
-        </Container>
+        <CssBaseline />
+        <Box
+          sx={{
+            flex: 1,
+          }}
+        >
+          {/* Main content goes here */}
+        </Box>
+        <Box
+          component="footer"
+          sx={{
+            py: 3,
+            px: 2,
+            mt: 'auto',
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'light'
+                ? theme.palette.grey[200]
+                : theme.palette.grey[800],
+          }}
+        >
+          <Container maxWidth="sm">
+            <Typography variant="body1" align="center">
+              GoodsExchange <font color="orange">FU</font>
+            </Typography>
+            <Copyright />
+          </Container>
+        </Box>
       </Box>
-    </Box>
+    </ThemeProvider>
   );
 }

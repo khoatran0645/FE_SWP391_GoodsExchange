@@ -1,37 +1,73 @@
 import { create } from "zustand";
 import axiosClient from "../services/axiosClient";
+import { immer } from "zustand/middleware/immer";
 import {
   API_GET_ALL_CATEGORIES,
-  API_GET_ALL_PRODUCTS,
+  API_GET_PRODUCTS_HOMEPAGE,
+  API_CREATE_PRODUCT,
+  API_GET_PRODUCT_BY_ID,
   API_LOGIN,
 } from "./../constant";
-import { immer } from "zustand/middleware/immer";
+
 const useStore = create(
   immer((set) => ({
     //* init state
     isLoading: false,
     error: null,
+    respone: null,
 
     users: [],
     colorMode: "light",
     auth: false,
-    products: null,
+    productList: null,
+    productDetail: null,
     categories: null,
     userInfo: null,
 
     //* sync actions
-    toggleAuth: () => set((state) => ({ auth: !state.auth })),
+    setAuth: (auth) => set({ auth: auth }),
     toggleMode: () =>
       set((state) => ({
         colorMode: state.colorMode === "light" ? "dark" : "light",
       })),
 
     //* async actions
-    getProducts: async () => {
+    // PRODUCT API
+    getProductsForHomePage: async (pageIndex, pageSize) => {
       set({ isLoading: true });
       try {
-        const { data } = await axiosClient.post(API_GET_ALL_PRODUCTS);
-        set({ products: data });
+        const { data } = await axiosClient.post(
+          API_GET_PRODUCTS_HOMEPAGE.replace("{PageIndex}", pageIndex).replace(
+            "{PageSize}",
+            pageSize
+          )
+        );
+        set({ productList: data });
+        set({ productDetail: null });
+      } catch (error) {
+        set({ error: error.message });
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    getProductById: async (id) => {
+      set({ isLoading: true });
+      try {
+        const { data } = await axiosClient.get(
+          API_GET_PRODUCT_BY_ID.replace("{id}", id)
+        );
+        set({ productDetail: data });
+      } catch (error) {
+        set({ error: error.message });
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    createNewProduct: async (form) => {
+      set({ isLoading: true });
+      try {
+        const { data } = await axiosClient.post(API_CREATE_PRODUCT, form);
+        set({ response : data})
       } catch (error) {
         set({ error: error.message });
       } finally {
@@ -39,6 +75,7 @@ const useStore = create(
       }
     },
 
+    // user API
     postLogin: async (form) => {
       set({ isLoading: true });
       try {

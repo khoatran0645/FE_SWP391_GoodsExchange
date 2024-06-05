@@ -9,6 +9,7 @@ import Fab from "@mui/material/Fab";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate, useLocation } from "react-router-dom";
 
+import CreateNewProduct from "../features/products/CreateNewProduct";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -51,6 +52,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
+<<<<<<< HEAD
   const navigate = useNavigate();
   const location = useLocation();
   const [showSearchAppBar, setShowSearchAppBar] = useState(true);
@@ -61,6 +63,17 @@ export default function SearchAppBar() {
   }, [location.pathname]);
 
   if (!showSearchAppBar) return null;
+=======
+  // const [open, setOpen] = useState(false);
+
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
+
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
+>>>>>>> main
 
   return (
     <Box
@@ -71,7 +84,7 @@ export default function SearchAppBar() {
     >
       <Box sx={{ "& > :not(style)": { m: 0 } }}>
         <Typography align="right">
-          <Fab
+          {/* <Fab
             color="primary"
             aria-label="add"
             size="medium"
@@ -86,7 +99,8 @@ export default function SearchAppBar() {
             onClick={() => navigate("/create_new_product")}
           >
             New Product
-          </Fab>
+          </Fab> */}
+          <CreateNewProduct />
         </Typography>
       </Box>
 

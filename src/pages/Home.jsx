@@ -11,12 +11,23 @@ import {
   CardActionArea,
   LinearProgress,
 } from "@mui/material";
-import * as React from "react";
+import { useEffect } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
+import useStore from "../app/store";
 
 export default function Home() {
   const navigate = useNavigate();
+  const getProductsForHomePage = useStore(
+    (state) => state.getProductsForHomePage
+  );
+
+  useEffect(() => {
+    getProductsForHomePage(1, 10);
+  }, []);
+
+  const productList = useStore((state) => state.productList);
+  // console.log("ProductList2", productList);
   const data = [
     {
       id: "1",
@@ -153,6 +164,20 @@ export default function Home() {
       image:
         "https://cdn.tgdd.vn/Products/Images/44/231244/macbook-air-m1-2020-gray-600x600.jpg",
     },
+    {
+      id: "11",
+      title: "macbook air",
+      price: "100.000.000",
+      rating: "3.5",
+      numberOfReviews: "123",
+      nameOfPoster: "Thanh",
+      phoneOfPoster: "0909999900",
+      description:
+        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit architecto quibusdam vero, harum, dicta eaque ea, esse cum temporibus unde porro! Autem, aspernatur repellat dolores excepturi voluptate ipsa eum laboriosam.",
+
+      image:
+        "https://cdn.tgdd.vn/Products/Images/44/231244/macbook-air-m1-2020-gray-600x600.jpg",
+    },
   ];
 
   return (
@@ -162,7 +187,7 @@ export default function Home() {
     }}>
       <Grid item xs={12}>
         <Typography variant="h2" align="center">
-          New Posts
+          New Products
         </Typography>
       </Grid>
 
@@ -171,27 +196,36 @@ export default function Home() {
         {/* <Box sx={{ bgcolor: "#cfe8fc", height: "100vh" }}> */}
         <ImageList
           sx={{ width: "100%" }}
+<<<<<<< HEAD
           cols={6}
+=======
+          cols={5}
+>>>>>>> main
           // rowHeight={164}
         >
-          {data.map((item) => (
-            <Card key={item.id} sx={{ maxWidth: 200, minWidth: 200 }}>
+          {productList?.items.map((item) => (
+            <Card key={item.productId} sx={{ maxWidth: 345, minWidth: 200 }}>
               <CardActionArea
                 onClick={() => {
-                  navigate(`products/${item.id}`, { state: item });
+                  navigate(`products/${item.productId}`, { state: item });
                 }}
               >
                 <CardMedia
                   component="img"
                   height="200"
+<<<<<<< HEAD
                   image={`${item.image}?w=100&h=100&fit=crop&auto=format`}
                   alt="laptop"
+=======
+                  image={`${item.productImageUrl}?w=150&h=150&fit=crop&auto=format`}
+                  alt={item.productName}
+>>>>>>> main
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h4" component="div">
-                    {item.title}
-                  </Typography>
                   <Typography gutterBottom variant="h5" component="div">
+                    {item.productName}
+                  </Typography>
+                  <Typography gutterBottom variant="h6" component="div">
                     {item.price} VND
                   </Typography>
                   {/* <Typography variant="body2" color="text.secondary">

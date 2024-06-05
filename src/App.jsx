@@ -5,7 +5,7 @@ import EmptyLayout from "./layouts/EmptyLayout";
 import ChatLayout from "./layouts/ChatLayout";
 
 import Home from "./pages/Home";
-import Product from "./features/products/Product";
+import Product from "./features/products/ProductDetail";
 import NotFound from "./pages/NotFound";
 import Login from "./features/auth/Login";
 

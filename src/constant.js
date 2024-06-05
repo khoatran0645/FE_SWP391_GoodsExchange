@@ -20,8 +20,8 @@ export const API_DELETE_CATEGORY = "/categories";
 //? can use only one update for update, update status and isApproved of products
 export const API_CREATE_PRODUCT = "/products/create";
 export const API_GET_PRODUCT_BY_ID = "/products/{id}";
-export const API_GET_ALL_PRODUCTS =
-  "/products/all?PageIndex=1&PageSize=10&Status=true&IsApproved=true&CategoryName=Books%20and%20Materials";
+export const API_GET_PRODUCTS_HOMEPAGE =
+  "/products/all?PageIndex={PageIndex}&PageSize={PageSize}";
 //! DANGER
 export const API_DELETE_PRODUCT = "/products/{id}";
 
@@ -33,5 +33,5 @@ export const API_DELETE_PRODUCT = "/products/{id}";
 
 //* User APIs
 //TODO login, register, update user info, ban account, get seller profile
-export const API_LOGIN = "/users/authenticate";
+export const API_LOGIN = "/users/login";
 export const API_REGISTER = "/users/register";
