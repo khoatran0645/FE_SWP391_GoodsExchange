@@ -9,6 +9,7 @@ import Avatar from "@mui/material/Avatar";
 import { deepOrange, deepPurple } from "@mui/material/colors";
 import Rating from "@mui/material/Rating";
 import useStore from "../../app/store";
+import CreateReport from "../report/CreateReport";
 
 export default function Product() {
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
@@ -25,33 +26,6 @@ export default function Product() {
 
   const productDetail = useStore((state) => state.productDetail);
   console.log("productDetail", productDetail?.data);
-
-  // const getStarColor = (index, rating) => {
-  //   // Change the color intensity based on the rating
-  //   const color = index < rating ? "gold" : "gray";
-  //   return color;
-  // };
-
-  // const renderStars = (rating, maxRating = 5) => {
-  //   return (
-  //     <Box display="flex" alignItems="center">
-  //       {Array.from({ length: maxRating }, (_, index) =>
-  //         index < rating ? (
-  //           <StarIcon
-  //             key={index}
-  //             style={{ color: getStarColor(index, rating) }}
-  //           />
-  //         ) : (
-  //           <StarBorderIcon
-  //             key={index}
-  //             style={{ color: getStarColor(index, rating) }}
-  //           />
-  //         )
-  //       )}
-  //     </Box>
-  //   );
-  // };
-  // console.log("location", location.state);
 
   return (
     <Grid container spacing={2}>
@@ -74,9 +48,9 @@ export default function Product() {
           />
         </Box>
       </Grid>
-      <Grid item xs={8}>
+      <Grid item xs={8} sx={{ width: "100%", maxWidth: "327px" }}>
         <Box display="flex" flexDirection="column">
-          <Typography variant="h3">
+          <Typography variant="h3" sx={{ flexGrow: 1, flexShrink: 1, overflowWrap: "break-word"}}>
             {location?.state.productName.charAt(0).toUpperCase() +
               location?.state.productName.slice(1)}
           </Typography>
@@ -108,15 +82,12 @@ export default function Product() {
                 {productDetail?.data.userUpload.charAt(0).toUpperCase()}
               </Avatar>
               <Typography variant="h4" marginX={0.75} marginY={1}>
-                {(productDetail?.data.userUpload.charAt(0).toUpperCase() +
-                  productDetail?.data.userUpload.slice(1)).toString()}
+                {(
+                  productDetail?.data.userUpload.charAt(0).toUpperCase() +
+                  productDetail?.data.userUpload.slice(1)
+                ).toString()}
               </Typography>
             </Box>
-            {/* <Box
-              sx={{ display: "flex", justifyContent: "center", marginTop: 1 }}
-            >
-              {renderStars(location.state.rating)}
-            </Box> */}
             <Box
               sx={{
                 display: "flex",
@@ -126,15 +97,17 @@ export default function Product() {
             >
               <Rating
                 name="read-only"
-                value={productDetail ? productDetail.data.averageNumberStars : 0}
+                value={
+                  productDetail ? productDetail.data.averageNumberStars : 0
+                }
                 readOnly
                 precision={0.5}
                 size="small"
               />
               <Box>
                 <Typography variant="body2" component="p" marginLeft={0.5}>
-                  {location.state.averageNumberStars} ({productDetail?.data.numberOfRatings}{" "}
-                  reviews)
+                  {location.state.averageNumberStars} (
+                  {productDetail?.data.numberOfRatings} reviews)
                 </Typography>
               </Box>
             </Box>
@@ -143,14 +116,12 @@ export default function Product() {
               <Button
                 onClick={() => setShowPhoneNumber(true)}
                 sx={{
-                  // Change text color to blue or any color you prefer
-                  borderRadius: 2,
-                  marginTop: 1, // Add margin for spacing
-                  width: "200%",
+                  backgroundColor: "#5C88C4",
+                  color: "#ffffff",
                   "&:hover": {
                     backgroundColor: "#5C88C4",
-                    color: "#ffffff",
                   },
+                  marginTop: 1,
                 }}
               >
                 Show phone number
@@ -164,13 +135,12 @@ export default function Product() {
             )}
             <Button
               sx={{
-                borderRadius: 2,
-                marginTop: 1,
-                width: "200%",
+                backgroundColor: "#40A578",
+                color: "#ffffff",
                 "&:hover": {
-                  backgroundColor: "#40A578", // Hover background color
-                  color: "#ffffff", // Hover text color
+                  backgroundColor: "#40A578",
                 },
+                marginTop: 0.8,
               }}
               onClick={() => navigate("/chat")}
             >
@@ -178,17 +148,16 @@ export default function Product() {
             </Button>
             <Button
               sx={{
-                borderRadius: 2,
-                marginTop: 1,
-                width: "200%",
+                backgroundColor: "red",
+                color: "#ffffff",
                 "&:hover": {
-                  backgroundColor: "red", // Hover background color
-                  color: "#ffffff", // Hover text color
+                  backgroundColor: "red",
                 },
+                height: "2.6em",
+                marginTop: 0.8,
               }}
-              onClick={() => navigate("/report")}
             >
-              Report
+              <CreateReport />
             </Button>
           </Box>
         </Box>
