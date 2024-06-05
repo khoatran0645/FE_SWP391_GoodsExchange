@@ -15,7 +15,7 @@ export default function Product() {
   let location = useLocation();
   const navigate = useNavigate();
 
-  console.log("location", location.state);
+  // console.log("location", location.state);
 
   const getProductById = useStore((state) => state.getProductById);
 
@@ -24,7 +24,7 @@ export default function Product() {
   }, []);
 
   const productDetail = useStore((state) => state.productDetail);
-  console.log("productDetail", productDetail?.data);
+  // console.log("productDetail", productDetail?.data);
 
   // const getStarColor = (index, rating) => {
   //   // Change the color intensity based on the rating

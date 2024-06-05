@@ -4,6 +4,7 @@ import { immer } from "zustand/middleware/immer";
 import {
   API_GET_ALL_CATEGORIES,
   API_GET_PRODUCTS_HOMEPAGE,
+  API_CREATE_PRODUCT,
   API_GET_PRODUCT_BY_ID,
   API_LOGIN,
 } from "./../constant";
@@ -13,6 +14,7 @@ const useStore = create(
     //* init state
     isLoading: false,
     error: null,
+    respone: null,
 
     users: [],
     colorMode: "light",
@@ -23,7 +25,7 @@ const useStore = create(
     userInfo: null,
 
     //* sync actions
-    toggleAuth: () => set((state) => ({ auth: !state.auth })),
+    setAuth: (auth) => set({ auth: auth }),
     toggleMode: () =>
       set((state) => ({
         colorMode: state.colorMode === "light" ? "dark" : "light",
@@ -51,7 +53,9 @@ const useStore = create(
     getProductById: async (id) => {
       set({ isLoading: true });
       try {
-        const {data} = await axiosClient.get(API_GET_PRODUCT_BY_ID.replace("{id}", id));
+        const { data } = await axiosClient.get(
+          API_GET_PRODUCT_BY_ID.replace("{id}", id)
+        );
         set({ productDetail: data });
       } catch (error) {
         set({ error: error.message });
@@ -59,7 +63,19 @@ const useStore = create(
         set({ isLoading: false });
       }
     },
+    createNewProduct: async (form) => {
+      set({ isLoading: true });
+      try {
+        const { data } = await axiosClient.post(API_CREATE_PRODUCT, form);
+        set({ response : data})
+      } catch (error) {
+        set({ error: error.message });
+      } finally {
+        set({ isLoading: false });
+      }
+    },
 
+    // user API
     postLogin: async (form) => {
       set({ isLoading: true });
       try {

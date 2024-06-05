@@ -25,7 +25,7 @@ export default function Home() {
   }, []);
 
   const productList = useStore((state) => state.productList);
-  console.log("ProductList2", productList);
+  // console.log("ProductList2", productList);
   const data = [
     {
       id: "1",
