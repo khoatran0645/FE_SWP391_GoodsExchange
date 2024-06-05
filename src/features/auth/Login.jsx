@@ -20,9 +20,11 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 import useStore from "../../app/store";
 import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
   const postLogin = useStore((state) => state.postLogin);
+  const toggleAuth = useStore((state) => state.toggleAuth);
   const navigate = useNavigate();
 
   const responseMessage = (response) => {
@@ -69,7 +71,9 @@ export default function Login() {
     const userInfo = useStore.getState().userInfo;
     if (userInfo?.isSuccessed) {
       localStorage.setItem("token", userInfo.data);
-      console.log(localStorage.getItem("token"));
+      const decoded = jwtDecode(userInfo.data);
+      console.log(decoded);
+      toggleAuth();
       navigate("/");
     } else {
       toast.error(userInfo?.message);
@@ -163,7 +167,7 @@ export default function Login() {
         Login
       </Button>
       <Typography>
-        Not registered yet?
+        Not registered yet?{" "}
         <NavLink
           style={{
             textDecoration: "none",
@@ -174,13 +178,18 @@ export default function Login() {
           Create an account
         </NavLink>
       </Typography>
-      <Typography
-        sx={{
+      <NavLink
+        style={{
+          fontWeight: "normal",
+          textDecoration: "none",
+          color: "#FF5733",
           alignSelf: "center",
+          marginTop: "15px",
         }}
+        to="/forgotpassword"
       >
         Forgot password?
-      </Typography>
+      </NavLink>
     </Box>
   );
 }
