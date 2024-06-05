@@ -3,7 +3,8 @@ import axiosClient from "../services/axiosClient";
 import { immer } from "zustand/middleware/immer";
 import {
   API_GET_ALL_CATEGORIES,
-  API_GET_ALL_PRODUCTS,
+  API_GET_PRODUCTS_HOMEPAGE,
+  API_GET_PRODUCT_BY_ID,
   API_LOGIN,
 } from "./../constant";
 
@@ -16,7 +17,8 @@ const useStore = create(
     users: [],
     colorMode: "light",
     auth: false,
-    products: null,
+    productList: null,
+    productDetail: null,
     categories: null,
     userInfo: null,
 
@@ -29,11 +31,28 @@ const useStore = create(
 
     //* async actions
     // PRODUCT API
-    getProducts: async () => {
+    getProductsForHomePage: async (pageIndex, pageSize) => {
       set({ isLoading: true });
       try {
-        const { data } = await axiosClient.post(API_GET_ALL_PRODUCTS);
-        set({ products: data });
+        const { data } = await axiosClient.post(
+          API_GET_PRODUCTS_HOMEPAGE.replace("{PageIndex}", pageIndex).replace(
+            "{PageSize}",
+            pageSize
+          )
+        );
+        set({ productList: data });
+        set({ productDetail: null });
+      } catch (error) {
+        set({ error: error.message });
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    getProductById: async (id) => {
+      set({ isLoading: true });
+      try {
+        const {data} = await axiosClient.get(API_GET_PRODUCT_BY_ID.replace("{id}", id));
+        set({ productDetail: data });
       } catch (error) {
         set({ error: error.message });
       } finally {

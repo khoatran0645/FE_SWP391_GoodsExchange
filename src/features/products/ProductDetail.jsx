@@ -4,15 +4,27 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AccountCircle, Description } from "@mui/icons-material";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import { deepOrange, deepPurple } from "@mui/material/colors";
 import Rating from "@mui/material/Rating";
+import useStore from "../../app/store";
 
 export default function Product() {
-  const [showPhoneNumber, setshowPhoneNumber] = useState(false);
+  const [showPhoneNumber, setShowPhoneNumber] = useState(false);
   let location = useLocation();
   const navigate = useNavigate();
+
+  console.log("location", location.state);
+
+  const getProductById = useStore((state) => state.getProductById);
+
+  useEffect(() => {
+    getProductById(location.state.productId);
+  }, []);
+
+  const productDetail = useStore((state) => state.productDetail);
+  console.log("productDetail", productDetail?.data);
 
   // const getStarColor = (index, rating) => {
   //   // Change the color intensity based on the rating
@@ -44,15 +56,15 @@ export default function Product() {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Typography variant="h5" align="center">
+        {/* <Typography variant="h5" align="center">
           PRODUCT DETAIL
-        </Typography>
+        </Typography> */}
       </Grid>
       <Grid item xs={4}>
         <Box display="flex" flexDirection="column" alignItems="center">
           <img
-            src={location.state.image}
-            alt={location.state.title}
+            src={location?.state.productImageUrl}
+            alt={location?.state.productName}
             style={{
               maxWidth: "100%",
               height: "50%",
@@ -65,11 +77,11 @@ export default function Product() {
       <Grid item xs={8}>
         <Box display="flex" flexDirection="column">
           <Typography variant="h3">
-            {location.state.title.charAt(0).toUpperCase() +
-              location.state.title.slice(1)}
+            {location?.state.productName.charAt(0).toUpperCase() +
+              location?.state.productName.slice(1)}
           </Typography>
           <Typography variant="h4">{location.state.price} VND</Typography>
-          <Typography variant="body1">{location.state.description}</Typography>
+          <Typography variant="body1">{location?.state.description}</Typography>
         </Box>
         <hr />
         <Box
@@ -93,11 +105,11 @@ export default function Product() {
               }}
             >
               <Avatar sx={{ bgcolor: deepOrange[500], width: 50, height: 50 }}>
-                {location.state.nameOfPoster.charAt(0).toUpperCase()}
+                {productDetail?.data.userUpload.charAt(0).toUpperCase()}
               </Avatar>
               <Typography variant="h4" marginX={0.75} marginY={1}>
-                {location.state.nameOfPoster.charAt(0).toUpperCase() +
-                  location.state.nameOfPoster.slice(1)}
+                {(productDetail?.data.userUpload.charAt(0).toUpperCase() +
+                  productDetail?.data.userUpload.slice(1)).toString()}
               </Typography>
             </Box>
             {/* <Box
@@ -114,16 +126,14 @@ export default function Product() {
             >
               <Rating
                 name="read-only"
-                value={location.state.rating}
+                value={productDetail ? productDetail.data.averageNumberStars : 0}
                 readOnly
                 precision={0.5}
                 size="small"
               />
               <Box>
                 <Typography variant="body2" component="p" marginLeft={0.5}>
-                  {location.state.rating}
-                  {" "}
-                  ({location.state.numberOfReviews}{" "}
+                  {location.state.averageNumberStars} ({productDetail?.data.numberOfRatings}{" "}
                   reviews)
                 </Typography>
               </Box>
@@ -131,7 +141,7 @@ export default function Product() {
 
             {!showPhoneNumber ? (
               <Button
-                onClick={() => setshowPhoneNumber(true)}
+                onClick={() => setShowPhoneNumber(true)}
                 sx={{
                   // Change text color to blue or any color you prefer
                   borderRadius: 2,
@@ -149,7 +159,7 @@ export default function Product() {
               <Typography
                 sx={{ textAlign: "center", marginTop: 1, fontSize: 23 }}
               >
-                {location.state.phoneOfPoster}
+                {productDetail?.data.userPhoneNumber}
               </Typography>
             )}
             <Button
@@ -176,7 +186,7 @@ export default function Product() {
                   color: "#ffffff", // Hover text color
                 },
               }}
-              onClick={() => navigate("/chat")}
+              onClick={() => navigate("/report")}
             >
               Report
             </Button>

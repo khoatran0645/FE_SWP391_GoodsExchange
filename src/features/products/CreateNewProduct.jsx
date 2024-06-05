@@ -4,7 +4,6 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 export default function CreateNewProduct() {
   const [open, setOpen] = useState(false);
@@ -18,7 +17,7 @@ export default function CreateNewProduct() {
   };
   return (
     <>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="contained" onClick={handleClickOpen}>
         Create new product
       </Button>
       <Dialog
@@ -92,6 +91,7 @@ export default function CreateNewProduct() {
             type="text"
             fullWidth
             variant="standard"
+            defaultValue="https://via.placeholder.com/150"
           />
         </DialogContent>
         <DialogActions>
