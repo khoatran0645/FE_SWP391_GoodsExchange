@@ -1,20 +1,27 @@
-import React from 'react';
-import { Grid, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
-const NewPosts = () => {
+export default function Profile() {
   return (
     <Grid container>
-      <Grid item xs={12}>
-        <Link to="/posts" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <Typography variant="h2" align="center">
-            New Posts
-          </Typography>
-        </Link>
+      <Grid item xs={3}>
+        <Box
+          height={200}
+          my={4}
+          display="flex"
+          alignItems="center"
+          gap={4}
+          p={2}
+          sx={{ border: "2px solid grey", backgroundColor: "#1876D2" }}
+        >
+          This Box uses MUI System props for quick customization.
+        </Box>
       </Grid>
-      {/* Add more Grid items here for posts */}
+
+      <Grid item xs={9}>
+        <Box></Box>
+      </Grid>
     </Grid>
   );
-};
-
-export default NewPosts;
+}

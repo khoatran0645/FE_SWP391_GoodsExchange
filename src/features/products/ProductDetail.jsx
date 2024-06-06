@@ -9,6 +9,7 @@ import Avatar from "@mui/material/Avatar";
 import { deepOrange, deepPurple } from "@mui/material/colors";
 import Rating from "@mui/material/Rating";
 import useStore from "../../app/store";
+import CreateReport from "../../pages/Report";
 
 export default function Product() {
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
@@ -76,7 +77,10 @@ export default function Product() {
       </Grid>
       <Grid item xs={8}>
         <Box display="flex" flexDirection="column">
-          <Typography variant="h3">
+          <Typography
+            variant="h3"
+            sx={{ flexGrow: 1, flexShrink: 1, wordBreak: "break-word" }}
+          >
             {location?.state.productName.charAt(0).toUpperCase() +
               location?.state.productName.slice(1)}
           </Typography>
@@ -108,8 +112,10 @@ export default function Product() {
                 {productDetail?.data.userUpload.charAt(0).toUpperCase()}
               </Avatar>
               <Typography variant="h4" marginX={0.75} marginY={1}>
-                {(productDetail?.data.userUpload.charAt(0).toUpperCase() +
-                  productDetail?.data.userUpload.slice(1)).toString()}
+                {(
+                  productDetail?.data.userUpload.charAt(0).toUpperCase() +
+                  productDetail?.data.userUpload.slice(1)
+                ).toString()}
               </Typography>
             </Box>
             {/* <Box
@@ -126,15 +132,17 @@ export default function Product() {
             >
               <Rating
                 name="read-only"
-                value={productDetail ? productDetail.data.averageNumberStars : 0}
+                value={
+                  productDetail ? productDetail.data.averageNumberStars : 0
+                }
                 readOnly
                 precision={0.5}
                 size="small"
               />
               <Box>
                 <Typography variant="body2" component="p" marginLeft={0.5}>
-                  {location.state.averageNumberStars} ({productDetail?.data.numberOfRatings}{" "}
-                  reviews)
+                  {location.state.averageNumberStars} (
+                  {productDetail?.data.numberOfRatings} reviews)
                 </Typography>
               </Box>
             </Box>
@@ -145,8 +153,8 @@ export default function Product() {
                 sx={{
                   // Change text color to blue or any color you prefer
                   borderRadius: 2,
-                  marginTop: 1, // Add margin for spacing
-                  width: "200%",
+                  marginTop: 1.5, // Add margin for spacing
+                  width: "100%",
                   "&:hover": {
                     backgroundColor: "#5C88C4",
                     color: "#ffffff",
@@ -166,7 +174,7 @@ export default function Product() {
               sx={{
                 borderRadius: 2,
                 marginTop: 1,
-                width: "200%",
+                width: "90%",
                 "&:hover": {
                   backgroundColor: "#40A578", // Hover background color
                   color: "#ffffff", // Hover text color
@@ -178,17 +186,16 @@ export default function Product() {
             </Button>
             <Button
               sx={{
-                borderRadius: 2,
-                marginTop: 1,
-                width: "200%",
+                marginTop: 1.5,
+                backgroundColor: "red",
+                color: "#ffffff",
+                height: 34,
                 "&:hover": {
-                  backgroundColor: "red", // Hover background color
-                  color: "#ffffff", // Hover text color
+                  backgroundColor: "red",
                 },
               }}
-              onClick={() => navigate("/report")}
             >
-              Report
+              <CreateReport />
             </Button>
           </Box>
         </Box>

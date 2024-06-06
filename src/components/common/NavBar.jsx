@@ -13,37 +13,19 @@ import {
   MenuItem,
   Autocomplete,
   TextField,
+  Badge,
 } from "@mui/material";
-
 import ChatIcon from "@mui/icons-material/Chat";
-import Badge from "@mui/material/Badge";
-import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
-
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useStore from "../../app/store";
 
 export default function NavBar() {
-  function notificationsLabel(count) {
-    if (count === 0) {
-      return "no notifications";
-    }
-    if (count > 99) {
-      return "more than 99 notifications";
-    }
-    return `${count} notifications`;
-  }
-
-  const toggleAuth = useStore((state) => state.toggleAuth);
-
-  const pages = ["User"];
-  const settings = ["Profile", "Logout"];
-  // const options = ["Electronics", "Stationery", "Papers", "Sensors", "Pen"];
-
-  const navigate = useNavigate();
+  const setAuth = useStore((state) => state.setAuth);
   const auth = useStore((state) => state.auth);
   const getAllCategories = useStore((state) => state.getAllCategories);
+  const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -53,17 +35,15 @@ export default function NavBar() {
   }, []);
 
   const categories = useStore((state) => state.categories);
-  // console.log("categories", categories);
-  const options = categories?.data?.map(category => ({
+  const options = categories?.data?.map((category) => ({
     key: category.categoryId,
     label: category.categoryName,
   })) || [];
 
-  // console.log("options", options);
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -72,8 +52,14 @@ export default function NavBar() {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (setting) => {
     setAnchorElUser(null);
+    if (setting === "Logout") {
+      setAuth(false);
+      navigate("/");
+    } else if (setting === "Profile") {
+      navigate("/profile");
+    }
   };
 
   return (
@@ -127,31 +113,14 @@ export default function NavBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page}>
-                  <Link to={`/${page}`}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </Link>
-                </MenuItem>
-              ))}
+              <MenuItem>
+                <Link to="/user">
+                  <Typography textAlign="center">User</Typography>
+                </Link>
+              </MenuItem>
             </Menu>
           </Box>
-
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {/* {pages.map((page) => (
-              <Button
-                key={page}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                <Link
-                  to={`/${page}`}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                  z
-                >
-                  {page}
-                </Link>
-              </Button>
-            ))} */}
             <Autocomplete
               disablePortal
               id="combo-box-demo"
@@ -163,10 +132,9 @@ export default function NavBar() {
               )}
             />
           </Box>
-
           {auth ? (
             <Box sx={{ flexGrow: 0 }}>
-              <IconButton aria-label={notificationsLabel(100)}>
+              <IconButton aria-label="notifications">
                 <Typography marginX={2}>
                   <Badge
                     badgeContent={100}
@@ -196,25 +164,14 @@ export default function NavBar() {
                   horizontal: "right",
                 }}
                 open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
+                onClose={() => handleCloseUserMenu(null)}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    {setting === "Logout" ? (
-                      <Typography
-                        onClick={() => {
-                          toggleAuth();
-                          navigate("/");
-                        }}
-                        textAlign="center"
-                      >
-                        {setting}
-                      </Typography>
-                    ) : (
-                      <Typography textAlign="center">{setting}</Typography>
-                    )}
-                  </MenuItem>
-                ))}
+                <MenuItem onClick={() => handleCloseUserMenu("Profile")}>
+                  <Typography textAlign="center">Profile</Typography>
+                </MenuItem>
+                <MenuItem onClick={() => handleCloseUserMenu("Logout")}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
               </Menu>
             </Box>
           ) : (
