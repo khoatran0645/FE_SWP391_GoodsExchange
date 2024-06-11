@@ -22,6 +22,8 @@ export const API_CREATE_PRODUCT = "/products/create";
 export const API_GET_PRODUCT_BY_ID = "/products/{id}";
 export const API_GET_PRODUCTS_HOMEPAGE =
   "/products/all?PageIndex={PageIndex}&PageSize={PageSize}";
+export const API_SEARCH_PRODUCTS_FOR_USER =
+  "/products/all?PageIndex=1&PageSize=10&ProductName={keyword}&IsApproved=true&IsActive=true";
 //! DANGER
 export const API_DELETE_PRODUCT = "/products/{id}";
 

@@ -18,8 +18,12 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-
+import Stack from "@mui/material/Stack";
+import useStore from "../../src/app/store";
+import { useNavigate } from "react-router-dom";
 import CreateNewProduct from "../features/products/CreateNewProduct";
+import axios from "axios";
+import { px } from "framer-motion";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -65,14 +69,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchAppBar() {
   // const [open, setOpen] = useState(false);
-
+  const [keyword, setKeyword] = useState();
+  const navigate = useNavigate();
   // const handleClickOpen = () => {
   //   setOpen(true);
   // };
-
   // const handleClose = () => {
   //   setOpen(false);
   // };
+  const getSearchProductForUser = useStore(
+    (state) => state.getSearchProductForUser
+  );
+
+  //  console.log(getSearchProductForUser);
+  const handOnInputChange = (value) => {
+    setKeyword(value.target.value);
+  };
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    console.log(keyword);
+    await getSearchProductForUser(keyword, 4.4, 22.4);
+    const searchResult = useStore.getState().searchResult;
+    navigate("/search");
+    console.log("searchResult", searchResult);
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -101,8 +121,15 @@ export default function SearchAppBar() {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
+              value={keyword}
+              onChange={handOnInputChange}
             />
           </Search>
+          <Stack direction="row" spacing={2} marginLeft={3}>
+            <Button variant="contained" onClick={handleSearch}>
+              Search
+            </Button>
+          </Stack>
         </Toolbar>
       </AppBar>
       {/* <Dialog open={open} onClose={handleClose}>

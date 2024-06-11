@@ -11,8 +11,8 @@ import Login from "./features/auth/Login";
 
 import Chat from "./pages/Chat";
 import ChatDetail from "./features/chat/ChatDetail";
-import Register from "./features/auth/Register"
-
+import Register from "./features/auth/Register";
+import SearchProduct from "./features/products/SearchProduct";
 import Test from "./pages/Test";
 
 import { ThemeProvider, createTheme } from "@mui/material";
@@ -34,6 +34,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="user" element={<Test />} />
           <Route path="products/:id" element={<Product />} />
+          <Route path="search" element={<SearchProduct />} />
           <Route path="/" element={<ChatLayout />}>
             <Route index element={<Chat />} />
             <Route path="chat" element={<Chat />}>

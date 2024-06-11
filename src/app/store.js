@@ -7,6 +7,7 @@ import {
   API_CREATE_PRODUCT,
   API_GET_PRODUCT_BY_ID,
   API_LOGIN,
+  API_SEARCH_PRODUCTS_FOR_USER,
 } from "./../constant";
 
 const useStore = create(
@@ -23,7 +24,7 @@ const useStore = create(
     productDetail: null,
     categories: null,
     userInfo: null,
-
+    searchResult: null,
     //* sync actions
     setAuth: (auth) => set({ auth: auth }),
     toggleMode: () =>
@@ -67,7 +68,7 @@ const useStore = create(
       set({ isLoading: true });
       try {
         const { data } = await axiosClient.post(API_CREATE_PRODUCT, form);
-        set({ response : data})
+        set({ response: data });
       } catch (error) {
         set({ error: error.message });
       } finally {
@@ -96,6 +97,26 @@ const useStore = create(
         const { data } = await axiosClient.get(API_GET_ALL_CATEGORIES);
 
         set({ categories: data });
+      } catch (error) {
+        set({ error: error.message });
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    // SEARCH PRODUCT BY USER
+
+    getSearchProductForUser: async (keyword) => {
+      set({ isLoading: true });
+      // console.log(min);
+      // console.log(max);
+      try {
+        const { data } = await axiosClient.post(
+          API_SEARCH_PRODUCTS_FOR_USER.replace("{keyword}", keyword)
+          // .replace("{minPrice}", min)
+          // .replace("{maxPrice}", max)
+        );
+
+        set({ searchResult: data });
       } catch (error) {
         set({ error: error.message });
       } finally {
