@@ -11,7 +11,10 @@ import {
   CardMedia,
   CardActionArea,
 } from "@mui/material";
+
+import { Link, useNavigate } from "react-router-dom";
 function SearchProduct() {
+  const navigate = useNavigate();
   const searchResult = useStore((state) => state.searchResult);
   console.log(searchResult);
   return (

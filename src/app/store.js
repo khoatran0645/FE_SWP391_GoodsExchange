@@ -25,6 +25,7 @@ const useStore = create(
     categories: null,
     userInfo: null,
     searchResult: null,
+    
     //* sync actions
     setAuth: (auth) => set({ auth: auth }),
     toggleMode: () =>
