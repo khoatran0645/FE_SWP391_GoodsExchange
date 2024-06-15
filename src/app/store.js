@@ -104,6 +104,23 @@ const useStore = create(
         set({ isLoading: false });
       }
     },
+
+     // Manage Report
+   
+     getAllReports: async () => {
+      set({ isLoading: true });
+      try {
+        console.log();
+        const { data } = await axiosClient.get(API_GET_ALL_REPORTS);
+        set({ reportList: data });
+      } catch (error) {
+        set({ error: error.message });
+      } finally {
+        set({ isLoading: false });
+      }
+      // return get().userInfo;
+    },
+
     // SEARCH PRODUCT BY USER
 
     getSearchProductForUser: async (keyword) => {
