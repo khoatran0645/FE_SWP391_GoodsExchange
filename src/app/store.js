@@ -8,6 +8,7 @@ import {
   API_GET_PRODUCT_BY_ID,
   API_LOGIN,
   API_SEARCH_PRODUCTS_FOR_USER,
+  API_POST_REPORT,
 } from "./../constant";
 
 const useStore = create(
@@ -25,7 +26,7 @@ const useStore = create(
     categories: null,
     userInfo: null,
     searchResult: null,
-    
+
     //* sync actions
     setAuth: (auth) => set({ auth: auth }),
     toggleMode: () =>
@@ -120,6 +121,25 @@ const useStore = create(
         set({ searchResult: data });
       } catch (error) {
         set({ error: error.message });
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+
+    // SEND REPORT
+    sendReportFromBuyer: async (form) => {
+      set({ isLoading: true });
+      try {
+        console.log("Sending report data:", form); // Log the payload being sent
+        const { data } = await axiosClient.post(API_POST_REPORT, form);
+        set({ response: data });
+        console.log("Report response:", data);
+      } catch (error) {
+        set({ error: error.message });
+        console.error(
+          "Error sending report:",
+          error.response?.data || error.message
+        ); // Log more details on the error
       } finally {
         set({ isLoading: false });
       }

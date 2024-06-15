@@ -9,6 +9,7 @@ import Avatar from "@mui/material/Avatar";
 import { deepOrange, deepPurple } from "@mui/material/colors";
 import Rating from "@mui/material/Rating";
 import useStore from "../../app/store";
+import CreateReport from "../report/CreateReport";
 
 export default function Product() {
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
@@ -24,7 +25,7 @@ export default function Product() {
   }, []);
 
   const productDetail = useStore((state) => state.productDetail);
-  // console.log("productDetail", productDetail?.data);
+  console.log("productDetail", productDetail?.data);
 
   // const getStarColor = (index, rating) => {
   //   // Change the color intensity based on the rating
@@ -177,18 +178,18 @@ export default function Product() {
               Chat with seller
             </Button>
             <Button
-              sx={{
-                borderRadius: 2,
-                marginTop: 1,
-                width: "200%",
-                "&:hover": {
-                  backgroundColor: "red", // Hover background color
-                  color: "#ffffff", // Hover text color
-                },
-              }}
-              onClick={() => navigate("/report")}
+              // sx={{
+              //   borderRadius: 2,
+              //   marginTop: 1,
+              //   width: "200%",
+              //   "&:hover": {
+              //     backgroundColor: "red", // Hover background color
+              //     color: "#ffffff", // Hover text color
+              //   },
+              // }}
+              // onClick={() => navigate("/report")}
             >
-              Report
+              <CreateReport />
             </Button>
           </Box>
         </Box>

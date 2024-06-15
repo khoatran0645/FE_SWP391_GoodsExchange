@@ -5,9 +5,9 @@
 //TODO task
 
 //* URL for BE local
+
 // export const BE_BASE_URL = "http://localhost:5000/api/v1";
 export const BE_BASE_URL = "https://goodexchange-swp.azurewebsites.net/api/v1";
-
 
 //* Category APIs
 export const API_CREATE_CATEGORY = "/categories";
@@ -34,6 +34,7 @@ export const API_DELETE_PRODUCT = "/products/{id}";
 
 //* Report APIs
 //TODO create, get all report , resolve report
+export const API_POST_REPORT = "/reports/sendreport";
 
 //* User APIs
 //TODO login, register, update user info, ban account, get seller profile
