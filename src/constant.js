@@ -6,7 +6,7 @@
 
 //* URL for BE local
 export const BE_BASE_URL = "http://localhost:5000/api/v1";
-// export const BE_BASE_URL = "https://goodsexchange-2024-g2dhamcnheb8cyf5.southeastasia-01.azurewebsites.net/api/v1";
+// export const BE_BASE_URL = "https://goodexchange-swp.azurewebsites.net/api/v1";
 
 
 //* Category APIs
@@ -35,6 +35,9 @@ export const API_DELETE_PRODUCT = "/products/{id}";
 //* Report APIs
 //TODO create, get all report , resolve report
 export const API_POST_REPORT = "/reports/sendreport";
+
+export const API_GET_ALL_REPORTS = "/reports/all?PageIndex=1&PageSize=10";
+
 
 //* User APIs
 //TODO login, register, update user info, ban account, get seller profile

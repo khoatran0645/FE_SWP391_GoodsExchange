@@ -8,12 +8,17 @@ import Home from "./pages/Home";
 import Product from "./features/products/ProductDetail";
 import NotFound from "./pages/NotFound";
 import Login from "./features/auth/Login";
+import User from "./components/profile/User";
 
 import Chat from "./pages/Chat";
 import ChatDetail from "./features/chat/ChatDetail";
 import Register from "./features/auth/Register";
 import SearchProduct from "./features/products/SearchProduct";
 import Test from "./pages/Test";
+
+import ManageProduct from "./components/moderator/ManageProduct";
+import ManageReports from "./components/moderator/ManageReports";
+import HomeMod from "./components/moderator/HomeMod";
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import useStore from "./app/store";
@@ -32,7 +37,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomeLayout />}>
           <Route index element={<Home />} />
-          <Route path="user" element={<Test />} />
+          {/* <Route path="user" element={<Test />} /> */}
           <Route path="products/:id" element={<Product />} />
           <Route path="search" element={<SearchProduct />} />
           <Route path="/" element={<ChatLayout />}>
@@ -46,6 +51,12 @@ export default function App() {
         <Route path="/" element={<EmptyLayout />}>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="mod-home" exact element={<HomeMod />} />
+          <Route path="manage-products" element={<ManageProduct />} />
+          <Route path="manage-reports" element={<ManageReports />} />
+          <Route path="user" element={<User />} />
+
+
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
