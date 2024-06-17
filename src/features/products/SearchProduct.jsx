@@ -33,7 +33,7 @@ function SearchProduct() {
           <Card key={item.productId} sx={{ maxWidth: 345, minWidth: 200 }}>
             <CardActionArea
               onClick={() => {
-                navigate(`products/${item.productId}`, { state: item });
+                navigate(`/products/${item.productId}`, { state: item });
               }}
             >
               <CardMedia

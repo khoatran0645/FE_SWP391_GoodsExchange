@@ -13,6 +13,7 @@ import FormLabel from "@mui/material/FormLabel";
 import FormHelperText from "@mui/material/FormHelperText";
 import useStore from "../../app/store";
 import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function CreateReport() {
   const location = useLocation();
@@ -80,11 +81,19 @@ export default function CreateReport() {
       };
 
       try {
-        await sendReportFromBuyer(result);
-        console.log("Report sent successfully:", result);
+        const response = await sendReportFromBuyer(result);
+        console.log("Report sent successfully:", response);
+
+        if (response?.isSuccessed) {
+          toast.success("Report sent successfully.");
+        } else {
+          toast.error(response?.message || "Failed to send report.");
+        }
+
         handleClose();
       } catch (error) {
         console.error("Error sending report:", error);
+        toast.error("Error sending report. Please try again later.");
       }
     }
   };
