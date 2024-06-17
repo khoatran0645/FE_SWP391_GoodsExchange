@@ -109,8 +109,10 @@ export default function Product() {
                 {productDetail?.data.userUpload.charAt(0).toUpperCase()}
               </Avatar>
               <Typography variant="h4" marginX={0.75} marginY={1}>
-                {(productDetail?.data.userUpload.charAt(0).toUpperCase() +
-                  productDetail?.data.userUpload.slice(1)).toString()}
+                {(
+                  productDetail?.data.userUpload.charAt(0).toUpperCase() +
+                  productDetail?.data.userUpload.slice(1)
+                ).toString()}
               </Typography>
             </Box>
             {/* <Box
@@ -127,15 +129,17 @@ export default function Product() {
             >
               <Rating
                 name="read-only"
-                value={productDetail ? productDetail.data.averageNumberStars : 0}
+                value={
+                  productDetail ? productDetail.data.averageNumberStars : 0
+                }
                 readOnly
                 precision={0.5}
                 size="small"
               />
               <Box>
                 <Typography variant="body2" component="p" marginLeft={0.5}>
-                  {location.state.averageNumberStars} ({productDetail?.data.numberOfRatings}{" "}
-                  reviews)
+                  {location.state.averageNumberStars} (
+                  {productDetail?.data.numberOfRatings} reviews)
                 </Typography>
               </Box>
             </Box>
@@ -177,20 +181,8 @@ export default function Product() {
             >
               Chat with seller
             </Button>
-            <Button
-              // sx={{
-              //   borderRadius: 2,
-              //   marginTop: 1,
-              //   width: "200%",
-              //   "&:hover": {
-              //     backgroundColor: "red", // Hover background color
-              //     color: "#ffffff", // Hover text color
-              //   },
-              // }}
-              // onClick={() => navigate("/report")}
-            >
-              <CreateReport />
-            </Button>
+
+            <CreateReport />
           </Box>
         </Box>
       </Grid>

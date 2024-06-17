@@ -40,7 +40,9 @@ export default function App() {
           <Route index element={<Home />} />
           {/* <Route path="user" element={<Test />} /> */}
           <Route path="products/:id" element={<Product />} />
-          <Route path="search" element={<SearchProduct />} />
+          <Route path="search" element={<SearchProduct />}>
+            <Route path="products/:id" element={<Product />} />
+          </Route>
           <Route path="/" element={<ChatLayout />}>
             <Route index element={<Chat />} />
             <Route path="chat" element={<Chat />}>
@@ -57,8 +59,6 @@ export default function App() {
           <Route path="manage-reports" element={<ManageReports />} />
           <Route path="user" element={<User />} />
           <Route path="profile" element={<Profile />} />
-
-
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -106,9 +106,9 @@ const useStore = create(
       }
     },
 
-     // Manage Report
-   
-     getAllReports: async () => {
+    // Manage Report
+
+    getAllReports: async () => {
       set({ isLoading: true });
       try {
         console.log();
@@ -151,12 +151,14 @@ const useStore = create(
         const { data } = await axiosClient.post(API_POST_REPORT, form);
         set({ response: data });
         console.log("Report response:", data);
+        return data; // Return the response data
       } catch (error) {
         set({ error: error.message });
         console.error(
           "Error sending report:",
           error.response?.data || error.message
         ); // Log more details on the error
+        return { isSuccessed: false, message: error.message }; // Return an error response
       } finally {
         set({ isLoading: false });
       }
