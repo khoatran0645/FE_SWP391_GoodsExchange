@@ -8,17 +8,17 @@ import Home from "./pages/Home";
 import Product from "./features/products/ProductDetail";
 import NotFound from "./pages/NotFound";
 import Login from "./features/auth/Login";
-import User from "./components/profile/User";
-import Profile from "./components/profile/Profile";
+import User from "./features/profile/User";
+import Profile from "./features/profile/Profile";
 
 import Chat from "./pages/Chat";
 import ChatDetail from "./features/chat/ChatDetail";
 import Register from "./features/auth/Register";
 import SearchProduct from "./features/products/SearchProduct";
 
-import ManageProduct from "./components/moderator/ManageProduct";
-import ManageReports from "./components/moderator/ManageReports";
-import HomeMod from "./components/moderator/HomeMod";
+import ManageProduct from "./features/moderator/ManageProduct";
+import ManageReports from "./features/moderator/ManageReports";
+import HomeMod from "./features/moderator/HomeMod";
 
 
 import { ThemeProvider, createTheme } from "@mui/material";

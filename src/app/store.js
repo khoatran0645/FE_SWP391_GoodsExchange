@@ -9,6 +9,7 @@ import {
   API_LOGIN,
   API_SEARCH_PRODUCTS_FOR_USER,
   API_POST_REPORT,
+  API_GET_ALL_REPORTS,
 } from "./../constant";
 
 const useStore = create(
@@ -19,13 +20,13 @@ const useStore = create(
     respone: null,
 
     users: [],
-    colorMode: "light",
-    auth: false,
-    productList: null,
-    productDetail: null,
-    categories: null,
-    userInfo: null,
-    searchResult: null,
+    // colorMode: "light",
+    // auth: false,
+    // productList: null,
+    // productDetail: null,
+    // categories: null,
+    // userInfo: null,
+    // searchResult: null,
 
     //* sync actions
     setAuth: (auth) => set({ auth: auth }),
