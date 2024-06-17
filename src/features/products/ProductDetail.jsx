@@ -11,7 +11,7 @@ import Rating from "@mui/material/Rating";
 import useStore from "../../app/store";
 import CreateReport from "../report/CreateReport";
 
-export default function Product() {
+export default function ProductDetail() {
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
   let location = useLocation();
   const navigate = useNavigate();

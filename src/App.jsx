@@ -1,11 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
+
 import HomeLayout from "./layouts/HomeLayout";
 import EmptyLayout from "./layouts/EmptyLayout";
 import ChatLayout from "./layouts/ChatLayout";
 
 import Home from "./pages/Home";
-import Product from "./features/products/ProductDetail";
+import ProductDetail from "./features/products/ProductDetail";
 import NotFound from "./pages/NotFound";
 import Login from "./features/auth/Login";
 import User from "./features/profile/User";
@@ -19,7 +20,6 @@ import SearchProduct from "./features/products/SearchProduct";
 import ManageProduct from "./features/moderator/ManageProduct";
 import ManageReports from "./features/moderator/ManageReports";
 import HomeMod from "./features/moderator/HomeMod";
-
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import useStore from "./app/store";
@@ -38,10 +38,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomeLayout />}>
           <Route index element={<Home />} />
-          {/* <Route path="user" element={<Test />} /> */}
-          <Route path="products/:id" element={<Product />} />
+          <Route path="products/:id" element={<ProductDetail />} />
           <Route path="search" element={<SearchProduct />}>
-            <Route path="products/:id" element={<Product />} />
+            <Route path="products/:id" element={<ProductDetail />} />
           </Route>
           <Route path="/" element={<ChatLayout />}>
             <Route index element={<Chat />} />
