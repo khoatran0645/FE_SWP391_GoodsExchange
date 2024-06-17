@@ -211,14 +211,16 @@ export default function NavBar() {
                         {setting}
                       </Typography>
                     ) : (
-                      <Typography textAlign="center">{setting}</Typography>
+                      <Typography onClick={() => {
+                        navigate("/profile");
+                      }} textAlign="center">{setting}</Typography>
                     )}
                   </MenuItem>
                 ))}
               </Menu>
             </Box>
           ) : (
-            <Button sx={{ color: "white" }} onClick={() => navigate("login")}>
+            <Button sx={{ color: "white" }} onClick={() => navigate("/login")}>
               Login
             </Button>
           )}
