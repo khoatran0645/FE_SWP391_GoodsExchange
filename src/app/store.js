@@ -9,6 +9,7 @@ import {
   API_LOGIN,
   API_SEARCH_PRODUCTS_FOR_USER,
   API_POST_REPORT,
+  API_GET_ALL_PRODUCT_MOD,
 } from "./../constant";
 
 const useStore = create(
@@ -26,6 +27,7 @@ const useStore = create(
     categories: null,
     userInfo: null,
     searchResult: null,
+    reportList: null,
 
     //* sync actions
     setAuth: (auth) => set({ auth: auth }),
@@ -106,13 +108,14 @@ const useStore = create(
       }
     },
 
-     // Manage Report
-   
-     getAllReports: async () => {
+    // Manage Report
+
+    getAllReports: async () => {
       set({ isLoading: true });
       try {
         console.log();
         const { data } = await axiosClient.get(API_GET_ALL_REPORTS);
+
         set({ reportList: data });
       } catch (error) {
         set({ error: error.message });
@@ -143,6 +146,24 @@ const useStore = create(
       }
     },
 
+    // GET ALL PRODUCT _ MOD
+    postAllProduct: async (pageIndex, pageSize) => {
+      set({ isLoading: true });
+      try {
+        const { data } = await axiosClient.post(
+          API_GET_ALL_PRODUCT_MOD.replace("{PageIndex}", pageIndex).replace(
+            "{PageSize}",
+            pageSize
+          )
+        );
+        set({ productList: data });
+      } catch (error) {
+        set({ error: error.message });
+      } finally {
+        set({ isLoading: false });
+      }
+      // return get().userInfo;
+    },
     // SEND REPORT
     sendReportFromBuyer: async (form) => {
       set({ isLoading: true });
