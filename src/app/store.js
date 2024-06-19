@@ -10,7 +10,6 @@ import {
   API_LOGIN,
   API_SEARCH_PRODUCTS_FOR_USER,
   API_POST_REPORT,
-  API_GET_ALL_REPORTS,
 } from "./../constant";
 
 const useStore = create(
@@ -22,14 +21,14 @@ const useStore = create(
         error: null,
         respone: null,
 
-        users: [],
-        colorMode: "light",
-        auth: false,
-        productList: null,
-        productDetail: null,
-        categories: null,
-        userInfo: null,
-        searchResult: null,
+    users: [],
+    colorMode: "light",
+    auth: false,
+    productList: null,
+    productDetail: null,
+    categories: null,
+    userInfo: null,
+    searchResult: null,
 
         //* sync actions
         setAuth: (auth) => set({ auth: auth }),
@@ -110,21 +109,21 @@ const useStore = create(
           }
         },
 
-        // Manage Report
-
-        getAllReports: async () => {
-          set({ isLoading: true });
-          try {
-            console.log();
-            const { data } = await axiosClient.get(API_GET_ALL_REPORTS);
-            set({ reportList: data });
-          } catch (error) {
-            set({ error: error.message });
-          } finally {
-            set({ isLoading: false });
-          }
-          // return get().userInfo;
-        },
+     // Manage Report
+   
+     getAllReports: async () => {
+      set({ isLoading: true });
+      try {
+        console.log();
+        const { data } = await axiosClient.get(API_GET_ALL_REPORTS);
+        set({ reportList: data });
+      } catch (error) {
+        set({ error: error.message });
+      } finally {
+        set({ isLoading: false });
+      }
+      // return get().userInfo;
+    },
 
         // SEARCH PRODUCT BY USER
 
@@ -147,32 +146,25 @@ const useStore = create(
           }
         },
 
-        // SEND REPORT
-        sendReportFromBuyer: async (form) => {
-          set({ isLoading: true });
-          try {
-            console.log("Sending report data:", form); // Log the payload being sent
-            const { data } = await axiosClient.post(API_POST_REPORT, form);
-            set({ response: data });
-            console.log("Report response:", data);
-            return data; // Return the response data
-          } catch (error) {
-            set({ error: error.message });
-            console.error(
-              "Error sending report:",
-              error.response?.data || error.message
-            ); // Log more details on the error
-            return { isSuccessed: false, message: error.message }; // Return an error response
-          } finally {
-            set({ isLoading: false });
-          }
-        },
-      })), {
-        name: 'goods-storage', // name of the item in the storage (must be unique)
-        // storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
-      },
-    )
-  )
+    // SEND REPORT
+    sendReportFromBuyer: async (form) => {
+      set({ isLoading: true });
+      try {
+        console.log("Sending report data:", form); // Log the payload being sent
+        const { data } = await axiosClient.post(API_POST_REPORT, form);
+        set({ response: data });
+        console.log("Report response:", data);
+      } catch (error) {
+        set({ error: error.message });
+        console.error(
+          "Error sending report:",
+          error.response?.data || error.message
+        ); // Log more details on the error
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+  }))
 );
 
 export default useStore;

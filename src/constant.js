@@ -26,6 +26,8 @@ export const API_GET_PRODUCTS_HOMEPAGE =
   "/products/all?PageIndex={PageIndex}&PageSize={PageSize}";
 export const API_SEARCH_PRODUCTS_FOR_USER =
   "/products/all?PageIndex=1&PageSize=10&ProductName={keyword}&IsApproved=true&IsActive=true";
+  
+export const API_GET_ALL_PRODUCT_MOD = "/products/all?PageIndex={PageIndex}&PageSize={PageSize}";
 //! DANGER
 export const API_DELETE_PRODUCT = "/products/id?id={id}";
 

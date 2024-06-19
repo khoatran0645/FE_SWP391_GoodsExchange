@@ -12,6 +12,7 @@ import {
   Tab,
 } from "@mui/material";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import NavBar from "../common/NavBar";
 const User = () => {
@@ -25,8 +26,10 @@ const User = () => {
     },
   ];
   const [in4List, setIn4List] = React.useState(data);
+  const navigate = useNavigate();
 
   return (
+
     <>
       <NavBar />
 
@@ -81,7 +84,9 @@ const User = () => {
               Chưa có đánh giá
             </Typography>
 
-            <Button variant="outlined" fullWidth sx={{ mt: 1 }}>
+            <Button variant="outlined" fullWidth sx={{ mt: 1 }}  onClick={() => {
+                navigate("/profile");
+              }}>
               Chỉnh sửa trang cá nhân
             </Button>
             <Typography variant="body2" color="textSecondary" sx={{ mt: 2 }}>
