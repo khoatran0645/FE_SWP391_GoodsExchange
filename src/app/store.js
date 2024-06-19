@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import axiosClient from "../services/axiosClient";
 import { immer } from "zustand/middleware/immer";
-import { devtools, persist, createJSONStorage  } from "zustand/middleware";
+import { devtools, persist, createJSONStorage } from "zustand/middleware";
 import {
   API_GET_ALL_CATEGORIES,
   API_GET_PRODUCTS_HOMEPAGE,
@@ -10,6 +10,9 @@ import {
   API_LOGIN,
   API_SEARCH_PRODUCTS_FOR_USER,
   API_POST_REPORT,
+  API_GET_ALL_REPORTS,
+  API_GET_ALL_PRODUCT_MOD,
+  API_REVIEW_PRODUCT_MOD,
 } from "./../constant";
 
 const useStore = create(
@@ -21,14 +24,14 @@ const useStore = create(
         error: null,
         respone: null,
 
-    users: [],
-    colorMode: "light",
-    auth: false,
-    productList: null,
-    productDetail: null,
-    categories: null,
-    userInfo: null,
-    searchResult: null,
+        users: [],
+        colorMode: "light",
+        auth: false,
+        productList: null,
+        productDetail: null,
+        categories: null,
+        userInfo: null,
+        searchResult: null,
 
         //* sync actions
         setAuth: (auth) => set({ auth: auth }),
@@ -81,6 +84,42 @@ const useStore = create(
           }
         },
 
+        // manage
+        // post all product
+        postAllProduct: async (pageIndex, pageSize) => {
+          set({ isLoading: true });
+          try {
+            const { data } = await axiosClient.post(
+              API_GET_ALL_PRODUCT_MOD.replace("{PageIndex}", pageIndex).replace(
+                "{PageSize}",
+                pageSize
+              )
+            );
+            set({ productList: data });
+            set({ productDetail: null });
+          } catch (error) {
+            set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
+        // Review product
+        reviewProduct: async (item, isApproved) => {
+          set({ isLoading: true });
+          try {
+            const { data } = await axiosClient.patch(
+              API_REVIEW_PRODUCT_MOD.replace("{id}", item.productId).replace(
+                "{status}",
+                isApproved
+              )
+            );
+            set({ response: data });
+          } catch (error) {
+            set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
         // user API
         postLogin: async (form) => {
           set({ isLoading: true });
@@ -109,21 +148,20 @@ const useStore = create(
           }
         },
 
-     // Manage Report
-   
-     getAllReports: async () => {
-      set({ isLoading: true });
-      try {
-        console.log();
-        const { data } = await axiosClient.get(API_GET_ALL_REPORTS);
-        set({ reportList: data });
-      } catch (error) {
-        set({ error: error.message });
-      } finally {
-        set({ isLoading: false });
-      }
-      // return get().userInfo;
-    },
+        // Manage Report
+        getAllReports: async () => {
+          set({ isLoading: true });
+          try {
+            console.log();
+            const { data } = await axiosClient.get(API_GET_ALL_REPORTS);
+            set({ reportList: data });
+          } catch (error) {
+            set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+          // return get().userInfo;
+        },
 
         // SEARCH PRODUCT BY USER
 
@@ -146,25 +184,33 @@ const useStore = create(
           }
         },
 
-    // SEND REPORT
-    sendReportFromBuyer: async (form) => {
-      set({ isLoading: true });
-      try {
-        console.log("Sending report data:", form); // Log the payload being sent
-        const { data } = await axiosClient.post(API_POST_REPORT, form);
-        set({ response: data });
-        console.log("Report response:", data);
-      } catch (error) {
-        set({ error: error.message });
-        console.error(
-          "Error sending report:",
-          error.response?.data || error.message
-        ); // Log more details on the error
-      } finally {
-        set({ isLoading: false });
+        // SEND REPORT
+        sendReportFromBuyer: async (form) => {
+          set({ isLoading: true });
+          try {
+            console.log("Sending report data:", form); // Log the payload being sent
+            const { data } = await axiosClient.post(API_POST_REPORT, form);
+            set({ response: data });
+            console.log("Report response:", data);
+            return data; // Return the response data
+          } catch (error) {
+            set({ error: error.message });
+            console.error(
+              "Error sending report:",
+              error.response?.data || error.message
+            ); // Log more details on the error
+            return { isSuccessed: false, message: error.message }; // Return an error response
+          } finally {
+            set({ isLoading: false });
+          }
+        },
+      })),
+      {
+        name: "goods-storage", // name of the item in the storage (must be unique)
+        // storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
       }
-    },
-  }))
+    )
+  )
 );
 
 export default useStore;
