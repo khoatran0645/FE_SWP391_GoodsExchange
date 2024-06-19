@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import axiosClient from "../services/axiosClient";
 import { immer } from "zustand/middleware/immer";
-import { devtools, persist, createJSONStorage  } from "zustand/middleware";
+import { devtools, persist, createJSONStorage } from "zustand/middleware";
 import {
   API_GET_ALL_CATEGORIES,
   API_GET_PRODUCTS_HOMEPAGE,
@@ -11,6 +11,8 @@ import {
   API_SEARCH_PRODUCTS_FOR_USER,
   API_POST_REPORT,
   API_GET_ALL_REPORTS,
+  API_GET_ALL_PRODUCT_MOD,
+  API_REVIEW_PRODUCT_MOD,
 } from "./../constant";
 
 const useStore = create(
@@ -82,6 +84,42 @@ const useStore = create(
           }
         },
 
+        // manage
+        // post all product
+        postAllProduct: async (pageIndex, pageSize) => {
+          set({ isLoading: true });
+          try {
+            const { data } = await axiosClient.post(
+              API_GET_ALL_PRODUCT_MOD.replace("{PageIndex}", pageIndex).replace(
+                "{PageSize}",
+                pageSize
+              )
+            );
+            set({ productList: data });
+            set({ productDetail: null });
+          } catch (error) {
+            set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
+        // Review product
+        reviewProduct: async (item, isApproved) => {
+          set({ isLoading: true });
+          try {
+            const { data } = await axiosClient.patch(
+              API_REVIEW_PRODUCT_MOD.replace("{id}", item.productId).replace(
+                "{status}",
+                isApproved
+              )
+            );
+            set({ response: data });
+          } catch (error) {
+            set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
         // user API
         postLogin: async (form) => {
           set({ isLoading: true });
@@ -111,7 +149,6 @@ const useStore = create(
         },
 
         // Manage Report
-
         getAllReports: async () => {
           set({ isLoading: true });
           try {
@@ -167,10 +204,11 @@ const useStore = create(
             set({ isLoading: false });
           }
         },
-      })), {
-        name: 'goods-storage', // name of the item in the storage (must be unique)
+      })),
+      {
+        name: "goods-storage", // name of the item in the storage (must be unique)
         // storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
-      },
+      }
     )
   )
 );
