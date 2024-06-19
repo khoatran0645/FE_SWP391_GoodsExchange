@@ -23,6 +23,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import useStore from "../../app/store";
+import { toast } from "react-toastify";
 
 export default function NavBar() {
   function notificationsLabel(count) {
@@ -35,7 +36,7 @@ export default function NavBar() {
     return `${count} notifications`;
   }
 
-  const toggleAuth = useStore((state) => state.toggleAuth);
+  const setAuth = useStore((state) => state.setAuth);
 
   const pages = ["User"];
   const settings = ["Profile", "Logout"];
@@ -54,10 +55,11 @@ export default function NavBar() {
 
   const categories = useStore((state) => state.categories);
   // console.log("categories", categories);
-  const options = categories?.data?.map(category => ({
-    key: category.categoryId,
-    label: category.categoryName,
-  })) || [];
+  const options =
+    categories?.data?.map((category) => ({
+      key: category.categoryId,
+      label: category.categoryName,
+    })) || [];
 
   // console.log("options", options);
 
@@ -203,17 +205,25 @@ export default function NavBar() {
                     {setting === "Logout" ? (
                       <Typography
                         onClick={() => {
-                          toggleAuth();
+                          localStorage.clear();
+                          sessionStorage.clear();
+                          setAuth(false);
                           navigate("/");
+                          toast.success("Logout successfully");
                         }}
                         textAlign="center"
                       >
                         {setting}
                       </Typography>
                     ) : (
-                      <Typography onClick={() => {
-                        navigate("/profile");
-                      }} textAlign="center">{setting}</Typography>
+                      <Typography
+                        onClick={() => {
+                          navigate("/profile");
+                        }}
+                        textAlign="center"
+                      >
+                        {setting}
+                      </Typography>
                     )}
                   </MenuItem>
                 ))}

@@ -61,13 +61,15 @@ export default function CreateNewProduct() {
             const error = useStore.getState().error;
             console.log(response);
             console.log(error);
-            if (response?.isSuccessed){
-              toast.success("Product created successfully. Please wait for Moderator approval.");
-            }
-            else{
+            if (response?.isSuccessed) {
+              toast.success(
+                "Product created successfully. Please wait for Moderator approval."
+              );
+            } else {
               toast.error(response?.message);
+              toast.error(error);
             }
-            
+
             handleClose();
           },
         }}

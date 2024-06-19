@@ -72,10 +72,16 @@ export default function Login() {
     console.log(userInfo);
     if (userInfo?.isSuccessed) {
       localStorage.setItem("token", userInfo.data.token);
-      // const decoded = jwtDecode(userInfo.data);
-      // console.log(decoded);
+      const decoded = jwtDecode(userInfo.data.token);
+      console.log(decoded);
       setAuth(true);
-      navigate("/");
+      if (userInfo.data.roles.includes("Moderator")) {
+        navigate("/mod-home");
+      } else if (userInfo.data.roles.includes("Administrator")) {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } else {
       toast.error(userInfo?.message);
     }
