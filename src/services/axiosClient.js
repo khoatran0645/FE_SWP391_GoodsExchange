@@ -1,7 +1,7 @@
 import axios from "axios";
-import { BE_BASE_URL } from "../constant";
+// import { BE_BASE_URL } from "../constant";
 const axiosClient = axios.create({
-  baseURL: BE_BASE_URL,
+  baseURL: import.meta.env.VITE_BE_BASE_URL,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
