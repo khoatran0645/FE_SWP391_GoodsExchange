@@ -10,7 +10,9 @@ import Stack from "@mui/material/Stack";
 export default function ManageProduct() {
   const [page, setPage] = React.useState(1);
   const postAllProduct = useStore((state) => state.postAllProduct);
-  const reviewProduct = useStore((state) => state.reviewProduct);
+  const approveProduct = useStore((state) => state.approveProduct);
+  const denyProduct = useStore((state) => state.denyProduct);
+
   const [totalPage, setTotalPage] = React.useState(1);
 
   const [listProduct, setListProduct] = React.useState([]);
@@ -26,7 +28,7 @@ export default function ManageProduct() {
   }, [page]);
 
   const handleApprove = async (item) => {
-    await reviewProduct(item, true);
+    await approveProduct(item, true);
     const response = useStore.getState().response;
     if (response.isSuccessed) {
       setListProduct(
@@ -38,7 +40,7 @@ export default function ManageProduct() {
   };
 
   const handleDeny = async (item) => {
-    await reviewProduct(item, false);
+    await denyProduct(item, false);
     const response = useStore.getState().response;
     if (response.isSuccessed) {
       setListProduct(
