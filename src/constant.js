@@ -24,13 +24,8 @@ export const API_SEARCH_PRODUCTS_FOR_USER =
   "/products/all?PageIndex=1&PageSize=10&ProductName={keyword}&IsApproved=true&IsActive=true";
 
 // Moderator
-//products
 export const API_GET_ALL_PRODUCT_MOD = "/products/moderator/all?PageIndex={PageIndex}&PageSize={PageSize}"
 export const API_REVIEW_PRODUCT_MOD = "/products/review/{id}?status={status}"
-//reports
-export const API_GET_ALL_REPORTS = "/reports/all?PageIndex=1&PageSize=10";
-// export const API_REVIEW_REPORT_MOD = "/report"
-
 //! DANGER
 export const API_DELETE_PRODUCT = "/products/id?id={id}";
 
@@ -40,6 +35,8 @@ export const API_DELETE_PRODUCT = "/products/id?id={id}";
 //* Report APIs
 //TODO create, get all report , resolve report
 export const API_POST_REPORT = "/reports/sendreport";
+
+export const API_GET_ALL_REPORTS = "/reports/all?PageIndex=1&PageSize=10";
 
 //* User APIs
 //TODO login, register, update user info, ban account, get seller profile

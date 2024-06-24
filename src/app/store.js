@@ -12,7 +12,10 @@ import {
   API_POST_REPORT,
   API_GET_ALL_REPORTS,
   API_GET_ALL_PRODUCT_MOD,
-  API_REVIEW_PRODUCT_MOD,
+  API_APPROVE_PRODUCT_MOD,
+  API_DENY_PRODUCT_MOD,
+  API_APPROVE_REPORT_MOD,
+  API_DENY_REPORT_MOD,
 } from "./../constant";
 
 const useStore = create(
@@ -104,14 +107,25 @@ const useStore = create(
           }
         },
         // Review product
-        reviewProduct: async (item, isApproved) => {
+        approveProduct: async (item) => {
           set({ isLoading: true });
           try {
             const { data } = await axiosClient.patch(
-              API_REVIEW_PRODUCT_MOD.replace("{id}", item.productId).replace(
-                "{status}",
-                isApproved
-              )
+              API_APPROVE_PRODUCT_MOD.replace("{id}", item.productId)
+            );
+            set({ response: data });
+          } catch (error) {
+            set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
+
+        denyProduct: async (item) => {
+          set({ isLoading: true });
+          try {
+            const { data } = await axiosClient.patch(
+              API_DENY_PRODUCT_MOD.replace("{id}", item.productId)
             );
             set({ response: data });
           } catch (error) {
@@ -150,11 +164,16 @@ const useStore = create(
         },
 
         // Manage Report
-        getAllReports: async () => {
+        getAllReports: async (pageIndex, pageSize) => {
           set({ isLoading: true });
           try {
             console.log();
-            const { data } = await axiosClient.get(API_GET_ALL_REPORTS);
+            const { data } = await axiosClient.get(
+              API_GET_ALL_REPORTS.replace("{PageIndex}", pageIndex).replace(
+                "{PageSize}",
+                pageSize
+              )
+            );
             set({ reportList: data });
           } catch (error) {
             set({ error: error.message });
@@ -166,6 +185,37 @@ const useStore = create(
 
       
 
+        // review report
+        approveReport: async (item, isApproved) => {
+          set({ isLoading: true });
+          try {
+            const { data } = await axiosClient.patch(
+              API_APPROVE_REPORT_MOD.replace("{id}", item.reportId).replace(
+                "{status}",
+                isApproved
+              )
+            );
+            set({ response: data });
+          } catch (error) {
+            set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
+
+        denyReport: async (item) => {
+          set({ isLoading: true });
+          try {
+            const { data } = await axiosClient.patch(
+              API_DENY_REPORT_MOD.replace("{id}", item.reportId)
+            );
+            set({ response: data });
+          } catch (error) {
+            set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
         // SEARCH PRODUCT BY USER
 
         getSearchProductForUser: async (keyword) => {
