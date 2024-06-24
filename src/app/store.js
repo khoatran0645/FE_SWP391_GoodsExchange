@@ -17,6 +17,7 @@ import {
   API_APPROVE_REPORT_MOD,
   API_DENY_REPORT_MOD,
 } from "./../constant";
+import { toast } from "react-toastify";
 
 const useStore = create(
   devtools(
@@ -75,10 +76,13 @@ const useStore = create(
             set({ isLoading: false });
           }
         },
+
         createNewProduct: async (form) => {
           set({ isLoading: true });
           try {
+            // console.log("form", form);
             const { data } = await axiosClient.post(API_CREATE_PRODUCT, form);
+            toast.success("Product created successfully. Please wait for Moderator approval.");
             set({ response: data });
           } catch (error) {
             set({ error: error.message });

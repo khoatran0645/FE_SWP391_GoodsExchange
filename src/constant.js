@@ -35,7 +35,7 @@ export const API_DELETE_PRODUCT = "/products/id?id={id}";
 
 //* Report APIs
 //TODO create, get all report , resolve report
-export const API_POST_REPORT = "/reports/sendreport";
+export const API_POST_REPORT = "/reports/send-report";
 
 export const API_GET_ALL_REPORTS = "/reports/all?PageIndex={PageIndex}&PageSize={PageSize}";
 export const API_APPROVE_REPORT_MOD = "reports/approve/{id}";

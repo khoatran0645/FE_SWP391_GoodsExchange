@@ -75,7 +75,7 @@ export default function CreateReport() {
       const combinedReasons = `${selectedReasons} | ${description}`;
 
       const result = {
-        receiverId: productDetail?.data.userUploadId,
+        // receiverId: productDetail?.data.userUploadId,
         reason: combinedReasons,
         productId: location.state.productId,
       };
@@ -86,9 +86,10 @@ export default function CreateReport() {
 
         if (response?.isSuccessed) {
           toast.success("Report sent successfully.");
-        } else {
-          toast.error(response?.message || "Failed to send report.");
-        }
+        } 
+        // else {
+        //   toast.error(response?.message || "Failed to send report.");
+        // }
 
         handleClose();
       } catch (error) {
