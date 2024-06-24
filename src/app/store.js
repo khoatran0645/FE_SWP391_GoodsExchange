@@ -124,11 +124,12 @@ const useStore = create(
         postLogin: async (form) => {
           set({ isLoading: true });
           try {
-            console.log(form);
+            // console.log(form);
             const { data } = await axiosClient.post(API_LOGIN, form);
+            console.log("data", data);
             set({ userInfo: data });
           } catch (error) {
-            set({ error: error.message });
+            set({ error: error.Message });
           } finally {
             set({ isLoading: false });
           }
@@ -206,8 +207,8 @@ const useStore = create(
         },
       })),
       {
-        name: "goods-storage", // name of the item in the storage (must be unique)
-        // storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
+        // name: "goods-storage", // name of the item in the storage (must be unique)
+        storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
       }
     )
   )
