@@ -24,9 +24,11 @@ export const API_SEARCH_PRODUCTS_FOR_USER =
   "/products/all?PageIndex=1&PageSize=10&ProductName={keyword}&IsApproved=true&IsActive=true";
 
 // Moderator
+
 export const API_GET_ALL_PRODUCT_MOD = "/products/moderator/all?PageIndex={PageIndex}&PageSize={PageSize}";
 export const API_APPROVE_PRODUCT_MOD = "/products/approve/{id}";
 export const API_DENY_PRODUCT_MOD = "products/deny/{id}";
+
 //! DANGER
 export const API_DELETE_PRODUCT = "/products/id?id={id}";
 
@@ -46,3 +48,4 @@ export const API_DENY_REPORT_MOD = "reports/deny/{id}";
 //TODO login, register, update user info, ban account, get seller profile
 export const API_LOGIN = "/users/login";
 export const API_REGISTER = "/users/register";
+export const API_USER_PROFILE_ID = "/users/{id}";
