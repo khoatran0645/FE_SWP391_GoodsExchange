@@ -40,6 +40,22 @@ const useStore = create(
             colorMode: state.colorMode === "light" ? "dark" : "light",
           })),
 
+        // USERPROFILE
+        getProfileUserById: async (id) => {
+          set({ isLoading: true });
+
+          try {
+            const { data } = await axiosClient.get(
+              API_USER_PROFILE_ID.replace("{id}", id)
+            );
+
+            set({ userDetails: data.data });
+          } catch (error) {
+            set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
         //* async actions
         // PRODUCT API
         getProductsForHomePage: async (pageIndex, pageSize) => {
