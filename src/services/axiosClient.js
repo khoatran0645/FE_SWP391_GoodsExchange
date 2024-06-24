@@ -3,10 +3,8 @@ import { toast } from "react-toastify";
 
 const axiosClient = axios.create({
   baseURL: import.meta.env.VITE_BE_BASE_URL,
-  timeout: 10000,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  timeout: 100000,
+  headers: {},
 });
 
 axiosClient.interceptors.request.use(
@@ -15,6 +13,7 @@ axiosClient.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    // console.log("config", config);
     return config;
   },
   (error) => {
@@ -24,6 +23,10 @@ axiosClient.interceptors.request.use(
 
 axiosClient.interceptors.response.use(
   (response) => {
+    // console.log("response", response);
+    // if (response.status == 200) {
+    //   toast.success("Success");
+    // }
     return response;
   },
   (error) => {
@@ -45,7 +48,7 @@ axiosClient.interceptors.response.use(
       // Handle other errors
       toast.error("An unexpected error occurred");
     }
-    
+
     return Promise.reject(error);
   }
 );
