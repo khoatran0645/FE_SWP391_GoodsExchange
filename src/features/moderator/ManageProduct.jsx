@@ -4,11 +4,16 @@ import NavBarMo from "./NavBarMo";
 import Box from "@mui/material/Box";
 import { Button, Paper, Typography } from "@mui/material";
 import useStore from "../../app/store";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 export default function ManageProduct() {
   const [page, setPage] = React.useState(1);
   const postAllProduct = useStore((state) => state.postAllProduct);
-  const reviewProduct = useStore((state) => state.reviewProduct);
+  const approveProduct = useStore((state) => state.approveProduct);
+  const denyProduct = useStore((state) => state.denyProduct);
+
+  const [totalPage, setTotalPage] = React.useState(1);
 
   const [listProduct, setListProduct] = React.useState([]);
   React.useEffect(() => {
@@ -16,13 +21,14 @@ export default function ManageProduct() {
       await postAllProduct(page, 10);
       const productList = useStore.getState().productList;
       console.log("product", productList);
+      setTotalPage(productList.totalPage);
       setListProduct(productList.items);
     };
     fetchData();
-  }, []);
+  }, [page]);
 
   const handleApprove = async (item) => {
-    await reviewProduct(item, true);
+    await approveProduct(item, true);
     const response = useStore.getState().response;
     if (response.isSuccessed) {
       setListProduct(
@@ -34,7 +40,7 @@ export default function ManageProduct() {
   };
 
   const handleDeny = async (item) => {
-    await reviewProduct(item, false);
+    await denyProduct(item, false);
     const response = useStore.getState().response;
     if (response.isSuccessed) {
       setListProduct(
@@ -43,6 +49,10 @@ export default function ManageProduct() {
     } else {
       console.log("Error");
     }
+  };
+
+  const handlePageChange = (event, value) => {
+    setPage(value);
   };
 
   return (
@@ -64,14 +74,15 @@ export default function ManageProduct() {
             key={product.productId}
             sx={{ p: 3, mb: 2, maxWidth: "500px" }}
           >
-            <Typography variant="h6">{product.title}</Typography>
+            <Typography variant="h6">{product.productName}</Typography>
             <img
               style={{
                 width: "100%",
               }}
-              src={product.image}
+              src={product.productImageUrl}
               alt="img"
             />
+
             <Typography
               variant="body1"
               sx={{
@@ -79,8 +90,12 @@ export default function ManageProduct() {
               }}
             >
               {product.price} VND
+            <Typography variant="body1">{product.description}</Typography>
             </Typography>
-            <Typography variant="body1">{product.category}</Typography>
+            <Typography variant="body1">Created by: {product.userUpload}</Typography>
+            <Typography variant="body1">Upload date: {product.uploadDate}</Typography>
+            {/* <Typography variant="body1">{product.approvedDate}</Typography> */}
+            <Typography variant="body1">Category name: {product.categoryName}</Typography>
             <Typography variant="body1">ID: {product.productId}</Typography>
 
             <Box
@@ -112,6 +127,17 @@ export default function ManageProduct() {
             </Box>
           </Paper>
         ))}
+        <Stack spacing={2}>
+          <Pagination
+            count={totalPage}
+            page={page}
+            onChange={handlePageChange}
+            sx={{ mt: 3 }}
+            variant="outlined"
+            color="primary"
+            shape="rounded"
+          />
+        </Stack>
       </Box>
     </>
   );

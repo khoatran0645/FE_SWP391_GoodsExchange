@@ -178,13 +178,15 @@ export default function Home() {
   //   },
   // ];
 
+  // console.log(import.meta.env.VITE_BE_BASE_URL);
+
   return (
     <Grid container>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Typography variant="h2" align="center">
           New Products
         </Typography>
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={12}>
         {/* <Container> */}

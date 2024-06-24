@@ -4,10 +4,6 @@
 //! alert, warning
 //TODO task
 
-//* URL for BE local
-export const BE_BASE_URL = "http://localhost:5000/api/v1";
-// export const BE_BASE_URL = "https://goodexchange-swp.azurewebsites.net/api/v1";
-
 //* Category APIs
 //DONE
 export const API_CREATE_CATEGORY = "/categories";
@@ -28,9 +24,11 @@ export const API_SEARCH_PRODUCTS_FOR_USER =
   "/products/all?PageIndex=1&PageSize=10&ProductName={keyword}&IsApproved=true&IsActive=true";
 
 // Moderator
-export const API_GET_ALL_PRODUCT_MOD =
-  "/products/moderator/all?PageIndex={PageIndex}&PageSize={PageSize}";
-export const API_REVIEW_PRODUCT_MOD = "/products/review/{id}?status={status}";
+
+export const API_GET_ALL_PRODUCT_MOD = "/products/moderator/all?PageIndex={PageIndex}&PageSize={PageSize}";
+export const API_APPROVE_PRODUCT_MOD = "/products/approve/{id}";
+export const API_DENY_PRODUCT_MOD = "products/deny/{id}";
+
 //! DANGER
 export const API_DELETE_PRODUCT = "/products/id?id={id}";
 
@@ -39,9 +37,12 @@ export const API_DELETE_PRODUCT = "/products/id?id={id}";
 
 //* Report APIs
 //TODO create, get all report , resolve report
-export const API_POST_REPORT = "/reports/sendreport";
+export const API_POST_REPORT = "/reports/send-report";
 
-export const API_GET_ALL_REPORTS = "/reports/all?PageIndex=1&PageSize=10";
+export const API_GET_ALL_REPORTS = "/reports/all?PageIndex={PageIndex}&PageSize={PageSize}";
+export const API_APPROVE_REPORT_MOD = "reports/approve/{id}";
+export const API_DENY_REPORT_MOD = "reports/deny/{id}";
+
 
 //* User APIs
 //TODO login, register, update user info, ban account, get seller profile

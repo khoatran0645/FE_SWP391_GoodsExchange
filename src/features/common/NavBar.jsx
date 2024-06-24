@@ -207,6 +207,7 @@ export default function NavBar() {
                         onClick={() => {
                           localStorage.clear();
                           sessionStorage.clear();
+                          useStore.setState({ userInfo: null });
                           setAuth(false);
                           navigate("/");
                           toast.success("Logout successfully");

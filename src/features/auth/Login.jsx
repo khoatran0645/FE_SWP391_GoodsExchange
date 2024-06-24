@@ -25,6 +25,7 @@ import { jwtDecode } from "jwt-decode";
 export default function Login() {
   const postLogin = useStore((state) => state.postLogin);
   const setAuth = useStore((state) => state.setAuth);
+  const error = useStore((state) => state.error);
   const navigate = useNavigate();
 
   const responseMessage = (response) => {
@@ -69,9 +70,12 @@ export default function Login() {
     const { username, password, rememberme } = formDataRef.current;
     await postLogin({ username, password, rememberme });
     const userInfo = useStore.getState().userInfo;
-    console.log(userInfo);
-    if (userInfo?.isSuccessed) {
-      localStorage.setItem("token", userInfo.data.token);
+    console.log("userInfo", userInfo);
+
+
+
+    if (userInfo) {
+      sessionStorage.setItem("token", userInfo.data.token);
       const decoded = jwtDecode(userInfo.data.token);
       console.log(decoded);
       setAuth(true);
@@ -82,9 +86,10 @@ export default function Login() {
       } else {
         navigate("/");
       }
-    } else {
-      toast.error(userInfo?.message);
-    }
+    } 
+    // else {
+    //   toast.error(error);
+    // }
   };
 
   return (
