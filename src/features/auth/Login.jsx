@@ -86,9 +86,10 @@ export default function Login() {
       } else {
         navigate("/");
       }
-    } else {
-      toast.error(error);
-    }
+    } 
+    // else {
+    //   toast.error(error);
+    // }
   };
 
   return (
