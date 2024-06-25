@@ -4,7 +4,7 @@ const axiosClient = axios.create({
   baseURL: import.meta.env.VITE_BE_BASE_URL,
   timeout: 10000,
   headers: {
-    "Content-Type": "application/json",
+    // "Content-Type": "application/json",
   },
 });
 

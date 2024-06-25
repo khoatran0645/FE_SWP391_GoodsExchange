@@ -16,6 +16,7 @@ import {
   API_DENY_PRODUCT_MOD,
   API_APPROVE_REPORT_MOD,
   API_DENY_REPORT_MOD,
+  API_REGISTER,
 } from "./../constant";
 
 const useStore = create(
@@ -148,6 +149,22 @@ const useStore = create(
             set({ isLoading: false });
           }
           // return get().userInfo;
+        },
+        // registerAPI
+        postRegister: async (form) => {
+          set({ isLoading: true, error: null });
+          try {
+            const { data } = await axiosClient.post(API_REGISTER, form);
+            set({ userInfo: data, error: null });
+            console.log('Registration successful. User info:', data);
+            return data;
+          } catch (error) {
+            set({ error: error.message });
+            console.error('Registration failed:', error);
+            return null;
+          } finally {
+            set({ isLoading: false });
+          }
         },
 
         getAllCategories: async () => {
