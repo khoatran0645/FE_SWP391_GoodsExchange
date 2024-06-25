@@ -86,7 +86,7 @@ export default function CreateReport() {
 
         if (response?.isSuccessed) {
           toast.success("Report sent successfully.");
-        } 
+        }
         // else {
         //   toast.error(response?.message || "Failed to send report.");
         // }

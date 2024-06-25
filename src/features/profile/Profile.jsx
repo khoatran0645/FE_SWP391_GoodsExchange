@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
 
+import React, { useEffect, useState } from "react";
 import {
-  Box,
-  TextField,
+  Avatar,
+  Paper,
+  Grid,
   Button,
-  MenuItem,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
+  Typography,
+  Badge,
+  IconButton,
+  Box,
+  Tabs,
+  Tab,
 } from "@mui/material";
 
 import NavBar from "../common/NavBar";
@@ -244,6 +246,7 @@ function App() {
     <>
       <NavBar />
 
+
       <Box sx={{ display: "flex", height: "100vh" }}>
         <Box sx={{ width: "250px", borderRight: "1px solid #ddd" }}>
           <List component="nav">
@@ -289,11 +292,11 @@ function App() {
             >
               <h2>{selectedMenu}</h2>
             </Box>
-          )}
-        </Box>
-      </Box>
+          </Paper>
+        </Grid>
+      </Grid>
     </>
   );
-}
+};
 
 export default Profile;
