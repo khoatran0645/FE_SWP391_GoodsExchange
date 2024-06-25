@@ -25,7 +25,8 @@ export const API_SEARCH_PRODUCTS_FOR_USER =
 
 // Moderator
 
-export const API_GET_ALL_PRODUCT_MOD = "/products/moderator/all?PageIndex={PageIndex}&PageSize={PageSize}";
+export const API_GET_ALL_PRODUCT_MOD =
+  "/products/moderator/all?PageIndex={PageIndex}&PageSize={PageSize}";
 export const API_APPROVE_PRODUCT_MOD = "/products/approve/{id}";
 export const API_DENY_PRODUCT_MOD = "products/deny/{id}";
 
@@ -39,10 +40,10 @@ export const API_DELETE_PRODUCT = "/products/id?id={id}";
 //TODO create, get all report , resolve report
 export const API_POST_REPORT = "/reports/send-report";
 
-export const API_GET_ALL_REPORTS = "/reports/all?PageIndex={PageIndex}&PageSize={PageSize}";
+export const API_GET_ALL_REPORTS =
+  "/reports/all?PageIndex={PageIndex}&PageSize={PageSize}";
 export const API_APPROVE_REPORT_MOD = "reports/approve/{id}";
 export const API_DENY_REPORT_MOD = "reports/deny/{id}";
-
 
 //* User APIs
 //TODO login, register, update user info, ban account, get seller profile
