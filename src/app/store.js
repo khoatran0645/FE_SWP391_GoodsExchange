@@ -144,7 +144,7 @@ const useStore = create(
           try {
             // console.log(form);
             const { data } = await axiosClient.post(API_LOGIN, form);
-            console.log("data", data);
+            // console.log("data", data);
             set({ userInfo: data });
           } catch (error) {
             set({ error: error.Message });

@@ -9,8 +9,9 @@ import Home from "./pages/Home";
 import ProductDetail from "./features/products/ProductDetail";
 import NotFound from "./pages/NotFound";
 import Login from "./features/auth/Login";
-import User from "./features/profile/User";
+
 import Profile from "./features/profile/Profile";
+import EditProfile from "./features/profile/EditProfile";
 
 import Chat from "./pages/Chat";
 import ChatDetail from "./features/chat/ChatDetail";
@@ -56,8 +57,8 @@ export default function App() {
           <Route path="mod-home" exact element={<HomeMod />} />
           <Route path="manage-products" element={<ManageProduct />} />
           <Route path="manage-reports" element={<ManageReports />} />
-          <Route path="user" element={<User />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="edit-profile" element={<EditProfile />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
