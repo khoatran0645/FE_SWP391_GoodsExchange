@@ -7,6 +7,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Autocomplete from "@mui/material/Autocomplete";
 import { toast } from "react-toastify";
+import { styled } from "@mui/material/styles";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 import useStore from "../../app/store";
 
@@ -15,6 +17,7 @@ export default function CreateNewProduct() {
   const autocompleteRef = useRef(null);
   const createNewProduct = useStore((state) => state.createNewProduct);
 
+  const [selectedFile, setSelectedFile] = useState([]);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -33,6 +36,22 @@ export default function CreateNewProduct() {
 
   // console.log("options", options);
 
+  const VisuallyHiddenInput = styled("input")({
+    clip: "rect(0 0 0 0)",
+    clipPath: "inset(50%)",
+    height: 1,
+    overflow: "hidden",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    whiteSpace: "nowrap",
+    width: 1,
+  });
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files);
+  };
+
   return (
     <>
       <Button variant="contained" onClick={handleClickOpen}>
@@ -46,28 +65,36 @@ export default function CreateNewProduct() {
           onSubmit: async (event) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
-            const formJson = Object.fromEntries(formData.entries());
 
             const selectedCategory =
               autocompleteRef.current?.querySelector("input").value;
             const selectedOption = options.find(
               (option) => option.label === selectedCategory
             );
-            formJson.categoryId = selectedOption ? selectedOption.key : null;
 
-            console.log(formJson);
-            await createNewProduct(formJson);
+            // console.log(selectedFile);
+            Array.from(selectedFile).forEach((file) => {
+              formData.append("Images", file);
+            });
+
+            const formJson = Object.fromEntries(formData.entries());
+            formJson.CategoryId = selectedOption ? selectedOption.key : null;
+
+            formData.append("CategoryId", formJson.CategoryId);
+            console.log("data", formJson);
+
+            await createNewProduct(formData);
             const response = useStore.getState().response;
             const error = useStore.getState().error;
-            console.log(response);
-            console.log(error);
+            // console.log(response);
+            // console.log(error);
             if (response?.isSuccessed) {
               toast.success(
                 "Product created successfully. Please wait for Moderator approval."
               );
             } else {
               toast.error(response?.message);
-              toast.error(error);
+              // toast.error(error);
             }
 
             handleClose();
@@ -85,7 +112,7 @@ export default function CreateNewProduct() {
             required
             margin="dense"
             id="name"
-            name="productName"
+            name="ProductName"
             label="Product Name"
             type="text"
             fullWidth
@@ -95,7 +122,7 @@ export default function CreateNewProduct() {
             required
             margin="dense"
             id="description"
-            name="description"
+            name="Description"
             label="Description"
             type="text"
             fullWidth
@@ -105,7 +132,7 @@ export default function CreateNewProduct() {
             required
             margin="dense"
             id="price"
-            name="price"
+            name="Price"
             label="Price"
             type="number"
             fullWidth
@@ -127,7 +154,7 @@ export default function CreateNewProduct() {
               />
             )}
           />
-          <TextField
+          {/* <TextField
             required
             margin="dense"
             id="imageURL"
@@ -137,7 +164,21 @@ export default function CreateNewProduct() {
             fullWidth
             variant="standard"
             defaultValue="https://via.placeholder.com/150"
-          />
+          /> */}
+          <Button
+            component="label"
+            // role={undefined}
+            variant="contained"
+            tabIndex={-1}
+            startIcon={<CloudUploadIcon />}
+          >
+            Upload file
+            <VisuallyHiddenInput
+              type="file"
+              multiple
+              onChange={handleFileChange}
+            />
+          </Button>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

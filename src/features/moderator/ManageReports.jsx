@@ -12,7 +12,6 @@ export default function ManageReports() {
   const approveReport = useStore((state) => state.approveReport);
   const denyReport = useStore((state) => state.denyReport);
 
-
   const [totalPage, setTotalPage] = React.useState(1);
 
   const [listReport, setListReport] = React.useState([]);
@@ -46,12 +45,10 @@ export default function ManageReports() {
       setListReport(
         listReport.filter((iter) => iter.productId !== item.productId)
       );
-    }
-      else {
+    } else {
       console.log("Error");
     }
   };
-
 
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -71,8 +68,8 @@ export default function ManageReports() {
       >
         <ModeratorPage />
 
-        {listReport?.map((item) => (
-          <Paper key={item.productId} sx={{ p: 3, mb: 2, minWidth: "500px" }}>
+        {listReport?.map((item, index) => (
+          <Paper key={index} sx={{ p: 3, mb: 2, minWidth: "500px" }}>
             <Typography variant="h6">{item.reason}</Typography>
             {/* <Typography variant="body1">{item.productId}</Typography> */}
             <Typography variant="body1">

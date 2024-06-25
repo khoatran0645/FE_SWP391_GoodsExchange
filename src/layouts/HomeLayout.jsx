@@ -1,7 +1,7 @@
 import { Typography, Grid } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import NavBar from "../features/common/NavBar";
-import SearchAppBar from "../pages/SearchBar";
+import SearchAppBar from "../features/common/SearchBar";
 import StickyFooter from "../features/common/Footer";
 
 export default function HomeLayout() {

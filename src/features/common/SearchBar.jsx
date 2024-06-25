@@ -1,29 +1,19 @@
-import * as React from "react";
 import { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
-import MenuIcon from "@mui/icons-material/Menu";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  Typography,
+  Stack,
+  Button,
+  InputBase,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
-import useStore from "../../src/app/store";
+import useStore from "../../app/store";
 import { useNavigate } from "react-router-dom";
-import CreateNewProduct from "../features/products/CreateNewProduct";
-import axios from "axios";
-import { px } from "framer-motion";
+import CreateNewProduct from "../products/CreateNewProduct";
+
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,

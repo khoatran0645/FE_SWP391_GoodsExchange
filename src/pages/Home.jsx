@@ -1,21 +1,13 @@
 import {
   Grid,
-  Typography,
-  Container,
-  Box,
   ImageList,
-  Card,
-  CardContent,
-  CardMedia,
-  CardActionArea,
 } from "@mui/material";
 import { useEffect } from "react";
-
-import { Link, useNavigate } from "react-router-dom";
+import ProductCard from "../features/products/ProductCard";
 import useStore from "../app/store";
 
 export default function Home() {
-  const navigate = useNavigate();
+
   const getProductsForHomePage = useStore(
     (state) => state.getProductsForHomePage
   );
@@ -178,7 +170,7 @@ export default function Home() {
   //   },
   // ];
 
-  console.log(import.meta.env.VITE_BE_BASE_URL);
+  // console.log(import.meta.env.VITE_BE_BASE_URL);
 
   return (
     <Grid container>
@@ -197,33 +189,7 @@ export default function Home() {
           // rowHeight={164}
         >
           {productList?.items.map((item) => (
-            <Card key={item.productId} sx={{ maxWidth: 345, minWidth: 200 }}>
-              <CardActionArea
-                onClick={() => {
-                  navigate(`products/${item.productId}`, { state: item });
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={`${item.productImageUrl}?w=150&h=150&fit=crop&auto=format`}
-                  alt={item.productName}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {item.productName}
-                  </Typography>
-                  <Typography gutterBottom variant="h6" component="div">
-                    {item.price} VND
-                  </Typography>
-                  {/* <Typography variant="body2" color="text.secondary">
-                      Lizards are a widespread group of squamate reptiles, with
-                      over 6,000 species, ranging across all continents except
-                      Antarctica
-                    </Typography> */}
-                </CardContent>
-              </CardActionArea>
-            </Card>
+            <ProductCard key={item.productId} item={item} />
           ))}
         </ImageList>
         {/* </Box> */}

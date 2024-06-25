@@ -17,7 +17,9 @@ import {
   API_APPROVE_REPORT_MOD,
   API_DENY_REPORT_MOD,
   API_REGISTER,
+  API_USER_PROFILE_ID,
 } from "./../constant";
+import { toast } from "react-toastify";
 
 const useStore = create(
   devtools(
@@ -44,6 +46,22 @@ const useStore = create(
             colorMode: state.colorMode === "light" ? "dark" : "light",
           })),
 
+        // USERPROFILE
+        getProfileUserById: async (id) => {
+          set({ isLoading: true });
+
+          try {
+            const { data } = await axiosClient.get(
+              API_USER_PROFILE_ID.replace("{id}", id)
+            );
+
+            set({ userProfile: data.data });
+          } catch (error) {
+            set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
         //* async actions
         // PRODUCT API
         getProductsForHomePage: async (pageIndex, pageSize) => {
@@ -76,10 +94,15 @@ const useStore = create(
             set({ isLoading: false });
           }
         },
+
         createNewProduct: async (form) => {
           set({ isLoading: true });
           try {
+            // console.log("form", form);
             const { data } = await axiosClient.post(API_CREATE_PRODUCT, form);
+            toast.success(
+              "Product created successfully. Please wait for Moderator approval."
+            );
             set({ response: data });
           } catch (error) {
             set({ error: error.message });
@@ -141,7 +164,7 @@ const useStore = create(
           try {
             // console.log(form);
             const { data } = await axiosClient.post(API_LOGIN, form);
-            console.log("data", data);
+            // console.log("data", data);
             set({ userInfo: data });
           } catch (error) {
             set({ error: error.Message });

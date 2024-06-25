@@ -19,13 +19,11 @@ import { GoogleLogin } from "@react-oauth/google";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import useStore from "../../app/store";
-import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
   const postLogin = useStore((state) => state.postLogin);
   const setAuth = useStore((state) => state.setAuth);
-  const error = useStore((state) => state.error);
   const navigate = useNavigate();
 
   const responseMessage = (response) => {
@@ -72,8 +70,6 @@ export default function Login() {
     const userInfo = useStore.getState().userInfo;
     console.log("userInfo", userInfo);
 
-
-
     if (userInfo) {
       sessionStorage.setItem("token", userInfo.data.token);
       const decoded = jwtDecode(userInfo.data.token);
@@ -86,8 +82,6 @@ export default function Login() {
       } else {
         navigate("/");
       }
-    } else {
-      toast.error(error);
     }
   };
 
