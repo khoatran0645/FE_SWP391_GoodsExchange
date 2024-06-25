@@ -17,7 +17,6 @@ import {
 
 import ChatIcon from "@mui/icons-material/Chat";
 import Badge from "@mui/material/Badge";
-import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
 
@@ -154,7 +153,7 @@ export default function NavBar() {
                 </Link>
               </Button>
             ))} */}
-            <Autocomplete
+            {/* <Autocomplete
               disablePortal
               id="combo-box-demo"
               options={options}
@@ -163,12 +162,12 @@ export default function NavBar() {
               renderInput={(params) => (
                 <TextField {...params} label="Category" variant="standard" />
               )}
-            />
+            /> */}
           </Box>
 
           {auth ? (
             <Box sx={{ flexGrow: 0 }}>
-              <IconButton aria-label={notificationsLabel(100)}>
+              {/* <IconButton aria-label={notificationsLabel(100)}>
                 <Typography marginX={2}>
                   <Badge
                     badgeContent={100}
@@ -178,7 +177,7 @@ export default function NavBar() {
                     <ChatIcon />
                   </Badge>
                 </Typography>
-              </IconButton>
+              </IconButton> */}
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
