@@ -175,16 +175,13 @@ const useStore = create(
         },
         // registerAPI
         postRegister: async (form) => {
-          set({ isLoading: true, error: null });
+          set({ isLoading: true });
           try {
             const { data } = await axiosClient.post(API_REGISTER, form);
-            set({ userInfo: data, error: null });
-            console.log('Registration successful. User info:', data);
-            return data;
+            toast.success("");
+            set({ response: data });
           } catch (error) {
             set({ error: error.message });
-            console.error('Registration failed:', error);
-            return null;
           } finally {
             set({ isLoading: false });
           }
@@ -279,18 +276,20 @@ const useStore = create(
         sendReportFromBuyer: async (form) => {
           set({ isLoading: true });
           try {
-            console.log("Sending report data:", form); // Log the payload being sent
+            console.log("Sending report data:", form);
             const { data } = await axiosClient.post(API_POST_REPORT, form);
+            toast.success(
+              "Report created successfully. Please wait for Moderator approval."
+            );
             set({ response: data });
             console.log("Report response:", data);
-            return data; // Return the response data
           } catch (error) {
             set({ error: error.message });
             console.error(
               "Error sending report:",
               error.response?.data || error.message
-            ); // Log more details on the error
-            return { isSuccessed: false, message: error.message }; // Return an error response
+            );
+            return { isSuccessed: false, message: error.message };
           } finally {
             set({ isLoading: false });
           }

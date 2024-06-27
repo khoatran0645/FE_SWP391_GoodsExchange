@@ -10,12 +10,14 @@ import IconButton from "@mui/material/IconButton";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import ArrowBack from "@mui/icons-material/ArrowBack";
+import CircularProgress from "@mui/material/CircularProgress";
 import useStore from "../../app/store";
 
 export default function Register() {
+  const navigate = useNavigate();
   const formStyle = {
     display: "flex",
     flexFlow: "column",
@@ -45,19 +47,21 @@ export default function Register() {
     email: "",
     userName: "",
     password: "",
-    confirm_password: "",
+    confirmPassword: "",
     firstName: "",
     lastName: "",
     phoneNumber: "",
     dateOfBirth: "",
-    userImageUrl: "", // Default value can be empty or a placeholder URL
+    userImageUrl: "",
   });
   const [currentStep, setCurrentStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [showConfirmationMessage, setShowConfirmationMessage] = useState(false);
 
   useEffect(() => {
     const isShowPassword = formData.password.length > 0;
-    const isShowConfirmPassword = formData.confirm_password.length > 0;
-    const passwordMatch = formData.password === formData.confirm_password;
+    const isShowConfirmPassword = formData.confirmPassword.length > 0;
+    const passwordMatch = formData.password === formData.confirmPassword;
     setShowPasswordCollapse(isShowPassword);
     setShowConfirmPasswordCollapse(isShowConfirmPassword);
     setIsPasswordMatch(passwordMatch);
@@ -84,29 +88,40 @@ export default function Register() {
         phoneNumber,
         dateOfBirth,
         userImageUrl,
+        password,
+        confirmPassword,
       } = formData;
 
-      try {
-        const response = await postRegister({
-          email,
-          userName,
-          firstName,
-          lastName,
-          phoneNumber,
-          dateOfBirth,
-          userImageUrl:
-            userImageUrl ||
-            "https://firebasestorage.googleapis.com/v0/b/fir-project-31c70.appspot.com/o/Images%2F1b789a16-21bb-43b2-8b45-c7ab29a98fe2_user_avatar_def.jfif?alt=media&token=df7abe8e-a87a-4894-a6b3-8a5d2775d7e1", // Use a default image URL if not provided
-        });
+      setLoading(true);
 
-        if (response?.isSuccessed) {
-          console.log("Registration successful:", response);
-          // Handle success (e.g., navigate to login or another page)
-        } else {
-          console.error(response?.message || "Registration failed.");
-        }
+      try {
+        const formDataToSend = new FormData();
+        formDataToSend.append("email", email);
+        formDataToSend.append("userName", userName);
+        formDataToSend.append("firstName", firstName);
+        formDataToSend.append("lastName", lastName);
+        formDataToSend.append("phoneNumber", phoneNumber);
+        formDataToSend.append("dateOfBirth", dateOfBirth);
+        formDataToSend.append(
+          "userImageUrl",
+          userImageUrl ||
+            "https://firebasestorage.googleapis.com/v0/b/fir-project-31c70.appspot.com/o/Images%2F1b789a16-21bb-43b2-8b45-c7ab29a98fe2_user_avatar_def.jfif?alt=media&token=df7abe8e-a87a-4894-a6b3-8a5d2775d7e1" // Use a default image URL if not provided
+        );
+        formDataToSend.append("password", password);
+        formDataToSend.append("confirmPassword", confirmPassword);
+
+        console.log(formDataToSend);
+
+        const response = await postRegister(formDataToSend);
+        console.log(response);
+
+        setTimeout(() => {
+          setLoading(false);
+          setShowConfirmationMessage(true);
+        }, 1000);
       } catch (error) {
         console.error("Error registering:", error);
+        setLoading(false);
       }
     }
   };
@@ -115,30 +130,37 @@ export default function Register() {
     setCurrentStep(1);
   };
 
+  const handleEmailConfirmation = () => {
+    navigate("/login");
+  };
+
   return (
     <Box onSubmit={handleSubmit} component="form" sx={formStyle}>
-      <Typography
-        sx={{
-          marginBottom: "20px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-        variant="h5"
-        gutterBottom
-      >
-        {currentStep === 2 && (
-          <IconButton
-            onClick={handleBack}
-            sx={{
-              marginRight: "1px",
-            }}
-          >
-            <ArrowBack />
-          </IconButton>
-        )}
-        Register your Account
-      </Typography>
+      {!showConfirmationMessage && (
+        <Typography
+          sx={{
+            marginBottom: "20px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          variant="h5"
+          gutterBottom
+        >
+          {currentStep === 2 && (
+            <IconButton
+              onClick={handleBack}
+              sx={{
+                marginRight: "1px",
+              }}
+            >
+              <ArrowBack />
+            </IconButton>
+          )}
+          Register your Account
+        </Typography>
+      )}
+
       {currentStep === 1 && (
         <>
           <GoogleLogin
@@ -268,11 +290,11 @@ export default function Register() {
                 )
               }
               label="Confirm password"
-              value={formData.confirm_password}
+              value={formData.confirmPassword}
               onChange={(e) => {
                 setFormData({
                   ...formData,
-                  confirm_password: e.target.value,
+                  confirmPassword: e.target.value,
                 });
               }}
             />
@@ -282,8 +304,10 @@ export default function Register() {
           </FormControl>
         </>
       )}
-      {currentStep === 2 && (
+
+      {currentStep === 2 && !showConfirmationMessage && (
         <>
+          {" "}
           <FormControl
             sx={{
               margin: "10px 0",
@@ -353,9 +377,7 @@ export default function Register() {
             size="small"
             variant="outlined"
           >
-            <InputLabel htmlFor="outlined-date-of-birth">
-              
-            </InputLabel>
+            <InputLabel htmlFor="outlined-date-of-birth"></InputLabel>
             <OutlinedInput
               required
               size="small"
@@ -370,17 +392,42 @@ export default function Register() {
           </FormControl>
         </>
       )}
-      <Button
-        variant="contained"
-        color="primary"
-        type="submit"
-        disabled={isLoading}
-        sx={{
-          marginTop: "20px",
-        }}
-      >
-        {currentStep === 1 ? "Next" : "Register"}
-      </Button>
+
+      {loading && (
+        <CircularProgress sx={{ alignSelf: "center", margin: "20px" }} />
+      )}
+
+      {showConfirmationMessage && (
+        <Box sx={{ textAlign: "center", marginTop: "20px" }}>
+          <Typography variant="h6">
+            Please confirm your registration by clicking the link sent to your
+            email.
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ marginTop: "20px" }}
+            onClick={handleEmailConfirmation}
+          >
+            Confirm
+          </Button>
+        </Box>
+      )}
+
+      {!loading && !showConfirmationMessage && (
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          disabled={isLoading}
+          sx={{
+            marginTop: "20px",
+          }}
+        >
+          {currentStep === 1 ? "Next" : "Register"}
+        </Button>
+      )}
+
       {error && (
         <Typography color="error" variant="body2" sx={{ marginTop: "10px" }}>
           {error}

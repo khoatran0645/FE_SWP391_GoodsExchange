@@ -225,17 +225,6 @@ export default function CreateReport() {
             multiline
             rows={3}
           />
-          <TextField
-            required
-            margin="dense"
-            id="imageURL"
-            name="imageURL"
-            label="Image URL"
-            type="text"
-            fullWidth
-            variant="standard"
-            defaultValue="https://via.placeholder.com/150"
-          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
