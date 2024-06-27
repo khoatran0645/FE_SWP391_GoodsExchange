@@ -24,6 +24,7 @@ import HomeMod from "./features/moderator/HomeMod";
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import useStore from "./app/store";
+import AdminPage from "./features/admin/AdminPage";
 
 export default function App() {
   const colorMode = useStore((state) => state.colorMode);
@@ -52,6 +53,7 @@ export default function App() {
           </Route>
         </Route>
         <Route path="/" element={<EmptyLayout />}>
+          <Route path="admin" element={<AdminPage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="mod-home" exact element={<HomeMod />} />
