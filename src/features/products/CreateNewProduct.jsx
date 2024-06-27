@@ -9,6 +9,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { toast } from "react-toastify";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { CircularProgress } from "@mui/material";
 
 import useStore from "../../app/store";
 
@@ -16,7 +17,8 @@ export default function CreateNewProduct() {
   const [open, setOpen] = useState(false);
   const autocompleteRef = useRef(null);
   const createNewProduct = useStore((state) => state.createNewProduct);
-
+  const isLoading = useStore((state) => state.isLoading);
+  const auth = useStore((state) => state.auth);
   const [selectedFile, setSelectedFile] = useState([]);
   const handleClickOpen = () => {
     setOpen(true);
@@ -54,9 +56,12 @@ export default function CreateNewProduct() {
 
   return (
     <>
-      <Button variant="contained" onClick={handleClickOpen}>
-        Create new product
-      </Button>
+      {auth && (
+        <Button variant="contained" onClick={handleClickOpen}>
+          Create new product
+        </Button>
+      )}
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -181,8 +186,10 @@ export default function CreateNewProduct() {
           </Button>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Submit</Button>
+          <Button onClick={handleClose} disabled={isLoading}>Cancel</Button>
+          {(isLoading && <CircularProgress />) || (
+            <Button type="submit">Submit</Button>
+          )}
         </DialogActions>
       </Dialog>
     </>
