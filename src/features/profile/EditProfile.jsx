@@ -24,6 +24,13 @@ function Profile() {
   const userInfo = useStore.getState().userInfo;
 
   const userDetail = jwtDecode(userInfo.data.token);
+  const [dateOfBirth, setDateOfBirth] = useState();
+
+  // Handler function for updating date
+  const handleDateChange = (event) => {
+    setDateOfBirth(event.target.value);
+  };
+  console.log(handleDateChange);
 
   // const Userprofile = useState.getState().userDetails;
 
@@ -63,7 +70,10 @@ function Profile() {
 
     onProfileSubmit(formData);
   };
-
+  const formattedDate = profileDetail?.dateOfBirth
+    ? new Date(profileDetail.dateOfBirth).toISOString().split("T")[0]
+    : "";
+  console.log(formattedDate);
   return (
     <>
       <NavBar />
@@ -143,20 +153,13 @@ function Profile() {
             }}
           />
 
-          {/* <TextField id="cccd" label="CCCD / CMND / Hộ chiếu" />
-
-      <TextField id="invoice-info" label="Thông tin xuất hoá đơn" />
-
-      <TextField id="tax-code" label="Mã số thuế" /> */}
-
-          {/* <TextField id="favorite-category" label="Danh mục yêu thích" /> */}
-
           <TextField
             id="birthday"
             label="Ngày, tháng, năm sinh"
             type="date"
             // defaultValue={"2003-09-19"}
-            value={profileDetail?.dateOfBirth}
+            value={formattedDate}
+            onChange={handleDateChange}
             InputLabelProps={{
               shrink: true,
             }}

@@ -20,6 +20,7 @@ import {
   Snackbar,
   Container,
 } from "@mui/material";
+import useStore from "../../app/store";
 
 export default function AdminPage() {
   const [staffData, setStaffData] = useState([]);
@@ -27,6 +28,17 @@ export default function AdminPage() {
   const [deletingId, setDeletingId] = useState(null);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
+  const getUserForAdminPage = useStore((state) => state.getUserForAdminPage);
+
+  const [params, setParams] = useState({
+    keyword: "a",
+    firstname: "",
+    lastname: "",
+    email: "",
+    rolename: "",
+    pageIndex: 1,
+    pageSize: 10,
+  });
 
   useEffect(() => {
     fetchStaffData();
@@ -104,7 +116,7 @@ export default function AdminPage() {
             sx={{
               mt: 2,
               marginBottom: 2,
-              float: "right"
+              float: "right",
             }}
           >
             Add Moderator Account
@@ -114,7 +126,7 @@ export default function AdminPage() {
               <TableHead>
                 <TableRow>
                   <TableCell>ID</TableCell>
-                  <TableCell>Name</TableCell>
+                  <TableCell>First Name</TableCell>
                   <TableCell>Address</TableCell>
                   <TableCell>Age</TableCell>
                   <TableCell>Actions</TableCell>

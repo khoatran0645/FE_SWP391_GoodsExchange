@@ -46,7 +46,7 @@ const useStore = create(
             colorMode: state.colorMode === "light" ? "dark" : "light",
           })),
 
-        // USERPROFILE
+        // USER API
         getProfileUserById: async (id) => {
           set({ isLoading: true });
 
@@ -62,6 +62,21 @@ const useStore = create(
             set({ isLoading: false });
           }
         },
+
+        // GET USER WITH MODERATOR ROLE
+        // getUserForAdminPage: async (params) => {
+        //   set({ isLoading: true });
+        //   try {
+        //     const queryParams = new URLSearchParams(params).toString();
+        //     const apiEndPoint = `${API_GET_USERS_Role_Moderator}?${queryParams}`;
+        //     const { data } = await axiosClient.post(apiEndPoint);
+        //     set({ userRoleModeratorList: data });
+        //   } catch (error) {
+        //     set({ error: error.message });
+        //   } finally {
+        //     set({ isLoading: false });
+        //   }
+        // },
         //* async actions
         // PRODUCT API
         getProductsForHomePage: async (pageIndex, pageSize) => {
@@ -271,6 +286,7 @@ const useStore = create(
             set({ isLoading: false });
           }
         },
+        // Fetch products with query parameters
 
         // SEND REPORT
         sendReportFromBuyer: async (form) => {

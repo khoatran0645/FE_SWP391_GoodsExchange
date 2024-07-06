@@ -29,7 +29,8 @@ export default function ManageReports() {
   const handleApprove = async (item) => {
     await approveReport(item);
     const response = useStore.getState().response;
-    if (response.isSuccessed) {
+    console.log("response : ", response);
+    if (response.isSuccessed || (response && response.data)) {
       setListReport(
         listReport.filter((iter) => iter.productId !== item.productId)
       );

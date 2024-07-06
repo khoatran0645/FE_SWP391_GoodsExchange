@@ -15,8 +15,11 @@ import { useEffect } from "react";
 
 import NavBar from "../common/NavBar";
 import { useNavigate } from "react-router-dom";
+import useStore from "../../app/store";
+import { jwtDecode } from "jwt-decode";
+
 const Profile = () => {
-   const navigate = useNavigate();
+  const navigate = useNavigate();
   const data = [
     {
       lastName: "Phuong",
@@ -27,7 +30,20 @@ const Profile = () => {
     },
   ];
   const [in4List, setIn4List] = React.useState(data);
+  const getProfileUserById = useStore((state) => state.getProfileUserById);
 
+  const userInfo = useStore.getState().userInfo;
+
+  const userDetail = jwtDecode(userInfo.data.token);
+  console.log("user detail : ", userDetail);
+
+  useEffect(() => {
+    getProfileUserById(userDetail.id);
+  }, []);
+
+  const profileDetail = useStore((state) => state.userProfile);
+
+  console.log("profileDetail  ", profileDetail);
   return (
     <>
       <NavBar />
@@ -60,7 +76,7 @@ const Profile = () => {
               >
                 <Avatar
                   alt="Psyduck"
-                  src="https://i.pinimg.com/originals/94/ba/f3/94baf36bb56658bfe8dfba142e4a98a3.jpg"
+                  src={profileDetail.userImageUrl}
                   sx={{ width: 100, height: 100 }}
                 />
               </Badge>
@@ -68,14 +84,15 @@ const Profile = () => {
             {in4List.map((in4) => (
               <>
                 <Typography variant="h6" sx={{ mt: 1 }}>
-                  {in4.lastName} {in4.firstName}
+                  {profileDetail.fullName}
+                  {/* {in4.lastName} {in4.firstName} */}
                 </Typography>
                 <Typography
                   variant="body2"
                   color="textSecondary"
                   sx={{ mt: 1 }}
                 >
-                  Phone: {in4.phone}
+                  Phone: {profileDetail.phoneNumber}
                 </Typography>
               </>
             ))}
@@ -83,7 +100,12 @@ const Profile = () => {
               Chưa có đánh giá
             </Typography>
 
-            <Button variant="outlined" fullWidth sx={{ mt: 1 }} onClick={() => navigate('/edit-profile')}>
+            <Button
+              variant="outlined"
+              fullWidth
+              sx={{ mt: 1 }}
+              onClick={() => navigate("/edit-profile")}
+            >
               Chỉnh sửa trang cá nhân
             </Button>
             <Typography variant="body2" color="textSecondary" sx={{ mt: 2 }}>
