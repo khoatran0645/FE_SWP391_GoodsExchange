@@ -20,7 +20,7 @@ import SearchProduct from "./features/products/SearchProduct";
 
 import ManageProduct from "./features/moderator/ManageProduct";
 import ManageReports from "./features/moderator/ManageReports";
-import HomeMod from "./features/moderator/HomeMod";
+import ModeratorProfile from "./features/moderator/ModeratorProfile";
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import useStore from "./app/store";
@@ -56,7 +56,7 @@ export default function App() {
           <Route path="admin" element={<AdminPage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route path="mod-home" exact element={<HomeMod />} />
+          <Route path="moderator-profile" exact element={<ModeratorProfile />} />
           <Route path="manage-products" element={<ManageProduct />} />
           <Route path="manage-reports" element={<ManageReports />} />
           <Route path="profile" element={<Profile />} />

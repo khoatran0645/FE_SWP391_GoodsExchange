@@ -6,6 +6,7 @@ import { Button, Paper, Typography } from "@mui/material";
 import useStore from "../../app/store";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { toast } from "react-toastify";
 
 export default function ManageProduct() {
   const [page, setPage] = React.useState(1);
@@ -30,10 +31,12 @@ export default function ManageProduct() {
   const handleApprove = async (item) => {
     await approveProduct(item, true);
     const response = useStore.getState().response;
-    if (response.isSuccessed) {
+
+    if (response.data) {
       setListProduct(
         listProduct.filter((iter) => iter.productId !== item.productId)
       );
+      toast.success("You've successfully approved");
     } else {
       console.log("Error");
     }
@@ -42,10 +45,12 @@ export default function ManageProduct() {
   const handleDeny = async (item) => {
     await denyProduct(item, false);
     const response = useStore.getState().response;
-    if (response.isSuccessed) {
+
+    if (response.data) {
       setListProduct(
         listProduct.filter((iter) => iter.productId !== item.productId)
       );
+      toast.success("You've successfully denied");
     } else {
       console.log("Error");
     }
