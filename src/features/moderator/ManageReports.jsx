@@ -5,6 +5,7 @@ import NavBarMo from "./NavBarMo";
 import useStore from "../../app/store";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { toast } from "react-toastify";
 
 export default function ManageReports() {
   const [page, setPage] = React.useState(1);
@@ -29,10 +30,11 @@ export default function ManageReports() {
   const handleApprove = async (item) => {
     await approveReport(item);
     const response = useStore.getState().response;
-    if (response.isSuccessed) {
+    if (response.data) {
       setListReport(
         listReport.filter((iter) => iter.productId !== item.productId)
       );
+      toast.success("You've successfully approved");
     } else {
       console.log("Error");
     }
@@ -41,10 +43,11 @@ export default function ManageReports() {
   const handleDeny = async (item) => {
     await denyReport(item);
     const response = useStore.getState().response;
-    if (response.isSuccessed) {
+    if (response.data) {
       setListReport(
         listReport.filter((iter) => iter.productId !== item.productId)
       );
+      toast.success("You've successfully denied");
     } else {
       console.log("Error");
     }

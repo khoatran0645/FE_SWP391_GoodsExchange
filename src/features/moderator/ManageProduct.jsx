@@ -31,8 +31,8 @@ export default function ManageProduct() {
   const handleApprove = async (item) => {
     await approveProduct(item, true);
     const response = useStore.getState().response;
-    console.log("response",response);
-    if (response.isSuccessed) {
+
+    if (response.data) {
       setListProduct(
         listProduct.filter((iter) => iter.productId !== item.productId)
       );
@@ -46,7 +46,7 @@ export default function ManageProduct() {
     await denyProduct(item, false);
     const response = useStore.getState().response;
 
-    if (response.isSuccessed) {
+    if (response.data) {
       setListProduct(
         listProduct.filter((iter) => iter.productId !== item.productId)
       );

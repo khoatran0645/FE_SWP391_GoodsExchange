@@ -109,7 +109,7 @@ export default function ModeratorPage() {
               disablePadding
               sx={{ display: "block" }}
               onClick={() => {
-                navigate("/moderator-home");
+                navigate("/moderator-profile");
               }}
             >
               <ListItemButton
@@ -128,7 +128,7 @@ export default function ModeratorPage() {
                 >
                   <InboxIcon />
                 </ListItemIcon>
-                <ListItemText primary="Home" sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary="Moderator Profile" sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
           </List>

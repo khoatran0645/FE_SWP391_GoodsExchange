@@ -227,7 +227,7 @@ const useStore = create(
         approveReport: async (item, isApproved) => {
           set({ isLoading: true });
           try {
-            const { data } = await axiosClient.patch(
+            const { data } = await axiosClient.post(
               API_APPROVE_REPORT_MOD.replace("{id}", item.reportId).replace(
                 "{status}",
                 isApproved
@@ -244,7 +244,7 @@ const useStore = create(
         denyReport: async (item) => {
           set({ isLoading: true });
           try {
-            const { data } = await axiosClient.patch(
+            const { data } = await axiosClient.post(
               API_DENY_REPORT_MOD.replace("{id}", item.reportId)
             );
             set({ response: data });
