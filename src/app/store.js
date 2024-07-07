@@ -3,6 +3,7 @@ import axiosClient from "../services/axiosClient";
 import { immer } from "zustand/middleware/immer";
 import { devtools, persist, createJSONStorage } from "zustand/middleware";
 import {
+  API_GET_ALL_MODERATOR_LIST,
   API_GET_ALL_CATEGORIES,
   API_GET_PRODUCTS_HOMEPAGE,
   API_CREATE_PRODUCT,
@@ -18,6 +19,7 @@ import {
   API_DENY_REPORT_MOD,
   API_REGISTER,
   API_USER_PROFILE_ID,
+  API_CREATE_MODERATOR_ACCOUNT
 } from "./../constant";
 import { toast } from "react-toastify";
 
@@ -158,7 +160,37 @@ const useStore = create(
             set({ isLoading: false });
           }
         },
-        // user API
+        // ADMIN API
+        postListModerator: async (pageIndex, pageSize) => {
+          set({ isLoading: true });
+          try {
+            const { data } = await axiosClient.post(
+              API_GET_ALL_MODERATOR_LIST.replace(
+                "{PageIndex}",
+                pageIndex
+              ).replace("{PageSize}", pageSize)
+            );
+            set({ moderatorList: data.items });
+          } catch (error) {
+            set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
+
+        postCreateAccount: async (form) => {
+          set({ isLoading: true });
+          try {
+            const { data } = await axiosClient.post(API_CREATE_MODERATOR_ACCOUNT, form);
+            // toast.success("");
+            set({ response: data });
+          } catch (error) {
+            set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
+
         postLogin: async (form) => {
           set({ isLoading: true });
           try {

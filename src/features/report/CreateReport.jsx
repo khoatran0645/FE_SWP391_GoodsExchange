@@ -228,7 +228,7 @@ export default function CreateReport() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Submit</Button>
+          <Button type="submit" >Submit</Button>
         </DialogActions>
       </Dialog>
     </>
