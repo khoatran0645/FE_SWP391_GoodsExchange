@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 const axiosClient = axios.create({
   baseURL: import.meta.env.VITE_BE_BASE_URL,
-  timeout: 100000,
+  timeout: 10000,
   headers: {},
 });
 

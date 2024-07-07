@@ -20,6 +20,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 import useStore from "../../app/store";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const postLogin = useStore((state) => state.postLogin);
@@ -66,6 +67,10 @@ export default function Login() {
   const onLoginClick = async (e) => {
     e.preventDefault();
     const { username, password, rememberme } = formDataRef.current;
+    if(!username || !password) {
+      toast.error("Please enter your username and password");
+      return
+    }
     await postLogin({ username, password, rememberme });
     const userInfo = useStore.getState().userInfo;
     console.log("userInfo", userInfo);
@@ -76,7 +81,7 @@ export default function Login() {
       console.log(decoded);
       setAuth(true);
       if (userInfo.data.role.includes("Moderator")) {
-        navigate("/mod-home");
+        navigate("/manage-products");
       } else if (userInfo.data.role.includes("Administrator")) {
         navigate("/admin");
       } else {
