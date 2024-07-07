@@ -62,8 +62,8 @@ export default function AdminPage() {
               </TableHead>
               <TableBody>
                 {listModerator.length > 0 ? (
-                  listModerator.map((moderator) => (
-                    <TableRow key={moderator.id}>
+                  listModerator.map((moderator, index) => (
+                    <TableRow key={index}>
                       <TableCell>{moderator.firstName}</TableCell>
                       <TableCell>{moderator.lastName}</TableCell>
                       <TableCell>{moderator.email}</TableCell>

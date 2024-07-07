@@ -17,9 +17,13 @@ function SearchProduct() {
         cols={5}
         // rowHeight={164}
       >
-        {searchResult?.items.map((item) => (
-          <ProductCard key={item.productId} item={item} />
-        ))}
+        {searchResult > 0 ? (
+          searchResult?.items?.map((item) => (
+            <ProductCard key={item.productId} item={item} />
+          ))
+        ) : (
+          <Typography variant="h4">No Product Found</Typography>
+        )}
       </ImageList>
     </>
   );

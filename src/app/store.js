@@ -76,6 +76,7 @@ const useStore = create(
               ).replace("{PageSize}", pageSize)
             );
             set({ productList: data });
+            console.log("productList", data);
             set({ productDetail: null });
           } catch (error) {
             set({ error: error.message });
@@ -102,12 +103,13 @@ const useStore = create(
           try {
             // console.log("form", form);
             const { data } = await axiosClient.post(API_CREATE_PRODUCT, form);
-            toast.success(
-              "Product created successfully. Please wait for Moderator approval."
-            );
+            // toast.success(
+            //   "Product created successfully. Please wait for Moderator approval."
+            // );
             set({ response: data });
           } catch (error) {
-            set({ error: error.message });
+            console.log("error", error);
+            set({ error: error });
           } finally {
             set({ isLoading: false });
           }
@@ -170,7 +172,7 @@ const useStore = create(
                 pageIndex
               ).replace("{PageSize}", pageSize)
             );
-            set({ moderatorList: data.items });
+            set({ moderatorList: data.data.items });
           } catch (error) {
             set({ error: error.message });
           } finally {
