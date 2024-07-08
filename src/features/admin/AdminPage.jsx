@@ -25,21 +25,17 @@ export default function AdminPage() {
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
 
+  const fetchModerators = async () => {
+    console.log("Fetching data with page:", page);
+    await postListModerator(page, 10);
+    const moderatorList = useStore.getState().moderatorList;
+    console.log("Fetched moderator list:", moderatorList);
+    setListModerator(moderatorList || []);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      console.log("Fetching data with page:", page);
-      await postListModerator(page, 10);
-      const moderatorList = useStore.getState().moderatorList;
-      console.log("Fetched moderator list:", moderatorList);
-      setListModerator(moderatorList || []);
-    };
-
-    fetchData();
-
-    return () => {
-      // Cleanup function if needed
-    };
-  }, [page, postListModerator]);
+    fetchModerators();
+  }, [page]);
 
   return (
     <>
@@ -49,6 +45,7 @@ export default function AdminPage() {
           <Typography variant="h4" gutterBottom textAlign={"center"}>
             Moderator List
           </Typography>
+<<<<<<< HEAD
           <Button
             variant="contained"
             component={Link}
@@ -61,6 +58,11 @@ export default function AdminPage() {
           >
             Add Moderator Account
           </Button>
+=======
+
+          <AddModerator onAdd={fetchModerators} />
+
+>>>>>>> 3e46beaec1ee89cb8059268c06f924cb5ccd23c3
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="Moderator table">
               <TableHead>
@@ -74,20 +76,13 @@ export default function AdminPage() {
               </TableHead>
               <TableBody>
                 {listModerator.length > 0 ? (
-                  listModerator.map((moderator, index) => (
-                    <TableRow key={index}>
+                  listModerator.map((moderator) => (
+                    <TableRow key={moderator.id}>
                       <TableCell>{moderator.firstName}</TableCell>
                       <TableCell>{moderator.lastName}</TableCell>
                       <TableCell>{moderator.email}</TableCell>
                       <TableCell>{moderator.roleName}</TableCell>
                       <TableCell>
-                        {/* <IconButton
-                          component={Link}
-                          to={`/staff_detail/${moderator.id}`}
-                          aria-label="view"
-                        >
-                          View
-                        </IconButton> */}
                         <IconButton
                           component={Link}
                           to={`/edit_staff/${moderator.id}`}

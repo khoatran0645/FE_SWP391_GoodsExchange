@@ -7,10 +7,11 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import { addDots } from "../../utils/helper";
 
 export default function ProductCard({ item }) {
   const navigate = useNavigate();
-  console.log(item);
+  // console.log(item);
 
   return (
     <Card key={item.productId} sx={{ maxWidth: 345, minWidth: 200 }}>
@@ -30,7 +31,7 @@ export default function ProductCard({ item }) {
             {item.productName}
           </Typography>
           <Typography gutterBottom variant="h6" component="div">
-            {item.price} VND
+            {addDots(item.price)} VND
           </Typography>
         </CardContent>
       </CardActionArea>
