@@ -180,7 +180,7 @@ const useStore = create(
           }
         },
 
-        postCreateAccount: async (form) => {
+        postCreateModeratorAccount: async (form) => {
           set({ isLoading: true });
           try {
             const { data } = await axiosClient.post(API_CREATE_MODERATOR_ACCOUNT, form);
