@@ -14,7 +14,10 @@ export default function ProductCard({ item }) {
   // console.log(item);
 
   return (
-    <Card key={item.productId} sx={{ maxWidth: 345, minWidth: 200 }}>
+    <Card
+      key={item.productId}
+      sx={{ maxWidth: 345, minWidth: 200, marginX: 0.5, marginY: 0.5 }}
+    >
       <CardActionArea
         onClick={() => {
           navigate(`/products/${item.productId}`, { state: item });
