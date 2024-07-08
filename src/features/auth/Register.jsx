@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -10,7 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -39,33 +41,91 @@ export default function Register() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [showPasswordCollapse, setShowPasswordCollapse] = useState(false);
-  const [showConfirmPasswordCollapse, setShowConfirmPasswordCollapse] =
-    useState(false);
-  const [isPasswordMatch, setIsPasswordMatch] = useState(true);
-  const [formData, setFormData] = useState({
-    email: "",
-    userName: "",
-    password: "",
-    confirmPassword: "",
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    dateOfBirth: "",
-    userImageUrl: "",
-  });
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [showConfirmationMessage, setShowConfirmationMessage] = useState(false);
 
-  useEffect(() => {
-    const isShowPassword = formData.password.length > 0;
-    const isShowConfirmPassword = formData.confirmPassword.length > 0;
-    const passwordMatch = formData.password === formData.confirmPassword;
-    setShowPasswordCollapse(isShowPassword);
-    setShowConfirmPasswordCollapse(isShowConfirmPassword);
-    setIsPasswordMatch(passwordMatch);
-  }, [formData]);
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .required("Email is required.")
+      .email("Invalid Email Address.")
+      .matches(
+        /^[a-zA-Z0-9._%+-]+@(gmail\.com|fpt\.edu\.vn)$/,
+        "Email domain must be gmail.com or fpt.edu.vn."
+      ),
+    userName: Yup.string().required("Username is required."),
+    password: Yup.string()
+      .required("Password is required.")
+      .min(6, "Password must be between 6 and 100 characters.")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
+        "Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
+      ),
+    confirmPassword: Yup.string()
+      .required("Confirm Password is required.")
+      .oneOf(
+        [Yup.ref("password"), null],
+        "Password and Confirm Password do not match."
+      ),
+    firstName: Yup.string().required("First Name is required."),
+    lastName: Yup.string().required("Last Name is required."),
+    phoneNumber: Yup.string()
+      .required("Phone Number is required.")
+      .matches(/^\d{10,11}$/, "Phone Number must be 10 or 11 digits."),
+    dateOfBirth: Yup.date().required("Date of Birth is required."),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      userName: "",
+      password: "",
+      confirmPassword: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      dateOfBirth: "",
+      userImageUrl: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      if (currentStep === 2) {
+        const formDataToSend = new FormData();
+        Object.keys(values).forEach((key) => {
+          formDataToSend.append(key, values[key]);
+        });
+        formDataToSend.append(
+          "userImageUrl",
+          values.userImageUrl ||
+            "https://firebasestorage.googleapis.com/v0/b/fir-project-31c70.appspot.com/o/Images%2F1b789a16-21bb-43b2-8b45-c7ab29a98fe2_user_avatar_def.jfif?alt=media&token=df7abe8e-a87a-4894-a6b3-8a5d2775d7e1" // Use a default image URL if not provided
+        );
+
+        setLoading(true);
+
+        try {
+          const response = await postRegister(formDataToSend);
+          console.log(response);
+
+          setTimeout(() => {
+            setLoading(false);
+            setShowConfirmationMessage(true);
+            setTimeout(() => {
+              navigate("/login");
+            }, 1000);
+          }, 0);
+        } catch (error) {
+          console.error("Error registering:", error);
+          setLoading(false);
+        }
+      }
+    },
+  });
+
+  const handleNext = () => {
+    if (currentStep === 1) {
+      setCurrentStep(2);
+    }
+  };
 
   const googleLoginSuccess = (response) => {
     console.log("Google login successful", response.profileObj.email);
@@ -73,57 +133,6 @@ export default function Register() {
 
   const googleLoginError = (error) => {
     console.log("Google login error", error);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (currentStep === 1) {
-      setCurrentStep(2);
-    } else {
-      const {
-        email,
-        userName,
-        firstName,
-        lastName,
-        phoneNumber,
-        dateOfBirth,
-        userImageUrl,
-        password,
-        confirmPassword,
-      } = formData;
-
-      setLoading(true);
-
-      try {
-        const formDataToSend = new FormData();
-        formDataToSend.append("email", email);
-        formDataToSend.append("userName", userName);
-        formDataToSend.append("firstName", firstName);
-        formDataToSend.append("lastName", lastName);
-        formDataToSend.append("phoneNumber", phoneNumber);
-        formDataToSend.append("dateOfBirth", dateOfBirth);
-        formDataToSend.append(
-          "userImageUrl",
-          userImageUrl ||
-            "https://firebasestorage.googleapis.com/v0/b/fir-project-31c70.appspot.com/o/Images%2F1b789a16-21bb-43b2-8b45-c7ab29a98fe2_user_avatar_def.jfif?alt=media&token=df7abe8e-a87a-4894-a6b3-8a5d2775d7e1" // Use a default image URL if not provided
-        );
-        formDataToSend.append("password", password);
-        formDataToSend.append("confirmPassword", confirmPassword);
-
-        console.log(formDataToSend);
-
-        const response = await postRegister(formDataToSend);
-        console.log(response);
-
-        setTimeout(() => {
-          setLoading(false);
-          setShowConfirmationMessage(true);
-        }, 1000);
-      } catch (error) {
-        console.error("Error registering:", error);
-        setLoading(false);
-      }
-    }
   };
 
   const handleBack = () => {
@@ -135,7 +144,7 @@ export default function Register() {
   };
 
   return (
-    <Box onSubmit={handleSubmit} component="form" sx={formStyle}>
+    <Box component="form" sx={formStyle} onSubmit={formik.handleSubmit}>
       {!showConfirmationMessage && (
         <Typography
           sx={{
@@ -181,11 +190,10 @@ export default function Register() {
             Or
           </Typography>
           <FormControl
-            sx={{
-              margin: "0 0 10px 0",
-            }}
+            sx={{ margin: "0 0 10px 0" }}
             size="small"
             variant="outlined"
+            error={formik.touched.email && Boolean(formik.errors.email)}
           >
             <InputLabel htmlFor="outlined-email">Email</InputLabel>
             <OutlinedInput
@@ -194,18 +202,17 @@ export default function Register() {
               id="outlined-email"
               type="text"
               label="Email"
-              value={formData.email}
-              onChange={(e) => {
-                setFormData({ ...formData, email: e.target.value });
-              }}
+              {...formik.getFieldProps("email")}
             />
+            <FormHelperText>
+              {formik.touched.email && formik.errors.email}
+            </FormHelperText>
           </FormControl>
           <FormControl
-            sx={{
-              margin: "10px 0 10px 0",
-            }}
+            sx={{ margin: "10px 0 10px 0" }}
             size="small"
             variant="outlined"
+            error={formik.touched.userName && Boolean(formik.errors.userName)}
           >
             <InputLabel htmlFor="outlined-username">Username</InputLabel>
             <OutlinedInput
@@ -214,18 +221,17 @@ export default function Register() {
               id="outlined-username"
               type="text"
               label="Username"
-              value={formData.userName}
-              onChange={(e) => {
-                setFormData({ ...formData, userName: e.target.value });
-              }}
+              {...formik.getFieldProps("userName")}
             />
+            <FormHelperText>
+              {formik.touched.userName && formik.errors.userName}
+            </FormHelperText>
           </FormControl>
           <FormControl
-            sx={{
-              margin: "10px 0",
-            }}
+            sx={{ margin: "10px 0" }}
             size="small"
             variant="outlined"
+            error={formik.touched.password && Boolean(formik.errors.password)}
           >
             <InputLabel htmlFor="outlined-adornment-password">
               Password
@@ -236,201 +242,167 @@ export default function Register() {
               id="outlined-adornment-password"
               type={showPassword ? "text" : "password"}
               endAdornment={
-                showPasswordCollapse && (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => setShowPassword(!showPassword)}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                )
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
               }
               label="Password"
-              value={formData.password}
-              onChange={(e) => {
-                setFormData({ ...formData, password: e.target.value });
-              }}
+              {...formik.getFieldProps("password")}
             />
+            <FormHelperText>
+              {formik.touched.password && formik.errors.password}
+            </FormHelperText>
           </FormControl>
           <FormControl
-            sx={{
-              margin: "10px 0",
-            }}
+            sx={{ margin: "10px 0" }}
             size="small"
             variant="outlined"
+            error={
+              formik.touched.confirmPassword &&
+              Boolean(formik.errors.confirmPassword)
+            }
           >
-            <InputLabel
-              error={!isPasswordMatch}
-              htmlFor="outlined-adornment-confirm-password"
-            >
-              Confirm password
+            <InputLabel htmlFor="outlined-adornment-confirm-password">
+              Confirm Password
             </InputLabel>
             <OutlinedInput
-              error={!isPasswordMatch}
               required
               size="small"
               id="outlined-adornment-confirm-password"
               type={showConfirmPassword ? "text" : "password"}
               endAdornment={
-                showConfirmPasswordCollapse && (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                      edge="end"
-                    >
-                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                )
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle confirm password visibility"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    edge="end"
+                  >
+                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
               }
-              label="Confirm password"
-              value={formData.confirmPassword}
-              onChange={(e) => {
-                setFormData({
-                  ...formData,
-                  confirmPassword: e.target.value,
-                });
-              }}
+              label="Confirm Password"
+              {...formik.getFieldProps("confirmPassword")}
             />
-            {!isPasswordMatch && (
-              <FormHelperText error>Passwords do not match</FormHelperText>
-            )}
+            <FormHelperText>
+              {formik.touched.confirmPassword && formik.errors.confirmPassword}
+            </FormHelperText>
           </FormControl>
+          <Button
+            type="button"
+            variant="contained"
+            sx={{ margin: "10px 0" }}
+            onClick={handleNext}
+          >
+            Next
+          </Button>
         </>
       )}
 
-      {currentStep === 2 && !showConfirmationMessage && (
+      {currentStep === 2 && (
         <>
-          {" "}
           <FormControl
-            sx={{
-              margin: "10px 0",
-            }}
+            sx={{ margin: "0 0 10px 0" }}
             size="small"
             variant="outlined"
+            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
           >
-            <InputLabel htmlFor="outlined-first-name">First Name</InputLabel>
+            <InputLabel htmlFor="outlined-firstName">First Name</InputLabel>
             <OutlinedInput
               required
               size="small"
-              id="outlined-first-name"
+              id="outlined-firstName"
               type="text"
               label="First Name"
-              value={formData.firstName}
-              onChange={(e) => {
-                setFormData({ ...formData, firstName: e.target.value });
-              }}
+              {...formik.getFieldProps("firstName")}
             />
+            <FormHelperText>
+              {formik.touched.firstName && formik.errors.firstName}
+            </FormHelperText>
           </FormControl>
           <FormControl
-            sx={{
-              margin: "10px 0",
-            }}
+            sx={{ margin: "10px 0 10px 0" }}
             size="small"
             variant="outlined"
+            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
           >
-            <InputLabel htmlFor="outlined-last-name">Last Name</InputLabel>
+            <InputLabel htmlFor="outlined-lastName">Last Name</InputLabel>
             <OutlinedInput
               required
               size="small"
-              id="outlined-last-name"
+              id="outlined-lastName"
               type="text"
               label="Last Name"
-              value={formData.lastName}
-              onChange={(e) => {
-                setFormData({ ...formData, lastName: e.target.value });
-              }}
+              {...formik.getFieldProps("lastName")}
             />
+            <FormHelperText>
+              {formik.touched.lastName && formik.errors.lastName}
+            </FormHelperText>
           </FormControl>
           <FormControl
-            sx={{
-              margin: "10px 0",
-            }}
+            sx={{ margin: "10px 0 10px 0" }}
             size="small"
             variant="outlined"
+            error={
+              formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
+            }
           >
-            <InputLabel htmlFor="outlined-phone-number">
-              Phone Number
+            <InputLabel htmlFor="outlined-phoneNumber">Phone Number</InputLabel>
+            <OutlinedInput
+              required
+              size="small"
+              id="outlined-phoneNumber"
+              type="text"
+              label="Phone Number"
+              {...formik.getFieldProps("phoneNumber")}
+            />
+            <FormHelperText>
+              {formik.touched.phoneNumber && formik.errors.phoneNumber}
+            </FormHelperText>
+          </FormControl>
+          <FormControl
+            sx={{ margin: "10px 0 10px 0" }}
+            size="small"
+            variant="outlined"
+            error={
+              formik.touched.dateOfBirth && Boolean(formik.errors.dateOfBirth)
+            }
+          >
+            <InputLabel htmlFor="outlined-dateOfBirth">
+              Date of Birth
             </InputLabel>
             <OutlinedInput
               required
               size="small"
-              id="outlined-phone-number"
-              type="text"
-              label="Phone Number"
-              value={formData.phoneNumber}
-              onChange={(e) => {
-                setFormData({ ...formData, phoneNumber: e.target.value });
-              }}
-            />
-          </FormControl>
-          <FormControl
-            sx={{
-              margin: "10px 0",
-            }}
-            size="small"
-            variant="outlined"
-          >
-            <InputLabel htmlFor="outlined-date-of-birth"></InputLabel>
-            <OutlinedInput
-              required
-              size="small"
-              id="outlined-date-of-birth"
+              id="outlined-dateOfBirth"
               type="date"
               label="Date of Birth"
-              value={formData.dateOfBirth}
-              onChange={(e) => {
-                setFormData({ ...formData, dateOfBirth: e.target.value });
-              }}
+              {...formik.getFieldProps("dateOfBirth")}
             />
+            <FormHelperText>
+              {formik.touched.dateOfBirth && formik.errors.dateOfBirth}
+            </FormHelperText>
           </FormControl>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ margin: "10px 0" }}
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={24} /> : "Register"}
+          </Button>
         </>
       )}
 
-      {loading && (
-        <CircularProgress sx={{ alignSelf: "center", margin: "20px" }} />
-      )}
-
       {showConfirmationMessage && (
-        <Box sx={{ textAlign: "center", marginTop: "20px" }}>
-          <Typography variant="h6">
-            Please confirm your registration by clicking the link sent to your
-            email.
-          </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ marginTop: "20px" }}
-            onClick={handleEmailConfirmation}
-          >
-            Confirm
-          </Button>
-        </Box>
-      )}
-
-      {!loading && !showConfirmationMessage && (
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          disabled={isLoading}
-          sx={{
-            marginTop: "20px",
-          }}
-        >
-          {currentStep === 1 ? "Next" : "Register"}
-        </Button>
-      )}
-
-      {error && (
-        <Typography color="error" variant="body2" sx={{ marginTop: "10px" }}>
-          {error}
+        <Typography sx={{ alignSelf: "center" }} variant="body1" gutterBottom>
+          Registration Successful. Please check your email for confirmation.
         </Typography>
       )}
     </Box>
