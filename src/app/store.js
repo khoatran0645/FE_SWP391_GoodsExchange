@@ -76,7 +76,7 @@ const useStore = create(
               ).replace("{PageSize}", pageSize)
             );
             set({ productList: data });
-            console.log("productList", data);
+            // console.log("productList", data);
             set({ productDetail: null });
           } catch (error) {
             set({ error: error.message });
