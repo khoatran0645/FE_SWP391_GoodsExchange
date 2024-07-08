@@ -17,8 +17,8 @@ function SearchProduct() {
         cols={5}
         // rowHeight={164}
       >
-        {searchResult > 0 ? (
-          searchResult?.items?.map((item) => (
+        {searchResult?.data.items.length > 0 ? (
+          searchResult?.data.items.map((item) => (
             <ProductCard key={item.productId} item={item} />
           ))
         ) : (
