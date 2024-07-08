@@ -13,7 +13,7 @@ export default function Home() {
   }, []);
 
   const productList = useStore((state) => state.productList);
-  console.log(productList?.data.items.length);
+  // console.log(productList?.data.items.length);
 
   // console.log(import.meta.env.VITE_BE_BASE_URL);
 

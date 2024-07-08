@@ -10,6 +10,7 @@ import { deepOrange, deepPurple } from "@mui/material/colors";
 import Rating from "@mui/material/Rating";
 import useStore from "../../app/store";
 import CreateReport from "../report/CreateReport";
+import { addDots } from "../../utils/helper";
 
 export default function ProductDetail() {
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
@@ -25,7 +26,7 @@ export default function ProductDetail() {
   }, []);
 
   const productDetail = useStore((state) => state.productDetail);
-  console.log("productDetail", productDetail?.data);
+  // console.log("productDetail", productDetail?.data);
 
   // const getStarColor = (index, rating) => {
   //   // Change the color intensity based on the rating
@@ -81,7 +82,9 @@ export default function ProductDetail() {
             {location?.state.productName.charAt(0).toUpperCase() +
               location?.state.productName.slice(1)}
           </Typography>
-          <Typography variant="h4">{location.state.price} VND</Typography>
+          <Typography variant="h4">
+            {addDots(location?.state.price)} VND
+          </Typography>
           <Typography variant="body1">{location?.state.description}</Typography>
         </Box>
         <hr />
