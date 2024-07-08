@@ -3,6 +3,7 @@ import axiosClient from "../services/axiosClient";
 import { immer } from "zustand/middleware/immer";
 import { devtools, persist, createJSONStorage } from "zustand/middleware";
 import {
+  API_GET_ALL_MODERATOR_LIST,
   API_GET_ALL_CATEGORIES,
   API_GET_PRODUCTS_HOMEPAGE,
   API_CREATE_PRODUCT,
@@ -18,6 +19,7 @@ import {
   API_DENY_REPORT_MOD,
   API_REGISTER,
   API_USER_PROFILE_ID,
+  API_CREATE_MODERATOR_ACCOUNT
 } from "./../constant";
 import { toast } from "react-toastify";
 
@@ -89,6 +91,7 @@ const useStore = create(
               ).replace("{PageSize}", pageSize)
             );
             set({ productList: data });
+            console.log("productList", data);
             set({ productDetail: null });
           } catch (error) {
             set({ error: error.message });
@@ -115,12 +118,13 @@ const useStore = create(
           try {
             // console.log("form", form);
             const { data } = await axiosClient.post(API_CREATE_PRODUCT, form);
-            toast.success(
-              "Product created successfully. Please wait for Moderator approval."
-            );
+            // toast.success(
+            //   "Product created successfully. Please wait for Moderator approval."
+            // );
             set({ response: data });
           } catch (error) {
-            set({ error: error.message });
+            console.log("error", error);
+            set({ error: error });
           } finally {
             set({ isLoading: false });
           }
@@ -173,7 +177,37 @@ const useStore = create(
             set({ isLoading: false });
           }
         },
-        // user API
+        // ADMIN API
+        postListModerator: async (pageIndex, pageSize) => {
+          set({ isLoading: true });
+          try {
+            const { data } = await axiosClient.post(
+              API_GET_ALL_MODERATOR_LIST.replace(
+                "{PageIndex}",
+                pageIndex
+              ).replace("{PageSize}", pageSize)
+            );
+            set({ moderatorList: data.data.items });
+          } catch (error) {
+            set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
+
+        postCreateAccount: async (form) => {
+          set({ isLoading: true });
+          try {
+            const { data } = await axiosClient.post(API_CREATE_MODERATOR_ACCOUNT, form);
+            // toast.success("");
+            set({ response: data });
+          } catch (error) {
+            set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
+
         postLogin: async (form) => {
           set({ isLoading: true });
           try {
@@ -239,7 +273,7 @@ const useStore = create(
         approveReport: async (item, isApproved) => {
           set({ isLoading: true });
           try {
-            const { data } = await axiosClient.patch(
+            const { data } = await axiosClient.post(
               API_APPROVE_REPORT_MOD.replace("{id}", item.reportId).replace(
                 "{status}",
                 isApproved
@@ -256,7 +290,7 @@ const useStore = create(
         denyReport: async (item) => {
           set({ isLoading: true });
           try {
-            const { data } = await axiosClient.patch(
+            const { data } = await axiosClient.post(
               API_DENY_REPORT_MOD.replace("{id}", item.reportId)
             );
             set({ response: data });

@@ -1,6 +1,7 @@
 import AdminNavBar from "./AdminNavBar";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import useStore from "../../app/store";
 import {
   Table,
   TableBody,
@@ -13,14 +14,9 @@ import {
   Button,
   Typography,
   Box,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Snackbar,
+  TextField,
   Container,
 } from "@mui/material";
-import useStore from "../../app/store";
 
 export default function AdminPage() {
   const [staffData, setStaffData] = useState([]);
@@ -28,79 +24,23 @@ export default function AdminPage() {
   const [deletingId, setDeletingId] = useState(null);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  const getUserForAdminPage = useStore((state) => state.getUserForAdminPage);
-
-  const [params, setParams] = useState({
-    keyword: "a",
-    firstname: "",
-    lastname: "",
-    email: "",
-    rolename: "",
-    pageIndex: 1,
-    pageSize: 10,
-  });
 
   useEffect(() => {
-    fetchStaffData();
-  }, []);
+    const fetchData = async () => {
+      console.log("Fetching data with page:", page);
+      await postListModerator(page, 10);
+      const moderatorList = useStore.getState().moderatorList;
+      console.log("Fetched moderator list:", moderatorList);
+      setListModerator(moderatorList || []);
+    };
 
-  const fetchStaffData = () => {
-    fetch("https://6678e28b0bd4525056202376.mockapi.io/api/v1/staffManagement")
-      .then((res) => res.json())
-      .then((data) => {
-        setStaffData(data);
-      });
-  };
+    fetchData();
 
-  const handleDelete = (id) => {
-    setConfirmationOpen(true);
-    setDeletingId(id);
-  };
+    return () => {
+      // Cleanup function if needed
+    };
+  }, [page, postListModerator]);
 
-  const confirmDelete = () => {
-    fetch(
-      `https://6678e28b0bd4525056202376.mockapi.io/api/v1/staffManagement/${deletingId}`,
-      {
-        method: "DELETE",
-      }
-    )
-      .then((res) => {
-        if (res.ok) {
-          setNotificationMessage(
-            `Staff with ID ${deletingId} deleted successfully.`
-          );
-          setNotificationOpen(true);
-          // Remove the deleted staff from the staffData state
-          setStaffData(staffData.filter((staff) => staff.id !== deletingId));
-        } else {
-          console.error(`Failed to delete staff with ID ${deletingId}.`);
-          setNotificationMessage(
-            `Failed to delete staff with ID ${deletingId}.`
-          );
-          setNotificationOpen(true);
-        }
-      })
-      .catch((error) => {
-        console.error("Error deleting staff:", error);
-        setNotificationMessage(`Error deleting staff: ${error.message}`);
-        setNotificationOpen(true);
-      })
-      .finally(() => {
-        setConfirmationOpen(false);
-      });
-  };
-
-  const handleCloseConfirmation = () => {
-    setConfirmationOpen(false);
-    setDeletingId(null);
-  };
-
-  const handleCloseNotification = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setNotificationOpen(false);
-  };
   return (
     <>
       <AdminNavBar />
@@ -122,81 +62,58 @@ export default function AdminPage() {
             Add Moderator Account
           </Button>
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="Staff table">
+            <Table sx={{ minWidth: 650 }} aria-label="Moderator table">
               <TableHead>
                 <TableRow>
                   <TableCell>ID</TableCell>
-                  <TableCell>First Name</TableCell>
+                  <TableCell>Name</TableCell>
                   <TableCell>Address</TableCell>
                   <TableCell>Age</TableCell>
                   <TableCell>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {staffData.map((staff) => (
-                  <TableRow key={staff.id}>
-                    <TableCell>{staff.id}</TableCell>
-                    <TableCell>{staff.name}</TableCell>
-                    <TableCell>{staff.address}</TableCell>
-                    <TableCell>{staff.age}</TableCell>
-                    <TableCell>
-                      <IconButton
-                        component={Link}
-                        to={`/staff_detail/${staff.id}`}
-                        aria-label="view"
-                      >
-                        View
-                      </IconButton>
-                      <IconButton
-                        component={Link}
-                        to={`/edit_staff/${staff.id}`}
-                        aria-label="edit"
-                      >
-                        Edit
-                      </IconButton>
-                      <IconButton
-                        onClick={() => handleDelete(staff.id)}
-                        aria-label="delete"
-                      >
-                        Delete
-                      </IconButton>
+                {listModerator.length > 0 ? (
+                  listModerator.map((moderator, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{moderator.firstName}</TableCell>
+                      <TableCell>{moderator.lastName}</TableCell>
+                      <TableCell>{moderator.email}</TableCell>
+                      <TableCell>{moderator.roleName}</TableCell>
+                      <TableCell>
+                        {/* <IconButton
+                          component={Link}
+                          to={`/staff_detail/${moderator.id}`}
+                          aria-label="view"
+                        >
+                          View
+                        </IconButton> */}
+                        <IconButton
+                          component={Link}
+                          to={`/edit_staff/${moderator.id}`}
+                          aria-label="edit"
+                        >
+                          Edit
+                        </IconButton>
+                        <IconButton
+                          onClick={() => handleDelete(moderator.id)}
+                          aria-label="delete"
+                        >
+                          Remove
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5} align="center">
+                      No moderators found
                     </TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </TableContainer>
-
-          <Dialog
-            open={confirmationOpen}
-            onClose={handleCloseConfirmation}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"Confirm Deletion"}
-            </DialogTitle>
-            <DialogContent>
-              <Typography variant="body1">
-                Are you sure you want to delete this staff member?
-              </Typography>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleCloseConfirmation} color="primary">
-                Cancel
-              </Button>
-              <Button onClick={confirmDelete} color="primary" autoFocus>
-                Delete
-              </Button>
-            </DialogActions>
-          </Dialog>
-
-          <Snackbar
-            open={notificationOpen}
-            autoHideDuration={2000}
-            onClose={handleCloseNotification}
-            message={notificationMessage}
-          />
         </Box>
       </Container>
     </>

@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 
 export default function ProductCard({ item }) {
   const navigate = useNavigate();
+  console.log(item);
 
   return (
     <Card key={item.productId} sx={{ maxWidth: 345, minWidth: 200 }}>

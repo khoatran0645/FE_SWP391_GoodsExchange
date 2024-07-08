@@ -88,17 +88,18 @@ export default function CreateNewProduct() {
             formData.append("CategoryId", formJson.CategoryId);
             console.log("data", formJson);
 
+            useStore.setState({ response: null, error: null });
             await createNewProduct(formData);
             const response = useStore.getState().response;
             const error = useStore.getState().error;
-            // console.log(response);
-            // console.log(error);
-            if (response?.isSuccessed) {
+            console.log("response", response);
+            console.log("error", error);
+            if (!error) {
               toast.success(
                 "Product created successfully. Please wait for Moderator approval."
               );
             } else {
-              toast.error(response?.message);
+              toast.error(error.message);
               // toast.error(error);
             }
 
@@ -186,7 +187,9 @@ export default function CreateNewProduct() {
           </Button>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} disabled={isLoading}>Cancel</Button>
+          <Button onClick={handleClose} disabled={isLoading}>
+            Cancel
+          </Button>
           {(isLoading && <CircularProgress />) || (
             <Button type="submit">Submit</Button>
           )}

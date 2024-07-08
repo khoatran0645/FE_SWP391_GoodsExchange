@@ -6,6 +6,7 @@ import { Button, Paper, Typography } from "@mui/material";
 import useStore from "../../app/store";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { toast } from "react-toastify";
 
 export default function ManageProduct() {
   const [page, setPage] = React.useState(1);
@@ -19,21 +20,23 @@ export default function ManageProduct() {
   React.useEffect(() => {
     const fetchData = async () => {
       await postAllProduct(page, 10);
-      const productList = useStore.getState().productList;
-      console.log("product", productList);
+      // const productList = useStore.getState().productList;
+      console.log("productList", productList);
       setTotalPage(productList.totalPage);
       setListProduct(productList.items);
     };
     fetchData();
   }, [page]);
-
+  const productList = useStore.getState().productList;
   const handleApprove = async (item) => {
     await approveProduct(item, true);
     const response = useStore.getState().response;
-    if (response.isSuccessed) {
+
+    if (response.data) {
       setListProduct(
         listProduct.filter((iter) => iter.productId !== item.productId)
       );
+      toast.success("You've successfully approved");
     } else {
       console.log("Error");
     }
@@ -42,10 +45,12 @@ export default function ManageProduct() {
   const handleDeny = async (item) => {
     await denyProduct(item, false);
     const response = useStore.getState().response;
-    if (response.isSuccessed) {
+
+    if (response.data) {
       setListProduct(
         listProduct.filter((iter) => iter.productId !== item.productId)
       );
+      toast.success("You've successfully denied");
     } else {
       console.log("Error");
     }
@@ -69,7 +74,7 @@ export default function ManageProduct() {
       >
         <ModeratorPage />
 
-        {listProduct?.map((product) => (
+        {productList?.data.items.map((product) => (
           <Paper
             key={product.productId}
             sx={{ p: 3, mb: 2, maxWidth: "500px" }}
@@ -90,12 +95,18 @@ export default function ManageProduct() {
               }}
             >
               {product.price} VND
-            <Typography variant="body1">{product.description}</Typography>
+              <Typography variant="body1">{product.description}</Typography>
             </Typography>
-            <Typography variant="body1">Created by: {product.userUpload}</Typography>
-            <Typography variant="body1">Upload date: {product.uploadDate}</Typography>
+            <Typography variant="body1">
+              Created by: {product.userUpload}
+            </Typography>
+            <Typography variant="body1">
+              Upload date: {product.uploadDate}
+            </Typography>
             {/* <Typography variant="body1">{product.approvedDate}</Typography> */}
-            <Typography variant="body1">Category name: {product.categoryName}</Typography>
+            <Typography variant="body1">
+              Category name: {product.categoryName}
+            </Typography>
             <Typography variant="body1">ID: {product.productId}</Typography>
 
             <Box
