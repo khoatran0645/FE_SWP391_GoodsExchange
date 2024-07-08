@@ -13,7 +13,7 @@ export default function Home() {
   }, []);
 
   const productList = useStore((state) => state.productList);
-  console.log(productList.data.items.length);
+  console.log(productList?.data.items.length);
 
   // console.log(import.meta.env.VITE_BE_BASE_URL);
 
@@ -33,7 +33,7 @@ export default function Home() {
           cols={5}
           // rowHeight={164}
         >
-          {productList.data.items.length > 0 ? (
+          {productList?.data.items.length > 0 ? (
             productList?.data.items.map((item) => (
               <ProductCard key={item.productId} item={item} />
             ))

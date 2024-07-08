@@ -22,7 +22,7 @@ export default function ManageReports() {
       const reportList = useStore.getState().reportList;
       console.log("report", reportList);
       // setTotalPage(reportList.totalPage);
-      setListReport(reportList.items);
+      setListReport(reportList.data.items);
     };
     fetchData();
   }, [page]);
