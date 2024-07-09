@@ -19,7 +19,8 @@ import {
   API_DENY_REPORT_MOD,
   API_REGISTER,
   API_USER_PROFILE_ID,
-  API_CREATE_MODERATOR_ACCOUNT
+  API_CREATE_MODERATOR_ACCOUNT,
+  API_UPDATE_PROFILE,
 } from "./../constant";
 import { toast } from "react-toastify";
 
@@ -64,6 +65,20 @@ const useStore = create(
             set({ isLoading: false });
           }
         },
+        UpdateProfileUser: async (form) => {
+          set({ isLoading: true });
+
+          try {
+            const { data } = await axiosClient.put(API_UPDATE_PROFILE, form);
+
+            set({ UserProfile: data });
+          } catch (error) {
+            set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
+
         //* async actions
         // PRODUCT API
         getProductsForHomePage: async (pageIndex, pageSize) => {
@@ -183,7 +198,10 @@ const useStore = create(
         postCreateModeratorAccount: async (form) => {
           set({ isLoading: true });
           try {
-            const { data } = await axiosClient.post(API_CREATE_MODERATOR_ACCOUNT, form);
+            const { data } = await axiosClient.post(
+              API_CREATE_MODERATOR_ACCOUNT,
+              form
+            );
             // toast.success("");
             set({ response: data });
           } catch (error) {

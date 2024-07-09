@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-
 import {
   Box,
   TextField,
   Button,
-  MenuItem,
   List,
   ListItem,
   ListItemText,
@@ -12,13 +10,15 @@ import {
   Typography,
   Modal,
 } from "@mui/material";
-
 import NavBar from "../common/NavBar";
-
 import useStore from "../../app/store";
-
+import { useForm } from "react-hook-form";
 import { jwtDecode } from "jwt-decode";
-import { red } from "@mui/material/colors";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs"; // Import <dayjs></dayjs>
+import { toast } from "react-toastify";
 
 const resetPasswordModalStyle = {
   position: "absolute",
@@ -34,14 +34,9 @@ const resetPasswordModalStyle = {
 
 function Profile() {
   const getProfileUserById = useStore((state) => state.getProfileUserById);
-
+  const UpdateProfileUser = useStore((state) => state.UpdateProfileUser);
   const userInfo = useStore.getState().userInfo;
-
   const userDetail = jwtDecode(userInfo.data.token);
-
-  // const Userprofile = useState.getState().userDetails;
-
-  console.log("userDetail : ", userDetail);
 
   useEffect(() => {
     getProfileUserById(userDetail.id);
@@ -49,29 +44,47 @@ function Profile() {
 
   const profileDetail = useStore((state) => state.userProfile);
 
-  console.log("profileDetail  ", profileDetail);
-
-  // const [formData, setFormData] = useState(profileData);
-
   const [selectedMenu, setSelectedMenu] = useState("Thông tin cá nhân");
 
   const menuItems = [{ text: "Thông tin cá nhân", key: "Thông tin cá nhân" }];
-  const handleChange = (e) => {
-    const { id, value } = e.target;
 
-    setFormData((prevData) => ({
-      ...prevData,
+  const { register, handleSubmit, setValue } = useForm({
+    defaultValues: {
+      Firstname: profileDetail?.firstName,
+      Lastname: profileDetail?.lastName,
+      phoneNumber: profileDetail?.phoneNumber,
+      email: profileDetail?.email,
+      dateOfBirth: profileDetail?.dateOfBirth
+        ? dayjs(profileDetail.dateOfBirth)
+        : null,
+    },
+  });
 
-      [id]: value,
-    }));
-  };
+  useEffect(() => {
+    if (profileDetail) {
+      setValue("Firstname", profileDetail.firstName);
+      setValue("Lastname", profileDetail.lastName);
+      setValue("phoneNumber", profileDetail.phoneNumber);
+      setValue("email", profileDetail.email);
+      setValue("dateOfBirth", dayjs(profileDetail.dateOfBirth));
+    }
+  }, [profileDetail, setValue]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
+    const formattedData = {
+      ...data,
+      dateOfBirth: data.dateOfBirth
+        ? dayjs(data.dateOfBirth).toISOString()
+        : null,
+    };
+    console.log("Formatted Data: ", formattedData); // Log the data before the API call
 
-    console.log(formData);
-
-    onProfileSubmit(formData);
+    try {
+      await UpdateProfileUser(formattedData);
+      toast("Profile updated successfully"); // Log success message
+    } catch (error) {
+      console.error("Error updating profile: ", error); // Log error message
+    }
   };
 
   const [openResetPasswordModal, setOpenResetPasswordModal] = useState(false);
@@ -98,7 +111,6 @@ function Profile() {
                 >
                   <ListItemText primary={item.text} />
                 </ListItem>
-
                 <Divider />
               </div>
             ))}
@@ -109,64 +121,58 @@ function Profile() {
           component="form"
           sx={{
             "& .MuiTextField-root": { m: 1, width: "45ch" },
-
             display: "flex",
-
             flexDirection: "column",
-
             maxWidth: "600px",
             maxHeight: "600px",
             alignItems: "center",
             justifyContent: "center",
             margin: "10px 100px",
-
             padding: "20px",
-
             boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-
             borderRadius: "8px",
           }}
           noValidate
           autoComplete="off"
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <h2>Thông tin cá nhân</h2>
-
           <TextField
             required
             id="name"
-            label="Họ và tên"
-            // defaultValue="Thảo Phương"
-            value={profileDetail?.fullName}
-            onSubmit={handleSubmit}
+            label="FirstName"
+            {...register("Firstname")}
           />
-
+          <TextField
+            required
+            id="name"
+            label="LastName"
+            {...register("Lastname")}
+          />
           <TextField
             required
             id="phone"
-            value={profileDetail?.phoneNumber}
             label="Thêm số điện thoại"
+            {...register("phoneNumber")}
           />
-
           <TextField
             id="email"
             label="Email"
-            value={profileDetail?.email}
+            {...register("email")}
             InputProps={{
               readOnly: true,
             }}
           />
-          <TextField
-            id="birthday"
-            label="Ngày, tháng, năm sinh"
-            type="date"
-            // defaultValue={"2003-09-19"}
-            value={profileDetail?.dateOfBirth}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Ngày sinh"
+              value={dayjs(profileDetail?.dateOfBirth)}
+              onChange={(newValue) => setValue("birthday", newValue)}
+              renderInput={(params) => (
+                <TextField {...params} {...register("birthday")} />
+              )}
+            />
+          </LocalizationProvider>
           <Button
             variant="contained"
             type="submit"
@@ -175,7 +181,6 @@ function Profile() {
           >
             Lưu thay đổi
           </Button>
-
           <Button
             variant="contained"
             onClick={handleOpen}
@@ -202,7 +207,6 @@ function Profile() {
             sx={{
               display: "flex",
               flexDirection: "column",
-
               maxWidth: "1600px",
               alignItems: "center",
               justifyContent: "center",
@@ -211,7 +215,7 @@ function Profile() {
             }}
             noValidate
             autoComplete="off"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <TextField
               required
@@ -219,9 +223,7 @@ function Profile() {
               label="Mật khẩu hiện tại"
               fullWidth={true}
               type="password"
-              sx={{
-                margin: "10px 0"
-              }}
+              sx={{ margin: "10px 0" }}
             />
             <TextField
               required
@@ -229,9 +231,7 @@ function Profile() {
               label="Mật khẩu mới"
               fullWidth={true}
               type="password"
-              sx={{
-                margin: "10px 0"
-              }}
+              sx={{ margin: "10px 0" }}
             />
             <TextField
               required
@@ -239,9 +239,7 @@ function Profile() {
               label="Xác nhận mật khẩu mới"
               fullWidth={true}
               type="password"
-              sx={{
-                margin: "10px 0"
-              }}
+              sx={{ margin: "10px 0" }}
             />
             <Button variant="contained" color="error" sx={{ mt: 2 }}>
               Đổi mật khẩu
@@ -252,130 +250,5 @@ function Profile() {
     </>
   );
 }
-
-// function App() {
-//   const initialProfileData = {
-//     name: "Thảo Phương",
-
-//     phone: "",
-
-//     address: "",
-
-//     introduction: "",
-
-//     nickname: "",
-
-//     email: "phuongthao0322003@gmail.com",
-
-//     cccd: "",
-
-//     invoiceInfo: "",
-
-//     taxCode: "",
-
-//     favoriteCategory: "",
-
-//     gender: "Nữ",
-
-//     birthday: "",
-//   };
-
-//   // const getProfileUserById = useStore((state) => state.getProfileUserById);
-
-//   // const userInfo = useStore.getState().userInfo;
-
-//   // const userDetail = jwtDecode(userInfo.data.token);
-
-//   // // const Userprofile = useState.getState().userDetails;
-
-//   // console.log("userDetail : ", userDetail.id);
-
-//   // useEffect(() => {
-
-//   //   getProfileUserById(userDetail.id);
-
-//   // }, []);
-
-//   // const profileDetail = useStore((state) => state.userDetails);
-
-//   // console.log("profileDetail  ", profileDetail);
-
-//   // const userDetails = useStore.getState().userDetails;
-
-//   // console.log("userDetails", userDetails);
-
-//   // console.log("userid", userDetail.id);
-
-//   const [profileData, setProfileData] = useState(userDetail);
-
-//   const [selectedMenu, setSelectedMenu] = useState("Thông tin cá nhân");
-
-//   const menuItems = [
-//     { text: "Thông tin cá nhân", key: "Thông tin cá nhân" },
-
-//     { text: "Cài đặt tài khoản", key: "Cài đặt tài khoản" },
-//   ];
-
-//   const handleProfileSubmit = (newData) => {
-//     setProfileData(newData);
-
-//     setSelectedMenu("Thông tin cá nhân");
-//   };
-
-//   return (
-//     <>
-//       <NavBar />
-
-//       <Box sx={{ display: "flex", height: "100vh" }}>
-//         <Box sx={{ width: "250px", borderRight: "1px solid #ddd" }}>
-//           <List component="nav">
-//             {menuItems.map((item) => (
-//               <div key={item.key}>
-//                 <ListItem
-//                   onClick={() => setSelectedMenu(item.key)}
-//                   sx={{
-//                     backgroundColor:
-//                       selectedMenu === item.key
-//                         ? "rgba(0, 0, 255, 0.1)"
-//                         : "inherit",
-//                   }}
-//                 >
-//                   <ListItemText primary={item.text} />
-//                 </ListItem>
-
-//                 <Divider />
-//               </div>
-//             ))}
-//           </List>
-//         </Box>
-
-//         <Box sx={{ flex: 1, padding: "20px" }}>
-//           {selectedMenu === "Thông tin cá nhân" && (
-//             <Profile
-//               profileData={profileData}
-//               onProfileSubmit={handleProfileSubmit}
-//             />
-//           )}
-
-//           {selectedMenu !== "Thông tin cá nhân" && (
-//             <Box
-//               sx={{
-//                 display: "flex",
-
-//                 justifyContent: "center",
-
-//                 alignItems: "center",
-
-//                 height: "100%",
-//               }}
-//             >
-//               <h2>{selectedMenu}</h2>
-//             </Box>
-//           )}
-//         </Box>
-//       </Box>
-//     </>
-//   );
-// }
 
 export default Profile;
