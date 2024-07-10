@@ -21,9 +21,9 @@ export default function ManageProduct() {
     const fetchData = async () => {
       await postAllProduct(page, 10);
       const productList = useStore.getState().productList;
-      console.log("product", productList);
-      setTotalPage(productList.totalPage);
-      setListProduct(productList.items);
+      // console.log("product", productList);
+      setTotalPage(productList.data.totalPage);
+      setListProduct(productList.data.items);
     };
     fetchData();
   }, [page]);

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -11,11 +12,25 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import { NavLink } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import useStore from "../../app/store";
 
 export default function Register() {
+  const { postRegister, isLoading, error } = useStore((state) => ({
+    postRegister: state.postRegister,
+    isLoading: state.isLoading,
+    error: state.error,
+  }));
+
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm();
+
   const formStyle = {
     display: "flex",
     flexFlow: "column",
@@ -29,75 +44,21 @@ export default function Register() {
     boxShadow: "3px 7px 5px 0px #000000",
   };
 
-  const { postRegister, isLoading, error } = useStore((state) => ({
-    postRegister: state.postRegister,
-    isLoading: state.isLoading,
-    error: state.error,
-  }));
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [showPasswordCollapse, setShowPasswordCollapse] = useState(false);
-  const [showConfirmPasswordCollapse, setShowConfirmPasswordCollapse] =
-    useState(false);
-  const [isPasswordMatch, setIsPasswordMatch] = useState(true);
-  const [formData, setFormData] = useState({
-    email: "",
-    userName: "",
-    password: "",
-    confirm_password: "",
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    dateOfBirth: "",
-    userImageUrl: "", // Default value can be empty or a placeholder URL
-  });
   const [currentStep, setCurrentStep] = useState(1);
 
-  useEffect(() => {
-    const isShowPassword = formData.password.length > 0;
-    const isShowConfirmPassword = formData.confirm_password.length > 0;
-    const passwordMatch = formData.password === formData.confirm_password;
-    setShowPasswordCollapse(isShowPassword);
-    setShowConfirmPasswordCollapse(isShowConfirmPassword);
-    setIsPasswordMatch(passwordMatch);
-  }, [formData]);
-
-  const googleLoginSuccess = (response) => {
-    console.log("Google login successful", response.profileObj.email);
-  };
-
-  const googleLoginError = (error) => {
-    console.log("Google login error", error);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     if (currentStep === 1) {
       setCurrentStep(2);
     } else {
-      const {
-        email,
-        userName,
-        firstName,
-        lastName,
-        phoneNumber,
-        dateOfBirth,
-        userImageUrl,
-      } = formData;
-
       try {
         const response = await postRegister({
-          email,
-          userName,
-          firstName,
-          lastName,
-          phoneNumber,
-          dateOfBirth,
+          ...data,
           userImageUrl:
-            userImageUrl ||
-            "https://firebasestorage.googleapis.com/v0/b/fir-project-31c70.appspot.com/o/Images%2F1b789a16-21bb-43b2-8b45-c7ab29a98fe2_user_avatar_def.jfif?alt=media&token=df7abe8e-a87a-4894-a6b3-8a5d2775d7e1", // Use a default image URL if not provided
+            data.userImageUrl || "https://example.com/default-image.jpg",
         });
+        console.log(response);
 
         if (response?.isSuccessed) {
           console.log("Registration successful:", response);
@@ -116,7 +77,7 @@ export default function Register() {
   };
 
   return (
-    <Box onSubmit={handleSubmit} component="form" sx={formStyle}>
+    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={formStyle}>
       <Typography
         sx={{
           marginBottom: "20px",
@@ -141,23 +102,6 @@ export default function Register() {
       </Typography>
       {currentStep === 1 && (
         <>
-          <GoogleLogin
-            text="signup_with"
-            onSuccess={googleLoginSuccess}
-            onError={googleLoginError}
-            logo_alignment="center"
-            locale="en_US"
-          />
-          <Typography
-            sx={{
-              margin: "10px 0",
-              alignSelf: "center",
-              fontSize: "14px",
-            }}
-            variant="caption"
-          >
-            Or
-          </Typography>
           <FormControl
             sx={{
               margin: "0 0 10px 0",
@@ -166,17 +110,31 @@ export default function Register() {
             variant="outlined"
           >
             <InputLabel htmlFor="outlined-email">Email</InputLabel>
-            <OutlinedInput
-              required
-              size="small"
-              id="outlined-email"
-              type="text"
-              label="Email"
-              value={formData.email}
-              onChange={(e) => {
-                setFormData({ ...formData, email: e.target.value });
+            <Controller
+              name="email"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: "Email is required",
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+                  message: "Invalid email format",
+                },
               }}
+              render={({ field }) => (
+                <OutlinedInput
+                  {...field}
+                  size="small"
+                  id="outlined-email"
+                  type="email"
+                  label="Email"
+                  error={!!errors.email}
+                />
+              )}
             />
+            {errors.email && (
+              <FormHelperText error>{errors.email.message}</FormHelperText>
+            )}
           </FormControl>
           <FormControl
             sx={{
@@ -186,17 +144,25 @@ export default function Register() {
             variant="outlined"
           >
             <InputLabel htmlFor="outlined-username">Username</InputLabel>
-            <OutlinedInput
-              required
-              size="small"
-              id="outlined-username"
-              type="text"
-              label="Username"
-              value={formData.userName}
-              onChange={(e) => {
-                setFormData({ ...formData, userName: e.target.value });
-              }}
+            <Controller
+              name="userName"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Username is required" }}
+              render={({ field }) => (
+                <OutlinedInput
+                  {...field}
+                  size="small"
+                  id="outlined-username"
+                  type="text"
+                  label="Username"
+                  error={!!errors.userName}
+                />
+              )}
             />
+            {errors.userName && (
+              <FormHelperText error>{errors.userName.message}</FormHelperText>
+            )}
           </FormControl>
           <FormControl
             sx={{
@@ -208,30 +174,36 @@ export default function Register() {
             <InputLabel htmlFor="outlined-adornment-password">
               Password
             </InputLabel>
-            <OutlinedInput
-              required
-              size="small"
-              id="outlined-adornment-password"
-              type={showPassword ? "text" : "password"}
-              endAdornment={
-                showPasswordCollapse && (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => setShowPassword(!showPassword)}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }
-              label="Password"
-              value={formData.password}
-              onChange={(e) => {
-                setFormData({ ...formData, password: e.target.value });
-              }}
+            <Controller
+              name="password"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Password is required" }}
+              render={({ field }) => (
+                <OutlinedInput
+                  {...field}
+                  size="small"
+                  id="outlined-adornment-password"
+                  type={showPassword ? "text" : "password"}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setShowPassword(!showPassword)}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Password"
+                  error={!!errors.password}
+                />
+              )}
             />
+            {errors.password && (
+              <FormHelperText error>{errors.password.message}</FormHelperText>
+            )}
           </FormControl>
           <FormControl
             sx={{
@@ -240,44 +212,50 @@ export default function Register() {
             size="small"
             variant="outlined"
           >
-            <InputLabel
-              error={!isPasswordMatch}
-              htmlFor="outlined-adornment-confirm-password"
-            >
-              Confirm password
+            <InputLabel htmlFor="outlined-adornment-confirm-password">
+              Confirm Password
             </InputLabel>
-            <OutlinedInput
-              error={!isPasswordMatch}
-              required
-              size="small"
-              id="outlined-adornment-confirm-password"
-              type={showConfirmPassword ? "text" : "password"}
-              endAdornment={
-                showConfirmPasswordCollapse && (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                      edge="end"
-                    >
-                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }
-              label="Confirm password"
-              value={formData.confirm_password}
-              onChange={(e) => {
-                setFormData({
-                  ...formData,
-                  confirm_password: e.target.value,
-                });
+            <Controller
+              name="confirm_password"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: "Confirm Password is required",
+                validate: (value) =>
+                  value === getValues("password") || "Passwords do not match",
               }}
+              render={({ field }) => (
+                <OutlinedInput
+                  {...field}
+                  size="small"
+                  id="outlined-adornment-confirm-password"
+                  type={showConfirmPassword ? "text" : "password"}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                        edge="end"
+                      >
+                        {showConfirmPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Confirm Password"
+                  error={!!errors.confirm_password}
+                />
+              )}
             />
-            {!isPasswordMatch && (
-              <FormHelperText error>Passwords do not match</FormHelperText>
+            {errors.confirm_password && (
+              <FormHelperText error>
+                {errors.confirm_password.message}
+              </FormHelperText>
             )}
           </FormControl>
         </>
@@ -292,17 +270,25 @@ export default function Register() {
             variant="outlined"
           >
             <InputLabel htmlFor="outlined-first-name">First Name</InputLabel>
-            <OutlinedInput
-              required
-              size="small"
-              id="outlined-first-name"
-              type="text"
-              label="First Name"
-              value={formData.firstName}
-              onChange={(e) => {
-                setFormData({ ...formData, firstName: e.target.value });
-              }}
+            <Controller
+              name="firstName"
+              control={control}
+              defaultValue=""
+              rules={{ required: "First Name is required" }}
+              render={({ field }) => (
+                <OutlinedInput
+                  {...field}
+                  size="small"
+                  id="outlined-first-name"
+                  type="text"
+                  label="First Name"
+                  error={!!errors.firstName}
+                />
+              )}
             />
+            {errors.firstName && (
+              <FormHelperText error>{errors.firstName.message}</FormHelperText>
+            )}
           </FormControl>
           <FormControl
             sx={{
@@ -312,17 +298,25 @@ export default function Register() {
             variant="outlined"
           >
             <InputLabel htmlFor="outlined-last-name">Last Name</InputLabel>
-            <OutlinedInput
-              required
-              size="small"
-              id="outlined-last-name"
-              type="text"
-              label="Last Name"
-              value={formData.lastName}
-              onChange={(e) => {
-                setFormData({ ...formData, lastName: e.target.value });
-              }}
+            <Controller
+              name="lastName"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Last Name is required" }}
+              render={({ field }) => (
+                <OutlinedInput
+                  {...field}
+                  size="small"
+                  id="outlined-last-name"
+                  type="text"
+                  label="Last Name"
+                  error={!!errors.lastName}
+                />
+              )}
             />
+            {errors.lastName && (
+              <FormHelperText error>{errors.lastName.message}</FormHelperText>
+            )}
           </FormControl>
           <FormControl
             sx={{
@@ -334,17 +328,41 @@ export default function Register() {
             <InputLabel htmlFor="outlined-phone-number">
               Phone Number
             </InputLabel>
-            <OutlinedInput
-              required
-              size="small"
-              id="outlined-phone-number"
-              type="text"
-              label="Phone Number"
-              value={formData.phoneNumber}
-              onChange={(e) => {
-                setFormData({ ...formData, phoneNumber: e.target.value });
+            <Controller
+              name="phoneNumber"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: "Phone Number is required",
+                validate: value => {
+                  if (!/^\d+$/.test(value)) {
+                    return "Phone Number must be numeric";
+                  }
+                  if (value.length < 10 || value.length > 11) {
+                    return "Phone Number must be 10-11 digits long";
+                  }
+                  if (Number(value) <= 0) {
+                    return "Phone Number must be a positive number";
+                  }
+                  return true;
+                }
               }}
+              render={({ field }) => (
+                <OutlinedInput
+                  {...field}
+                  size="small"
+                  id="outlined-phone-number"
+                  type="text"
+                  label="Phone Number"
+                  error={!!errors.phoneNumber}
+                />
+              )}
             />
+            {errors.phoneNumber && (
+              <FormHelperText error>
+                {errors.phoneNumber.message}
+              </FormHelperText>
+            )}
           </FormControl>
           <FormControl
             sx={{
@@ -354,19 +372,29 @@ export default function Register() {
             variant="outlined"
           >
             <InputLabel htmlFor="outlined-date-of-birth">
-              
+              Date of Birth
             </InputLabel>
-            <OutlinedInput
-              required
-              size="small"
-              id="outlined-date-of-birth"
-              type="date"
-              label="Date of Birth"
-              value={formData.dateOfBirth}
-              onChange={(e) => {
-                setFormData({ ...formData, dateOfBirth: e.target.value });
-              }}
+            <Controller
+              name="dateOfBirth"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Date of Birth is required" }}
+              render={({ field }) => (
+                <OutlinedInput
+                  {...field}
+                  size="small"
+                  id="outlined-date-of-birth"
+                  type="date"
+                  label="Date of Birth"
+                  error={!!errors.dateOfBirth}
+                />
+              )}
             />
+            {errors.dateOfBirth && (
+              <FormHelperText error>
+                {errors.dateOfBirth.message}
+              </FormHelperText>
+            )}
           </FormControl>
         </>
       )}

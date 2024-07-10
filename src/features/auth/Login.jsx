@@ -15,7 +15,6 @@ import {
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
 
-import { GoogleLogin } from "@react-oauth/google";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import useStore from "../../app/store";
@@ -96,21 +95,6 @@ export default function Login() {
       >
         Login to your Account
       </Typography>
-      <GoogleLogin
-        logo_alignment="center"
-        onSuccess={responseMessage}
-        onError={errorMessage}
-      />
-      <Typography
-        sx={{
-          margin: "10px 0",
-          alignSelf: "center",
-          fontSize: "14px",
-        }}
-        variant="caption"
-      >
-        Or
-      </Typography>
 
       <FormControl
         sx={{
@@ -142,7 +126,7 @@ export default function Login() {
                 onMouseDown={handleMouseDownPassword}
                 edge="end"
               >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
+                {/* {showPassword ? <VisibilityOff /> : <Visibility />} */}
               </IconButton>
             </InputAdornment>
           }

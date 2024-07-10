@@ -188,7 +188,7 @@ export default function Home() {
           cols={5}
           // rowHeight={164}
         >
-          {productList?.items.map((item) => (
+          {productList?.data.items.map((item) => (
             <ProductCard key={item.productId} item={item} />
           ))}
         </ImageList>
