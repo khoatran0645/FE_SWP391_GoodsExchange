@@ -116,7 +116,16 @@ export default function SearchAppBar() {
             />
           </Search>
           <Stack direction="row" spacing={2} marginLeft={3}>
-            <Button variant="contained" onClick={handleSearch}>
+            <Button
+              variant="contained"
+              onClick={handleSearch}
+              sx={{
+                backgroundColor: "#FF204E",
+                "&:hover": {
+                  backgroundColor: "#FF204E",
+                },
+              }}
+            >
               Search
             </Button>
           </Stack>

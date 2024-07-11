@@ -35,7 +35,7 @@ export default function AdminNavBar() {
 
   return (
     <Box sx={{ flexGrow: 1, width: "100%" }}>
-      <AppBar position="static" sx={{ width: "100%" }}>
+      <AppBar position="static" sx={{ width: "100%", backgroundColor:"black", }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Admin

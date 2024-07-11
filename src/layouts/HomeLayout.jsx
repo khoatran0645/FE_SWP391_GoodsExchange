@@ -1,4 +1,4 @@
-import { Typography, Grid } from "@mui/material";
+import { Typography, Grid, Slider } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import NavBar from "../features/common/NavBar";
 import SearchAppBar from "../features/common/SearchBar";
