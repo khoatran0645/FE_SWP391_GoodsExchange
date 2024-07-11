@@ -77,8 +77,8 @@ function Profile() {
       const response = await ChangingPasswordCurrentlyUser(data);
       toast.success("Password changed successfully");
       handleClose();
-    } catch (error) {
-      if (error.response && error.response.status === 400) {
+    } catch (errors) {
+      if (errors.response && errors.response.status === 400) {
         // Extract and set errors
         setErrors(error.response.data.errors.NewPassword || []);
         toast.error("Password change failed. Please check the errors.");

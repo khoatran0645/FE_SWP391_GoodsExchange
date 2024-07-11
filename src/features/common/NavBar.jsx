@@ -19,10 +19,12 @@ import ChatIcon from "@mui/icons-material/Chat";
 import Badge from "@mui/material/Badge";
 import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
+import { jwtDecode } from "jwt-decode";
 
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import useStore from "../../app/store";
 import { toast } from "react-toastify";
+import Profile from "../profile/EditProfile";
 
 export default function NavBar() {
   function notificationsLabel(count) {
@@ -43,8 +45,10 @@ export default function NavBar() {
 
   const navigate = useNavigate();
   const auth = useStore((state) => state.auth);
+  const getProfileUserById = useStore((state) => state.getProfileUserById);
   const getAllCategories = useStore((state) => state.getAllCategories);
 
+  const [userDetails, setUserDetails] = useState(null);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -61,7 +65,17 @@ export default function NavBar() {
     })) || [];
 
   // console.log("options", options);
+  useEffect(() => {
+    if (auth) {
+      const userInfo = useStore.getState().userInfo;
+      const userDetail = jwtDecode(userInfo.data.token);
+      // console.log("userInfo", userInfo);
+      getProfileUserById(userDetail.id);
+      setUserDetails(userDetail);
 
+      // console.log("userDetail", userDetail);
+    }
+  }, [auth]);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -180,7 +194,7 @@ export default function NavBar() {
               </IconButton> */}
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="" src={userDetails?.userImageUrl} />
                 </IconButton>
               </Tooltip>
               <Menu
