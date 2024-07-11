@@ -21,7 +21,11 @@ import {
   API_USER_PROFILE_ID,
   API_CREATE_MODERATOR_ACCOUNT,
   API_UPDATE_PROFILE,
+
   API_CHANGING_PASSWORD,
+
+  API_PATCH_STATUS_MODERATOR,
+
 } from "./../constant";
 import { toast } from "react-toastify";
 
@@ -366,6 +370,21 @@ const useStore = create(
               error.response?.data || error.message
             );
             return { isSuccessed: false, message: error.message };
+          } finally {
+            set({ isLoading: false });
+          }
+        },
+        // DEACTIVE MODERATOR
+        patchStatusModerator: async (id, isAcive) => {
+          set({ isLoading: true });
+          try {
+            const { data } = await axiosClient.patch(
+              API_PATCH_STATUS_MODERATOR,
+              { id: id, status: isAcive }
+            );
+            set({ response: data });
+          } catch (error) {
+            set({ error: error.message });
           } finally {
             set({ isLoading: false });
           }

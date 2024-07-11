@@ -83,8 +83,8 @@ export default function AddModerator({ onAdd }) {
         const response = await postCreateModeratorAccount(formDataToSend);
         console.log(response);
         setOpen(false);
-        resetForm(); // Reset form fields after successful submission
-        onAdd(); // Fetch updated list after adding a new moderator
+        resetForm();
+        onAdd();
       } catch (error) {
         console.error("Error registering:", error);
         alert("Error creating moderator: " + error.message);
@@ -113,8 +113,9 @@ export default function AddModerator({ onAdd }) {
           color: "white",
           backgroundColor: "#1876D2",
           marginBottom: "16px",
+          backgroundColor: "#FF204E",
           "&:hover": {
-            backgroundColor: "#1876D2",
+            backgroundColor: "#FF204E",
           },
         }}
       >
@@ -246,7 +247,16 @@ export default function AddModerator({ onAdd }) {
               required
             />
             <DialogActions>
-              <Button onClick={handleClose} sx={{ color: "black" }}>
+              <Button
+                onClick={handleClose}
+                sx={{
+                  color: "white",
+                  backgroundColor: "black",
+                  "&:hover": {
+                    backgroundColor: "black",
+                  },
+                }}
+              >
                 Cancel
               </Button>
               <Button
@@ -254,9 +264,9 @@ export default function AddModerator({ onAdd }) {
                 color="primary"
                 variant="contained"
                 sx={{
-                  backgroundColor: "#1876D2",
+                  backgroundColor: "#FF204E",
                   "&:hover": {
-                    backgroundColor: "#1876D2",
+                    backgroundColor: "#FF204E",
                   },
                 }}
               >

@@ -170,6 +170,10 @@ export default function Login() {
       <Button
         sx={{
           marginBottom: "10px",
+          backgroundColor: "#FF204E",
+          "&:hover": {
+            backgroundColor: "#FF204E",
+          },
         }}
         variant="contained"
         onClick={onLoginClick}

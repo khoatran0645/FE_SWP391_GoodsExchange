@@ -30,8 +30,11 @@ axiosClient.interceptors.response.use(
     return response;
   },
   (error) => {
+    console.log("error", error.response.data.Message);
     if (error.response) {
-      if (error.response.status === 401) {
+      if (error.response.status === 400) {
+        toast.error(error.response.data.Message);
+      } else if (error.response.status === 401) {
         // Optionally, you can redirect to a login page
         window.location.href = "/login";
       } else if (error.response.status === 404) {

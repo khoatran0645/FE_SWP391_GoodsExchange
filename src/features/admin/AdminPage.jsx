@@ -22,6 +22,7 @@ import AddModerator from "./AddModerator";
 export default function AdminPage() {
   const [page, setPage] = useState(1);
   const postListModerator = useStore((state) => state.postListModerator);
+  const patchStatusModerator = useStore((state) => state.patchStatusModerator);
   const [listModerator, setListModerator] = useState([]);
 
   const fetchModerators = async () => {
@@ -36,6 +37,14 @@ export default function AdminPage() {
     fetchModerators();
   }, [page]);
 
+  const handleDelete = async (id, status) => {
+    console.log("id", id);
+    console.log("status", status);
+    await patchStatusModerator(id, !status);
+    await postListModerator(page, 10);
+    const moderatorList = useStore.getState().moderatorList;
+    setListModerator(moderatorList || []);
+  };
   return (
     <>
       <AdminNavBar />
@@ -61,7 +70,7 @@ export default function AdminPage() {
               <TableBody>
                 {listModerator.length > 0 ? (
                   listModerator.map((moderator) => (
-                    <TableRow key={moderator.id}>
+                    <TableRow key={moderator.userId}>
                       <TableCell>{moderator.firstName}</TableCell>
                       <TableCell>{moderator.lastName}</TableCell>
                       <TableCell>{moderator.email}</TableCell>
@@ -69,16 +78,19 @@ export default function AdminPage() {
                       <TableCell>
                         <IconButton
                           component={Link}
-                          to={`/edit_staff/${moderator.id}`}
+                          to={`/edit_staff/${moderator.userId}`}
                           aria-label="edit"
                         >
                           Edit
                         </IconButton>
                         <IconButton
-                          onClick={() => handleDelete(moderator.id)}
+                          color={moderator.status ? "error" : "success"}
+                          onClick={() =>
+                            handleDelete(moderator.userId, moderator.status)
+                          }
                           aria-label="delete"
                         >
-                          Remove
+                          {moderator.status ? "Deactive" : "Reactive"}
                         </IconButton>
                       </TableCell>
                     </TableRow>

@@ -169,7 +169,12 @@ export default function NavBarMo() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
+      <AppBar
+        position="fixed"
+        sx={{
+          backgroundColor: "black",
+        }}
+      >
         <Toolbar>
           <IconButton
             size="large"
