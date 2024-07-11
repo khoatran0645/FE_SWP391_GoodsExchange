@@ -15,7 +15,7 @@ import { useLocation } from "react-router-dom";
 
 export default function CreateRating() {
   const sendRatingFromBuyer = useStore((state) => state.sendRatingFromBuyer);
-  const [numberStars, setNumberStars] = useState(1);
+  const [numberStars, setNumberStars] = useState(5);
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const [feedback, setFeedback] = useState("");
