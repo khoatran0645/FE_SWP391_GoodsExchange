@@ -19,6 +19,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs"; // Import <dayjs></dayjs>
 import { toast } from "react-toastify";
+import { South } from "@mui/icons-material";
 
 const resetPasswordModalStyle = {
   position: "absolute",
@@ -35,6 +36,9 @@ const resetPasswordModalStyle = {
 function Profile() {
   const getProfileUserById = useStore((state) => state.getProfileUserById);
   const UpdateProfileUser = useStore((state) => state.UpdateProfileUser);
+  const ChangingPasswordCurrentlyUser = useStore(
+    (state) => state.ChangingPasswordOfCurrentlyUser
+  );
   const userInfo = useStore.getState().userInfo;
   const userDetail = jwtDecode(userInfo.data.token);
 
@@ -60,6 +64,33 @@ function Profile() {
     },
   });
 
+  // Password
+  const {
+    register: registerPasswordForm,
+    handleSubmit: handleSubmitPasswordForm,
+    watch: watchPasswordForm,
+    formState: { errors: errorsPasswordForm },
+  } = useForm();
+  const [errors, setErrors] = useState([]);
+  const onSubmitPassword = async (data) => {
+    try {
+      const response = await ChangingPasswordCurrentlyUser(data);
+      toast.success("Password changed successfully");
+      handleClose();
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        // Extract and set errors
+        setErrors(error.response.data.errors.NewPassword || []);
+        toast.error("Password change failed. Please check the errors.");
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
+    }
+    console.log(response);
+
+    console.log(data);
+  };
+
   useEffect(() => {
     if (profileDetail) {
       setValue("Firstname", profileDetail.firstName);
@@ -81,9 +112,9 @@ function Profile() {
 
     try {
       await UpdateProfileUser(formattedData);
-      toast("Profile updated successfully"); // Log success message
+      toast.success("Profile updated successfully"); // Log success message
     } catch (error) {
-      console.error("Error updating profile: ", error); // Log error message
+      toast.error("Error updating profile: "); // Log error message
     }
   };
 
@@ -191,6 +222,7 @@ function Profile() {
           </Button>
         </Box>
       </Box>
+      //change password
       <Modal
         keepMounted
         open={openResetPasswordModal}
@@ -207,42 +239,68 @@ function Profile() {
             sx={{
               display: "flex",
               flexDirection: "column",
-              maxWidth: "1600px",
+              maxWidth: "400px",
               alignItems: "center",
               justifyContent: "center",
-              margin: "30px 0",
+              margin: "30px auto",
               width: "100%",
             }}
             noValidate
             autoComplete="off"
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmitPasswordForm(onSubmitPassword)}
           >
             <TextField
               required
               id="current-password"
-              label="Mật khẩu hiện tại"
-              fullWidth={true}
+              label="Current Password"
+              fullWidth
               type="password"
+              {...registerPasswordForm("oldPassword", {
+                required: "Old password is required",
+              })}
               sx={{ margin: "10px 0" }}
             />
+            {errorsPasswordForm.oldPassword && (
+              <p>{errorsPasswordForm.oldPassword.message}</p>
+            )}
             <TextField
               required
               id="new-password"
-              label="Mật khẩu mới"
-              fullWidth={true}
+              label="New Password"
+              fullWidth
               type="password"
+              {...registerPasswordForm("newPassword", {
+                required: "New password is required",
+              })}
               sx={{ margin: "10px 0" }}
             />
+            {errorsPasswordForm.newPassword && (
+              <p>{errorsPasswordForm.newPassword.message}</p>
+            )}
             <TextField
               required
               id="new-password-confirm"
-              label="Xác nhận mật khẩu mới"
-              fullWidth={true}
+              label="Confirm New Password"
+              fullWidth
               type="password"
+              {...registerPasswordForm("confirmNewPassword", {
+                required: "Please confirm your new password",
+                validate: (value) =>
+                  value === watchPasswordForm("newPassword") ||
+                  "The passwords do not match",
+              })}
               sx={{ margin: "10px 0" }}
             />
-            <Button variant="contained" color="error" sx={{ mt: 2 }}>
-              Đổi mật khẩu
+            {errorsPasswordForm.confirmNewPassword && (
+              <p>{errorsPasswordForm.confirmNewPassword.message}</p>
+            )}
+            <Button
+              variant="contained"
+              color="error"
+              type="submit"
+              sx={{ mt: 2 }}
+            >
+              Change Password
             </Button>
           </Box>
         </Box>

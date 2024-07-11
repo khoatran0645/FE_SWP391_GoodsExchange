@@ -22,6 +22,12 @@ import {
   API_CREATE_MODERATOR_ACCOUNT,
   API_UPDATE_PROFILE,
   API_POST_RATING,
+
+
+  API_CHANGING_PASSWORD,
+
+  API_PATCH_STATUS_MODERATOR,
+
 } from "./../constant";
 import { toast } from "react-toastify";
 
@@ -75,6 +81,29 @@ const useStore = create(
             set({ UserProfile: data });
           } catch (error) {
             set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
+
+        ChangingPasswordOfCurrentlyUser: async (form) => {
+          set({ isLoading: true });
+
+          try {
+            const { data } = await axiosClient.patch(
+              API_CHANGING_PASSWORD,
+              form
+            );
+
+            set({ ChangingPassword: data });
+          } catch (error) {
+            if (error.response && error.response.status === 400) {
+              // Extract validation errors
+              const validationErrors = error.response.data.errors;
+              set({ error: validationErrors });
+            } else {
+              set({ error: error.message });
+            }
           } finally {
             set({ isLoading: false });
           }
@@ -366,6 +395,21 @@ const useStore = create(
               error.response?.data || error.message
             );
             return { isSuccessed: false, message: error.message };
+          } finally {
+            set({ isLoading: false });
+          }
+        },
+        // DEACTIVE MODERATOR
+        patchStatusModerator: async (id, isAcive) => {
+          set({ isLoading: true });
+          try {
+            const { data } = await axiosClient.patch(
+              API_PATCH_STATUS_MODERATOR,
+              { id: id, status: isAcive }
+            );
+            set({ response: data });
+          } catch (error) {
+            set({ error: error.message });
           } finally {
             set({ isLoading: false });
           }
