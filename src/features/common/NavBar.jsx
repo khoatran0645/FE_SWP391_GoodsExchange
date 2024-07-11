@@ -78,8 +78,8 @@ export default function NavBar() {
   };
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl" sx={{ backgroundColor: "black"}}>
+    <AppBar position="static" sx={{ backgroundColor: "black" }}>
+      <Container maxWidth="xl" sx={{}}>
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
