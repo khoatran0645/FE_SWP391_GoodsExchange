@@ -101,7 +101,7 @@ export default function Login() {
       >
         Login to your Account
       </Typography>
-      <GoogleLogin
+      {/* <GoogleLogin
         logo_alignment="center"
         onSuccess={responseMessage}
         onError={errorMessage}
@@ -115,7 +115,7 @@ export default function Login() {
         variant="caption"
       >
         Or
-      </Typography>
+      </Typography> */}
 
       <FormControl
         sx={{
