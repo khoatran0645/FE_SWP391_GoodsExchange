@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Paper,
@@ -12,11 +12,14 @@ import {
   Tab,
 } from "@mui/material";
 import { useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 
 import NavBar from "../common/NavBar";
 import { useNavigate } from "react-router-dom";
+import useStore from "../../app/store";
+import CreateNewProduct from "../products/CreateNewProduct";
 const Profile = () => {
-   const navigate = useNavigate();
+  const navigate = useNavigate();
   const data = [
     {
       lastName: "Phuong",
@@ -26,11 +29,28 @@ const Profile = () => {
         "https://i.pinimg.com/originals/94/ba/f3/94baf36bb56658bfe8dfba142e4a98a3.jpg",
     },
   ];
-  const [in4List, setIn4List] = React.useState(data);
+  const getProfileUserById = useStore((state) => state.getProfileUserById);
+  const [in4List, setIn4List] = useState(data);
+  const userInfo = useStore.getState().userInfo;
+  const userDetail = jwtDecode(userInfo.data.token);
+
+  useEffect(() => {
+    getProfileUserById(userDetail.id);
+  }, []);
+
+  const profileDetail = useStore((state) => state.userProfile);
+
+  console.log(profileDetail);
 
   return (
     <>
       <NavBar />
+
+      <Grid container justifyContent="flex-end">
+        <Grid item>
+          <CreateNewProduct />
+        </Grid>
+      </Grid>
 
       <Grid container spacing={2} padding={3}>
         <Grid item xs={12} md={4}>
@@ -59,8 +79,8 @@ const Profile = () => {
                 }
               >
                 <Avatar
-                  alt="Psyduck"
-                  src="https://i.pinimg.com/originals/94/ba/f3/94baf36bb56658bfe8dfba142e4a98a3.jpg"
+                  alt={profileDetail.lastName}
+                  src={profileDetail?.userImageUrl}
                   sx={{ width: 100, height: 100 }}
                 />
               </Badge>
@@ -68,14 +88,14 @@ const Profile = () => {
             {in4List.map((in4) => (
               <>
                 <Typography variant="h6" sx={{ mt: 1 }}>
-                  {in4.lastName} {in4.firstName}
+                  {profileDetail.lastName} {profileDetail.firstName}
                 </Typography>
                 <Typography
                   variant="body2"
                   color="textSecondary"
                   sx={{ mt: 1 }}
                 >
-                  Phone: {in4.phone}
+                  Phone: {profileDetail.phoneNumber}
                 </Typography>
               </>
             ))}
@@ -83,15 +103,14 @@ const Profile = () => {
               Chưa có đánh giá
             </Typography>
 
-            <Button variant="outlined" fullWidth sx={{ mt: 1 }} onClick={() => navigate('/edit-profile')}>
+            <Button
+              variant="outlined"
+              fullWidth
+              sx={{ mt: 1 }}
+              onClick={() => navigate("/edit-profile")}
+            >
               Chỉnh sửa trang cá nhân
             </Button>
-            <Typography variant="body2" color="textSecondary" sx={{ mt: 2 }}>
-              Phản hồi chat: Chưa có thông tin
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              Đã tham gia: 1 ngày
-            </Typography>
           </Box>
         </Grid>
 
@@ -103,9 +122,6 @@ const Profile = () => {
             </Tabs>
             <Box sx={{ textAlign: "center", marginTop: 5 }}>
               <Typography variant="h6">Bạn chưa có tin đăng nào</Typography>
-              <Button variant="contained" color="warning" sx={{ marginTop: 2 }}>
-                ĐĂNG TIN NGAY
-              </Button>
             </Box>
           </Paper>
         </Grid>
