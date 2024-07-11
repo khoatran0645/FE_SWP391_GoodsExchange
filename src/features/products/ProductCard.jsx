@@ -11,12 +11,20 @@ import { addDots } from "../../utils/helper";
 
 export default function ProductCard({ item }) {
   const navigate = useNavigate();
-  // console.log(item);
 
   return (
     <Card
       key={item.productId}
-      sx={{ maxWidth: 345, minWidth: 200, marginX: 0.5, marginY: 0.5 }}
+      sx={{
+        maxWidth: 345,
+        minWidth: 200,
+        marginX: 0.5,
+        marginY: 0.5,
+        transition: "transform 0.2s",
+        "&:hover": {
+          transform: "scale(1.05)",
+        },
+      }}
     >
       <CardActionArea
         onClick={() => {
@@ -28,12 +36,37 @@ export default function ProductCard({ item }) {
           height="200"
           image={`${item.productImageUrl}?w=150&h=150&fit=crop&auto=format`}
           alt={item.productName}
+          sx={{
+            objectFit: "cover",
+            borderBottom: "1px solid #ddd",
+          }}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{
+              fontWeight: "bold",
+              color: "#333",
+              textAlign: "center",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
             {item.productName}
           </Typography>
-          <Typography gutterBottom variant="h6" component="div">
+          <Typography
+            gutterBottom
+            variant="h6"
+            component="div"
+            sx={{
+              color: "#ff5722",
+              textAlign: "center",
+              fontWeight: "bold",
+            }}
+          >
             {addDots(item.price)} VND
           </Typography>
         </CardContent>

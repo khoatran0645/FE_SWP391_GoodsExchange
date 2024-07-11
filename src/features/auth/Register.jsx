@@ -297,7 +297,13 @@ export default function Register() {
           <Button
             type="button"
             variant="contained"
-            sx={{ margin: "10px 0" }}
+            sx={{
+              marginBottom: "10px",
+              backgroundColor: "#FF204E",
+              "&:hover": {
+                backgroundColor: "#FF204E",
+              },
+            }}
             onClick={handleNext}
           >
             Next
@@ -392,7 +398,13 @@ export default function Register() {
           <Button
             type="submit"
             variant="contained"
-            sx={{ margin: "10px 0" }}
+            sx={{
+              marginBottom: "10px",
+              backgroundColor: "#FF204E",
+              "&:hover": {
+                backgroundColor: "#FF204E",
+              },
+            }}
             disabled={loading}
           >
             {loading ? <CircularProgress size={24} /> : "Register"}

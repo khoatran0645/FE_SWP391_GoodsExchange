@@ -57,7 +57,16 @@ export default function CreateNewProduct() {
   return (
     <>
       {auth && (
-        <Button variant="contained" onClick={handleClickOpen}>
+        <Button
+          variant="contained"
+          onClick={handleClickOpen}
+          sx={{
+            backgroundColor: "#FF204E",
+            "&:hover": {
+              backgroundColor: "#FF204E",
+            },
+          }}
+        >
           Create new product
         </Button>
       )}
@@ -177,6 +186,15 @@ export default function CreateNewProduct() {
             variant="contained"
             tabIndex={-1}
             startIcon={<CloudUploadIcon />}
+            sx={{
+              marginTop: 1,
+              backgroundColor: "white",
+              border: "1px solid black",
+              color: "black",
+              "&:hover": {
+                backgroundColor: "white",
+              },
+            }}
           >
             Upload file
             <VisuallyHiddenInput
@@ -187,11 +205,32 @@ export default function CreateNewProduct() {
           </Button>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} disabled={isLoading}>
+          <Button
+            onClick={handleClose}
+            disabled={isLoading}
+            sx={{
+              color: "white",
+              backgroundColor: "black",
+              "&:hover": {
+                backgroundColor: "black",
+              },
+            }}
+          >
             Cancel
           </Button>
           {(isLoading && <CircularProgress />) || (
-            <Button type="submit">Submit</Button>
+            <Button
+              type="submit"
+              sx={{
+                color:"white",
+                backgroundColor: "#FF204E",
+                "&:hover": {
+                  backgroundColor: "#FF204E",
+                },
+              }}
+            >
+              Submit
+            </Button>
           )}
         </DialogActions>
       </Dialog>
