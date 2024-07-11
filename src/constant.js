@@ -40,6 +40,9 @@ export const API_DELETE_PRODUCT = "/products/id?id={id}";
 
 //* Rating APIs
 //TODO create, get, update, hide rating
+export const API_GET_RATING_STAR = "/ratings/id?id={id}";
+export const API_POST_RATING = "ratings/send-rating";
+
 
 //* Report APIs
 //TODO create, get all report , resolve report
