@@ -19,7 +19,6 @@ export default function CreateReport() {
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const sendReportFromBuyer = useStore((state) => state.sendReportFromBuyer);
-  const productDetail = useStore((state) => state.productDetail);
   const [checkBoxValues, setCheckBoxValues] = useState({
     scam: false,
     duplicate: false,
@@ -75,7 +74,6 @@ export default function CreateReport() {
       const combinedReasons = `${selectedReasons} | ${description}`;
 
       const result = {
-        // receiverId: productDetail?.data.userUploadId,
         reason: combinedReasons,
         productId: location.state.productId,
       };

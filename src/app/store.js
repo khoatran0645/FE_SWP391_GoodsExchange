@@ -21,6 +21,7 @@ import {
   API_USER_PROFILE_ID,
   API_CREATE_MODERATOR_ACCOUNT,
   API_UPDATE_PROFILE,
+  API_POST_RATING,
 } from "./../constant";
 import { toast } from "react-toastify";
 
@@ -247,6 +248,29 @@ const useStore = create(
             set({ categories: data });
           } catch (error) {
             set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
+
+        //API Rating
+        sendRatingFromBuyer: async (form) => {
+          set({ isLoading: true });
+          try {
+            console.log("Sending rating data:", form);
+            const { data } = await axiosClient.post(API_POST_RATING, form);
+            toast.success(
+              "Rating created successfully"
+            );
+            set({ response: data });
+            console.log("Rating response:", data);
+          } catch (error) {
+            set({ error: error.message });
+            console.error(
+              "Error sending rating:",
+              error.response?.data || error.message
+            );
+            return { isSuccessed: false, message: error.message };
           } finally {
             set({ isLoading: false });
           }
