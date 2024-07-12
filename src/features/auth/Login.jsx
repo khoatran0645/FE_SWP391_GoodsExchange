@@ -67,9 +67,9 @@ export default function Login() {
   const onLoginClick = async (e) => {
     e.preventDefault();
     const { username, password, rememberme } = formDataRef.current;
-    if(!username || !password) {
+    if (!username || !password) {
       toast.error("Please enter your username and password");
-      return
+      return;
     }
     await postLogin({ username, password, rememberme });
     const userInfo = useStore.getState().userInfo;
