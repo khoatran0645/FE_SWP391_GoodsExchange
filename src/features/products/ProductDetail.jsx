@@ -6,7 +6,6 @@ import { deepOrange } from "@mui/material/colors";
 import Rating from "@mui/material/Rating";
 import useStore from "../../app/store";
 import CreateReport from "../report/CreateReport";
-import { addDots } from "../../utils/helper";
 import CreateRating from "../rating/CreateRating";
 
 export default function ProductDetail() {
@@ -60,7 +59,7 @@ export default function ProductDetail() {
               fontWeight: "bold",
             }}
           >
-            {addDots(location?.state.price)} VND
+            {location?.state.price} VND
           </Typography>
           <Typography variant="body1" color={"gray"}>
             {location?.state.description}
