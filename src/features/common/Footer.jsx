@@ -52,9 +52,31 @@ export default function StickyFooter() {
         }}
       >
         <Container maxWidth="sm">
-          <Typography variant="h6" align="center" gutterBottom>
-            GoodsExchange <font color="orange">FU</font>
-          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src="./public/logo2.png"
+              alt=""
+              style={{ width: "2.5rem", marginRight: 7 }}
+            />
+            <Typography variant="h6" align="center" gutterBottom>
+              GoodsExchange{" "}
+              <span
+                style={{
+                  background: "linear-gradient(to bottom, #fad126, #f15652)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                FU
+              </span>
+            </Typography>
+          </Box>
           <Typography
             variant="body1"
             align="center"

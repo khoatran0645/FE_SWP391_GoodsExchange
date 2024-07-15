@@ -13,6 +13,7 @@ import {
   MenuItem,
   Autocomplete,
   TextField,
+  Icon,
 } from "@mui/material";
 
 import ChatIcon from "@mui/icons-material/Chat";
@@ -81,7 +82,13 @@ export default function NavBar() {
     <AppBar position="static" sx={{ backgroundColor: "black" }}>
       <Container maxWidth="xl" sx={{}}>
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
+          <img
+            src="./public/logo2.png"
+            alt=""
+            style={{ width: "3rem", marginRight: 7, cursor: "pointer" }}
+            onClick={() => navigate("/")}
+          />
           <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
             <Typography
               variant="h6"
@@ -92,11 +99,20 @@ export default function NavBar() {
                 fontFamily: "monospace",
                 fontWeight: 700,
                 letterSpacing: ".3rem",
-                color: "inherit",
+                color: "#ECEBE9",
                 textDecoration: "none",
               }}
             >
-              GoodsExchange <font color="orange">FU</font>
+              GoodsExchange{" "}
+              <span
+                style={{
+                  background: "linear-gradient(to bottom, #fad126, #f15652)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                FU
+              </span>
             </Typography>
           </Link>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
