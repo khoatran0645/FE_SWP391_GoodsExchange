@@ -29,18 +29,19 @@ const Profile = () => {
         "https://i.pinimg.com/originals/94/ba/f3/94baf36bb56658bfe8dfba142e4a98a3.jpg",
     },
   ];
-  const getProfileUserById = useStore((state) => state.getProfileUserById);
-  const [in4List, setIn4List] = useState(data);
-  const userInfo = useStore.getState().userInfo;
-  const userDetail = jwtDecode(userInfo.data.token);
+  // const getProfileUserById = useStore((state) => state.getProfileUserById);
+  // const [in4List, setIn4List] = useState(data);
+  // const userInfo = useStore.getState().userInfo;
+  // const userDetail = jwtDecode(userInfo.data.token);
 
-  useEffect(() => {
-    getProfileUserById(userDetail.id);
-  }, []);
+  // useEffect(() => {
+  //   getProfileUserById(userDetail.id);
+  // }, []);
 
-  const profileDetail = useStore((state) => state.userProfile);
+  // const profileDetail = useStore((state) => state.userProfile);
+  const userProfile = useStore((state) => state.userProfile);
 
-  console.log(profileDetail);
+  console.log("userProfile", userProfile);
 
   return (
     <>
@@ -79,26 +80,26 @@ const Profile = () => {
                 }
               >
                 <Avatar
-                  alt={profileDetail.lastName}
-                  src={profileDetail?.userImageUrl}
+                  alt={userProfile.lastName}
+                  src={userProfile?.userImageUrl}
                   sx={{ width: 100, height: 100 }}
                 />
               </Badge>
             </Box>
-            {in4List.map((in4) => (
-              <>
+            {/* {in4List.map((in4) => ( */}
+              
                 <Typography variant="h6" sx={{ mt: 1 }}>
-                  {profileDetail.lastName} {profileDetail.firstName}
+                  {userProfile.lastName} {userProfile.firstName}
                 </Typography>
                 <Typography
                   variant="body2"
                   color="textSecondary"
                   sx={{ mt: 1 }}
                 >
-                  Phone: {profileDetail.phoneNumber}
+                  Phone: {userProfile.phoneNumber}
                 </Typography>
-              </>
-            ))}
+              
+            {/* ))} */}
             <Typography variant="body2" color="textSecondary">
               Chưa có đánh giá
             </Typography>

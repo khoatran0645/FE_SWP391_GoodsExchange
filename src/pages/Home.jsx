@@ -9,7 +9,7 @@ export default function Home() {
   );
 
   useEffect(() => {
-    getProductsForHomePage(1, 10);
+    getProductsForHomePage(1, 20);
   }, []);
 
   const productList = useStore((state) => state.productList);

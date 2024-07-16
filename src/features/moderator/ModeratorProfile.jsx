@@ -21,7 +21,7 @@ export default function ModeratorProfile() {
 
   const userInfo = useStore.getState().userInfo;
 
-  const userDetail = jwtDecode(userInfo.data.token);
+  const userDetail = jwtDecode(userInfo?.data.token);
 
   // const Userprofile = useState.getState().userDetails;
 
