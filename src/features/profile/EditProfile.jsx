@@ -9,10 +9,12 @@ import {
   Divider,
   Typography,
   Modal,
+  FormHelperText,
 } from "@mui/material";
 import NavBar from "../common/NavBar";
 import useStore from "../../app/store";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+
 import { jwtDecode } from "jwt-decode";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -52,7 +54,13 @@ function Profile() {
 
   const menuItems = [{ text: "Thông tin cá nhân", key: "Thông tin cá nhân" }];
 
-  const { register, handleSubmit, setValue } = useForm({
+  const {
+    control,
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       Firstname: profileDetail?.firstName,
       Lastname: profileDetail?.lastName,
@@ -71,22 +79,27 @@ function Profile() {
     watch: watchPasswordForm,
     formState: { errors: errorsPasswordForm },
   } = useForm();
-  const [errors, setErrors] = useState([]);
+  // const [errors, setErrors] = useState([]);
+  const responseMessage = (response) => {
+    console.log(response);
+  };
+  const errorMessage = (error) => {
+    console.log(error);
+  };
   const onSubmitPassword = async (data) => {
     try {
-      const response = await ChangingPasswordCurrentlyUser(data);
+      const responses = await ChangingPasswordCurrentlyUser(data);
       toast.success("Password changed successfully");
       handleClose();
     } catch (errors) {
       if (errors.response && errors.response.status === 400) {
         // Extract and set errors
-        setErrors(error.response.data.errors.NewPassword || []);
+        // setErrors(error.response.data.errors.NewPassword || []);
         toast.error("Password change failed. Please check the errors.");
       } else {
         toast.error("An unexpected error occurred.");
       }
     }
-    console.log(response);
 
     console.log(data);
   };
@@ -184,7 +197,15 @@ function Profile() {
             required
             id="phone"
             label="Thêm số điện thoại"
-            {...register("phoneNumber")}
+            {...register("phoneNumber", {
+              required: "Phone number is required",
+              pattern: {
+                value: /^\d{10,11}$/,
+                message: "Phone number must be 10 or 11 digits",
+              },
+            })}
+            error={!!errors.phoneNumber}
+            helperText={errors.phoneNumber ? errors.phoneNumber.message : ""}
           />
           <TextField
             id="email"
@@ -194,13 +215,49 @@ function Profile() {
               readOnly: true,
             }}
           />
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Ngày sinh"
               value={dayjs(profileDetail?.dateOfBirth)}
               onChange={(newValue) => setValue("birthday", newValue)}
               renderInput={(params) => (
                 <TextField {...params} {...register("birthday")} />
+              )}
+            />
+          </LocalizationProvider> */}
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Controller
+              name="dateOfBirth"
+              control={control}
+              defaultValue={
+                profileDetail?.dateOfBirth
+                  ? dayjs(profileDetail.dateOfBirth)
+                  : null
+              }
+              rules={{
+                required: "Date of birth is required",
+                validate: (value) =>
+                  dayjs(value).isBefore(dayjs()) ||
+                  "Date of birth cannot be in the future",
+              }}
+              render={({ field }) => (
+                <>
+                  <DatePicker
+                    label="Date of Birth"
+                    value={field.value}
+                    onChange={(newValue) => {
+                      field.onChange(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} error={!!errors.dateOfBirth} />
+                    )}
+                  />
+                  {errors.dateOfBirth && (
+                    <FormHelperText error sx={{ fontSize: "1em" }}>
+                      {errors.dateOfBirth.message}
+                    </FormHelperText>
+                  )}
+                </>
               )}
             />
           </LocalizationProvider>
@@ -222,7 +279,7 @@ function Profile() {
           </Button>
         </Box>
       </Box>
-      //change password
+
       <Modal
         keepMounted
         open={openResetPasswordModal}
@@ -261,7 +318,9 @@ function Profile() {
               sx={{ margin: "10px 0" }}
             />
             {errorsPasswordForm.oldPassword && (
-              <p>{errorsPasswordForm.oldPassword.message}</p>
+              <span style={{ color: "red" }}>
+                {errorsPasswordForm.oldPassword.message}
+              </span>
             )}
             <TextField
               required
@@ -271,11 +330,24 @@ function Profile() {
               type="password"
               {...registerPasswordForm("newPassword", {
                 required: "New password is required",
+                minLength: {
+                  value: 6,
+                  message: "New password must be at least 6 characters",
+                },
+                pattern: {
+                  value:
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
+                  message:
+                    "New Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.",
+                },
               })}
               sx={{ margin: "10px 0" }}
             />
+
             {errorsPasswordForm.newPassword && (
-              <p>{errorsPasswordForm.newPassword.message}</p>
+              <span style={{ color: "red" }}>
+                {errorsPasswordForm.newPassword.message}
+              </span>
             )}
             <TextField
               required
@@ -292,7 +364,11 @@ function Profile() {
               sx={{ margin: "10px 0" }}
             />
             {errorsPasswordForm.confirmNewPassword && (
-              <p>{errorsPasswordForm.confirmNewPassword.message}</p>
+              <span
+                style={{ color: "red", fontSize: "14px", textAlign: "left" }}
+              >
+                {errorsPasswordForm.confirmNewPassword.message}
+              </span>
             )}
             <Button
               variant="contained"
