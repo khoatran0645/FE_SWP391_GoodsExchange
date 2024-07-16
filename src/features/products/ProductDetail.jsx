@@ -7,7 +7,8 @@ import Rating from "@mui/material/Rating";
 import useStore from "../../app/store";
 import CreateReport from "../report/CreateReport";
 import CreateRating from "../rating/CreateRating";
-
+import ImageGallery from "react-image-gallery";
+import "react-image-gallery/styles/css/image-gallery.css";
 export default function ProductDetail() {
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
   let location = useLocation();
@@ -20,17 +21,27 @@ export default function ProductDetail() {
   }, []);
 
   const productDetail = useStore((state) => state.productDetail);
+  // console.log("productDetail", productDetail?.data.productImageUrl);
 
+  const imageList = productDetail?.data.productImageUrl;
+  // console.log("imageList", imageList);
+  const images = imageList?.map((url) => ({
+    original: url,
+    thumbnail: url,
+    originalHeight: 300,
+    originalWidth: 500,
+  }));
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={0}>
       <Grid item xs={12}>
         {/* <Typography variant="h5" align="center">
           PRODUCT DETAIL
         </Typography> */}
       </Grid>
+
       <Grid item xs={4}>
         <Box display="flex" flexDirection="column" alignItems="center">
-          <img
+          {/* <img
             src={location?.state.productImageUrl}
             alt={location?.state.productName}
             style={{
@@ -40,6 +51,14 @@ export default function ProductDetail() {
               borderRadius: 30,
               border: "2px solid #ccc",
             }}
+          /> */}
+          <ImageGallery
+            showFullscreenButton={false}
+            showPlayButton={false}
+            autoPlay
+            originalHeight={1}
+            originalWidth={0.5}
+            items={images}
           />
         </Box>
       </Grid>
