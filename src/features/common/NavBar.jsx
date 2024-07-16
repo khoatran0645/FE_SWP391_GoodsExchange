@@ -13,18 +13,17 @@ import {
   MenuItem,
   Autocomplete,
   TextField,
+  Icon,
 } from "@mui/material";
 
 import ChatIcon from "@mui/icons-material/Chat";
 import Badge from "@mui/material/Badge";
 import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
-import { jwtDecode } from "jwt-decode";
 
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import useStore from "../../app/store";
 import { toast } from "react-toastify";
-import Profile from "../profile/EditProfile";
 
 export default function NavBar() {
   function notificationsLabel(count) {
@@ -45,10 +44,8 @@ export default function NavBar() {
 
   const navigate = useNavigate();
   const auth = useStore((state) => state.auth);
-  const getProfileUserById = useStore((state) => state.getProfileUserById);
   const getAllCategories = useStore((state) => state.getAllCategories);
 
-  const [userDetails, setUserDetails] = useState(null);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -65,17 +62,7 @@ export default function NavBar() {
     })) || [];
 
   // console.log("options", options);
-  useEffect(() => {
-    if (auth) {
-      const userInfo = useStore.getState().userInfo;
-      const userDetail = jwtDecode(userInfo.data.token);
-      // console.log("userInfo", userInfo);
-      getProfileUserById(userDetail.id);
-      setUserDetails(userDetail);
 
-      // console.log("userDetail", userDetail);
-    }
-  }, [auth]);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -95,7 +82,13 @@ export default function NavBar() {
     <AppBar position="static" sx={{ backgroundColor: "black" }}>
       <Container maxWidth="xl" sx={{}}>
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
+          <img
+            src="./public/logo2.png"
+            alt=""
+            style={{ width: "3rem", marginRight: 7, cursor: "pointer" }}
+            onClick={() => navigate("/")}
+          />
           <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
             <Typography
               variant="h6"
@@ -106,11 +99,20 @@ export default function NavBar() {
                 fontFamily: "monospace",
                 fontWeight: 700,
                 letterSpacing: ".3rem",
-                color: "inherit",
+                color: "#ECEBE9",
                 textDecoration: "none",
               }}
             >
-              GoodsExchange <font color="orange">FU</font>
+              GoodsExchange{" "}
+              <span
+                style={{
+                  background: "linear-gradient(to bottom, #fad126, #f15652)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                FU
+              </span>
             </Typography>
           </Link>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -194,7 +196,7 @@ export default function NavBar() {
               </IconButton> */}
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="" src={userDetails?.userImageUrl} />
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                 </IconButton>
               </Tooltip>
               <Menu
