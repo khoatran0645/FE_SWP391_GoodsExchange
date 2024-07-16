@@ -9,10 +9,12 @@ import {
   Divider,
   Typography,
   Modal,
+  FormHelperText,
 } from "@mui/material";
 import NavBar from "../common/NavBar";
 import useStore from "../../app/store";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+
 import { jwtDecode } from "jwt-decode";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -52,7 +54,13 @@ function Profile() {
 
   const menuItems = [{ text: "Thông tin cá nhân", key: "Thông tin cá nhân" }];
 
-  const { register, handleSubmit, setValue } = useForm({
+  const {
+    control,
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       Firstname: profileDetail?.firstName,
       Lastname: profileDetail?.lastName,
@@ -71,7 +79,7 @@ function Profile() {
     watch: watchPasswordForm,
     formState: { errors: errorsPasswordForm },
   } = useForm();
-  const [errors, setErrors] = useState([]);
+  // const [errors, setErrors] = useState([]);
   const responseMessage = (response) => {
     console.log(response);
   };
@@ -207,13 +215,49 @@ function Profile() {
               readOnly: true,
             }}
           />
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Ngày sinh"
               value={dayjs(profileDetail?.dateOfBirth)}
               onChange={(newValue) => setValue("birthday", newValue)}
               renderInput={(params) => (
                 <TextField {...params} {...register("birthday")} />
+              )}
+            />
+          </LocalizationProvider> */}
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Controller
+              name="dateOfBirth"
+              control={control}
+              defaultValue={
+                profileDetail?.dateOfBirth
+                  ? dayjs(profileDetail.dateOfBirth)
+                  : null
+              }
+              rules={{
+                required: "Date of birth is required",
+                validate: (value) =>
+                  dayjs(value).isBefore(dayjs()) ||
+                  "Date of birth cannot be in the future",
+              }}
+              render={({ field }) => (
+                <>
+                  <DatePicker
+                    label="Date of Birth"
+                    value={field.value}
+                    onChange={(newValue) => {
+                      field.onChange(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} error={!!errors.dateOfBirth} />
+                    )}
+                  />
+                  {errors.dateOfBirth && (
+                    <FormHelperText error sx={{ fontSize: "1em" }}>
+                      {errors.dateOfBirth.message}
+                    </FormHelperText>
+                  )}
+                </>
               )}
             />
           </LocalizationProvider>
