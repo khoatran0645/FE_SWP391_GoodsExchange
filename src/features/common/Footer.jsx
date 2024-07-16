@@ -60,7 +60,7 @@ export default function StickyFooter() {
             }}
           >
             <img
-              src="./public/logo2.png"
+              src="/logo2.png"
               alt=""
               style={{ width: "2.5rem", marginRight: 7 }}
             />

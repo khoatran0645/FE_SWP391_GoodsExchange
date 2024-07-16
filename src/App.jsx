@@ -1,4 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import HomeLayout from "./layouts/HomeLayout";
@@ -28,12 +29,30 @@ import AdminPage from "./features/admin/AdminPage";
 
 export default function App() {
   const colorMode = useStore((state) => state.colorMode);
+  const userInfo = useStore((state) => state.userInfo);
+  const navigate = useNavigate();
 
   const darkTheme = createTheme({
     palette: {
       mode: colorMode,
     },
   });
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    console.log("userInfo", userInfo);
+    // console.log("token", token);
+    if (token) {
+      // Redirect to "/"
+      if (userInfo?.data.role == "Moderator") {
+        navigate("/moderator-profile");
+      } else if (userInfo?.data.role == "Administrator") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+    }
+  }, []);
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
@@ -56,7 +75,11 @@ export default function App() {
           <Route path="admin" element={<AdminPage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route path="moderator-profile" exact element={<ModeratorProfile />} />
+          <Route
+            path="moderator-profile"
+            exact
+            element={<ModeratorProfile />}
+          />
           <Route path="manage-products" element={<ManageProduct />} />
           <Route path="manage-reports" element={<ManageReports />} />
           <Route path="profile" element={<Profile />} />

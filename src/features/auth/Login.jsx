@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -25,6 +25,8 @@ import { toast } from "react-toastify";
 export default function Login() {
   const postLogin = useStore((state) => state.postLogin);
   const setAuth = useStore((state) => state.setAuth);
+  const getProfileUserById = useStore((state) => state.getProfileUserById);
+
   const navigate = useNavigate();
 
   const responseMessage = (response) => {
@@ -52,6 +54,22 @@ export default function Login() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  const userInfo = useStore((state) => state.userInfo);
+  // useEffect(() => {
+  //   const token = sessionStorage.getItem("token");
+  //   console.log("userInfo", userInfo);
+  //   // console.log("token", token);
+  //   if (token) {
+  //     // Redirect to "/"
+  //     if (userInfo?.data.role == "Moderator") {
+  //       navigate("/moderator-profile");
+  //     } else if (userInfo?.data.role == "Administrator") {
+  //       navigate("/admin");
+  //     } else {
+  //       navigate("/");
+  //     }
+  //   }
+  // }, []);
 
   const formDataRef = useRef({
     username: "",
@@ -66,6 +84,7 @@ export default function Login() {
 
   const onLoginClick = async (e) => {
     e.preventDefault();
+
     const { username, password, rememberme } = formDataRef.current;
     if (!username || !password) {
       toast.error("Please enter your username and password");
@@ -78,11 +97,12 @@ export default function Login() {
     if (userInfo) {
       sessionStorage.setItem("token", userInfo.data.token);
       const decoded = jwtDecode(userInfo.data.token);
-      console.log(decoded);
+      console.log("decoded", decoded);
+      await getProfileUserById(decoded.id);
       setAuth(true);
-      if (userInfo.data.role.includes("Moderator")) {
+      if (userInfo.data.role == "Moderator") {
         navigate("/manage-products");
-      } else if (userInfo.data.role.includes("Administrator")) {
+      } else if (userInfo.data.role == "Administrator") {
         navigate("/admin");
       } else {
         navigate("/");

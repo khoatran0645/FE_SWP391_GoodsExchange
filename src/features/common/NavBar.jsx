@@ -26,6 +26,8 @@ import useStore from "../../app/store";
 import { toast } from "react-toastify";
 
 export default function NavBar() {
+  const userProfile = useStore((state) => state.userProfile);
+  // console.log("userProfile", userProfile);
   function notificationsLabel(count) {
     if (count === 0) {
       return "no notifications";
@@ -84,7 +86,7 @@ export default function NavBar() {
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
           <img
-            src="./public/logo2.png"
+            src="/logo2.png"
             alt=""
             style={{ width: "3rem", marginRight: 7, cursor: "pointer" }}
             onClick={() => navigate("/")}
@@ -196,7 +198,7 @@ export default function NavBar() {
               </IconButton> */}
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt={userProfile?.fullName} src={userProfile?.userImageUrl} />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -222,7 +224,7 @@ export default function NavBar() {
                         onClick={() => {
                           localStorage.clear();
                           sessionStorage.clear();
-                          useStore.setState({ userInfo: null });
+                          useStore.setState({ userInfo: null, userProfile: null });
                           setAuth(false);
                           navigate("/");
                           toast.success("Logout successfully");
