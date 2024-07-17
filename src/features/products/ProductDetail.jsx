@@ -16,21 +16,25 @@ export default function ProductDetail() {
 
   const getProductById = useStore((state) => state.getProductById);
 
-  useEffect(() => {
-    getProductById(location.state.productId);
-  }, []);
+  // console.log("location", location);
+  useEffect(
+    () => async () => {
+      await getProductById(location.state.productId);
+    },
+    []
+  );
 
   const productDetail = useStore((state) => state.productDetail);
-  // console.log("productDetail", productDetail?.data.productImageUrl);
+  // console.log("productDetail", productDetail);
 
-  const imageList = productDetail?.data.productImageUrl;
-  // console.log("imageList", imageList);
-  const images = imageList?.map((url) => ({
+  const images = productDetail?.data.productImageUrl.map((url) => ({
     original: url,
     thumbnail: url,
     originalHeight: 300,
     originalWidth: 500,
   }));
+
+  // console.log("images", images);
   return (
     <Grid container spacing={0}>
       <Grid item xs={12}>
@@ -52,14 +56,14 @@ export default function ProductDetail() {
               border: "2px solid #ccc",
             }}
           /> */}
-          <ImageGallery
-            showFullscreenButton={false}
-            showPlayButton={false}
-            autoPlay
-            originalHeight={1}
-            originalWidth={0.5}
-            items={images}
-          />
+          {images && (
+            <ImageGallery
+              showFullscreenButton={false}
+              showPlayButton={false}
+              autoPlay
+              items={images}
+            />
+          )}
         </Box>
       </Grid>
       <Grid item xs={8}>
