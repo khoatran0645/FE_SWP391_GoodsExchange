@@ -39,10 +39,10 @@ export default function App() {
   });
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    console.log("userInfo", userInfo);
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    // console.log("userInfo", userInfo);
     // console.log("token", token);
-    if (token) {
+    if (token != null) {
       // Redirect to "/"
       if (userInfo?.data.role == "Moderator") {
         navigate("/moderator-profile");
@@ -53,6 +53,7 @@ export default function App() {
       }
     }
   }, []);
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />

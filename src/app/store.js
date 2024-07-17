@@ -22,34 +22,34 @@ import {
   API_CREATE_MODERATOR_ACCOUNT,
   API_UPDATE_PROFILE,
   API_POST_RATING,
-
-
   API_CHANGING_PASSWORD,
-
   API_PATCH_STATUS_MODERATOR,
-
 } from "./../constant";
 import { toast } from "react-toastify";
+
+const initialState = {
+  isLoading: false,
+  error: null,
+  respone: null,
+
+  colorMode: "light",
+  auth: false,
+  productList: null,
+  productDetail: null,
+  categories: null,
+  userInfo: null,
+  searchResult: null,
+};
 
 const useStore = create(
   devtools(
     persist(
       immer((set) => ({
         //* init state
-        isLoading: false,
-        error: null,
-        respone: null,
-
-        users: [],
-        colorMode: "light",
-        auth: false,
-        productList: null,
-        productDetail: null,
-        categories: null,
-        userInfo: null,
-        searchResult: null,
+        ...initialState,
 
         //* sync actions
+        reset: () => set(initialState),
         setAuth: (auth) => set({ auth: auth }),
         toggleMode: () =>
           set((state) => ({
@@ -288,9 +288,7 @@ const useStore = create(
           try {
             console.log("Sending rating data:", form);
             const { data } = await axiosClient.post(API_POST_RATING, form);
-            toast.success(
-              "Rating created successfully"
-            );
+            toast.success("Rating created successfully");
             set({ response: data });
             console.log("Rating response:", data);
           } catch (error) {
@@ -417,7 +415,7 @@ const useStore = create(
       })),
       {
         // name: "goods-storage", // name of the item in the storage (must be unique)
-        storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
+        // storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
       }
     )
   )

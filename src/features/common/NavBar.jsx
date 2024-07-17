@@ -198,7 +198,11 @@ export default function NavBar() {
               </IconButton> */}
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt={userProfile?.fullName} src={userProfile?.userImageUrl} />
+                  <Avatar
+                    alt={userProfile?.fullName}
+                    src={userProfile?.userImageUrl}
+                  />
+                  <Typography sx={{ color: "white", ml: 1 }}>{userProfile?.fullName}</Typography>
                 </IconButton>
               </Tooltip>
               <Menu
@@ -224,8 +228,11 @@ export default function NavBar() {
                         onClick={() => {
                           localStorage.clear();
                           sessionStorage.clear();
-                          useStore.setState({ userInfo: null, userProfile: null });
-                          setAuth(false);
+                          useStore.setState({
+                            userInfo: null,
+                            userProfile: null,
+                            auth: false,
+                          });
                           navigate("/");
                           toast.success("Logout successfully");
                         }}
@@ -246,6 +253,7 @@ export default function NavBar() {
                   </MenuItem>
                 ))}
               </Menu>
+              
             </Box>
           ) : (
             <Button sx={{ color: "white" }} onClick={() => navigate("/login")}>
