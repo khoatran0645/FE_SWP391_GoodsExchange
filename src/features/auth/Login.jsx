@@ -85,17 +85,25 @@ export default function Login() {
   const onLoginClick = async (e) => {
     e.preventDefault();
 
-    const { username, password, rememberme } = formDataRef.current;
+    const { username, password } = formDataRef.current;
+    const rememberme = formDataRef.current.rememberme;
+    console.log("rememberme", rememberme);
     if (!username || !password) {
       toast.error("Please enter your username and password");
       return;
     }
-    await postLogin({ username, password, rememberme });
+    await postLogin({ username, password });
     const userInfo = useStore.getState().userInfo;
     console.log("userInfo", userInfo);
 
+
     if (userInfo) {
-      sessionStorage.setItem("token", userInfo.data.token);
+      if(rememberme){
+        localStorage.setItem("token", userInfo.data.token);
+      }else{
+        sessionStorage.setItem("token", userInfo.data.token);
+      }
+      // sessionStorage.setItem("token", userInfo.data.token);
       const decoded = jwtDecode(userInfo.data.token);
       console.log("decoded", decoded);
       await getProfileUserById(decoded.id);
