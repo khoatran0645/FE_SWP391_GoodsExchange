@@ -4,6 +4,7 @@ import NavBar from "../features/common/NavBar";
 import SearchAppBar from "../features/common/SearchBar";
 import StickyFooter from "../features/common/Footer";
 
+
 export default function HomeLayout() {
   return (
     <Grid container>

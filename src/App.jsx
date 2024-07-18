@@ -26,6 +26,7 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import useStore from "./app/store";
 import AdminPage from "./features/admin/AdminPage";
 
+import CustomPaging from "./features/common/ImageSlider";
 export default function App() {
   const colorMode = useStore((state) => state.colorMode);
 
@@ -61,6 +62,8 @@ export default function App() {
           <Route path="manage-reports" element={<ManageReports />} />
           <Route path="profile" element={<Profile />} />
           <Route path="edit-profile" element={<EditProfile />} />
+          <Route path="image" element={<CustomPaging />} />
+
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
