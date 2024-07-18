@@ -5,8 +5,12 @@ import {
   Container,
   FormControlLabel,
   Radio,
+  ImageList,
+  Stack,
+  Pagination,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+
 import ProductCard from "../features/products/ProductCard";
 import useStore from "../app/store";
 
@@ -14,12 +18,18 @@ export default function Home() {
   const getProductsForHomePage = useStore(
     (state) => state.getProductsForHomePage
   );
+  const [page, setPage] = useState(1);
+  const handleChange = (event, value) => {
+    setPage(value);
+    getProductsForHomePage(value, 10);
+  };
 
   useEffect(() => {
-    getProductsForHomePage(1, 20);
-  }, [getProductsForHomePage]);
+    getProductsForHomePage(1, 10);
+  }, []);
 
   const productList = useStore((state) => state.productList);
+  console.log("productList", productList);
   const [sortValue, setSortValue] = useState("Name Ascending");
 
   const sortProducts = () => {
@@ -55,9 +65,9 @@ export default function Home() {
   }, [sortValue, productList]);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} lg={2}>
-        <Container sx={{ backgroundColor: "#EEEEEE", height: "100vh" }}>
+    <Grid container spacing={1}>
+      <Grid item xs={2}>
+        <Container sx={{ backgroundColor: "#f5f5f5", height: "75vh" }}>
           <Typography variant="h4" textAlign={"center"} marginTop={0.5}>
             Sort By
           </Typography>
@@ -89,8 +99,8 @@ export default function Home() {
         </Container>
       </Grid>
 
-      <Grid item xs={12} lg={10}>
-        <Grid container spacing={2}>
+      <Grid item xs={10}>
+        <Grid container spacing={1}>
           {sortProducts().length > 0 ? (
             sortProducts().map((item) => (
               <Grid
@@ -109,7 +119,11 @@ export default function Home() {
             <Typography variant="h4">No Products</Typography>
           )}
         </Grid>
+        <Stack spacing={2} alignItems="center" marginTop={5}>
+        <Pagination count={productList?.data?.totalPage} page={page} onChange={handleChange} />
+        </Stack>
       </Grid>
+      
     </Grid>
   );
 }

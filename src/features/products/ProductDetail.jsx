@@ -1,33 +1,47 @@
-import { Grid, Typography, Box, Button, ImageList } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Box,
+  Button,
+  ImageList,
+  Rating,
+  Avatar,
+} from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Avatar from "@mui/material/Avatar";
 import { deepOrange } from "@mui/material/colors";
-import Rating from "@mui/material/Rating";
 import useStore from "../../app/store";
 import CreateReport from "../report/CreateReport";
 import CreateRating from "../rating/CreateRating";
 
-import SearchProduct from "./SearchProduct";
 import ProductCard from "./ProductCard";
-
 
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
+import { addDots } from "./../../utils/helper";
 
 export default function ProductDetail() {
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
   let location = useLocation();
+  // console.log("location", location);
   const navigate = useNavigate();
 
   const getProductById = useStore((state) => state.getProductById);
+  const getSearchProductForUser = useStore(
+    (state) => state.getSearchProductForUser
+  );
+
+  useEffect(
+    () => async () => {
+      await getProductById(location.state.productId);
+      await getSearchProductForUser(" ");
+    },
+    []
+  );
+
   const searchResult = useStore((state) => state.searchResult);
-  console.log(searchResult);
+  console.log("searchResult", searchResult);
 
-
-  useEffect(() => {
-    getProductById(location.state.productId);
-  }, []);
   const filteredSearchResult = searchResult?.data.items.filter(
     (item) =>
       item.categoryName.toLowerCase() ==
@@ -36,17 +50,8 @@ export default function ProductDetail() {
   );
   console.log("filteredSearchResult :", filteredSearchResult);
 
-  // console.log("location", location);
-  useEffect(
-    () => async () => {
-      await getProductById(location.state.productId);
-    },
-    []
-  );
-
-
   const productDetail = useStore((state) => state.productDetail);
-  // console.log("productDetail", productDetail);
+  // console.log("productDetail", productDetail?.data);
 
   const images = productDetail?.data.productImageUrl.map((url) => ({
     original: url,
@@ -57,7 +62,6 @@ export default function ProductDetail() {
 
   // console.log("images", images);
   return (
-
     <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -67,7 +71,7 @@ export default function ProductDetail() {
         </Grid>
         <Grid item xs={4}>
           <Box display="flex" flexDirection="column" alignItems="center">
-            <img
+            {/* <img
               src={location?.state.productImageUrl}
               alt={location?.state.productName}
               style={{
@@ -77,7 +81,15 @@ export default function ProductDetail() {
                 borderRadius: 30,
                 border: "2px solid #ccc",
               }}
-            />
+            /> */}
+            {images && (
+              <ImageGallery
+                showFullscreenButton={false}
+                showPlayButton={false}
+                autoPlay
+                items={images}
+              />
+            )}
           </Box>
         </Grid>
         <Grid item xs={8}>

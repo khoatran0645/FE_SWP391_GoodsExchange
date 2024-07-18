@@ -4,13 +4,13 @@ import Swal from "sweetalert2";
 
 const axiosClient = axios.create({
   baseURL: import.meta.env.VITE_BE_BASE_URL,
-  timeout: 10000,
+  // timeout: 10000,
   headers: {},
 });
 
 axiosClient.interceptors.request.use(
   (config) => {
-    const token = sessionStorage.getItem("token");
+    const token = sessionStorage.getItem("token") || localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
