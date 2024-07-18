@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const axiosClient = axios.create({
   baseURL: import.meta.env.VITE_BE_BASE_URL,
@@ -39,17 +40,37 @@ axiosClient.interceptors.response.use(
         window.location.href = "/login";
       } else if (error.response.status === 404) {
         // Handle not found error (e.g., show a notification)
-        toast.error(error.response.data.Message);
+        // toast.error(error.response.data.Message);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.Message,
+        });
       } else if (error.response.status >= 500 && error.response.status < 600) {
         // Handle server errors (e.g., show a notification)
-        toast.error("Server error");
+        // toast.error("Server error");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Server error",
+        });
       }
     } else if (error.request) {
       // Handle network errors (e.g., no internet connection)
-      toast.error("Network error");
+      // toast.error("Network error");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Network error",
+      });
     } else {
       // Handle other errors
-      toast.error("An unexpected error occurred");
+      // toast.error("An unexpected error occurred");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "An unexpected error occurred",
+      });
     }
 
     return Promise.reject(error);

@@ -7,7 +7,6 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { addDots } from "../../utils/helper";
 
 export default function ProductCard({ item }) {
   const navigate = useNavigate();
@@ -67,7 +66,7 @@ export default function ProductCard({ item }) {
               fontWeight: "bold",
             }}
           >
-            {addDots(item.price)} VND
+            {item.price} VND
           </Typography>
         </CardContent>
       </CardActionArea>

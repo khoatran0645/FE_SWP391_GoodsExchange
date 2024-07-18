@@ -6,10 +6,14 @@ import { deepOrange } from "@mui/material/colors";
 import Rating from "@mui/material/Rating";
 import useStore from "../../app/store";
 import CreateReport from "../report/CreateReport";
-import { addDots } from "../../utils/helper";
 import CreateRating from "../rating/CreateRating";
+
 import SearchProduct from "./SearchProduct";
 import ProductCard from "./ProductCard";
+
+
+import ImageGallery from "react-image-gallery";
+import "react-image-gallery/styles/css/image-gallery.css";
 
 export default function ProductDetail() {
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
@@ -19,6 +23,7 @@ export default function ProductDetail() {
   const getProductById = useStore((state) => state.getProductById);
   const searchResult = useStore((state) => state.searchResult);
   console.log(searchResult);
+
 
   useEffect(() => {
     getProductById(location.state.productId);
@@ -31,9 +36,28 @@ export default function ProductDetail() {
   );
   console.log("filteredSearchResult :", filteredSearchResult);
 
-  const productDetail = useStore((state) => state.productDetail);
+  // console.log("location", location);
+  useEffect(
+    () => async () => {
+      await getProductById(location.state.productId);
+    },
+    []
+  );
 
+
+  const productDetail = useStore((state) => state.productDetail);
+  // console.log("productDetail", productDetail);
+
+  const images = productDetail?.data.productImageUrl.map((url) => ({
+    original: url,
+    thumbnail: url,
+    originalHeight: 300,
+    originalWidth: 500,
+  }));
+
+  // console.log("images", images);
   return (
+
     <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -79,6 +103,7 @@ export default function ProductDetail() {
             </Typography>
           </Box>
           <hr style={{ borderTop: "2px solid black" }} />
+
           <Box
             display="flex"
             flexDirection="column"

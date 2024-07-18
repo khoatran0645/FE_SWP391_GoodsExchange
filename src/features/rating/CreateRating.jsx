@@ -8,10 +8,17 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
+import axios from "axios";
+import {toast} from "react-toastify";
+import  useStore from "../../app/store";
+import { useLocation } from "react-router-dom";
 
 export default function CreateRating() {
-  const [value, setValue] = useState(1);
+  const sendRatingFromBuyer = useStore((state) => state.sendRatingFromBuyer);
+  const [numberStars, setNumberStars] = useState(5);
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+  const [feedback, setFeedback] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -21,14 +28,28 @@ export default function CreateRating() {
     setOpen(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    toast.success("Rating submitted successfully!");
-    handleClose();
-  };
+    const formData = new FormData(event.currentTarget);
+    const feedback = formData.get("feedback");
 
-  console.log(value);
+    const result = {
+      feedback: feedback,
+      productId: location.state.productId,
+      numberStars: numberStars,
+    };
+    try {
+      const response = await sendRatingFromBuyer(result);
+      console.log("Rating sent successfully:", response);
+      if (response?.isSuccessed) {
+        toast.success("Rating sent successfully.");
+      }
+      handleClose();
+    } catch (error) {
+      console.error("Error sending report:", error);
+      toast.error("Error sending report. Please try again later.");
+    }
+  };
 
   return (
     <>
@@ -62,9 +83,9 @@ export default function CreateRating() {
             <Typography component="legend">Controlled</Typography>
             <Rating
               name="simple-controlled"
-              value={value}
-              onChange={(event, newValue) => {
-                setValue(newValue);
+              value={numberStars}
+              onChange={(event, numberStars) => {
+                setNumberStars(numberStars);
               }}
             />
           </Box>

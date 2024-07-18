@@ -21,7 +21,7 @@ export default function ModeratorProfile() {
 
   const userInfo = useStore.getState().userInfo;
 
-  const userDetail = jwtDecode(userInfo.data.token);
+  const userDetail = jwtDecode(userInfo?.data.token);
 
   // const Userprofile = useState.getState().userDetails;
 
@@ -33,7 +33,7 @@ export default function ModeratorProfile() {
 
   let profileDetail = useStore((state) => state.userProfile);
   // khong lay T ve sau
-  profileDetail.dateOfBirth = profileDetail?.dateOfBirth.split('T')[0]
+  // profileDetail.dateOfBirth = profileDetail?.dateOfBirth.split('T')[0]
 
   console.log("profileDetail  ", profileDetail);
 
@@ -119,7 +119,7 @@ export default function ModeratorProfile() {
                 readOnly: true,
               }}
             />
-            <TextField
+            {/* <TextField
               id="birthday"
               label="Ngày, tháng, năm sinh"
               type="date"
@@ -128,7 +128,7 @@ export default function ModeratorProfile() {
               InputLabelProps={{
                 shrink: true,
               }}
-            />
+            /> */}
 
             <Button variant="contained" color="primary" sx={{ mt: 2 }}>
               Lưu thay đổi

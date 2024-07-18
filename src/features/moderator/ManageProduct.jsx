@@ -20,14 +20,14 @@ export default function ManageProduct() {
   React.useEffect(() => {
     const fetchData = async () => {
       await postAllProduct(page, 10);
-      // const productList = useStore.getState().productList;
-      console.log("productList", productList);
-      setTotalPage(productList.totalPage);
-      setListProduct(productList.items);
+      const productList = useStore.getState().productList;
+      // console.log("product", productList);
+      setTotalPage(productList.data.totalPage);
+      setListProduct(productList.data.items);
     };
     fetchData();
   }, [page]);
-  const productList = useStore.getState().productList;
+
   const handleApprove = async (item) => {
     await approveProduct(item, true);
     const response = useStore.getState().response;
@@ -74,7 +74,7 @@ export default function ManageProduct() {
       >
         <ModeratorPage />
 
-        {productList?.data.items.map((product) => (
+        {listProduct?.map((product) => (
           <Paper
             key={product.productId}
             sx={{ p: 3, mb: 2, maxWidth: "500px" }}
@@ -95,18 +95,12 @@ export default function ManageProduct() {
               }}
             >
               {product.price} VND
-              <Typography variant="body1">{product.description}</Typography>
+            <Typography variant="body1">{product.description}</Typography>
             </Typography>
-            <Typography variant="body1">
-              Created by: {product.userUpload}
-            </Typography>
-            <Typography variant="body1">
-              Upload date: {product.uploadDate}
-            </Typography>
+            <Typography variant="body1">Created by: {product.userUpload}</Typography>
+            <Typography variant="body1">Upload date: {product.uploadDate}</Typography>
             {/* <Typography variant="body1">{product.approvedDate}</Typography> */}
-            <Typography variant="body1">
-              Category name: {product.categoryName}
-            </Typography>
+            <Typography variant="body1">Category name: {product.categoryName}</Typography>
             <Typography variant="body1">ID: {product.productId}</Typography>
 
             <Box

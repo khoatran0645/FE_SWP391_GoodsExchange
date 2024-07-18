@@ -127,13 +127,13 @@ export default function Register() {
     }
   };
 
-  const googleLoginSuccess = (response) => {
-    console.log("Google login successful", response.profileObj.email);
-  };
+  // const googleLoginSuccess = (response) => {
+  //   console.log("Google login successful", response.profileObj.email);
+  // };
 
-  const googleLoginError = (error) => {
-    console.log("Google login error", error);
-  };
+  // const googleLoginError = (error) => {
+  //   console.log("Google login error", error);
+  // };
 
   const handleBack = () => {
     setCurrentStep(1);
@@ -172,7 +172,7 @@ export default function Register() {
 
       {currentStep === 1 && (
         <>
-          <GoogleLogin
+          {/* <GoogleLogin
             text="signup_with"
             onSuccess={googleLoginSuccess}
             onError={googleLoginError}
@@ -188,7 +188,7 @@ export default function Register() {
             variant="caption"
           >
             Or
-          </Typography>
+          </Typography> */}
           <FormControl
             sx={{ margin: "0 0 10px 0" }}
             size="small"
