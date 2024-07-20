@@ -23,24 +23,31 @@ import { addDots } from "./../../utils/helper";
 export default function ProductDetail() {
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
   let location = useLocation();
-  // console.log("location", location);
+  console.log("location", location);
   const navigate = useNavigate();
 
   const getProductById = useStore((state) => state.getProductById);
+  const auth = useStore((state) => state.auth);
   const getSearchProductForUser = useStore(
     (state) => state.getSearchProductForUser
   );
 
-  useEffect(
-    () => async () => {
-      await getProductById(location.state.productId);
-      await getSearchProductForUser(" ");
-    },
-    []
-  );
+  useEffect(() => {
+    getProductById(location.state.productId);
+    getSearchProductForUser(" ");
+  }, [location]);
+  const productDetail = useStore((state) => state.productDetail);
+  console.log("productDetail", productDetail?.data);
+  const images = productDetail?.data.productImageUrl.map((url) => ({
+    original: url,
+    thumbnail: url,
+    originalHeight: 300,
+    originalWidth: 500,
+  }));
+  // console.log("images", images);
 
   const searchResult = useStore((state) => state.searchResult);
-  console.log("searchResult", searchResult);
+  // console.log("searchResult", searchResult);
 
   const filteredSearchResult = searchResult?.data.items.filter(
     (item) =>
@@ -48,19 +55,8 @@ export default function ProductDetail() {
         location.state.categoryName.toLowerCase() &&
       item.productId !== location.state.productId
   );
-  console.log("filteredSearchResult :", filteredSearchResult);
+  // console.log("filteredSearchResult :", filteredSearchResult);
 
-  const productDetail = useStore((state) => state.productDetail);
-  // console.log("productDetail", productDetail?.data);
-
-  const images = productDetail?.data.productImageUrl.map((url) => ({
-    original: url,
-    thumbnail: url,
-    originalHeight: 300,
-    originalWidth: 500,
-  }));
-
-  // console.log("images", images);
   return (
     <>
       <Grid container spacing={2}>
@@ -188,7 +184,7 @@ export default function ProductDetail() {
               >
                 {!showPhoneNumber ? (
                   <Button
-                    onClick={() => setShowPhoneNumber(true)}
+                    onClick={() => {auth? setShowPhoneNumber(true) : navigate("/login")}}
                     sx={{
                       backgroundColor: "white",
                       border: "1px solid black",
@@ -224,7 +220,7 @@ export default function ProductDetail() {
         cols={10}
         // rowHeight={164}
       >
-        {filteredSearchResult.length > 0 ? (
+        {filteredSearchResult?.length > 0 ? (
           filteredSearchResult.map((item) => (
             <ProductCard key={item.productId} item={item} />
           ))

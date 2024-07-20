@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -19,6 +20,8 @@ export default function CreateReport() {
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const sendReportFromBuyer = useStore((state) => state.sendReportFromBuyer);
+  const auth = useStore((state) => state.auth);
+  const navigate = useNavigate();
   const [checkBoxValues, setCheckBoxValues] = useState({
     scam: false,
     duplicate: false,
@@ -32,7 +35,8 @@ export default function CreateReport() {
   const [checkboxError, setCheckboxError] = useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    auth ? setOpen(true) : navigate("/login");
+    
   };
 
   const handleClose = () => {
@@ -100,6 +104,7 @@ export default function CreateReport() {
   return (
     <>
       <Button
+
         onClick={handleClickOpen}
         sx={{
           backgroundColor: "red",
@@ -226,7 +231,7 @@ export default function CreateReport() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit" >Submit</Button>
+          <Button type="submit">Submit</Button>
         </DialogActions>
       </Dialog>
     </>
