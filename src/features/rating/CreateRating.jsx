@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 import {toast} from "react-toastify";
 import  useStore from "../../app/store";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function CreateRating() {
   const sendRatingFromBuyer = useStore((state) => state.sendRatingFromBuyer);
@@ -19,9 +19,11 @@ export default function CreateRating() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const [feedback, setFeedback] = useState("");
+  const auth = useStore((state) => state.auth);
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
-    setOpen(true);
+    auth ? setOpen(true) : navigate("/login");
   };
 
   const handleClose = () => {

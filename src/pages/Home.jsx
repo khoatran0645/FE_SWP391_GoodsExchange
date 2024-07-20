@@ -120,10 +120,9 @@ export default function Home() {
           )}
         </Grid>
         <Stack spacing={2} alignItems="center" marginTop={5}>
-        <Pagination count={productList?.data?.totalPage} page={page} onChange={handleChange} />
+        <Pagination count={productList?.data.totalPage} page={page} onChange={handleChange} />
         </Stack>
       </Grid>
-      
     </Grid>
   );
 }
