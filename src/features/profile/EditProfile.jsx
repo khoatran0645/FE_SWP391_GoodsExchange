@@ -222,7 +222,7 @@ function Profile() {
           </Button>
         </Box>
       </Box>
-      //change password
+      {/* //change password */}
       <Modal
         keepMounted
         open={openResetPasswordModal}
