@@ -39,7 +39,8 @@ export default function App() {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
     // console.log("userInfo", userInfo);
     // console.log("token", token);
     if (token != null) {
@@ -51,6 +52,8 @@ export default function App() {
       } else {
         navigate("/");
       }
+    } else {
+      useStore.setState({ userInfo: null, userProfile: null, auth: false });
     }
   }, []);
 
