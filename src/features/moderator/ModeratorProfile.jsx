@@ -103,13 +103,14 @@ export default function ModeratorProfile() {
               id="phone"
               label="Thêm số điện thoại"
               {...register("phoneNumber")}
+
             />
             <TextField
               id="email"
               label="Email"
               {...register("email")}
               InputProps={{
-                readOnly: true,
+                readOnly: true
               }}
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
