@@ -58,5 +58,5 @@ export const API_DENY_REPORT_MOD = "reports/deny/{id}";
 export const API_LOGIN = "/users/login";
 export const API_REGISTER = "/users/register";
 export const API_USER_PROFILE_ID = "/users/{id}";
-export const API_UPDATE_PROFILE = "/users/update-Profile";
+export const API_UPDATE_PROFILE = "/users/update-account";
 export const API_CHANGING_PASSWORD = "/users/Changing-Password";
