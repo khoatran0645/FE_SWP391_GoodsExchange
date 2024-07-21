@@ -200,8 +200,8 @@ function Profile() {
             {...register("phoneNumber", {
               required: "Phone number is required",
               pattern: {
-                value: /^\d{10,11}$/,
-                message: "Phone number must be 10 or 11 digits",
+                value: /^0[0-9]{9,10}$/,
+                message: "Phone number must be 10-11 positive digits",
               },
             })}
             error={!!errors.phoneNumber}
