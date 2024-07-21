@@ -36,7 +36,7 @@ const Profile = () => {
 
   const sellerProductList = useStore((state) => state.sellerProductList);
 
-  console.log("sellerProductList", sellerProductList.data.items);
+  console.log("sellerProductList", sellerProductList?.data.items);
 
   const [value, setValue] = useState("1");
 
