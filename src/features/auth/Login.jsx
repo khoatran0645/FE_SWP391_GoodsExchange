@@ -96,11 +96,10 @@ export default function Login() {
     const userInfo = useStore.getState().userInfo;
     console.log("userInfo", userInfo);
 
-
     if (userInfo) {
-      if(rememberme){
+      if (rememberme) {
         localStorage.setItem("token", userInfo.data.token);
-      }else{
+      } else {
         sessionStorage.setItem("token", userInfo.data.token);
       }
       // sessionStorage.setItem("token", userInfo.data.token);
@@ -207,6 +206,19 @@ export default function Login() {
         onClick={onLoginClick}
       >
         Login
+      </Button>
+      <Button
+        sx={{
+          marginBottom: "10px",
+          backgroundColor: "black",
+          "&:hover": {
+            backgroundColor: "black",
+          },
+        }}
+        variant="contained"
+        onClick={() => navigate("/")}
+      >
+        Back
       </Button>
       <Typography>
         Not registered yet?{" "}
