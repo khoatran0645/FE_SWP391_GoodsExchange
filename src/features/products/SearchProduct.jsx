@@ -96,7 +96,7 @@ function SearchProduct() {
                   lg={3}
                   xl={2}
                 >
-                  <ProductCard item={item} />
+                  <ProductCard item={item}  />
                 </Grid>
               ))
             ) : (

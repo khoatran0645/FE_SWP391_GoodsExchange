@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Card,
   Typography,
@@ -8,7 +9,21 @@ import {
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
-export default function ProductCard({ item }) {
+ProductCard.propTypes = {
+  item: PropTypes.shape({
+    productId: PropTypes.string.isRequired,
+    productImageUrl: PropTypes.string.isRequired,
+    productName: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+  }).isRequired,
+  isDisable: PropTypes.bool,
+};
+
+ProductCard.defaultProps = {
+  isDisable: false,
+};
+
+export default function ProductCard({ item, isDisable }) {
   const navigate = useNavigate();
 
   return (
@@ -26,6 +41,7 @@ export default function ProductCard({ item }) {
       }}
     >
       <CardActionArea
+        disabled={isDisable}
         onClick={() => {
           navigate(`/products/${item.productId}`, { state: item });
         }}
@@ -73,7 +89,3 @@ export default function ProductCard({ item }) {
     </Card>
   );
 }
-
-ProductCard.propTypes = {
-  item: PropTypes.object.isRequired,
-};

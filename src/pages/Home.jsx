@@ -21,12 +21,12 @@ export default function Home() {
   const [page, setPage] = useState(1);
   const handleChange = (event, value) => {
     setPage(value);
-    getProductsForHomePage(value, 10);
+    // getProductsForHomePage(value, 10);
   };
 
   useEffect(() => {
-    getProductsForHomePage(1, 10);
-  }, []);
+    getProductsForHomePage(page, 12);
+  }, [page]);
 
   const productList = useStore((state) => state.productList);
   console.log("productList", productList);

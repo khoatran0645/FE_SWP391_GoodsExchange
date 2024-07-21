@@ -24,7 +24,7 @@ export default function CreateNewProduct() {
   const isLoading = useStore((state) => state.isLoading);
   const auth = useStore((state) => state.auth);
   const [selectedFile, setSelectedFile] = useState([]);
-  console.log("selectedFile", selectedFile);
+  // console.log("selectedFile", selectedFile);
 
   const handleClickOpen = () => {
     setOpen(true);

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import HomeLayout from "./layouts/HomeLayout";
@@ -31,6 +31,7 @@ export default function App() {
   const colorMode = useStore((state) => state.colorMode);
   const userInfo = useStore((state) => state.userInfo);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const darkTheme = createTheme({
     palette: {
@@ -50,7 +51,8 @@ export default function App() {
       } else if (userInfo?.data.role == "Administrator") {
         navigate("/admin");
       } else {
-        navigate("/");
+        // navigate("/");
+        navigate(location.pathname, { replace: true });
       }
     } else {
       useStore.setState({ userInfo: null, userProfile: null, auth: false });
