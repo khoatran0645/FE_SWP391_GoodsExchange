@@ -10,6 +10,7 @@ import {
   Box,
   Tabs,
   Tab,
+  Rating,
 } from "@mui/material";
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
@@ -87,23 +88,31 @@ const Profile = () => {
               </Badge>
             </Box>
             {/* {in4List.map((in4) => ( */}
-              
-                <Typography variant="h6" sx={{ mt: 1 }}>
-                  {userProfile.lastName} {userProfile.firstName}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  sx={{ mt: 1 }}
-                >
-                  Phone: {userProfile.phoneNumber}
-                </Typography>
-              
-            {/* ))} */}
-            <Typography variant="body2" color="textSecondary">
-              Chưa có đánh giá
+
+            <Typography variant="h6" sx={{ mt: 1 }}>
+              {userProfile.lastName} {userProfile.firstName}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+              Phone: {userProfile.phoneNumber}
             </Typography>
 
+            {/* ))} */}
+            {/* <Typography variant="body2" color="textSecondary">
+              Chưa có đánh giá
+            </Typography> */}
+            {userProfile && userProfile.averageNumberStars ? (
+              <Rating
+                name="read-only"
+                value={userProfile.averageNumberStars}
+                readOnly
+                precision={0.5}
+                size="small"
+              />
+            ) : (
+              <Typography variant="body2" color="textSecondary">
+                No ratings yet
+              </Typography>
+            )}
             <Button
               variant="outlined"
               fullWidth
