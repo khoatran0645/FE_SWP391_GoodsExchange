@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Avatar,
   Paper,
@@ -12,37 +12,55 @@ import {
   Tab,
   Rating,
 } from "@mui/material";
-import { useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 
 import NavBar from "../common/NavBar";
 import { useNavigate } from "react-router-dom";
 import useStore from "../../app/store";
 import CreateNewProduct from "../products/CreateNewProduct";
+import ProductCard from "../products/ProductCard";
+
 const Profile = () => {
   const navigate = useNavigate();
-  const data = [
-    {
-      lastName: "Phuong",
-      firstName: "Thao",
-      phone: 88888888,
-      image:
-        "https://i.pinimg.com/originals/94/ba/f3/94baf36bb56658bfe8dfba142e4a98a3.jpg",
-    },
-  ];
-  // const getProfileUserById = useStore((state) => state.getProfileUserById);
-  // const [in4List, setIn4List] = useState(data);
-  // const userInfo = useStore.getState().userInfo;
-  // const userDetail = jwtDecode(userInfo.data.token);
 
-  // useEffect(() => {
-  //   getProfileUserById(userDetail.id);
-  // }, []);
-
-  // const profileDetail = useStore((state) => state.userProfile);
   const userProfile = useStore((state) => state.userProfile);
+  // console.log("userProfile", userProfile);
 
-  console.log("userProfile", userProfile);
+  const getSellerProduct = useStore((state) => state.getSellerProduct);
+
+  useEffect(() => {
+    getSellerProduct();
+  }, []);
+
+  const sellerProductList = useStore((state) => state.sellerProductList);
+
+  console.log("sellerProductList", sellerProductList.data.items);
+
+  const [value, setValue] = useState("1");
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const waitingList = () => {
+    return sellerProductList?.data.items.filter(
+      (item) => item.isApproved === false && item.isActive === true
+    );
+  };
+
+  const showingList = () => {
+    return sellerProductList?.data.items.filter(
+      (item) => item.isApproved === true && item.isActive === true
+    );
+  };
+
+  const soldList = () => {
+    return sellerProductList?.data.items.filter(
+      (item) => item.isApproved === true && item.isActive === false
+    );
+  };
 
   return (
     <>
@@ -125,15 +143,57 @@ const Profile = () => {
         </Grid>
 
         <Grid item xs={12} md={8}>
-          <Paper sx={{ padding: 2, height: "100%" }}>
-            <Tabs value={0} textColor="secondary" indicatorColor="secondary">
-              <Tab label="Đang hiển thị (0)" />
-              <Tab label="Đã bán (0)" />
-            </Tabs>
-            <Box sx={{ textAlign: "center", marginTop: 5 }}>
-              <Typography variant="h6">Bạn chưa có tin đăng nào</Typography>
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <TabList
+                onChange={handleChange}
+                aria-label="lab API tabs example"
+              >
+                <Tab
+                  label="Đang cho duyet"
+                  value="1"
+                  onClick={() => waitingList()}
+                />
+                <Tab
+                  label="Đang hiển thị"
+                  value="2"
+                  onClick={() => showingList()}
+                />
+                <Tab label="Đã bán" value="3" />
+              </TabList>
             </Box>
-          </Paper>
+            {waitingList()?.length > 0
+              ? waitingList().map((item) => (
+                  <TabPanel value="1" key={item.productId}>
+                    <ProductCard item={item} isDisable={true} />
+                  </TabPanel>
+                ))
+              : null}
+
+            {showingList()?.length > 0
+              ? showingList().map((item) => (
+                  <TabPanel value="2" key={item.productId}>
+                    <ProductCard item={item} />
+                  </TabPanel>
+                ))
+              : null}
+
+            {soldList()?.length > 0
+              ? soldList().map((item) => (
+                  <TabPanel value="3" key={item.productId}>
+                    <ProductCard item={item} />
+                  </TabPanel>
+                ))
+              : null}
+
+            {/* <TabPanel value="1">Item 2</TabPanel>
+            <TabPanel value="2">Item 3</TabPanel>
+            <TabPanel value="1">Item 4</TabPanel>
+            <TabPanel value="2">Item 5</TabPanel>
+            <TabPanel value="2">Item 6</TabPanel>
+            <TabPanel value="2">Item 7</TabPanel>
+            <TabPanel value="2">Item 8</TabPanel> */}
+          </TabContext>
         </Grid>
       </Grid>
     </>

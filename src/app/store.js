@@ -24,6 +24,7 @@ import {
   API_POST_RATING,
   API_CHANGING_PASSWORD,
   API_PATCH_STATUS_MODERATOR,
+  API_GET_PRODUCT_SELLER,
 } from "./../constant";
 import { toast } from "react-toastify";
 
@@ -39,6 +40,8 @@ const initialState = {
   categories: null,
   userInfo: null,
   searchResult: null,
+  userProfile: null,
+  sellerProductList: null,
 };
 
 const useStore = create(
@@ -405,6 +408,20 @@ const useStore = create(
               { id: id, status: isAcive }
             );
             set({ response: data });
+          } catch (error) {
+            set({ error: error.message });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
+        // get seller product
+        getSellerProduct: async () => {
+          set({ isLoading: true });
+          try {
+            const { data } = await axiosClient.post(
+              API_GET_PRODUCT_SELLER
+            );
+            set({ sellerProductList: data });
           } catch (error) {
             set({ error: error.message });
           } finally {
