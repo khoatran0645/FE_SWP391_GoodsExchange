@@ -1,15 +1,19 @@
 import { useState, useRef } from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import Autocomplete from "@mui/material/Autocomplete";
 import { toast } from "react-toastify";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { CircularProgress } from "@mui/material";
+import {
+  ImageList,
+  ImageListItem,
+  CircularProgress,
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Autocomplete,
+} from "@mui/material";
 
 import useStore from "../../app/store";
 
@@ -20,6 +24,8 @@ export default function CreateNewProduct() {
   const isLoading = useStore((state) => state.isLoading);
   const auth = useStore((state) => state.auth);
   const [selectedFile, setSelectedFile] = useState([]);
+  console.log("selectedFile", selectedFile);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -53,7 +59,6 @@ export default function CreateNewProduct() {
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files);
   };
-
   return (
     <>
       {auth && (
@@ -203,6 +208,22 @@ export default function CreateNewProduct() {
               onChange={handleFileChange}
             />
           </Button>
+          {selectedFile?.length > 0 && (
+            <ImageList
+              // sx={{ width: 500, height: 450 }}
+              cols={3}
+              rowHeight={164}
+            >
+              {Array.from(selectedFile).map((item, index) => {
+                const url = URL.createObjectURL(item);
+                return (
+                  <ImageListItem key={index} sx={{ width: 164, height: 164 }}>
+                    <img src={url} alt={`file-${index}`} loading="lazy" />
+                  </ImageListItem>
+                );
+              })}
+            </ImageList>
+          )}
         </DialogContent>
         <DialogActions>
           <Button
@@ -222,7 +243,7 @@ export default function CreateNewProduct() {
             <Button
               type="submit"
               sx={{
-                color:"white",
+                color: "white",
                 backgroundColor: "#FF204E",
                 "&:hover": {
                   backgroundColor: "#FF204E",

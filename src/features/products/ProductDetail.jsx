@@ -83,6 +83,7 @@ export default function ProductDetail() {
                 showFullscreenButton={false}
                 showPlayButton={false}
                 autoPlay
+                showNav={false}
                 items={images}
               />
             )}
@@ -184,7 +185,9 @@ export default function ProductDetail() {
               >
                 {!showPhoneNumber ? (
                   <Button
-                    onClick={() => {auth? setShowPhoneNumber(true) : navigate("/login")}}
+                    onClick={() => {
+                      auth ? setShowPhoneNumber(true) : navigate("/login");
+                    }}
                     sx={{
                       backgroundColor: "white",
                       border: "1px solid black",
