@@ -260,7 +260,6 @@ const useStore = create(
           set({ isLoading: true });
           try {
             const { data } = await axiosClient.post(API_REGISTER, form);
-            toast.success("");
             set({ response: data });
           } catch (error) {
             set({ error: error.message });

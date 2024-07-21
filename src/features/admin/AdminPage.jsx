@@ -63,6 +63,8 @@ export default function AdminPage() {
                   <TableCell>First Name</TableCell>
                   <TableCell>Last Name</TableCell>
                   <TableCell>Email</TableCell>
+                  {/* <TableCell>Username</TableCell>
+                  <TableCell>Password</TableCell> */}
                   <TableCell>Role</TableCell>
                   <TableCell>Actions</TableCell>
                 </TableRow>
@@ -74,6 +76,8 @@ export default function AdminPage() {
                       <TableCell>{moderator.firstName}</TableCell>
                       <TableCell>{moderator.lastName}</TableCell>
                       <TableCell>{moderator.email}</TableCell>
+                      {/* <TableCell>{moderator.userName}</TableCell>
+                      <TableCell>{moderator.password}</TableCell> */}
                       <TableCell>{moderator.roleName}</TableCell>
                       <TableCell>
                         <IconButton

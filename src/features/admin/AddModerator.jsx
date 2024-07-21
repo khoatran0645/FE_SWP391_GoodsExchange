@@ -10,8 +10,8 @@ import {
   TextField,
 } from "@mui/material";
 import useStore from "../../app/store";
+import { toast } from "react-toastify";
 
-// Yup validation schema based on backend validation
 const validationSchema = yup.object({
   firstName: yup.string().required("First Name is required."),
   lastName: yup.string().required("Last Name is required."),
@@ -23,7 +23,10 @@ const validationSchema = yup.object({
       "Email domain must be gmail.com or fpt.edu.vn."
     )
     .required("Email is required."),
-  dateOfBirth: yup.date().required("Date of Birth is required."),
+  dateOfBirth: yup
+    .date()
+    .max(new Date(), "Date of Birth cannot be in the future.")
+    .required("Date of Birth is required."),
   phoneNumber: yup
     .string()
     .matches(/^\d{10,11}$/, "Phone Number must be 10 or 11 digits.")
@@ -82,6 +85,7 @@ export default function AddModerator({ onAdd }) {
 
         const response = await postCreateModeratorAccount(formDataToSend);
         console.log(response);
+        toast.success("Create moderator account successfully!");
         setOpen(false);
         resetForm();
         onAdd();
@@ -182,6 +186,9 @@ export default function AddModerator({ onAdd }) {
               }
               margin="normal"
               required
+              InputProps={{
+                inputProps: { max: new Date().toISOString().split("T")[0] },
+              }}
             />
             <TextField
               label="Phone Number"
