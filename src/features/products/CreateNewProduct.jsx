@@ -109,6 +109,7 @@ export default function CreateNewProduct() {
             console.log("response", response);
             console.log("error", error);
             if (!error) {
+              setSelectedFile([]);
               toast.success(
                 "Product created successfully. Please wait for Moderator approval."
               );
