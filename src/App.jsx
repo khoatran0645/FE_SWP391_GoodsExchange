@@ -51,8 +51,8 @@ export default function App() {
       } else if (userInfo?.data.role == "Administrator") {
         navigate("/admin");
       } else {
-        // navigate("/");
-        navigate(location.pathname, { replace: true });
+        navigate("/");
+        // navigate(location.pathname, { replace: false });
       }
     } else {
       useStore.setState({ userInfo: null, userProfile: null, auth: false });
