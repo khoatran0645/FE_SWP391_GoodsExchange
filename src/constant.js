@@ -28,7 +28,7 @@ export const API_GET_PRODUCT_SELLER = "/products/seller/all?PageIndex=1&PageSize
 export const API_GET_ALL_MODERATOR_LIST =
   "/users/list-moderators?PageIndex={PageIndex}&PageSize={PageSize}";
 export const API_CREATE_MODERATOR_ACCOUNT = "/users/CreateAccount";
-export const API_PATCH_STATUS_MODERATOR = "users/status";
+export const API_PATCH_STATUS_MODERATOR = "/users/status/{id}?status={status}";
 // Moderator
 
 export const API_GET_ALL_PRODUCT_MOD =

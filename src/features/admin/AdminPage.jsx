@@ -18,6 +18,7 @@ import {
   Container,
 } from "@mui/material";
 import AddModerator from "./AddModerator";
+import EditMod from "./EditMod";
 
 export default function AdminPage() {
   const [page, setPage] = useState(1);
@@ -80,19 +81,14 @@ export default function AdminPage() {
                       <TableCell>{moderator.password}</TableCell> */}
                       <TableCell>{moderator.roleName}</TableCell>
                       <TableCell>
-                        <IconButton
-                          component={Link}
-                          to={`/edit_staff/${moderator.userId}`}
-                          aria-label="edit"
-                        >
-                          Edit
-                        </IconButton>
+                        {/* <EditMod /> */}
+
                         <IconButton
                           color={moderator.status ? "error" : "success"}
                           onClick={() =>
                             handleDelete(moderator.userId, moderator.status)
                           }
-                          aria-label="delete"
+                          aria-label="toggle status"
                         >
                           {moderator.status ? "Deactive" : "Reactive"}
                         </IconButton>

@@ -404,8 +404,10 @@ const useStore = create(
           set({ isLoading: true });
           try {
             const { data } = await axiosClient.patch(
-              API_PATCH_STATUS_MODERATOR,
-              { id: id, status: isAcive }
+              API_PATCH_STATUS_MODERATOR.replace("{id}", id).replace(
+                "{status}",
+                isAcive
+              )
             );
             set({ response: data });
           } catch (error) {
@@ -418,9 +420,7 @@ const useStore = create(
         getSellerProduct: async () => {
           set({ isLoading: true });
           try {
-            const { data } = await axiosClient.post(
-              API_GET_PRODUCT_SELLER
-            );
+            const { data } = await axiosClient.post(API_GET_PRODUCT_SELLER);
             set({ sellerProductList: data });
           } catch (error) {
             set({ error: error.message });
