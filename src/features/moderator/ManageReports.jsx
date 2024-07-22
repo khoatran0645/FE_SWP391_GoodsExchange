@@ -16,40 +16,35 @@ export default function ManageReports() {
   const [totalPage, setTotalPage] = React.useState(1);
 
   const [listReport, setListReport] = React.useState([]);
+  const fetchData = async () => {
+    await getAllReports(page, 10);
+    const reportList = useStore.getState().reportList;
+    console.log("report", reportList);
+    // setTotalPage(reportList.totalPage);
+    setListReport(reportList.data.items);
+  };
   React.useEffect(() => {
-    const fetchData = async () => {
-      await getAllReports(page, 10);
-      const reportList = useStore.getState().reportList;
-      console.log("report", reportList);
-      // setTotalPage(reportList.totalPage);
-      setListReport(reportList.data.items);
-    };
     fetchData();
   }, [page]);
 
   const handleApprove = async (item) => {
     await approveReport(item);
     const response = useStore.getState().response;
-    if (response?.data) {
-      setListReport(
-        listReport.filter((iter) => iter.productId !== item.productId)
-      );
-      toast.success("You've successfully approved");
-    } else {
-      console.log("Error");
-    }
+    // setListReport(
+    //   listReport.filter((iter) => iter.productId !== item.productId)
+    // );
+    fetchData();
+    toast.success("You've successfully approved");
   };
 
   const handleDeny = async (item) => {
     await denyReport(item);
     const response = useStore.getState().response;
-    if (response.data) {
-      setListReport(
-        listReport.filter((iter) => iter.productId !== item.productId)
-      );
-      toast.success("You've successfully denied");
+    if (response?.data) {
+      fetchData();
+      toast.success(response?.message || "You've successfully denied");
     } else {
-      console.log("Error");
+      toast.error("Error");
     }
   };
 
