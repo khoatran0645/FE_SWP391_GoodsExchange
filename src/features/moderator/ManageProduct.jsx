@@ -32,28 +32,20 @@ export default function ManageProduct() {
     await approveProduct(item, true);
     const response = useStore.getState().response;
 
-    if (response.data) {
-      setListProduct(
-        listProduct.filter((iter) => iter.productId !== item.productId)
-      );
-      toast.success("You've successfully approved");
-    } else {
-      console.log("Error");
-    }
+    setListProduct(
+      listProduct.filter((iter) => iter.productId !== item.productId)
+    );
+    toast.success("You've successfully approved");
   };
 
   const handleDeny = async (item) => {
     await denyProduct(item, false);
     const response = useStore.getState().response;
 
-    if (response.data) {
-      setListProduct(
-        listProduct.filter((iter) => iter.productId !== item.productId)
-      );
-      toast.success("You've successfully denied");
-    } else {
-      console.log("Error");
-    }
+    setListProduct(
+      listProduct.filter((iter) => iter.productId !== item.productId)
+    );
+    toast.success("You've successfully denied");
   };
 
   const handlePageChange = (event, value) => {
@@ -95,12 +87,18 @@ export default function ManageProduct() {
               }}
             >
               {product.price} VND
-            <Typography variant="body1">{product.description}</Typography>
+              <Typography variant="body1">{product.description}</Typography>
             </Typography>
-            <Typography variant="body1">Created by: {product.userUpload}</Typography>
-            <Typography variant="body1">Upload date: {product.uploadDate}</Typography>
+            <Typography variant="body1">
+              Created by: {product.userUpload}
+            </Typography>
+            <Typography variant="body1">
+              Upload date: {product.uploadDate}
+            </Typography>
             {/* <Typography variant="body1">{product.approvedDate}</Typography> */}
-            <Typography variant="body1">Category name: {product.categoryName}</Typography>
+            <Typography variant="body1">
+              Category name: {product.categoryName}
+            </Typography>
             <Typography variant="body1">ID: {product.productId}</Typography>
 
             <Box
