@@ -14,14 +14,12 @@ import {
 import NavBar from "../common/NavBar";
 import useStore from "../../app/store";
 import { useForm, Controller } from "react-hook-form";
-
 import { jwtDecode } from "jwt-decode";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs"; // Import <dayjs></dayjs>
+import dayjs from "dayjs";
 import { toast } from "react-toastify";
-import { South } from "@mui/icons-material";
 
 const resetPasswordModalStyle = {
   position: "absolute",
@@ -62,30 +60,23 @@ function Profile() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      Firstname: profileDetail?.firstName,
-      Lastname: profileDetail?.lastName,
-      phoneNumber: profileDetail?.phoneNumber,
-      email: profileDetail?.email,
+      Firstname: profileDetail?.firstName || "",
+      Lastname: profileDetail?.lastName || "",
+      phoneNumber: profileDetail?.phoneNumber || "",
+      email: profileDetail?.email || "",
       dateOfBirth: profileDetail?.dateOfBirth
         ? dayjs(profileDetail.dateOfBirth)
         : null,
     },
   });
 
-  // Password
   const {
     register: registerPasswordForm,
     handleSubmit: handleSubmitPasswordForm,
     watch: watchPasswordForm,
     formState: { errors: errorsPasswordForm },
   } = useForm();
-  // const [errors, setErrors] = useState([]);
-  const responseMessage = (response) => {
-    console.log(response);
-  };
-  const errorMessage = (error) => {
-    console.log(error);
-  };
+
   const onSubmitPassword = async (data) => {
     try {
       const responses = await ChangingPasswordCurrentlyUser(data);
@@ -93,15 +84,11 @@ function Profile() {
       handleClose();
     } catch (errors) {
       if (errors.response && errors.response.status === 400) {
-        // Extract and set errors
-        // setErrors(error.response.data.errors.NewPassword || []);
         toast.error("Password change failed. Please check the errors.");
       } else {
         toast.error("An unexpected error occurred.");
       }
     }
-
-    console.log(data);
   };
 
   useEffect(() => {
@@ -121,13 +108,16 @@ function Profile() {
         ? dayjs(data.dateOfBirth).toISOString()
         : null,
     };
-    console.log("Formatted Data: ", formattedData); // Log the data before the API call
 
     try {
       await UpdateProfileUser(formattedData);
-      toast.success("Profile updated successfully"); // Log success message
+      toast.success("Profile updated successfully");
     } catch (error) {
-      toast.error("Error updating profile: "); // Log error message
+      if (error.response && error.response.status === 400) {
+        toast.error("Error updating profile. Please check the errors.");
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 
@@ -139,7 +129,6 @@ function Profile() {
     <>
       <NavBar />
       <Box sx={{ display: "flex", height: "100vh" }}>
-        {/* Menu sidebar */}
         <Box sx={{ width: "250px", borderRight: "1px solid #ddd" }}>
           <List component="nav">
             {menuItems.map((item) => (
@@ -160,7 +149,6 @@ function Profile() {
             ))}
           </List>
         </Box>
-        {/* form  */}
         <Box
           component="form"
           sx={{
@@ -183,48 +171,70 @@ function Profile() {
           <h2>Thông tin cá nhân</h2>
           <TextField
             required
-            id="name"
-            label="FirstName"
-            {...register("Firstname")}
+            id="firstname"
+            label="First Name"
+            {...register("Firstname", {
+              required: "First name is required",
+              maxLength: {
+                value: 50,
+                message: "First Name cannot exceed 50 characters",
+              },
+            })}
+            error={!!errors.Firstname}
           />
+          {errors.Firstname && (
+            <span style={{ color: "red" }}>{errors.Firstname.message}</span>
+          )}
           <TextField
             required
-            id="name"
-            label="LastName"
-            {...register("Lastname")}
+            id="lastname"
+            label="Last Name"
+            {...register("Lastname", {
+              required: "Last name is required",
+              maxLength: {
+                value: 50,
+                message: "Last Name cannot exceed 50 characters",
+              },
+            })}
+            error={!!errors.Lastname}
           />
+          {errors.Lastname && (
+            <span style={{ color: "red" }}>{errors.Lastname.message}</span>
+          )}
           <TextField
             required
             id="phone"
-            label="Thêm số điện thoại"
+            label="Phone Number"
             {...register("phoneNumber", {
               required: "Phone number is required",
               pattern: {
-                value: /^0[0-9]{9,10}$/,
-                message: "Phone number must be 10-11 positive digits",
+                value: /^0[0-9]{9}$/,
+                message: "Phone number must be 10  digits and start with 0",
               },
             })}
             error={!!errors.phoneNumber}
-            helperText={errors.phoneNumber ? errors.phoneNumber.message : ""}
           />
+          {errors.phoneNumber && (
+            <span style={{ color: "red" }}>{errors.phoneNumber.message}</span>
+          )}
           <TextField
             id="email"
             label="Email"
-            {...register("email")}
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@(gmail\.com|fpt\.edu\.vn)$/,
+                message: "Email domain must be gmail.com or fpt.edu.vn",
+              },
+            })}
+            error={!!errors.email}
             InputProps={{
               readOnly: true,
             }}
           />
-          {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="Ngày sinh"
-              value={dayjs(profileDetail?.dateOfBirth)}
-              onChange={(newValue) => setValue("birthday", newValue)}
-              renderInput={(params) => (
-                <TextField {...params} {...register("birthday")} />
-              )}
-            />
-          </LocalizationProvider> */}
+          {errors.email && (
+            <span style={{ color: "red" }}>{errors.email.message}</span>
+          )}
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Controller
               name="dateOfBirth"
@@ -253,9 +263,9 @@ function Profile() {
                     )}
                   />
                   {errors.dateOfBirth && (
-                    <FormHelperText error sx={{ fontSize: "1em" }}>
+                    <span style={{ color: "red" }}>
                       {errors.dateOfBirth.message}
-                    </FormHelperText>
+                    </span>
                   )}
                 </>
               )}
@@ -281,7 +291,6 @@ function Profile() {
       </Box>
 
       <Modal
-        keepMounted
         open={openResetPasswordModal}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -294,6 +303,7 @@ function Profile() {
           <Box
             component="form"
             sx={{
+              "& .MuiTextField-root": { m: 1, width: "100%" },
               display: "flex",
               flexDirection: "column",
               maxWidth: "400px",
@@ -316,6 +326,7 @@ function Profile() {
                 required: "Old password is required",
               })}
               sx={{ margin: "10px 0" }}
+              error={!!errorsPasswordForm.oldPassword}
             />
             {errorsPasswordForm.oldPassword && (
               <span style={{ color: "red" }}>
@@ -342,8 +353,8 @@ function Profile() {
                 },
               })}
               sx={{ margin: "10px 0" }}
+              error={!!errorsPasswordForm.newPassword}
             />
-
             {errorsPasswordForm.newPassword && (
               <span style={{ color: "red" }}>
                 {errorsPasswordForm.newPassword.message}
@@ -362,6 +373,7 @@ function Profile() {
                   "The passwords do not match",
               })}
               sx={{ margin: "10px 0" }}
+              error={!!errorsPasswordForm.confirmNewPassword}
             />
             {errorsPasswordForm.confirmNewPassword && (
               <span

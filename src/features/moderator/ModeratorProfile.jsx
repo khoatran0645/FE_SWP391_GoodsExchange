@@ -3,7 +3,7 @@ import { Box, TextField, Button } from "@mui/material";
 import ModeratorPage from "./ModeratorPage";
 import NavBarMo from "./NavBarMo";
 import useStore from "../../app/store";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { jwtDecode } from "jwt-decode";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -42,15 +42,13 @@ export default function ModeratorProfile() {
   });
   useEffect(() => {
     if (profileDetail) {
-      reset({
-        firstName: profileDetail.firstName,
-        lastName: profileDetail.lastName,
-        phoneNumber: profileDetail.phoneNumber,
-        email: profileDetail.email,
-        dateOfBirth: dayjs(profileDetail.dateOfBirth),
-      });
+      setValue("Firstname", profileDetail.firstName);
+      setValue("Lastname", profileDetail.lastName);
+      setValue("phoneNumber", profileDetail.phoneNumber);
+      setValue("email", profileDetail.email);
+      setValue("dateOfBirth", dayjs(profileDetail.dateOfBirth));
     }
-  }, [profileDetail, reset]);
+  }, [profileDetail, setValue]);
 
   const onSubmit = async (data) => {
     const formattedData = {
@@ -105,46 +103,103 @@ export default function ModeratorProfile() {
             <h2>Thông tin cá nhân</h2>
             <TextField
               required
-              id="name"
-              label="FirstName"
-              {...register("Firstname")}
+              id="firstname"
+              label="First Name"
+              {...register("Firstname", {
+                required: "First name is required",
+                maxLength: {
+                  value: 50,
+                  message: "First Name cannot exceed 50 characters",
+                },
+              })}
+              error={!!errors.Firstname}
             />
+            {errors.Firstname && (
+              <span style={{ color: "red" }}>{errors.Firstname.message}</span>
+            )}
             <TextField
               required
-              id="name"
-              label="LastName"
-              {...register("Lastname")}
+              id="lastname"
+              label="Last Name"
+              {...register("Lastname", {
+                required: "Last name is required",
+                maxLength: {
+                  value: 50,
+                  message: "Last Name cannot exceed 50 characters",
+                },
+              })}
+              error={!!errors.Lastname}
             />
+            {errors.Lastname && (
+              <span style={{ color: "red" }}>{errors.Lastname.message}</span>
+            )}
             <TextField
               required
               id="phone"
-              label="Thêm số điện thoại"
+              label="Phone Number"
               {...register("phoneNumber", {
                 required: "Phone number is required",
                 pattern: {
-                  value: /^0[0-9]{9,10}$/,
-                  message: "Phone number must be 10-11 positive digits",
+                  value: /^0[0-9]{9}$/,
+                  message: "Phone number must be 10  digits and start with 0",
                 },
               })}
               error={!!errors.phoneNumber}
-              helperText={errors.phoneNumber ? errors.phoneNumber.message : ""}
             />
-
+            {errors.phoneNumber && (
+              <span style={{ color: "red" }}>{errors.phoneNumber.message}</span>
+            )}
             <TextField
               id="email"
               label="Email"
-              {...register("email")}
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@(gmail\.com|fpt\.edu\.vn)$/,
+                  message: "Email domain must be gmail.com or fpt.edu.vn",
+                },
+              })}
+              error={!!errors.email}
               InputProps={{
                 readOnly: true,
               }}
             />
+            {errors.email && (
+              <span style={{ color: "red" }}>{errors.email.message}</span>
+            )}
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Ngày sinh"
-                value={dayjs(profileDetail?.dateOfBirth)}
-                onChange={(newValue) => setValue("dateOfBirth", newValue)}
-                renderInput={(params) => (
-                  <TextField {...params} {...register("dateOfBirth")} />
+              <Controller
+                name="dateOfBirth"
+                control={control}
+                defaultValue={
+                  profileDetail?.dateOfBirth
+                    ? dayjs(profileDetail.dateOfBirth)
+                    : null
+                }
+                rules={{
+                  required: "Date of birth is required",
+                  validate: (value) =>
+                    dayjs(value).isBefore(dayjs()) ||
+                    "Date of birth cannot be in the future",
+                }}
+                render={({ field }) => (
+                  <>
+                    <DatePicker
+                      label="Date of Birth"
+                      value={field.value}
+                      onChange={(newValue) => {
+                        field.onChange(newValue);
+                      }}
+                      renderInput={(params) => (
+                        <TextField {...params} error={!!errors.dateOfBirth} />
+                      )}
+                    />
+                    {errors.dateOfBirth && (
+                      <span style={{ color: "red" }}>
+                        {errors.dateOfBirth.message}
+                      </span>
+                    )}
+                  </>
                 )}
               />
             </LocalizationProvider>
@@ -156,6 +211,7 @@ export default function ModeratorProfile() {
             >
               Lưu thay đổi
             </Button>
+            <Button />
           </Box>
         </Box>
       </Box>
