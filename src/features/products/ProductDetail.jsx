@@ -7,7 +7,7 @@ import {
   Rating,
   Avatar,
 } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { deepOrange } from "@mui/material/colors";
 import useStore from "../../app/store";
@@ -22,9 +22,10 @@ import { addDots } from "./../../utils/helper";
 
 export default function ProductDetail() {
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
-  let location = useLocation();
-  console.log("location", location);
+  const location = useLocation();
   const navigate = useNavigate();
+  const params = useParams();
+  // console.log("params", params);
 
   const getProductById = useStore((state) => state.getProductById);
   const auth = useStore((state) => state.auth);
@@ -33,51 +34,42 @@ export default function ProductDetail() {
   );
 
   useEffect(() => {
-    getProductById(location.state.productId);
+    getProductById(params.id);
     getSearchProductForUser(" ");
-  }, [location]);
+  }, [params.id]);
+
   const productDetail = useStore((state) => state.productDetail);
-  console.log("productDetail", productDetail?.data);
-  const images = productDetail?.data.productImageUrl.map((url) => ({
+
+  const images = productDetail?.data?.productImageUrl?.map((url) => ({
     original: url,
     thumbnail: url,
     originalHeight: 300,
     originalWidth: 500,
   }));
-  // console.log("images", images);
 
   const searchResult = useStore((state) => state.searchResult);
-  // console.log("searchResult", searchResult);
 
-  const filteredSearchResult = searchResult?.data.items.filter(
+  const filteredSearchResult = searchResult?.data?.items?.filter(
     (item) =>
-      item.categoryName.toLowerCase() ==
-        location.state.categoryName.toLowerCase() &&
-      item.productId !== location.state.productId
+      item.categoryName.toLowerCase() ===
+        location?.state?.categoryName.toLowerCase() &&
+      item.productId !== location?.state?.productId
   );
-  // console.log("filteredSearchResult :", filteredSearchResult);
+
+  if (!location?.state) {
+    return (
+      <Typography variant="h4" align="center">
+        Product details are unavailable. Please try again.
+      </Typography>
+    );
+  }
 
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          {/* <Typography variant="h5" align="center">
-          PRODUCT DETAIL
-        </Typography> */}
-        </Grid>
+        <Grid item xs={12}></Grid>
         <Grid item xs={4}>
           <Box display="flex" flexDirection="column" alignItems="center">
-            {/* <img
-              src={location?.state.productImageUrl}
-              alt={location?.state.productName}
-              style={{
-                maxWidth: "100%",
-                height: "50%",
-                margin: 12,
-                borderRadius: 30,
-                border: "2px solid #ccc",
-              }}
-            /> */}
             {images && (
               <ImageGallery
                 showFullscreenButton={false}
@@ -95,8 +87,8 @@ export default function ProductDetail() {
               variant="h3"
               sx={{ fontWeight: "bold", fontFamily: "sans-serif" }}
             >
-              {location?.state.productName.charAt(0).toUpperCase() +
-                location?.state.productName.slice(1)}
+              {location?.state?.productName?.charAt(0).toUpperCase() +
+                location?.state?.productName?.slice(1)}
             </Typography>
             <Typography
               variant="h4"
@@ -105,10 +97,10 @@ export default function ProductDetail() {
                 fontWeight: "bold",
               }}
             >
-              {addDots(location?.state.price)} VND
+              {addDots(location?.state?.price)} VND
             </Typography>
             <Typography variant="body1" color={"gray"}>
-              {location?.state.description}
+              {location?.state?.description}
             </Typography>
           </Box>
           <hr style={{ borderTop: "2px solid black" }} />
@@ -136,7 +128,7 @@ export default function ProductDetail() {
                 <Avatar
                   sx={{ bgcolor: deepOrange[500], width: 50, height: 50 }}
                 >
-                  {productDetail?.data.userUpload.charAt(0).toUpperCase()}
+                  {productDetail?.data?.userUpload?.charAt(0).toUpperCase()}
                 </Avatar>
                 <Typography
                   variant="h4"
@@ -145,8 +137,8 @@ export default function ProductDetail() {
                   fontFamily={"fantasy"}
                 >
                   {(
-                    productDetail?.data.userUpload.charAt(0).toUpperCase() +
-                    productDetail?.data.userUpload.slice(1)
+                    productDetail?.data?.userUpload?.charAt(0).toUpperCase() +
+                    productDetail?.data?.userUpload?.slice(1)
                   ).toString()}
                 </Typography>
               </Box>
@@ -168,8 +160,8 @@ export default function ProductDetail() {
                 />
                 <Box>
                   <Typography variant="body2" component="p" marginLeft={0.5}>
-                    {location.state.averageNumberStars} (
-                    {productDetail?.data.numberOfRatings} reviews)
+                    {location?.state?.averageNumberStars} (
+                    {productDetail?.data?.numberOfRatings} reviews)
                   </Typography>
                 </Box>
               </Box>
@@ -201,7 +193,7 @@ export default function ProductDetail() {
                   </Button>
                 ) : (
                   <Typography sx={{ fontSize: 23 }}>
-                    {productDetail?.data.userPhoneNumber}
+                    {productDetail?.data?.userPhoneNumber}
                   </Typography>
                 )}
                 <Box display="flex" alignItems="center">
@@ -218,11 +210,7 @@ export default function ProductDetail() {
       <Typography variant="h4" align="left">
         Similar Products
       </Typography>
-      <ImageList
-        sx={{ width: "100%" }}
-        cols={10}
-        // rowHeight={164}
-      >
+      <ImageList sx={{ width: "100%" }} cols={10}>
         {filteredSearchResult?.length > 0 ? (
           filteredSearchResult.map((item) => (
             <ProductCard key={item.productId} item={item} />

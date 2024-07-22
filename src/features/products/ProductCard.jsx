@@ -10,20 +10,11 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 ProductCard.propTypes = {
-  item: PropTypes.shape({
-    productId: PropTypes.string.isRequired,
-    productImageUrl: PropTypes.string.isRequired,
-    productName: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-  }).isRequired,
+  item: PropTypes.object.isRequired,
   isDisable: PropTypes.bool,
 };
 
-ProductCard.defaultProps = {
-  isDisable: false,
-};
-
-export default function ProductCard({ item, isDisable }) {
+export default function ProductCard({ item, isDisable = false }) {
   const navigate = useNavigate();
 
   return (
