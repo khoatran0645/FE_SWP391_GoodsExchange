@@ -5,9 +5,12 @@ import {
   CardContent,
   CardMedia,
   CardActionArea,
+  Box,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import PersonIcon from "@mui/icons-material/Person";
+import GradeIcon from '@mui/icons-material/Grade';
 
 ProductCard.propTypes = {
   item: PropTypes.object.isRequired,
@@ -23,12 +26,15 @@ export default function ProductCard({ item, isDisable = false }) {
       sx={{
         maxWidth: 345,
         minWidth: 200,
-        marginX: 0.5,
-        marginY: 0.5,
-        transition: "transform 0.2s",
+        marginX: 1,
+        marginY: 1,
+        transition: "transform 0.3s ease, box-shadow 0.3s ease",
         "&:hover": {
-          transform: "scale(1.05)",
+          transform: "scale(1.03)",
+          boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
         },
+        borderRadius: 2,
+        overflow: "hidden",
       }}
     >
       <CardActionArea
@@ -50,19 +56,68 @@ export default function ProductCard({ item, isDisable = false }) {
         <CardContent>
           <Typography
             gutterBottom
-            variant="h5"
+            variant="h6"
             component="div"
             sx={{
-              fontWeight: "bold",
+              fontWeight: "600",
               color: "#333",
               textAlign: "center",
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              mb: 1,
             }}
           >
             {item.productName}
           </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              mb: 1,
+              gap: 0.5,
+            }}
+          >
+            <PersonIcon sx={{ color: "#555" }} />
+            <Typography
+              variant="body2"
+              component="div"
+              sx={{
+                color: "#555",
+                textAlign: "center",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {item.userUpload}
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              mb: 1,
+              gap: 0.5,
+            }}
+          >
+            <GradeIcon sx={{ color: "#555" }} />
+            <Typography
+              variant="body2"
+              component="div"
+              sx={{
+                color: "#555",
+                textAlign: "center",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              5
+            </Typography>
+          </Box>
           <Typography
             gutterBottom
             variant="h6"
@@ -70,7 +125,7 @@ export default function ProductCard({ item, isDisable = false }) {
             sx={{
               color: "#ff5722",
               textAlign: "center",
-              fontWeight: "bold",
+              fontWeight: "700",
             }}
           >
             {item.price} VND

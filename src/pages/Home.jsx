@@ -67,8 +67,22 @@ export default function Home() {
   return (
     <Grid container spacing={1}>
       <Grid item xs={2}>
-        <Container sx={{ backgroundColor: "#f5f5f5", height: "75vh" }}>
-          <Typography variant="h4" textAlign={"center"} marginTop={0.5}>
+        <Container
+          sx={{
+            backgroundColor: "#f9f9f9",
+            padding: 2,
+            borderRadius: "8px",
+            boxShadow: 1,
+            height: "100%",
+          }}
+        >
+          <Typography
+            variant="h6"
+            component="div"
+            gutterBottom
+            textAlign="center"
+            sx={{ mb: 2, fontWeight: 600 }}
+          >
             Sort By
           </Typography>
           <RadioGroup
@@ -120,7 +134,11 @@ export default function Home() {
           )}
         </Grid>
         <Stack spacing={2} alignItems="center" marginTop={5}>
-        <Pagination count={productList?.data.totalPage} page={page} onChange={handleChange} />
+          <Pagination
+            count={productList?.data.totalPage}
+            page={page}
+            onChange={handleChange}
+          />
         </Stack>
       </Grid>
     </Grid>
