@@ -19,8 +19,9 @@ import {
 } from "@mui/material";
 import AddModerator from "./AddModerator";
 import EditMod from "./EditMod";
+import AddUser from "./AddUser";
 
-export default function AdminPage() {
+export default function AdminUser() {
   const [page, setPage] = useState(1);
   const postListModerator = useStore((state) => state.postListModerator);
   const patchStatusModerator = useStore((state) => state.patchStatusModerator);
@@ -48,14 +49,13 @@ export default function AdminPage() {
   };
   return (
     <>
-      <AdminNavBar />
       <Container>
-        <Box marginTop={8}>
+        <Box marginTop={1}>
           <Typography variant="h4" gutterBottom textAlign={"center"}>
-            Moderator List
+            User List
           </Typography>
 
-          <AddModerator onAdd={fetchModerators} />
+          <AddUser onAdd={fetchModerators} />
 
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="Moderator table">

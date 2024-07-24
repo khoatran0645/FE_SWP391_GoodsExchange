@@ -25,7 +25,11 @@ import ModeratorProfile from "./features/moderator/ModeratorProfile";
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import useStore from "./app/store";
-import AdminPage from "./features/admin/AdminPage";
+import AdminMod from "./features/admin/AdminMod";
+import AdminLayout from "./features/admin/AdminLayout";
+import AdminUser from "./features/admin/AdminUser";
+import Dashboard from "./features/admin/Dashboard";
+import ForgotPassword from "./features/auth/ForgotPassword";
 
 export default function App() {
   const colorMode = useStore((state) => state.colorMode);
@@ -77,10 +81,16 @@ export default function App() {
             </Route>
           </Route>
         </Route>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminMod />} />
+          <Route path="admin-mod" element={<AdminMod />} />
+          <Route path="admin-user" element={<AdminUser />} />
+          <Route path="dashboard" element={<Dashboard />} />
+        </Route>
         <Route path="/" element={<EmptyLayout />}>
-          <Route path="admin" element={<AdminPage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
           <Route
             path="moderator-profile"
             exact

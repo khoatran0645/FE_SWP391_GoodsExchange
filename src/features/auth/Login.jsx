@@ -240,7 +240,7 @@ export default function Login() {
           alignSelf: "center",
           marginTop: "15px",
         }}
-        to="/forgotpassword"
+        to="/forgot-password"
       >
         Forgot password?
       </NavLink>

@@ -47,6 +47,8 @@ export default function ProductDetail() {
     originalWidth: 500,
   }));
 
+  console.log(productDetail);
+
   const searchResult = useStore((state) => state.searchResult);
 
   const filteredSearchResult = searchResult?.data?.items?.filter(
@@ -136,10 +138,21 @@ export default function ProductDetail() {
                   marginY={1}
                   fontFamily={"fantasy"}
                 >
-                  {(
-                    productDetail?.data?.userUpload?.charAt(0).toUpperCase() +
-                    productDetail?.data?.userUpload?.slice(1)
-                  ).toString()}
+                  <Button
+                    onClick={() =>
+                      navigate(`/profile/${productDetail?.data?.userUploadId}`)
+                    }
+                    style={{ textTransform: "none", color: "inherit" }}
+                    sx={{
+                      fontSize: "2rem",
+                      fontFamily: "fantasy",
+                    }}
+                  >
+                    {(
+                      productDetail?.data?.userUpload?.charAt(0).toUpperCase() +
+                      productDetail?.data?.userUpload?.slice(1)
+                    ).toString()}
+                  </Button>
                 </Typography>
               </Box>
               <Box
