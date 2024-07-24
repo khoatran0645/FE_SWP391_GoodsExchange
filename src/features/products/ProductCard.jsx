@@ -10,7 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import PersonIcon from "@mui/icons-material/Person";
-import GradeIcon from '@mui/icons-material/Grade';
+import GradeIcon from "@mui/icons-material/Grade";
 
 ProductCard.propTypes = {
   item: PropTypes.object.isRequired,

@@ -19,6 +19,7 @@ import ProductCard from "./ProductCard";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import { addDots } from "./../../utils/helper";
+import CreateTrade from "../trade/CreateTrade";
 
 export default function ProductDetail() {
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
@@ -209,11 +210,14 @@ export default function ProductDetail() {
                     {productDetail?.data?.userPhoneNumber}
                   </Typography>
                 )}
-                <Box display="flex" alignItems="center">
+                {/* <Box display="flex" alignItems="center">
                   <CreateReport />
                 </Box>
                 <Box display="flex" alignItems="center">
                   <CreateRating />
+                </Box> */}
+                <Box display="flex" alignItems="center">
+                  <CreateTrade productDetail={productDetail?.data} />
                 </Box>
               </Box>
             </Box>

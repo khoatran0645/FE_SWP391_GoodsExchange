@@ -82,41 +82,50 @@ export default function NavBar() {
 
   return (
     <AppBar position="static" sx={{ backgroundColor: "black" }}>
-      <Container maxWidth="xl" sx={{}}>
-        <Toolbar disableGutters>
-          {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
-          <img
-            src="/logo2.png"
-            alt=""
-            style={{ width: "3rem", marginRight: 7, cursor: "pointer" }}
-            onClick={() => navigate("/")}
-          />
-          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-            <Typography
-              variant="h6"
-              noWrap
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "#ECEBE9",
-                textDecoration: "none",
-              }}
-            >
-              GoodsExchange{" "}
-              <span
-                style={{
-                  background: "linear-gradient(to bottom, #fad126, #f15652)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
+      <Container maxWidth="100%" sx={{ display: "flex" }}>
+        <Toolbar
+          disableGutters
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <img
+              src="/logo2.png"
+              alt=""
+              style={{ width: "3rem", marginRight: 7, cursor: "pointer" }}
+              onClick={() => navigate("/")}
+            />
+            <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+              <Typography
+                variant="h6"
+                noWrap
+                sx={{
+                  mr: 2,
+                  display: { xs: "none", md: "flex" },
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  color: "#ECEBE9",
+                  textDecoration: "none",
                 }}
               >
-                FU
-              </span>
-            </Typography>
-          </Link>
+                GoodsExchange{" "}
+                <span
+                  style={{
+                    background: "linear-gradient(to bottom, #fad126, #f15652)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                >
+                  FU
+                </span>
+              </Typography>
+            </Link>
+          </Box>
+
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -184,7 +193,7 @@ export default function NavBar() {
           </Box>
 
           {auth ? (
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               {/* <IconButton aria-label={notificationsLabel(100)}>
                 <Typography marginX={2}>
                   <Badge
@@ -202,7 +211,9 @@ export default function NavBar() {
                     alt={userProfile?.fullName}
                     src={userProfile?.userImageUrl}
                   />
-                  <Typography sx={{ color: "white", ml: 1 }}>{userProfile?.fullName}</Typography>
+                  <Typography sx={{ color: "white", ml: 1 }}>
+                    {userProfile?.fullName}
+                  </Typography>
                 </IconButton>
               </Tooltip>
               <Menu
@@ -253,12 +264,16 @@ export default function NavBar() {
                   </MenuItem>
                 ))}
               </Menu>
-              
             </Box>
           ) : (
-            <Button sx={{ color: "white" }} onClick={() => navigate("/login")}>
-              Login
-            </Button>
+            <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
+              <Button
+                sx={{ color: "white" }}
+                onClick={() => navigate("/login")}
+              >
+                Login
+              </Button>
+            </Box>
           )}
         </Toolbar>
       </Container>
