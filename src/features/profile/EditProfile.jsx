@@ -35,9 +35,9 @@ const resetPasswordModalStyle = {
 
 function Profile() {
   const getProfileUserById = useStore((state) => state.getProfileUserById);
-  const UpdateProfileUser = useStore((state) => state.UpdateProfileUser);
-  const ChangingPasswordCurrentlyUser = useStore(
-    (state) => state.ChangingPasswordOfCurrentlyUser
+  const updateProfileUser = useStore((state) => state.updateProfileUser);
+  const changingPasswordCurrentlyUser = useStore(
+    (state) => state.changingPasswordOfCurrentlyUser
   );
   const userInfo = useStore.getState().userInfo;
   const userDetail = jwtDecode(userInfo.data.token);
@@ -79,7 +79,7 @@ function Profile() {
 
   const onSubmitPassword = async (data) => {
     try {
-      const responses = await ChangingPasswordCurrentlyUser(data);
+      await changingPasswordCurrentlyUser(data);
       toast.success("Password changed successfully");
       handleClose();
     } catch (errors) {
@@ -110,7 +110,7 @@ function Profile() {
     };
 
     try {
-      await UpdateProfileUser(formattedData);
+      await updateProfileUser(formattedData);
       toast.success("Profile updated successfully");
     } catch (error) {
       if (error.response && error.response.status === 400) {
