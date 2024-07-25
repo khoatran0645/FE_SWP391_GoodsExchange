@@ -15,7 +15,6 @@ export const API_DELETE_CATEGORY = "/categories"; //need auth
 
 //------------------------------------------------------------------------------------------------------------------------------
 //* Product APIs
-//TODO create, get by Id, get all, update, delete products, update status and isApproved of products
 export const API_CREATE_PRODUCT = "/products/create";
 export const API_GET_PRODUCTS_HOMEPAGE =
   "/products/all?PageIndex={PageIndex}&PageSize={PageSize}";
@@ -24,37 +23,24 @@ export const API_SEARCH_PRODUCTS_FOR_USER =
 export const API_GET_PRODUCT_BY_ID = "/products/{id}";
 export const API_GET_PRODUCT_SELLER =
   "/products/seller/all?PageIndex=1&PageSize=10";
-//TODO export const API_UPDATE_PRODUCT
+export const API_UPDATE_PRODUCT = "/products/update"
 //! DANGER
-//TODO export const API_DELETE_PRODUCT
+export const API_DELETE_PRODUCT = "/products/id?id={id}";
 
-//------------------------------------------------------------------------------------------------------------------------------
-// Admin
-export const API_GET_ALL_MODERATOR_LIST =
-  "/users/list-moderators?PageIndex={PageIndex}&PageSize={PageSize}";
-export const API_CREATE_MODERATOR_ACCOUNT = "/users/CreateAccount";
-export const API_PATCH_STATUS_MODERATOR = "/users/status/{id}?status={status}";
-
-//------------------------------------------------------------------------------------------------------------------------------
-// Moderator
+// Moderator manage product
 export const API_GET_ALL_PRODUCT_MOD =
   "/products/moderator/all?PageIndex={PageIndex}&PageSize={PageSize}";
 export const API_APPROVE_PRODUCT_MOD = "/products/approve/{id}";
 export const API_DENY_PRODUCT_MOD = "products/deny/{id}";
-//! DANGER
-export const API_DELETE_PRODUCT = "/products/id?id={id}";
 
 //------------------------------------------------------------------------------------------------------------------------------
 //* Rating APIs
-//TODO create, get, update, hide rating
 export const API_GET_RATING_STAR = "/ratings/id?id={id}";
 export const API_POST_RATING = "ratings/send-rating";
 
 //------------------------------------------------------------------------------------------------------------------------------
 //* Report APIs
-//TODO create, get all report , resolve report
 export const API_POST_REPORT = "/reports/send-report";
-
 export const API_GET_ALL_REPORTS =
   "/reports/all?PageIndex={PageIndex}&PageSize={PageSize}";
 export const API_APPROVE_REPORT_MOD = "reports/approve/{id}";
@@ -68,3 +54,9 @@ export const API_REGISTER = "/users/register";
 export const API_USER_PROFILE_ID = "/users/{id}";
 export const API_UPDATE_PROFILE = "/users/update-account";
 export const API_CHANGING_PASSWORD = "/users/Changing-Password";
+
+// Admin manage moderator
+export const API_GET_ALL_MODERATOR_LIST =
+  "/users/list-moderators?PageIndex={PageIndex}&PageSize={PageSize}";
+export const API_CREATE_MODERATOR_ACCOUNT = "/users/CreateAccount";
+export const API_PATCH_STATUS_MODERATOR = "/users/status/{id}?status={status}";
