@@ -103,13 +103,13 @@ export default function NavBarMo() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem
+      {/* <MenuItem
         onClick={() => {
           navigate("/login");
         }}
       >
         Login
-      </MenuItem>
+      </MenuItem> */}
 
       <MenuItem onClick={logout}>Logout</MenuItem>
     </Menu>
@@ -191,7 +191,7 @@ export default function NavBarMo() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            Moderator
+            Welcome to Moderator Page
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>

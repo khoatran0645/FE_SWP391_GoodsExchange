@@ -109,7 +109,7 @@ export default function ModeratorPage() {
               disablePadding
               sx={{ display: "block" }}
               onClick={() => {
-                navigate("/moderator-profile");
+                navigate("/manage-products");
               }}
             >
               <ListItemButton
@@ -128,7 +128,10 @@ export default function ModeratorPage() {
                 >
                   <InboxIcon />
                 </ListItemIcon>
-                <ListItemText primary="Moderator Profile" sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText
+                  primary="Manage Product"
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
               </ListItemButton>
             </ListItem>
           </List>
@@ -169,7 +172,7 @@ export default function ModeratorPage() {
               disablePadding
               sx={{ display: "block" }}
               onClick={() => {
-                navigate("/manage-products");
+                navigate("/moderator-profile");
               }}
             >
               <ListItemButton
@@ -189,7 +192,7 @@ export default function ModeratorPage() {
                   <InboxIcon />
                 </ListItemIcon>
                 <ListItemText
-                  primary="Manage Product"
+                  primary="Moderator Profile"
                   sx={{ opacity: open ? 1 : 0 }}
                 />
               </ListItemButton>

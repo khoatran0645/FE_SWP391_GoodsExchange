@@ -100,7 +100,7 @@ export default function ModeratorProfile() {
             autoComplete="off"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h2>Thông tin cá nhân</h2>
+            <h2>Information</h2>
             <TextField
               required
               id="firstname"
