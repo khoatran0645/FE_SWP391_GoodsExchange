@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 
 export default function ModeratorProfile() {
   const getProfileUserById = useStore((state) => state.getProfileUserById);
-  const UpdateProfileUser = useStore((state) => state.UpdateProfileUser);
+  const updateProfileUser = useStore((state) => state.updateProfileUser);
   const userInfo = useStore.getState().userInfo;
   const userDetail = jwtDecode(userInfo.data.token);
 
@@ -60,7 +60,7 @@ export default function ModeratorProfile() {
     console.log("Formatted Data: ", formattedData);
 
     try {
-      await UpdateProfileUser(formattedData);
+      await updateProfileUser(formattedData);
       toast.success("Profile updated successfully");
     } catch (error) {
       toast.error(`Error updating profile: ${error.message}`);
