@@ -4,14 +4,20 @@ import { devtools, persist, createJSONStorage } from "zustand/middleware";
 import { createAuthSlice } from "./AuthSlice";
 import { createProductSlice } from "./ProductSlice";
 import { createUserSlice } from "./UserSlice";
+import { createReportSlice } from "./ReportSlice";
+import { createCategorySlice } from "./CategorySlice";
+import { createRatingSlice } from "./RatingSlice";
 
 const useStore = create(
   devtools(
     persist(
       immer((set) => ({
         ...createAuthSlice(set),
+        ...createCategorySlice(set),
         ...createProductSlice(set),
         ...createUserSlice(set),
+        ...createRatingSlice(set),
+        ...createReportSlice(set),
 
         reset: () =>
           set((state) => {
@@ -23,6 +29,7 @@ const useStore = create(
             state.productDetail = null;
             state.userProfile = null;
             state.sellerProductList = null;
+            state.reportList = null;
           }),
 
         toggleMode: () =>

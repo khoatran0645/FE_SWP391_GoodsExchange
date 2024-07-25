@@ -9,11 +9,15 @@ import {
   API_GET_PRODUCT_SELLER,
   API_GET_ALL_CATEGORIES,
   API_SEARCH_PRODUCTS_FOR_USER,
+  API_POST_RATING,
 } from "./../constant";
+
+import { toast } from "react-toastify";
 
 const initialState = {
   isLoading: false,
   error: null,
+  response: null,
   productList: null,
   productDetail: null,
   sellerProductList: null,
@@ -124,18 +128,6 @@ export const createProductSlice = (set) => ({
     }
   },
 
-  getAllCategories: async () => {
-    set({ isLoading: true });
-    try {
-      const { data } = await axiosClient.get(API_GET_ALL_CATEGORIES);
-
-      set({ categories: data });
-    } catch (error) {
-      set({ error: error.message });
-    } finally {
-      set({ isLoading: false });
-    }
-  },
   getSearchProductForUser: async (keyword) => {
     set({ isLoading: true });
     // console.log(min);
@@ -154,4 +146,6 @@ export const createProductSlice = (set) => ({
       set({ isLoading: false });
     }
   },
+
+
 });

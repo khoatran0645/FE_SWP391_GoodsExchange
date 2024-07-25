@@ -1,5 +1,12 @@
 import axiosClient from "../services/axiosClient";
-import { API_USER_PROFILE_ID, API_UPDATE_PROFILE, API_CHANGING_PASSWORD } from "./../constant";
+import {
+  API_USER_PROFILE_ID,
+  API_UPDATE_PROFILE,
+  API_CHANGING_PASSWORD,
+  API_GET_ALL_MODERATOR_LIST,
+  API_CREATE_MODERATOR_ACCOUNT,
+  API_PATCH_STATUS_MODERATOR,
+} from "./../constant";
 
 const initialState = {
   isLoading: false,
@@ -13,7 +20,9 @@ export const createUserSlice = (set) => ({
   getProfileUserById: async (id) => {
     set({ isLoading: true });
     try {
-      const { data } = await axiosClient.get(API_USER_PROFILE_ID.replace("{id}", id));
+      const { data } = await axiosClient.get(
+        API_USER_PROFILE_ID.replace("{id}", id)
+      );
       set({ userProfile: data.data });
     } catch (error) {
       set({ error: error.message });
@@ -46,6 +55,56 @@ export const createUserSlice = (set) => ({
       } else {
         set({ error: error.message });
       }
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+  // ADMIN API
+  postListModerator: async (pageIndex, pageSize) => {
+    set({ isLoading: true });
+    try {
+      const { data } = await axiosClient.post(
+        API_GET_ALL_MODERATOR_LIST.replace("{PageIndex}", pageIndex).replace(
+          "{PageSize}",
+          pageSize
+        )
+      );
+      set({ moderatorList: data.data.items });
+    } catch (error) {
+      set({ error: error.message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  postCreateModeratorAccount: async (form) => {
+    set({ isLoading: true });
+    try {
+      const { data } = await axiosClient.post(
+        API_CREATE_MODERATOR_ACCOUNT,
+        form
+      );
+
+      set({ response: data });
+    } catch (error) {
+      set({ error: error.message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+  // DEACTIVE MODERATOR
+  patchStatusModerator: async (id, isAcive) => {
+    set({ isLoading: true });
+    try {
+      const { data } = await axiosClient.patch(
+        API_PATCH_STATUS_MODERATOR.replace("{id}", id).replace(
+          "{status}",
+          isAcive
+        )
+      );
+      set({ response: data });
+    } catch (error) {
+      set({ error: error.message });
     } finally {
       set({ isLoading: false });
     }

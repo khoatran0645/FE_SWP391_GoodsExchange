@@ -3,6 +3,7 @@ import { API_LOGIN, API_REGISTER } from "./../constant";
 
 const initialState = {
   auth: false,
+  response: null,
   userInfo: null,
   isLoading: false,
   error: null,
