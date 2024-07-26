@@ -15,10 +15,25 @@ import GradeIcon from "@mui/icons-material/Grade";
 ProductCard.propTypes = {
   item: PropTypes.object.isRequired,
   isDisable: PropTypes.bool,
+  onSelect: PropTypes.func,
+  cardType: PropTypes.oneOf(["trade", "have"]).isRequired,
 };
 
-export default function ProductCard({ item, isDisable = false }) {
+export default function ProductCard({
+  item,
+  isDisable = false,
+  onSelect,
+  cardType,
+}) {
   const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (!isDisable && onSelect) {
+      onSelect(cardType, item);
+    } else {
+      navigate(`/products/${item.productId}`, { state: item });
+    }
+  };
 
   return (
     <Card
@@ -30,19 +45,14 @@ export default function ProductCard({ item, isDisable = false }) {
         marginY: 1,
         transition: "transform 0.3s ease, box-shadow 0.3s ease",
         "&:hover": {
-          transform: "scale(1.03)",
-          boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+          transform: isDisable ? "none" : "scale(1.03)",
+          boxShadow: isDisable ? "none" : "0 8px 16px rgba(0, 0, 0, 0.2)",
         },
         borderRadius: 2,
         overflow: "hidden",
       }}
     >
-      <CardActionArea
-        disabled={isDisable}
-        onClick={() => {
-          navigate(`/products/${item.productId}`, { state: item });
-        }}
-      >
+      <CardActionArea disabled={isDisable} onClick={handleClick}>
         <CardMedia
           component="img"
           height="200"

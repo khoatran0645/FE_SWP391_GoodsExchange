@@ -33,6 +33,7 @@ const Profile = () => {
   useEffect(() => {
     getSellerProduct();
   }, []);
+  console.log(getSellerProduct)
 
   const sellerProductList = useStore((state) => state.sellerProductList);
 
