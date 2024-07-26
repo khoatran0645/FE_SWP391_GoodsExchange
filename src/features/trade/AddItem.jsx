@@ -5,6 +5,8 @@ import { useState } from "react";
 import useStore from "../../app/store";
 import ProductCard from "../products/ProductCard";
 import { useEffect } from "react";
+import { ArrowBack } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 export default function AddItem({ onSelectProduct }) {
   const [open, setOpen] = useState(false);
@@ -12,6 +14,7 @@ export default function AddItem({ onSelectProduct }) {
     sellerProductList: state.sellerProductList,
     getSellerProduct: state.getSellerProduct,
   }));
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -43,6 +46,19 @@ export default function AddItem({ onSelectProduct }) {
       </Button>
       <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
         <Box p={3}>
+          {/* <Button
+            onClick={() => navigate(-1)}
+            sx={{
+              color: "black",
+              display: "flex",
+              alignItems: "center",
+              minWidth: "auto",
+              position: "absolute",
+              left: "16px",
+            }}
+          >
+            <ArrowBack sx={{ fontSize: 30 }} />
+          </Button> */}
           <Typography
             variant="h4"
             sx={{ fontFamily: "fantasy", textAlign: "center", mt: 2, mb: 2 }}
