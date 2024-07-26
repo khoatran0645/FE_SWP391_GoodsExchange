@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import PersonIcon from "@mui/icons-material/Person";
 import GradeIcon from "@mui/icons-material/Grade";
+import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
 
 ProductCard.propTypes = {
   item: PropTypes.object.isRequired,
@@ -102,6 +103,30 @@ export default function ProductCard({
               }}
             >
               {item.userUpload}
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              mb: 1,
+              gap: 0.5,
+            }}
+          >
+            <AutoAwesomeMotionIcon sx={{ color: "#555" }} />
+            <Typography
+              variant="body2"
+              component="div"
+              sx={{
+                color: "#555",
+                textAlign: "center",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {item.categoryName}
             </Typography>
           </Box>
           <Box
