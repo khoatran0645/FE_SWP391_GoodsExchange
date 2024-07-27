@@ -12,46 +12,63 @@ import {
   Paper,
   Typography,
   Box,
-  Card,
-  CardContent,
   CardMedia,
-  CardActionArea,
+  Button,
 } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
-import GradeIcon from "@mui/icons-material/Grade";
-import ProductImage from "./productImage";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 const RequestTrade = () => {
   const getSellerProduct = useStore((state) => state.getSellerProduct);
 
   useEffect(() => {
     getSellerProduct();
-  }, []);
+  }, [getSellerProduct]);
 
   const sellerProductList = useStore((state) => state.sellerProductList);
-
   console.log("sellerProductList: ", sellerProductList?.data.items);
-  console.log(
-    "sellerProductList: ",
-    sellerProductList?.data.items.productImageUrl
+
+  const { getRequestList, getRequestTradeData, isLoading, error } = useStore(
+    (state) => ({
+      getRequestList: state.getRequestList,
+      getRequestTradeData: state.getRequestTradeData,
+      isLoading: state.isLoading,
+      error: state.error,
+    })
   );
+
+  useEffect(() => {
+    getRequestList(); // Call the API function when the component mounts
+  }, [getRequestList]);
+  console.log("getRequestTradeData: ", getRequestTradeData);
+
+  const handleApprove = (productId) => {
+    // Handle the approve action
+    console.log("Approved product ID:", productId);
+  };
+
+  const handleDeny = (productId) => {
+    // Handle the deny action
+    console.log("Denied product ID:", productId);
+  };
   return (
     <>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="center" colSpan={2}>
+              <TableCell align="center" colSpan={5}>
                 <Typography variant="h6">Trade Details</Typography>
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Currently User Product</TableCell>
+              <TableCell>Currently User Product Name</TableCell>
               <TableCell>Sender's Product</TableCell>
+              <TableCell>Sender's Product Name</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
-
           <TableBody>
             {sellerProductList?.data?.items.length > 0 ? (
               sellerProductList?.data?.items.map((item) => (
@@ -67,25 +84,29 @@ const RequestTrade = () => {
                     >
                       <CardMedia
                         component="img"
-                        height="120" // Adjust as needed
-                        width="120" // Adjust as needed
-                        image={`${item.productImageUrl}?w=50&h=50s&fit=crop&auto=format`}
+                        height="120"
+                        width="120"
+                        image={`${item.productImageUrl}?w=120&h=120&fit=crop&auto=format`}
                         alt={item.productName}
                         sx={{ objectFit: "contain", borderRadius: "8px" }}
                       />
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          textAlign: "center",
-                          mt: 1,
-                        }}
-                      >
-                        {item.productName}
-                      </Typography>
                     </Box>
+                  </TableCell>
+
+                  <TableCell>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        whiteSpace: "normal",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        textAlign: "center",
+                        mt: 1,
+                        ml: 1,
+                      }}
+                    >
+                      {item.productName}
+                    </Typography>
                   </TableCell>
 
                   {/* Sender's Product Image and Name */}
@@ -99,30 +120,35 @@ const RequestTrade = () => {
                     >
                       <CardMedia
                         component="img"
-                        height="120px" // Adjust as needed
-                        image={`${item.productImageUrl}?w=50&h=50&fit=crop&auto=format`}
+                        height="120"
+                        width="120"
+                        image={`${item.productImageUrl}?w=120&h=120&fit=crop&auto=format`}
                         alt={item.productName}
                         sx={{ objectFit: "contain", borderRadius: "8px" }}
                       />
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          textAlign: "center",
-                          mt: 1,
-                        }}
-                      >
-                        {item.productName}
-                      </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body2"
                       sx={{
-                        whiteSpace: "nowrap",
+                        whiteSpace: "normal",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        textAlign: "center",
+                        mt: 1,
+                        ml: 1,
+                      }}
+                    >
+                      {item.productName}
+                    </Typography>
+                  </TableCell>
+
+                  {/* <TableCell>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        whiteSpace: "normal",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         textAlign: "center",
@@ -130,12 +156,35 @@ const RequestTrade = () => {
                     >
                       {item.userUpload}
                     </Typography>
+                  </TableCell> */}
+
+                  <TableCell>
+                    <Box
+                      sx={{ display: "flex", justifyContent: "center", gap: 1 }}
+                    >
+                      <Button
+                        variant="contained"
+                        color="success"
+                        startIcon={<CheckIcon />}
+                        onClick={() => handleApprove(item.productId)}
+                      >
+                        Approve
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        startIcon={<CloseIcon />}
+                        onClick={() => handleDeny(item.productId)}
+                      >
+                        Deny
+                      </Button>
+                    </Box>
                   </TableCell>
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={2} align="center">
+                <TableCell colSpan={5} align="center">
                   <Typography variant="h6">No Products</Typography>
                 </TableCell>
               </TableRow>

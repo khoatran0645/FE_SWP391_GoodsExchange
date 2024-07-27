@@ -35,6 +35,7 @@ export default function ProductDetail() {
   );
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getProductById(params.id);
     getSearchProductForUser(" ");
   }, [params.id]);

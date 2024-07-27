@@ -13,9 +13,22 @@ import ProductCard from "../products/ProductCard";
 import { ArrowBack } from "@mui/icons-material";
 import AddItem from "./AddItem";
 
+import useStore from "../../app/store";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+
 export default function CreateTrade({ productDetail }) {
+  const params = useParams();
+  console.log("params", params);
   const [open, setOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  // console.log("productDetail", productDetail);
+  console.log("selectedProduct", selectedProduct);
+
+  const sendRequest = useStore((state) => state.sendRequest);
+  const error = useStore((state) => state.error);
+  const isLoading = useStore((state) => state.isLoading);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,9 +39,15 @@ export default function CreateTrade({ productDetail }) {
     setSelectedProduct(null);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Trade submitted");
+    // console.log("form", {"currentProductId": params.id, "targetProductId": selectedProduct?.productId});
+    await sendRequest({
+      currentProductId: params.id,
+      targetProductId: selectedProduct?.productId,
+    }).then(toast.success("Send request success!"));
+    console.log("error", error);
+
     setOpen(false);
     setSelectedProduct(null);
   };
@@ -190,7 +209,11 @@ export default function CreateTrade({ productDetail }) {
                     }}
                   >
                     {selectedProduct ? (
-                      <ProductCard item={selectedProduct} cardType="have" />
+                      <ProductCard
+                        item={selectedProduct}
+                        isDisable
+                        cardType="have"
+                      />
                     ) : (
                       <AddItem onSelectProduct={handleSelectProduct} />
                     )}
