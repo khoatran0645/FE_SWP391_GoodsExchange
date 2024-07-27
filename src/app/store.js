@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { devtools, persist, createJSONStorage } from "zustand/middleware";
-import { createAuthSlice } from "./AuthSlice";
 import { createProductSlice } from "./ProductSlice";
 import { createUserSlice } from "./UserSlice";
 import { createReportSlice } from "./ReportSlice";
@@ -13,7 +12,6 @@ const useStore = create(
   devtools(
     persist(
       immer((set) => ({
-        ...createAuthSlice(set),
         ...createCategorySlice(set),
         ...createProductSlice(set),
         ...createUserSlice(set),
