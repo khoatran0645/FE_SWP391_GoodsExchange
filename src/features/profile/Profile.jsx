@@ -36,7 +36,6 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const userProfile = useStore((state) => state.userProfile);
-  // console.log("userProfile", userProfile);
   const productList = useStore((state) => state.productList);
   console.log("productList", productList);
   const getSellerProduct = useStore((state) => state.getSellerProduct);
@@ -55,6 +54,7 @@ const Profile = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
 
   const waitingList = () => {
     return sellerProductList?.data.items.filter(
@@ -117,7 +117,6 @@ const Profile = () => {
                 />
               </Badge>
             </Box>
-            {/* {in4List.map((in4) => ( */}
 
             <Typography variant="h6" sx={{ mt: 1 }}>
               {userProfile.lastName} {userProfile.firstName}
@@ -126,10 +125,6 @@ const Profile = () => {
               Phone: {userProfile.phoneNumber}
             </Typography>
 
-            {/* ))} */}
-            {/* <Typography variant="body2" color="textSecondary">
-              Chưa có đánh giá
-            </Typography> */}
             {userProfile && userProfile.averageNumberStars ? (
               <Rating
                 name="read-only"
@@ -153,6 +148,7 @@ const Profile = () => {
             </Button>
           </Box>
         </Grid>
+
       </Grid>
       <Grid item xs={12} md={8}>
         <Grid item xs={10}>
