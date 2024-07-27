@@ -22,12 +22,15 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import PersonIcon from "@mui/icons-material/Person";
 import GradeIcon from "@mui/icons-material/Grade";
-
+import InboxIcon from "@mui/icons-material/MoveToInbox";
 import NavBar from "../common/NavBar";
 import { useNavigate } from "react-router-dom";
 import useStore from "../../app/store";
 import CreateNewProduct from "../products/CreateNewProduct";
 import ProductCard from "../products/ProductCard";
+
+import { red } from "@mui/material/colors";
+import ProfileLayout from "./ProfileLayout";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -70,19 +73,19 @@ const Profile = () => {
       (item) => item.isApproved === true && item.isActive === false
     );
   };
+  const [open, setOpen] = useState(true);
 
   return (
     <>
-      <NavBar />
-
-      <Grid container justifyContent="flex-end">
-        <Grid item>
-          <CreateNewProduct />
+      {/* <Sidebar /> */}
+      <Grid container justifyContent={"center"}>
+        <Grid container justifyContent="flex-end">
+          <Grid item>
+            <CreateNewProduct />
+          </Grid>
         </Grid>
-      </Grid>
 
-      <Grid container spacing={2} padding={3}>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={12}>
           <Box
             sx={{
               p: 2,
@@ -150,213 +153,160 @@ const Profile = () => {
             </Button>
           </Box>
         </Grid>
-
-        <Grid item xs={12} md={8}>
-          <TabContext value={value}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <TabList
-                onChange={handleChange}
-                aria-label="lab API tabs example"
-              >
-                <Tab
-                  label="Đang cho duyet"
-                  value="1"
-                  onClick={() => waitingList()}
-                />
-                <Tab
-                  label="Đang hiển thị"
-                  value="2"
-                  onClick={() => showingList()}
-                />
-                <Tab label="Đã bán" value="3" />
-              </TabList>
-            </Box>
-            {waitingList()?.length > 0
-              ? waitingList().map((item) => (
-                  <TabPanel value="1" key={item.productId}>
-                    <ProductCard item={item} isDisable={true} />
-                  </TabPanel>
-                ))
-              : null}
-
-            {showingList()?.length > 0
-              ? showingList().map((item) => (
-                  <TabPanel value="2" key={item.productId}>
-                    <ProductCard item={item} />
-                  </TabPanel>
-                ))
-              : null}
-
-            {soldList()?.length > 0
-              ? soldList().map((item) => (
-                  <TabPanel value="3" key={item.productId}>
-                    <ProductCard item={item} />
-                  </TabPanel>
-                ))
-              : null}
-
-            {/* <TabPanel value="1">Item 2</TabPanel>
-            <TabPanel value="2">Item 3</TabPanel>
-            <TabPanel value="1">Item 4</TabPanel>
-            <TabPanel value="2">Item 5</TabPanel>
-            <TabPanel value="2">Item 6</TabPanel>
-            <TabPanel value="2">Item 7</TabPanel>
-            <TabPanel value="2">Item 8</TabPanel> */}
-          </TabContext>
-
-          <Grid item xs={10}>
-            <Grid container spacing={1}>
-              {sellerProductList.data.items.length > 0 ? (
-                sellerProductList.data.items.map((item) => (
-                  <Grid
-                    item
+      </Grid>
+      <Grid item xs={12} md={8}>
+        <Grid item xs={10}>
+          <Grid container spacing={1}>
+            {sellerProductList?.data?.items.length > 0 ? (
+              sellerProductList?.data?.items.map((item) => (
+                <Grid
+                  item
+                  key={item.productId}
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={2}
+                >
+                  {/* <ProductCard item={item} /> */}
+                  <Card
                     key={item.productId}
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    lg={3}
-                    xl={2}
+                    sx={{
+                      maxWidth: 345,
+                      minWidth: 200,
+                      marginX: 1,
+                      marginY: 1,
+                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                      "&:hover": {
+                        transform: "scale(1.03)",
+                        boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+                      },
+                      borderRadius: 2,
+                      overflow: "hidden",
+                    }}
                   >
-                    {/* <ProductCard item={item} /> */}
-                    <Card
-                      key={item.productId}
-                      sx={{
-                        maxWidth: 345,
-                        minWidth: 200,
-                        marginX: 1,
-                        marginY: 1,
-                        transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                        "&:hover": {
-                          transform: "scale(1.03)",
-                          boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
-                        },
-                        borderRadius: 2,
-                        overflow: "hidden",
+                    <CardActionArea
+                      // disabled={isDisable}
+                      onClick={() => {
+                        navigate(`/products/${item.productId}`, {
+                          state: item,
+                        });
                       }}
                     >
-                      <CardActionArea
-                        // disabled={isDisable}
-                        onClick={() => {
-                          navigate(`/products/${item.productId}`, {
-                            state: item,
-                          });
+                      <CardMedia
+                        component="img"
+                        height="200"
+                        image={`${item.productImageUrl}?w=150&h=150&fit=crop&auto=format`}
+                        alt={item.productName}
+                        sx={{
+                          objectFit: "cover",
+                          borderBottom: "1px solid #ddd",
                         }}
-                      >
-                        <CardMedia
-                          component="img"
-                          height="200"
-                          image={`${item.productImageUrl}?w=150&h=150&fit=crop&auto=format`}
-                          alt={item.productName}
+                      />
+                      <CardContent>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="div"
                           sx={{
-                            objectFit: "cover",
-                            borderBottom: "1px solid #ddd",
+                            fontWeight: "600",
+                            color: "#333",
+                            textAlign: "center",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            mb: 1,
                           }}
-                        />
-                        <CardContent>
+                        >
+                          {item.productName}
+                        </Typography>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            mb: 1,
+                            gap: 0.5,
+                          }}
+                        >
+                          <PersonIcon sx={{ color: "#555" }} />
                           <Typography
-                            gutterBottom
-                            variant="h6"
+                            variant="body2"
                             component="div"
                             sx={{
-                              fontWeight: "600",
-                              color: "#333",
+                              color: "#555",
                               textAlign: "center",
                               whiteSpace: "nowrap",
                               overflow: "hidden",
                               textOverflow: "ellipsis",
-                              mb: 1,
                             }}
                           >
-                            {item.productName}
+                            {item.userUpload}
                           </Typography>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              mb: 1,
-                              gap: 0.5,
-                            }}
-                          >
-                            <PersonIcon sx={{ color: "#555" }} />
-                            <Typography
-                              variant="body2"
-                              component="div"
-                              sx={{
-                                color: "#555",
-                                textAlign: "center",
-                                whiteSpace: "nowrap",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                              }}
-                            >
-                              {item.userUpload}
-                            </Typography>
-                          </Box>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              mb: 1,
-                              gap: 0.5,
-                            }}
-                          >
-                            <GradeIcon sx={{ color: "#555" }} />
-                            <Typography
-                              variant="body2"
-                              component="div"
-                              sx={{
-                                color: "#555",
-                                textAlign: "center",
-                                whiteSpace: "nowrap",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                              }}
-                            >
-                              5
-                            </Typography>
-                          </Box>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            mb: 1,
+                            gap: 0.5,
+                          }}
+                        >
+                          <GradeIcon sx={{ color: "#555" }} />
                           <Typography
-                            gutterBottom
-                            variant="h6"
+                            variant="body2"
                             component="div"
                             sx={{
-                              color: "#ff5722",
+                              color: "#555",
                               textAlign: "center",
-                              fontWeight: "700",
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
                             }}
                           >
-                            {item.price} VND
+                            5
                           </Typography>
-                          <Button
-                            variant="contained"
-                            href="#contained-buttons"
-                            sx={{
-                              textAlign: "center",
-                              alignItems: "center",
-                              justifyContent: "center",
-                            }}
-                          >
-                            {item.isActive ? " success" : "On Going"}
-                          </Button>
-                        </CardContent>
-                      </CardActionArea>
-                    </Card>
-                  </Grid>
-                ))
-              ) : (
-                <Typography variant="h4">No Products</Typography>
-              )}
-            </Grid>
-            {/* <Stack spacing={2} alignItems="center" marginTop={5}>
+                        </Box>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="div"
+                          sx={{
+                            color: "#ff5722",
+                            textAlign: "center",
+                            fontWeight: "700",
+                          }}
+                        >
+                          {item.price} VND
+                        </Typography>
+                        <Button
+                          variant="contained"
+                          href="#contained-buttons"
+                          sx={{
+                            textAlign: "center",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {item.isActive ? " success" : "On Going"}
+                        </Button>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+              ))
+            ) : (
+              <Typography variant="h4">No Products</Typography>
+            )}
+          </Grid>
+          {/* <Stack spacing={2} alignItems="center" marginTop={5}>
               <Pagination
                 count={productList?.data.totalPage}
                 page={page}
                 onChange={handleChange}
               />
             </Stack> */}
-          </Grid>
         </Grid>
       </Grid>
     </>
