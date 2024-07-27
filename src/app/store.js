@@ -24,6 +24,7 @@ const useStore = create(
             state.auth = false;
             state.userInfo = null;
             state.isLoading = false;
+            state.response = null;
             state.error = null;
             state.productList = null;
             state.productDetail = null;

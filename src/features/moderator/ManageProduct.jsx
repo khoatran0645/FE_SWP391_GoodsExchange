@@ -10,7 +10,6 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
-
 import {
   Box,
   Button,
@@ -18,7 +17,6 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
   Stack,
   Pagination,
 } from "@mui/material";
@@ -115,7 +113,7 @@ export default function ManageProduct() {
         {listProduct?.map((product) => (
           <Card
             key={product.productId}
-            sx={{ maxWidth: 400, width: "100%", mb: 2 }}
+            sx={{ maxWidth: 400, width: "100%", mb: 2, ml: "-100px" }} // Added marginLeft to shift the card 20px to the left
           >
             <CardHeader
               avatar={

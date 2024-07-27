@@ -81,7 +81,10 @@ export default function NavBar() {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "black" }}>
+    <AppBar
+      position="static"
+      sx={{ backgroundColor: "black", zIndex: "99999999" }}
+    >
       <Container maxWidth="100%" sx={{ display: "flex" }}>
         <Toolbar
           disableGutters

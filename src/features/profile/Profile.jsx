@@ -33,7 +33,6 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const userProfile = useStore((state) => state.userProfile);
-  // console.log("userProfile", userProfile);
   const productList = useStore((state) => state.productList);
   console.log("productList", productList);
   const getSellerProduct = useStore((state) => state.getSellerProduct);
@@ -50,24 +49,6 @@ const Profile = () => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
-
-  const waitingList = () => {
-    return sellerProductList?.data.items.filter(
-      (item) => item.isApproved === false && item.isActive === true
-    );
-  };
-
-  const showingList = () => {
-    return sellerProductList?.data.items.filter(
-      (item) => item.isApproved === true && item.isActive === true
-    );
-  };
-
-  const soldList = () => {
-    return sellerProductList?.data.items.filter(
-      (item) => item.isApproved === true && item.isActive === false
-    );
   };
 
   return (
@@ -113,7 +94,6 @@ const Profile = () => {
                 />
               </Badge>
             </Box>
-            {/* {in4List.map((in4) => ( */}
 
             <Typography variant="h6" sx={{ mt: 1 }}>
               {userProfile.lastName} {userProfile.firstName}
@@ -122,10 +102,6 @@ const Profile = () => {
               Phone: {userProfile.phoneNumber}
             </Typography>
 
-            {/* ))} */}
-            {/* <Typography variant="body2" color="textSecondary">
-              Chưa có đánh giá
-            </Typography> */}
             {userProfile && userProfile.averageNumberStars ? (
               <Rating
                 name="read-only"
@@ -151,58 +127,6 @@ const Profile = () => {
         </Grid>
 
         <Grid item xs={12} md={8}>
-          <TabContext value={value}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <TabList
-                onChange={handleChange}
-                aria-label="lab API tabs example"
-              >
-                <Tab
-                  label="Đang cho duyet"
-                  value="1"
-                  onClick={() => waitingList()}
-                />
-                <Tab
-                  label="Đang hiển thị"
-                  value="2"
-                  onClick={() => showingList()}
-                />
-                <Tab label="Đã bán" value="3" />
-              </TabList>
-            </Box>
-            {waitingList()?.length > 0
-              ? waitingList().map((item) => (
-                  <TabPanel value="1" key={item.productId}>
-                    <ProductCard item={item} isDisable={true} />
-                  </TabPanel>
-                ))
-              : null}
-
-            {showingList()?.length > 0
-              ? showingList().map((item) => (
-                  <TabPanel value="2" key={item.productId}>
-                    <ProductCard item={item} />
-                  </TabPanel>
-                ))
-              : null}
-
-            {soldList()?.length > 0
-              ? soldList().map((item) => (
-                  <TabPanel value="3" key={item.productId}>
-                    <ProductCard item={item} />
-                  </TabPanel>
-                ))
-              : null}
-
-            {/* <TabPanel value="1">Item 2</TabPanel>
-            <TabPanel value="2">Item 3</TabPanel>
-            <TabPanel value="1">Item 4</TabPanel>
-            <TabPanel value="2">Item 5</TabPanel>
-            <TabPanel value="2">Item 6</TabPanel>
-            <TabPanel value="2">Item 7</TabPanel>
-            <TabPanel value="2">Item 8</TabPanel> */}
-          </TabContext>
-
           <Grid item xs={10}>
             <Grid container spacing={1}>
               {sellerProductList.data.items.length > 0 ? (
