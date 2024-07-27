@@ -7,6 +7,7 @@ import { createUserSlice } from "./UserSlice";
 import { createReportSlice } from "./ReportSlice";
 import { createCategorySlice } from "./CategorySlice";
 import { createRatingSlice } from "./RatingSlice";
+import { createExchangeSlice } from "./ExchangeSlice";
 
 const useStore = create(
   devtools(
@@ -18,6 +19,7 @@ const useStore = create(
         ...createUserSlice(set),
         ...createRatingSlice(set),
         ...createReportSlice(set),
+        ...createExchangeSlice(set),
 
         reset: () =>
           set((state) => {
