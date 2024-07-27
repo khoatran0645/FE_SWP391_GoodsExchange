@@ -1,5 +1,8 @@
 import axiosClient from "../services/axiosClient";
-import {API_SEND_TRADE_REQUEST, API_GET_ALL_REQUEST_TRADE_LIST } from "../constant";
+import {
+  API_SEND_TRADE_REQUEST,
+  API_GET_ALL_REQUEST_TRADE_LIST,
+} from "../constant";
 // import toast from "react-hot-toast";
 
 const initialState = {
@@ -30,6 +33,18 @@ export const createExchangeSlice = (set) => ({
     try {
       const { data } = await axiosClient.get(API_GET_ALL_REQUEST_TRADE_LIST);
       set({ getRequestTradeData: data });
+    } catch (error) {
+      set({ error: error.message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  getReceiveList: async () => {
+    set({ isLoading: true });
+    try {
+      const { data } = await axiosClient.get(API_GET_ALL_RECEIVE_TRADE_LIST);
+      set({ getReceiveTradeData: data });
     } catch (error) {
       set({ error: error.message });
     } finally {

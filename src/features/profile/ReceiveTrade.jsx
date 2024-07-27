@@ -1,4 +1,22 @@
 import React from "react";
+import useStore from "../../app/store";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  Box,
+  CardMedia,
+  Button,
+} from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 function ReceiveTrade() {
   const getSellerProduct = useStore((state) => state.getSellerProduct);
@@ -11,133 +29,174 @@ function ReceiveTrade() {
 
   console.log("sellerProductList: ", sellerProductList?.data.items);
 
+  const { getReceiveList, getReceiveTradeData, isLoading, error } = useStore(
+    (state) => ({
+      getReceiveList: state.getReceiveList,
+      getReceiveTradeData: state.getReceiveTradeData,
+      isLoading: state.isLoading,
+      error: state.error,
+    })
+  );
+
+  useEffect(() => {
+    getReceiveList(); // Call the API function when the component mounts
+  }, [getReceiveList]);
+
+  useEffect(() => {
+    console.log("getReceiveTradeData:", getReceiveTradeData);
+  }, [getReceiveTradeData]);
+  useEffect(() => {
+    getReceiveList(); // Call the API function when the component mounts
+  }, [getReceiveList]);
+  const getReceiveTradeData1 = useStore((state) => state.getReceiveTradeData);
+  console.log("getReceiveTradeData1: ", getReceiveTradeData1);
   return (
     <>
-      <Grid item xs={12} md={8}>
-        <Grid item xs={10}>
-          <Grid container spacing={2}>
-            {sellerProductList?.data.items.length > 0 ? (
-              sellerProductList?.data.items.map((item) => (
-                <Grid
-                  item
-                  key={item.productId}
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
-                  xl={2}
-                >
-                  {/* <ProductCard item={item} /> */}
-                  <Card
-                    key={item.productId}
-                    sx={{
-                      maxWidth: 345,
-                      minWidth: 200,
-                      marginX: 1,
-                      marginY: 1,
-                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                      "&:hover": {
-                        transform: "scale(1.03)",
-                        boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
-                      },
-                      borderRadius: 2,
-                      overflow: "hidden",
-                    }}
-                  >
-                    <CardActionArea
-                      // disabled={isDisable}
-                      onClick={() => {
-                        navigate(`/products/${item.productId}`, {
-                          state: item,
-                        });
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell align="center" colSpan={5}>
+                <Typography variant="h6">Trade Details</Typography>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Currently User Product</TableCell>
+              <TableCell>Currently User Product Name</TableCell>
+              <TableCell>Sender's Product</TableCell>
+              <TableCell>Sender's Product Name</TableCell>
+              <TableCell>userImage</TableCell>
+              <TableCell>Action</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {getReceiveTradeData?.length > 0 ? (
+              getReceiveTradeData?.map((item) => (
+                <TableRow key={item.productId}>
+                  {/* Currently User Product Image and Name */}
+                  <TableCell>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
                       }}
                     >
                       <CardMedia
                         component="img"
-                        height="200"
-                        image={`${item.productImageUrl}?w=150&h=150&fit=crop&auto=format`}
-                        alt={item.productName}
-                        sx={{
-                          objectFit: "cover",
-                          borderBottom: "1px solid #ddd",
-                        }}
+                        height="120"
+                        width="120"
+                        image={`${item.currentProductImage}?w=120&h=120&fit=crop&auto=format`}
+                        alt={item.currentProductName}
+                        sx={{ objectFit: "contain", borderRadius: "8px" }}
                       />
-                      <CardContent>
-                        <Typography
-                          gutterBottom
-                          variant="h6"
-                          component="div"
-                          sx={{
-                            fontWeight: "600",
-                            color: "#333",
-                            textAlign: "center",
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            mb: 1,
-                          }}
-                        >
-                          {item.productName}
-                        </Typography>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            mb: 1,
-                            gap: 0.5,
-                          }}
-                        ></Box>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            mb: 1,
-                            gap: 0.5,
-                          }}
-                        ></Box>
-                        <Typography
-                          gutterBottom
-                          variant="h6"
-                          component="div"
-                          sx={{
-                            color: "#ff5722",
-                            textAlign: "center",
-                            fontWeight: "700",
-                          }}
-                        >
-                          {item.price} VND
-                        </Typography>
-                        <Button
-                          variant="contained"
-                          href="#contained-buttons"
-                          sx={{
-                            textAlign: "center",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                        >
-                          {item.isActive ? " success" : "On Going"}
-                        </Button>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </Grid>
+                    </Box>
+                  </TableCell>
+
+                  <TableCell>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        whiteSpace: "normal",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        textAlign: "center",
+                        mt: 1,
+                        ml: 1,
+                      }}
+                    >
+                      {item.currentProductName}
+                    </Typography>
+                  </TableCell>
+
+                  {/* Sender's Product Image and Name */}
+                  <TableCell>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      <CardMedia
+                        component="img"
+                        height="120"
+                        width="120"
+                        image={`${item.targetProductImage}?w=120&h=120&fit=crop&auto=format`}
+                        alt={item.targetProductName}
+                        sx={{ objectFit: "contain", borderRadius: "8px" }}
+                      />
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        whiteSpace: "normal",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        textAlign: "center",
+                        mt: 1,
+                        ml: 1,
+                      }}
+                    >
+                      {item.targetProductName}
+                    </Typography>
+                  </TableCell>
+
+                  <TableCell>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      <CardMedia
+                        component="img"
+                        height="120"
+                        width="120"
+                        image={`${item.userImage}?w=120&h=120&fit=crop&auto=format`}
+                        alt={item.targetProductName}
+                        sx={{ objectFit: "contain", borderRadius: "8px" }}
+                      />
+                    </Box>
+                  </TableCell>
+
+                  <TableCell>
+                    <Box
+                      sx={{ display: "flex", justifyContent: "center", gap: 1 }}
+                    >
+                      <Button
+                        variant="contained"
+                        color="success"
+                        startIcon={<CheckIcon />}
+                        onClick={() => handleApprove(item.productId)}
+                      >
+                        Approve
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        startIcon={<CloseIcon />}
+                        onClick={() => handleDeny(item.productId)}
+                      >
+                        Deny
+                      </Button>
+                    </Box>
+                  </TableCell>
+                </TableRow>
               ))
             ) : (
-              <Typography variant="h4">No Products</Typography>
+              <TableRow>
+                <TableCell colSpan={5} align="center">
+                  <Typography variant="h6">No Products</Typography>
+                </TableCell>
+              </TableRow>
             )}
-          </Grid>
-          {/* <Stack spacing={2} alignItems="center" marginTop={5}>
-                <Pagination
-                  count={productList?.data.totalPage}
-                  page={page}
-                  onChange={handleChange}
-                />
-              </Stack> */}
-        </Grid>
-      </Grid>
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 }
