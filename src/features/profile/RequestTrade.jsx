@@ -24,17 +24,21 @@ import ProductImage from "./productImage";
 const RequestTrade = () => {
   const getSellerProduct = useStore((state) => state.getSellerProduct);
 
+  const getRequestProduct = useStore((state) => state.getRequestList);
+
   useEffect(() => {
     getSellerProduct();
+    getRequestProduct();
   }, []);
 
   const sellerProductList = useStore((state) => state.sellerProductList);
-
+  const requestList = useStore((state) => state.getRequestListData);
   console.log("sellerProductList: ", sellerProductList?.data.items);
   console.log(
     "sellerProductList: ",
     sellerProductList?.data.items.productImageUrl
   );
+  console.log("requestList: ", requestList?.data.items);
   return (
     <>
       <TableContainer component={Paper}>
@@ -47,7 +51,9 @@ const RequestTrade = () => {
             </TableRow>
             <TableRow>
               <TableCell>Currently User Product</TableCell>
+              <TableCell>Currently User Product Name</TableCell>
               <TableCell>Sender's Product</TableCell>
+              <TableCell>Sender's Product Name</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
