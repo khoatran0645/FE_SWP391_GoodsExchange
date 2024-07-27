@@ -21,6 +21,7 @@ import SearchProduct from "./features/products/SearchProduct";
 
 import ManageProduct from "./features/moderator/ManageProduct";
 import ManageReports from "./features/moderator/ManageReports";
+import ManageCategories from "./features/moderator/ManageCategories";
 import ModeratorProfile from "./features/moderator/ModeratorProfile";
 
 import { ThemeProvider, createTheme } from "@mui/material";
@@ -72,6 +73,7 @@ export default function App() {
         <Route path="/" element={<HomeLayout />}>
           <Route index element={<Home />} />
           <Route path="products/:id" element={<ProductDetail />} />
+
           <Route path="search" element={<SearchProduct />}>
             <Route path="products/:id" element={<ProductDetail />} />
           </Route>
@@ -94,6 +96,7 @@ export default function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
+
           <Route
             path="moderator-profile"
             exact
@@ -101,6 +104,8 @@ export default function App() {
           />
           <Route path="manage-products" element={<ManageProduct />} />
           <Route path="manage-reports" element={<ManageReports />} />
+          <Route path="manage-categories" element={<ManageCategories />} />
+
           <Route path="profile" element={<Profile />} />
           <Route path="edit-profile" element={<EditProfile />} />
         </Route>

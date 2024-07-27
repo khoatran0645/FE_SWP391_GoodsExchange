@@ -9,13 +9,9 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
+
+import { Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import NavBarMo from "./NavBarMo";
 
 const drawerWidth = 240;
 
@@ -105,98 +101,46 @@ export default function ModeratorPage() {
           </DrawerHeader>
           <Divider />
           <List>
-            <ListItem
-              disablePadding
-              sx={{ display: "block" }}
-              onClick={() => {
-                navigate("/manage-products");
-              }}
+            {/* <Typography
+              variant="h6"
+              sx={{ marginBottom: 1, padding: 1, alignContent: "center" }}
             >
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
+              Moderator Panel
+            </Typography> */}
+            <Box sx={{ padding: 3 }}>
+              <Button
+                fullWidth
+                variant="outlined"
+                sx={{ marginBottom: 1, display: "block" }}
+                onClick={() => navigate("/manage-products")}
               >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Manage Product"
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </ListItem>
-          </List>
-          <List>
-            <ListItem
-              disablePadding
-              sx={{ display: "block" }}
-              onClick={() => {
-                navigate("/manage-reports");
-              }}
-            >
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
+                Manage Product
+              </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                sx={{ marginBottom: 1, display: "block" }}
+                onClick={() => navigate("/manage-reports")}
               >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Manage Report"
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </ListItem>
-          </List>
-
-          <List>
-            <ListItem
-              disablePadding
-              sx={{ display: "block" }}
-              onClick={() => {
-                navigate("/moderator-profile");
-              }}
-            >
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
+                Manage Report
+              </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                sx={{ marginBottom: 1, display: "block" }}
+                onClick={() => navigate("/manage-categories")}
               >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Moderator Profile"
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </ListItem>
+                Manage Categories
+              </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                sx={{ display: "block" }}
+                onClick={() => navigate("/moderator-profile")}
+              >
+                Manage Profile
+              </Button>
+            </Box>
           </List>
         </Drawer>
       </Box>
