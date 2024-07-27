@@ -9,8 +9,12 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 import { Button, Typography } from "@mui/material";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -101,13 +105,13 @@ export default function ModeratorPage() {
           </DrawerHeader>
           <Divider />
           <List>
-            {/* <Typography
+            <Typography
               variant="h6"
               sx={{ marginBottom: 1, padding: 1, alignContent: "center" }}
             >
               Moderator Panel
-            </Typography> */}
-            <Box sx={{ padding: 3 }}>
+            </Typography>
+            <Box sx={{ padding: 2 }}>
               <Button
                 fullWidth
                 variant="outlined"

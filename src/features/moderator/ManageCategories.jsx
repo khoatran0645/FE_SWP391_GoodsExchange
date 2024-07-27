@@ -79,10 +79,15 @@ export default function ManageCategories() {
           },
           ...categories,
         ]);
+        toast.success("Bạn đã add categories thành công", {
+          style: {
+            marginTop: "50px",
+          },
+        });
       }
-      toast.success("Create category successfully!");
     } catch (error) {
       console.log(error);
+      toast.error("Thêm danh mục thất bại");
     }
     setOpenAddDialog(false);
     setNewCategory({ CategoryName: "" });
@@ -102,22 +107,32 @@ export default function ManageCategories() {
   };
 
   const handleUpdateCategory = async () => {
-    await updateCategory(categoryToEdit);
-    const response = useStore.getState().response;
-    if (response) {
-      console.log(response);
-      setCategories(
-        categories.map((category) => {
-          if (category.categoryId === categoryToEdit.CategoryId) {
-            return {
-              categoryId: category.categoryId,
-              categoryName: categoryToEdit.CategoryName,
-            };
-          } else {
-            return category;
-          }
-        })
-      );
+    try {
+      await updateCategory(categoryToEdit);
+      const response = useStore.getState().response;
+      if (response) {
+        console.log(response);
+        setCategories(
+          categories.map((category) => {
+            if (category.categoryId === categoryToEdit.CategoryId) {
+              return {
+                categoryId: category.categoryId,
+                categoryName: categoryToEdit.CategoryName,
+              };
+            } else {
+              return category;
+            }
+          })
+        );
+        toast.success("Bạn đã update thành công", {
+          style: {
+            marginTop: "50px",
+          },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Cập nhật danh mục thất bại");
     }
     setOpenEditDialog(false);
     setCategoryToEdit({ CategoryId: "", CategoryName: "" });
@@ -133,7 +148,11 @@ export default function ManageCategories() {
           (category) => category.categoryId !== categoryToDelete
         )
       );
-      toast.success("You've successfully delete");
+      toast.success("You've successfully delete", {
+        style: {
+          marginTop: "50px", // Adjust the value as needed
+        },
+      });
     }
     setOpenDeleteDialog(false);
   };
@@ -147,7 +166,7 @@ export default function ManageCategories() {
     <>
       <NavBarMo />
       <ModeratorPage />
-      <Grid container justifyContent="center">
+      <Grid container justifyContent="center" marginLeft="150px">
         <Grid item xs={12} md={8}>
           <Box sx={{ p: 2, mt: 8 }}>
             <Typography
@@ -171,22 +190,36 @@ export default function ManageCategories() {
               </Button>
             </Grid>
             <Box
-              sx={{ maxWidth: "200%", mx: "auto", marginLeft: "70px" }} // Changed marginLeft to shift the table 50px to the right
+              sx={{
+                maxWidth: "100%",
+                mx: "auto",
+                marginLeft: "20px",
+              }} // Changed marginLeft to shift the table 50px to the right
             >
               <TableContainer component={Paper}>
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell>ID</TableCell>
-                      <TableCell>Name</TableCell>
-                      <TableCell>Actions</TableCell>
+                      <TableCell align="center" style={{ minWidth: "100px" }}>
+                        ID
+                      </TableCell>
+                      <TableCell align="center" style={{ minWidth: "200px" }}>
+                        Name
+                      </TableCell>
+                      <TableCell align="center" style={{ minWidth: "150px" }}>
+                        Actions
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {categories.map((category) => (
                       <TableRow key={category.categoryId}>
-                        <TableCell>{category.categoryId}</TableCell>
-                        <TableCell>{category.categoryName}</TableCell>
+                        <TableCell align="center">
+                          {category.categoryId}
+                        </TableCell>
+                        <TableCell align="center">
+                          {category.categoryName}
+                        </TableCell>
                         <TableCell align="center">
                           <IconButton
                             color="primary"

@@ -31,8 +31,6 @@ import AdminLayout from "./features/admin/AdminLayout";
 import AdminUser from "./features/admin/AdminUser";
 import Dashboard from "./features/admin/Dashboard";
 import ForgotPassword from "./features/auth/ForgotPassword";
-import ProfileLayout from "./features/profile/ProfileLayout";
-import RequestTrade from "./features/profile/RequestTrade";
 
 export default function App() {
   const colorMode = useStore((state) => state.colorMode);
@@ -54,7 +52,7 @@ export default function App() {
     if (token != null) {
       // Redirect to "/"
       if (userInfo?.data.role == "Moderator") {
-        navigate("/moderator-profile");
+        navigate("/manage-products");
       } else if (userInfo?.data.role == "Administrator") {
         navigate("/admin");
       } else {
@@ -73,7 +71,6 @@ export default function App() {
         <Route path="/" element={<HomeLayout />}>
           <Route index element={<Home />} />
           <Route path="products/:id" element={<ProductDetail />} />
-
           <Route path="search" element={<SearchProduct />}>
             <Route path="products/:id" element={<ProductDetail />} />
           </Route>
@@ -91,31 +88,19 @@ export default function App() {
           <Route path="admin-user" element={<AdminUser />} />
           <Route path="dashboard" element={<Dashboard />} />
         </Route>
-
         <Route path="/" element={<EmptyLayout />}>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
 
-          <Route
-            path="moderator-profile"
-            exact
-            element={<ModeratorProfile />}
-          />
-          <Route path="manage-products" element={<ManageProduct />} />
+          <Route path="manage-products" exact element={<ManageProduct />} />
+          <Route path="moderator-profile" element={<ModeratorProfile />} />
+
           <Route path="manage-reports" element={<ManageReports />} />
           <Route path="manage-categories" element={<ManageCategories />} />
-
           <Route path="profile" element={<Profile />} />
           <Route path="edit-profile" element={<EditProfile />} />
         </Route>
-        <Route path="/profile" element={<ProfileLayout />}>
-          <Route index element={<Profile />} />
-          <Route path="profile-info" element={<Profile />} />
-          <Route path="request-trade" element={<RequestTrade />} />
-          <Route path="dashboard" element={<Dashboard />} />
-        </Route>
-
         <Route path="*" element={<NotFound />} />
       </Routes>
     </ThemeProvider>
