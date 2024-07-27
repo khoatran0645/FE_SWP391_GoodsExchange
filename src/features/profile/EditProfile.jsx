@@ -20,6 +20,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
+import ProfileLayout from "./ProfileLayout";
 
 const resetPasswordModalStyle = {
   position: "absolute",
@@ -130,7 +131,7 @@ function Profile() {
       <NavBar />
       <Box sx={{ display: "flex", height: "100vh" }}>
         <Box sx={{ width: "250px", borderRight: "1px solid #ddd" }}>
-          <List component="nav">
+          {/* <List component="nav">
             {menuItems.map((item) => (
               <div key={item.key}>
                 <ListItem
@@ -147,7 +148,8 @@ function Profile() {
                 <Divider />
               </div>
             ))}
-          </List>
+          </List> */}
+          <ProfileLayout />
         </Box>
         <Box
           component="form"
