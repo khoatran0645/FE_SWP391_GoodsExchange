@@ -72,7 +72,7 @@ export default function ProfileLayout() {
           </Button>
           <Button
             variant="outlined"
-            onClick={() => navigate("/request-trade")}
+            onClick={() => navigate("receive-trade")}
             sx={{
               marginBottom: 2,
               color: "#333",

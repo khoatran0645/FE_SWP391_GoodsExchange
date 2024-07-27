@@ -31,7 +31,9 @@ import AdminLayout from "./features/admin/AdminLayout";
 import AdminUser from "./features/admin/AdminUser";
 import Dashboard from "./features/admin/Dashboard";
 import ForgotPassword from "./features/auth/ForgotPassword";
-
+import ProfileLayout from "./features/profile/ProfileLayout";
+import RequestTrade from "./features/profile/RequestTrade";
+import ReceiveTrade from "./features/profile/ReceiveTrade";
 export default function App() {
   const colorMode = useStore((state) => state.colorMode);
   const userInfo = useStore((state) => state.userInfo);
@@ -100,6 +102,13 @@ export default function App() {
           <Route path="manage-categories" element={<ManageCategories />} />
           <Route path="profile" element={<Profile />} />
           <Route path="edit-profile" element={<EditProfile />} />
+        </Route>
+
+        <Route path="/profile" element={<ProfileLayout />}>
+          <Route index element={<Profile />} />
+          <Route path="profile-info" element={<Profile />} />
+          <Route path="request-trade" element={<RequestTrade />} />
+          <Route path="receive-trade" element={<ReceiveTrade />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

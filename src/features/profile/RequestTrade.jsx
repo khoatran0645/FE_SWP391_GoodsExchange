@@ -25,13 +25,21 @@ const RequestTrade = () => {
     getSellerProduct();
   }, [getSellerProduct]);
 
-  const sellerProductList = useStore((state) => state.sellerProductList);
-  console.log("sellerProductList: ", sellerProductList?.data.items);
+  // const sellerProductList = useStore((state) => state.sellerProductList);
+  // console.log("sellerProductList: ", sellerProductList?.data.items);
 
   const { getRequestList, getRequestTradeData, isLoading, error } = useStore(
     (state) => ({
       getRequestList: state.getRequestList,
       getRequestTradeData: state.getRequestTradeData,
+      isLoading: state.isLoading,
+      error: state.error,
+    })
+  );
+  const { getReceiveList, getReceiveTradeData, isLoading2, error2 } = useStore(
+    (state) => ({
+      getReceiveList: state.getReceiveList,
+      getReceiveTradeData: state.getReceiveTradeData,
       isLoading: state.isLoading,
       error: state.error,
     })
@@ -66,12 +74,14 @@ const RequestTrade = () => {
               <TableCell>Currently User Product Name</TableCell>
               <TableCell>Sender's Product</TableCell>
               <TableCell>Sender's Product Name</TableCell>
+              <TableCell>userImage</TableCell>
+
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {sellerProductList?.data?.items.length > 0 ? (
-              sellerProductList?.data?.items.map((item) => (
+            {getRequestTradeData?.length > 0 ? (
+              getRequestTradeData?.map((item) => (
                 <TableRow key={item.productId}>
                   {/* Currently User Product Image and Name */}
                   <TableCell>
@@ -86,8 +96,8 @@ const RequestTrade = () => {
                         component="img"
                         height="120"
                         width="120"
-                        image={`${item.productImageUrl}?w=120&h=120&fit=crop&auto=format`}
-                        alt={item.productName}
+                        image={`${item.currentProductImage}?w=120&h=120&fit=crop&auto=format`}
+                        alt={item.currentProductName}
                         sx={{ objectFit: "contain", borderRadius: "8px" }}
                       />
                     </Box>
@@ -105,7 +115,7 @@ const RequestTrade = () => {
                         ml: 1,
                       }}
                     >
-                      {item.productName}
+                      {item.currentProductName}
                     </Typography>
                   </TableCell>
 
@@ -122,8 +132,8 @@ const RequestTrade = () => {
                         component="img"
                         height="120"
                         width="120"
-                        image={`${item.productImageUrl}?w=120&h=120&fit=crop&auto=format`}
-                        alt={item.productName}
+                        image={`${item.targetProductImage}?w=120&h=120&fit=crop&auto=format`}
+                        alt={item.targetProductName}
                         sx={{ objectFit: "contain", borderRadius: "8px" }}
                       />
                     </Box>
@@ -140,24 +150,28 @@ const RequestTrade = () => {
                         ml: 1,
                       }}
                     >
-                      {item.productName}
+                      {item.targetProductName}
                     </Typography>
                   </TableCell>
 
-                  {/* <TableCell>
-                    <Typography
-                      variant="body2"
+                  <TableCell>
+                    <Box
                       sx={{
-                        whiteSpace: "normal",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        textAlign: "center",
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
                       }}
                     >
-                      {item.userUpload}
-                    </Typography>
-                  </TableCell> */}
-
+                      <CardMedia
+                        component="img"
+                        height="120"
+                        width="120"
+                        image={`${item.userImage}?w=120&h=120&fit=crop&auto=format`}
+                        alt={item.targetProductName}
+                        sx={{ objectFit: "contain", borderRadius: "8px" }}
+                      />
+                    </Box>
+                  </TableCell>
                   <TableCell>
                     <Box
                       sx={{ display: "flex", justifyContent: "center", gap: 1 }}
