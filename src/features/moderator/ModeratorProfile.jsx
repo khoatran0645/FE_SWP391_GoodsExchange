@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 
 export default function ModeratorProfile() {
   const getProfileUserById = useStore((state) => state.getProfileUserById);
-  const updateProfileUser = useStore((state) => state.updateProfileUser);
+  const UpdateProfileUser = useStore((state) => state.UpdateProfileUser);
   const userInfo = useStore.getState().userInfo;
   const userDetail = jwtDecode(userInfo.data.token);
 
@@ -60,7 +60,7 @@ export default function ModeratorProfile() {
     console.log("Formatted Data: ", formattedData);
 
     try {
-      await updateProfileUser(formattedData);
+      await UpdateProfileUser(formattedData);
       toast.success("Profile updated successfully");
     } catch (error) {
       toast.error(`Error updating profile: ${error.message}`);
@@ -91,7 +91,7 @@ export default function ModeratorProfile() {
               maxHeight: "600px",
               alignItems: "center",
               justifyContent: "center",
-              margin: "10px 100px",
+              marginRight: "120px", // Changed margin to shift form 10px to the left
               padding: "20px",
               boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
               borderRadius: "8px",
@@ -209,7 +209,7 @@ export default function ModeratorProfile() {
               color="primary"
               sx={{ mt: 2 }}
             >
-              Lưu thay đổi
+              Update
             </Button>
             <Button />
           </Box>
