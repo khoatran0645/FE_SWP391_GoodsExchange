@@ -11,10 +11,11 @@ import {
 import { useState } from "react";
 import ProductCard from "../products/ProductCard";
 import { ArrowBack } from "@mui/icons-material";
-import AddIcon from "@mui/icons-material/Add";
+import AddItem from "./AddItem";
 
 export default function CreateTrade({ productDetail }) {
   const [open, setOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -22,13 +23,18 @@ export default function CreateTrade({ productDetail }) {
 
   const handleClose = () => {
     setOpen(false);
+    setSelectedProduct(null);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Implement your submit logic here
     console.log("Trade submitted");
     setOpen(false);
+    setSelectedProduct(null);
+  };
+
+  const handleSelectProduct = (item) => {
+    setSelectedProduct(item);
   };
 
   return (
@@ -83,7 +89,11 @@ export default function CreateTrade({ productDetail }) {
               justifyContent: "center",
             }}
           >
-            <Typography variant="h4" component="div">
+            <Typography
+              variant="h4"
+              component="div"
+              sx={{ fontFamily: "fantasy" }}
+            >
               Create Trade
             </Typography>
           </Box>
@@ -104,7 +114,11 @@ export default function CreateTrade({ productDetail }) {
                     width: "100%",
                   }}
                 >
-                  <Typography variant="h6" gutterBottom>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{ fontFamily: "fantasy" }}
+                  >
                     Item To Trade
                   </Typography>
                   <Box
@@ -116,7 +130,11 @@ export default function CreateTrade({ productDetail }) {
                       margin: "0 auto",
                     }}
                   >
-                    <ProductCard item={productDetail} isDisable />
+                    <ProductCard
+                      item={productDetail}
+                      isDisable
+                      cardType="trade"
+                    />
                   </Box>
                 </Box>
               </Grid>
@@ -154,7 +172,12 @@ export default function CreateTrade({ productDetail }) {
                     width: "100%",
                   }}
                 >
-                  <Typography variant="h6" gutterBottom textAlign={"center"}>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    textAlign={"center"}
+                    sx={{ fontFamily: "fantasy" }}
+                  >
                     Item You Have
                   </Typography>
                   <Box
@@ -166,18 +189,11 @@ export default function CreateTrade({ productDetail }) {
                       width: "100%",
                     }}
                   >
-                    <Button
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        border: "1px solid black",
-                        borderRadius: "8px",
-                        padding: 2,
-                      }}
-                    >
-                      <AddIcon sx={{ fontSize: 40, color: "black" }} />
-                    </Button>
+                    {selectedProduct ? (
+                      <ProductCard item={selectedProduct} cardType="have" />
+                    ) : (
+                      <AddItem onSelectProduct={handleSelectProduct} />
+                    )}
                   </Box>
                 </Box>
               </Grid>
