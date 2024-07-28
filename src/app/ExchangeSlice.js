@@ -2,53 +2,106 @@ import axiosClient from "../services/axiosClient";
 import {
   API_SEND_TRADE_REQUEST,
   API_GET_ALL_REQUEST_TRADE_LIST,
+  API_GET_ALL_RECEIVE_TRADE_LIST,
+  API_APPROVE_TRADE,
+  API_DENY_TRADE,
+  API_GET_ALL_CALCEL_REQUEST_TRADE_LIST,
 } from "../constant";
-// import toast from "react-hot-toast";
 
 const initialState = {
   response: null,
   getRequestListData: null,
+  getReceiveTradeData: null,
   isLoading: false,
   error: null,
 };
+
+const setLoading = (set, isLoading) => set({ isLoading });
+const setError = (set, error) =>
+  set({ error: { message: error.message, code: error.code } });
 
 export const createExchangeSlice = (set) => ({
   ...initialState,
 
   // Create Exchange
   sendRequest: async (form) => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.post(API_SEND_TRADE_REQUEST, form);
       set({ response: data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 
   getRequestList: async () => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.get(API_GET_ALL_REQUEST_TRADE_LIST);
-      set({ getRequestTradeData: data });
+      set({ getRequestListData: data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 
   getReceiveList: async () => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.get(API_GET_ALL_RECEIVE_TRADE_LIST);
       set({ getReceiveTradeData: data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
+    }
+  },
+  getCancelRequestList: async () => {
+    setLoading(set, true);
+    try {
+      const { data } = await axiosClient.get(
+        API_GET_ALL_CALCEL_REQUEST_TRADE_LIST
+      );
+      set({ getCancelTradeData: data });
+    } catch (error) {
+      setError(set, error);
+    } finally {
+      setLoading(set, false);
+    }
+  },
+
+  // Approve trade
+  approveTrade: async (requestId) => {
+    setLoading(set, true);
+    try {
+      const { data } = await axiosClient.post(
+        API_APPROVE_TRADE.replace("{requestId}", requestId)
+      );
+      set({ response: data });
+      console.log("approveTrade: ", data);
+    } catch (error) {
+      setError(set, error);
+    } finally {
+      setLoading(set, false);
+    }
+  },
+
+  // Deny trade
+  denyTrade: async (requestId) => {
+    setLoading(set, true);
+    try {
+      const { data } = await axiosClient.post(
+        API_DENY_TRADE.replace("{requestId}", requestId)
+      );
+      set({ response: data });
+      console.log("denyTrade: ", data);
+    } catch (error) {
+      setError(set, error);
+    } finally {
+      setLoading(set, false);
     }
   },
 });

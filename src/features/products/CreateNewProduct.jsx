@@ -149,16 +149,6 @@ export default function CreateNewProduct() {
             fullWidth
             variant="standard"
           />
-          <TextField
-            required
-            margin="dense"
-            id="price"
-            name="Price"
-            label="Price"
-            type="number"
-            fullWidth
-            variant="standard"
-          />
           <Autocomplete
             disablePortal
             id="autocomplete"

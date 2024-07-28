@@ -92,7 +92,28 @@ export default function ProfileLayout() {
           </Button>
           <Button
             variant="outlined"
-            onClick={() => navigate("/admin/dashboard")}
+            onClick={() => navigate("transaction-trade")}
+            sx={{
+              marginBottom: 2,
+              color: "#333",
+              borderColor: "#333",
+              "&:hover": {
+                backgroundColor: "black",
+                color: "white",
+                borderColor: "#333",
+              },
+              width: "100%",
+              borderRadius: "4px",
+              padding: "10px",
+
+              textTransform: "none",
+            }}
+          >
+            Transaction Trade
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => navigate("inventory-trade")}
             sx={{
               color: "#333",
               borderColor: "#333",
@@ -108,7 +129,7 @@ export default function ProfileLayout() {
               textTransform: "none",
             }}
           >
-            Invectory Trade
+            Inventory Trade
           </Button>
         </Grid>
         <Grid item lg={10} sm={12} sx={{ padding: 2 }}>

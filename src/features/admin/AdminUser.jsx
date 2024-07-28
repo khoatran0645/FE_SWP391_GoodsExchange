@@ -18,8 +18,6 @@ import {
   Container,
 } from "@mui/material";
 import AddModerator from "./AddModerator";
-import EditMod from "./EditMod";
-import AddUser from "./AddUser";
 
 export default function AdminUser() {
   const [page, setPage] = useState(1);
@@ -55,7 +53,7 @@ export default function AdminUser() {
             User List
           </Typography>
 
-          <AddUser onAdd={fetchModerators} />
+          <AddModerator onAdd={fetchModerators} />
 
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="Moderator table">
@@ -98,7 +96,7 @@ export default function AdminUser() {
                 ) : (
                   <TableRow>
                     <TableCell colSpan={5} align="center">
-                      No moderators found
+                      No users found
                     </TableCell>
                   </TableRow>
                 )}

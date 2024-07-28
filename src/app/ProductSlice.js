@@ -7,12 +7,8 @@ import {
   API_APPROVE_PRODUCT_MOD,
   API_DENY_PRODUCT_MOD,
   API_GET_PRODUCT_SELLER,
-  API_GET_ALL_CATEGORIES,
   API_SEARCH_PRODUCTS_FOR_USER,
-  API_POST_RATING,
-} from "./../constant";
-
-import { toast } from "react-toastify";
+} from "../constant";
 
 const initialState = {
   isLoading: false,
@@ -21,13 +17,18 @@ const initialState = {
   productList: null,
   productDetail: null,
   sellerProductList: null,
+  searchResult: null,
 };
+
+const setLoading = (set, isLoading) => set({ isLoading });
+const setError = (set, error) =>
+  set({ error: { message: error.message, code: error.code } });
 
 export const createProductSlice = (set) => ({
   ...initialState,
 
   getProductsForHomePage: async (pageIndex, pageSize) => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.post(
         API_GET_PRODUCTS_HOMEPAGE.replace("{PageIndex}", pageIndex).replace(
@@ -35,44 +36,42 @@ export const createProductSlice = (set) => ({
           pageSize
         )
       );
-      set({ productList: data });
-      // console.log("productList", data);
-      set({ productDetail: null });
+      set({ productList: data, productDetail: null });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 
   getProductById: async (id) => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.get(
         API_GET_PRODUCT_BY_ID.replace("{id}", id)
       );
       set({ productDetail: data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 
   createNewProduct: async (form) => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.post(API_CREATE_PRODUCT, form);
       set({ response: data });
     } catch (error) {
-      set({ error: error });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 
   postAllProduct: async (pageIndex, pageSize) => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.post(
         API_GET_ALL_PRODUCT_MOD.replace("{PageIndex}", pageIndex).replace(
@@ -82,70 +81,63 @@ export const createProductSlice = (set) => ({
       );
       set({ productList: data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 
-  approveProduct: async (item) => {
-    set({ isLoading: true });
+  approveProduct: async (productId) => {
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.patch(
-        API_APPROVE_PRODUCT_MOD.replace("{id}", item.productId)
+        API_APPROVE_PRODUCT_MOD.replace("{id}", productId)
       );
       set({ response: data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 
-  denyProduct: async (item) => {
-    set({ isLoading: true });
+  denyProduct: async (productId) => {
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.patch(
-        API_DENY_PRODUCT_MOD.replace("{id}", item.productId)
+        API_DENY_PRODUCT_MOD.replace("{id}", productId)
       );
       set({ response: data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 
   getSellerProduct: async () => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.post(API_GET_PRODUCT_SELLER);
       set({ sellerProductList: data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 
   getSearchProductForUser: async (keyword) => {
-    set({ isLoading: true });
-    // console.log(min);
-    // console.log(max);
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.post(
         API_SEARCH_PRODUCTS_FOR_USER.replace("{keyword}", keyword)
-        // .replace("{minPrice}", min)
-        // .replace("{maxPrice}", max)
       );
-
       set({ searchResult: data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
-
-
 });
