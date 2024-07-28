@@ -18,7 +18,7 @@ import {
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 
-function ReceiveTrade() {
+function TransactionTrade() {
   const getSellerProduct = useStore((state) => state.getSellerProduct);
   const state = useStore();
 
@@ -30,27 +30,18 @@ function ReceiveTrade() {
 
   console.log("sellerProductList: ", sellerProductList?.data.items);
   //GET REECEIVE TRADE
-  const { getReceiveList, getReceiveTradeData, isLoading, error } = useStore(
-    (state) => ({
-      getReceiveList: state.getReceiveList,
-      getReceiveTradeData: state.getReceiveTradeData,
+  const { getCancelRequestList, getCancelRequestListData, isLoading, error } =
+    useStore((state) => ({
+      getCancelRequestList: state.getCancelRequestList,
+      getCancelRequestListData: state.getCancelTradeData,
       isLoading: state.isLoading,
       error: state.error,
-    })
-  );
+    }));
 
   useEffect(() => {
-    getReceiveList(); // Call the API function when the component mounts
-  }, [getReceiveList]);
-
-  useEffect(() => {
-    console.log("getReceiveTradeData:", getReceiveTradeData);
-  }, [getReceiveTradeData]);
-  useEffect(() => {
-    getReceiveList(); // Call the API function when the component mounts
-  }, [getReceiveList]);
-  const getReceiveTradeData1 = useStore((state) => state.getReceiveTradeData);
-  console.log("getReceiveTradeData1: ", getReceiveTradeData1);
+    getCancelRequestList(); // Call the API function when the component mounts
+  }, [getCancelRequestList]);
+  console.log("getCancelRequestListData: ", getCancelRequestListData);
 
   const handleApprove = async (RequestTradeid) => {
     // Handle the approve action
@@ -78,7 +69,6 @@ function ReceiveTrade() {
       // Handle the success, e.g., show a toast notification
     }
   };
-
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -98,8 +88,8 @@ function ReceiveTrade() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {getReceiveTradeData?.length > 0 ? (
-            getReceiveTradeData?.map((item) => (
+          {getCancelRequestListData?.length > 0 ? (
+            getCancelRequestListData?.map((item) => (
               <TableRow key={item.productId}>
                 {/* Currently User Product Image and Name */}
                 <TableCell>
@@ -200,17 +190,17 @@ function ReceiveTrade() {
                       variant="contained"
                       color="success"
                       startIcon={<CheckIcon />}
-                      onClick={() => handleApprove(item.exchangeRequestId)}
+                      // onClick={() => handleApprove(item.exchangeRequestId)}
                     >
-                      Approve
+                      Rating
                     </Button>
                     <Button
                       variant="contained"
                       color="error"
                       startIcon={<CloseIcon />}
-                      onClick={() => handleDeny(item.exchangeRequestId)}
+                      // onClick={() => handleDeny(item.exchangeRequestId)}
                     >
-                      Deny
+                      Report
                     </Button>
                   </Box>
                 </TableCell>
@@ -229,4 +219,4 @@ function ReceiveTrade() {
   );
 }
 
-export default ReceiveTrade;
+export default TransactionTrade;
