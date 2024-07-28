@@ -34,6 +34,8 @@ import ForgotPassword from "./features/auth/ForgotPassword";
 import ProfileLayout from "./features/profile/ProfileLayout";
 import RequestTrade from "./features/profile/RequestTrade";
 import ReceiveTrade from "./features/profile/ReceiveTrade";
+import InventoryTrade from "./features/profile/InventoryTrade";
+import TransactionTrade from "./features/profile/TransactionTrade";
 export default function App() {
   const colorMode = useStore((state) => state.colorMode);
   const userInfo = useStore((state) => state.userInfo);
@@ -109,6 +111,8 @@ export default function App() {
           <Route path="profile-info" element={<Profile />} />
           <Route path="request-trade" element={<RequestTrade />} />
           <Route path="receive-trade" element={<ReceiveTrade />} />
+          <Route path="transaction-trade" element={<TransactionTrade />} />
+          <Route path="inventory-trade" element={<InventoryTrade />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

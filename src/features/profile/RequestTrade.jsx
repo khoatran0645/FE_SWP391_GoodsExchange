@@ -66,9 +66,17 @@ const RequestTrade = () => {
     }
   };
 
-  const handleDeny = (productId) => {
+  const handleDeny = async (productId) => {
     // Handle the deny action
     console.log("Denied product ID:", productId);
+    await state.DenyTrade(productId);
+    if (state.error) {
+      console.error(state.error);
+      // Handle the error, e.g., show a toast notification
+    } else {
+      console.log("Trade approved successfully:", state.response);
+      // Handle the success, e.g., show a toast notification
+    }
   };
   return (
     <>

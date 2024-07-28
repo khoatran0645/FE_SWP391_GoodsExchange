@@ -4,6 +4,7 @@ import {
   API_GET_ALL_REQUEST_TRADE_LIST,
   API_GET_ALL_RECEIVE_TRADE_LIST,
   API_APPROVE_TRADE,
+  API_DENY_TRADE,
 } from "../constant";
 // import toast from "react-hot-toast";
 
@@ -58,8 +59,11 @@ export const createExchangeSlice = (set) => ({
   ApproveTrade: async (item) => {
     set({ isLoading: true });
     try {
-      const { data } = await axiosClient.post(API_APPROVE_TRADE, item);
+      const { data } = await axiosClient.post(
+        API_APPROVE_TRADE.replace("{requestId}", item)
+      );
       set({ response: data });
+      console.log("ApproveTrade: ", data);
     } catch (error) {
       set({ error: error.message });
     } finally {
@@ -68,4 +72,18 @@ export const createExchangeSlice = (set) => ({
   },
 
   //Deny trade
+  DenyTrade: async (item) => {
+    set({ isLoading: true });
+    try {
+      const { data } = await axiosClient.post(
+        API_DENY_TRADE.replace("{requestId}", item)
+      );
+      set({ response: data });
+      console.log("DenyTrade: ", data);
+    } catch (error) {
+      set({ error: error.message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
 });
