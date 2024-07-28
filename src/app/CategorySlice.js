@@ -1,5 +1,4 @@
 import axiosClient from "../services/axiosClient";
-import { toast } from "react-toastify";
 import {
   API_GET_ALL_CATEGORIES,
   API_CREATE_CATEGORY,
@@ -14,56 +13,59 @@ const initialState = {
   error: null,
 };
 
+const setLoading = (set, isLoading) => set({ isLoading });
+const setError = (set, error) => set({ error: { message: error.message, code: error.code } });
+
 export const createCategorySlice = (set) => ({
   ...initialState,
 
   getAllCategories: async () => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.get(API_GET_ALL_CATEGORIES);
       set({ categories: data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 
   createCategory: async (form) => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.post(API_CREATE_CATEGORY, form);
       set({ response: data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 
   updateCategory: async (form) => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.put(API_UPDATE_CATEGORY, form);
       set({ response: data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 
   deleteCategory: async (id) => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.delete(
         API_DELETE_CATEGORY.replace("{id}", id)
       );
       set({ response: data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 });

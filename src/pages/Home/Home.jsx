@@ -17,7 +17,7 @@ export default function Home() {
 
   const [page, setPage] = useState(1);
   const [categoryFilters, setCategoryFilters] = useState({});
-  const [sortValue, setSortValue] = useState("Name Ascending");
+  const [sortValue, setSortValue] = useState("Newest");
 
   useEffect(() => {
     getAllCategories();

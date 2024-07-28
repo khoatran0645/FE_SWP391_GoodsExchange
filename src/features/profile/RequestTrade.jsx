@@ -55,7 +55,7 @@ const RequestTrade = () => {
   const handleApprove = async (RequestTradeid) => {
     // Handle the approve action
     console.log("Approved RequestedChange:", RequestTradeid);
-    await state.ApproveTrade(RequestTradeid);
+    await state.approveTrade(RequestTradeid);
     // Optionally, handle the response or error
     if (state.error) {
       console.error(state.error);
@@ -69,7 +69,7 @@ const RequestTrade = () => {
   const handleDeny = async (productId) => {
     // Handle the deny action
     console.log("Denied product ID:", productId);
-    await state.DenyTrade(productId);
+    await state.denyTrade(productId);
     if (state.error) {
       console.error(state.error);
       // Handle the error, e.g., show a toast notification
@@ -79,7 +79,7 @@ const RequestTrade = () => {
     }
   };
   return (
-    <>
+
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -89,13 +89,12 @@ const RequestTrade = () => {
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>Currently User Product</TableCell>
-              <TableCell>Currently User Product Name</TableCell>
-              <TableCell>Sender's Product</TableCell>
-              <TableCell>Sender's Product Name</TableCell>
-              <TableCell>userImage</TableCell>
-
-              <TableCell>Action</TableCell>
+            <TableCell align="center">Currently User Product</TableCell>
+            <TableCell align="center">Currently User Product Name</TableCell>
+            <TableCell align="center">Sender&apos;s Product</TableCell>
+            <TableCell align="center">Sender&apos;s Product Name</TableCell>
+            <TableCell align="center">Sender Avatar</TableCell>
+            <TableCell align="center">Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -138,7 +137,7 @@ const RequestTrade = () => {
                     </Typography>
                   </TableCell>
 
-                  {/* Sender's Product Image and Name */}
+                  {/* Sender&apos;s Product Image and Name */}
                   <TableCell>
                     <Box
                       sx={{
@@ -177,18 +176,19 @@ const RequestTrade = () => {
                     <Box
                       sx={{
                         display: "flex",
-                        flexDirection: "row",
+                        flexDirection: "column",
                         alignItems: "center",
                       }}
                     >
                       <CardMedia
-                        component="img"
-                        height="120"
-                        width="120"
-                        image={`${item.userImage}?w=120&h=120&fit=crop&auto=format`}
-                        alt={item.targetProductName}
-                        sx={{ objectFit: "contain", borderRadius: "8px" }}
-                      />
+                      component="img"
+                      height="100"
+                      width="100"
+                      image={`${item.userImage}?w=100&h=100&fit=crop&auto=format`}
+                      alt={item.targetProductName}
+                      sx={{ objectFit: "contain", borderRadius: "8px" }}
+                    />
+                    <Typography>{item.senderName}</Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
@@ -225,7 +225,6 @@ const RequestTrade = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </>
   );
 };
 

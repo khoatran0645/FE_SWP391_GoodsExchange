@@ -65,6 +65,8 @@ export default function NavBar() {
 
   // console.log("options", options);
 
+  const logout = useStore((state) => state.logout);
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -99,7 +101,7 @@ export default function NavBar() {
               src="/logo2.png"
               alt=""
               style={{ width: "3rem", marginRight: 7, cursor: "pointer" }}
-              onClick={() => navigate("/")}
+              // onClick={() => navigate("/")}
             />
             <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
               <Typography
@@ -240,13 +242,7 @@ export default function NavBar() {
                     {setting === "Logout" ? (
                       <Typography
                         onClick={() => {
-                          localStorage.clear();
-                          sessionStorage.clear();
-                          useStore.setState({
-                            userInfo: null,
-                            userProfile: null,
-                            auth: false,
-                          });
+                          logout();
                           navigate("/");
                           toast.success("Logout successfully");
                         }}

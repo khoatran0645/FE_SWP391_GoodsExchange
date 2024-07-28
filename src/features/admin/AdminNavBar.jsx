@@ -22,13 +22,10 @@ export default function AdminNavBar() {
     setAnchorEl(null);
   };
 
-  const setAuth = useStore((state) => state.setAuth);
+  const logout = useStore((state) => state.logout);
 
-  const logout = () => {
-    sessionStorage.clear();
-    localStorage.clear();
-    useStore.setState({ userInfo: null });
-    setAuth(false);
+  const handleLogout = () => {
+    logout();
     navigate("/");
     toast.success("Logout successfully");
   };
@@ -69,7 +66,7 @@ export default function AdminNavBar() {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={logout}>Logout</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </div>
         </Toolbar>

@@ -20,7 +20,7 @@ import { toast } from "react-toastify";
 export default function NavBar() {
   const userProfile = useStore((state) => state.userProfile);
 
-  const setAuth = useStore((state) => state.setAuth);
+  const logout = useStore((state) => state.logout);
 
   const pages = ["User"];
 
@@ -151,13 +151,7 @@ export default function NavBar() {
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography
                     onClick={() => {
-                      localStorage.clear();
-                      sessionStorage.clear();
-                      useStore.setState({
-                        userInfo: null,
-                        userProfile: null,
-                        auth: false,
-                      });
+                      logout();
                       navigate("/");
                       toast.success("Logout successfully");
                     }}

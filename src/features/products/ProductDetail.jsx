@@ -208,11 +208,11 @@ export default function ProductDetail() {
                 <Box display="flex" alignItems="center">
                   <CreateRating />
                 </Box> */}
-                {auth ? (
+                {auth && (
                   <Box display="flex" alignItems="center">
                     <CreateTrade productDetail={productDetail?.data} />
                   </Box>
-                ) : null}
+                )}
               </Box>
             </Box>
           </Box>
