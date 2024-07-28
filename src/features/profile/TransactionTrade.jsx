@@ -30,27 +30,18 @@ function TransactionTrade() {
 
   console.log("sellerProductList: ", sellerProductList?.data.items);
   //GET REECEIVE TRADE
-  const { getReceiveList, getReceiveTradeData, isLoading, error } = useStore(
-    (state) => ({
-      getReceiveList: state.getReceiveList,
-      getReceiveTradeData: state.getReceiveTradeData,
+  const { getCancelRequestList, getCancelRequestListData, isLoading, error } =
+    useStore((state) => ({
+      getCancelRequestList: state.getCancelRequestList,
+      getCancelRequestListData: state.getCancelTradeData,
       isLoading: state.isLoading,
       error: state.error,
-    })
-  );
+    }));
 
   useEffect(() => {
-    getReceiveList(); // Call the API function when the component mounts
-  }, [getReceiveList]);
-
-  useEffect(() => {
-    console.log("getReceiveTradeData:", getReceiveTradeData);
-  }, [getReceiveTradeData]);
-  useEffect(() => {
-    getReceiveList(); // Call the API function when the component mounts
-  }, [getReceiveList]);
-  const getReceiveTradeData1 = useStore((state) => state.getReceiveTradeData);
-  console.log("getReceiveTradeData1: ", getReceiveTradeData1);
+    getCancelRequestList(); // Call the API function when the component mounts
+  }, [getCancelRequestList]);
+  console.log("getCancelRequestListData: ", getCancelRequestListData);
 
   const handleApprove = async (RequestTradeid) => {
     // Handle the approve action
@@ -88,7 +79,7 @@ function TransactionTrade() {
             </TableCell>
           </TableRow>
           <TableRow>
-          <TableCell align="center">Currently User Product</TableCell>
+            <TableCell align="center">Currently User Product</TableCell>
             <TableCell align="center">Currently User Product Name</TableCell>
             <TableCell align="center">Sender&apos;s Product</TableCell>
             <TableCell align="center">Sender&apos;s Product Name</TableCell>
@@ -97,8 +88,8 @@ function TransactionTrade() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {getReceiveTradeData?.length > 0 ? (
-            getReceiveTradeData?.map((item) => (
+          {getCancelRequestListData?.length > 0 ? (
+            getCancelRequestListData?.map((item) => (
               <TableRow key={item.productId}>
                 {/* Currently User Product Image and Name */}
                 <TableCell>
@@ -192,27 +183,27 @@ function TransactionTrade() {
                 </TableCell>
 
                 <TableCell>
-                    <Box
-                      sx={{ display: "flex", justifyContent: "center", gap: 1 }}
+                  <Box
+                    sx={{ display: "flex", justifyContent: "center", gap: 1 }}
+                  >
+                    <Button
+                      variant="contained"
+                      color="success"
+                      startIcon={<CheckIcon />}
+                      // onClick={() => handleApprove(item.exchangeRequestId)}
                     >
-                      <Button
-                        variant="contained"
-                        color="success"
-                        startIcon={<CheckIcon />}
-                        // onClick={() => handleApprove(item.exchangeRequestId)}
-                      >
-                        Rating
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="error"
-                        startIcon={<CloseIcon />}
-                        // onClick={() => handleDeny(item.exchangeRequestId)}
-                      >
-                        Report
-                      </Button>
-                    </Box>
-                  </TableCell>
+                      Rating
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      startIcon={<CloseIcon />}
+                      // onClick={() => handleDeny(item.exchangeRequestId)}
+                    >
+                      Report
+                    </Button>
+                  </Box>
+                </TableCell>
               </TableRow>
             ))
           ) : (

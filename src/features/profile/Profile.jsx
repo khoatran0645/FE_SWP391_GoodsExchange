@@ -55,7 +55,6 @@ const Profile = () => {
     setValue(newValue);
   };
 
-
   const waitingList = () => {
     return sellerProductList?.data.items.filter(
       (item) => item.isApproved === false && item.isActive === true
@@ -142,13 +141,12 @@ const Profile = () => {
               variant="outlined"
               fullWidth
               sx={{ mt: 1 }}
-              onClick={() => navigate("/edit-profile")}
+              onClick={() => navigate("edit-profile")}
             >
               Chỉnh sửa trang cá nhân
             </Button>
           </Box>
         </Grid>
-
       </Grid>
       <Grid item xs={12} md={8}>
         <Grid item xs={10}>
