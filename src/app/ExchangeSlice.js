@@ -2,6 +2,8 @@ import axiosClient from "../services/axiosClient";
 import {
   API_SEND_TRADE_REQUEST,
   API_GET_ALL_REQUEST_TRADE_LIST,
+  API_GET_ALL_RECEIVE_TRADE_LIST,
+  API_APPROVE_TRADE,
 } from "../constant";
 // import toast from "react-hot-toast";
 
@@ -51,4 +53,19 @@ export const createExchangeSlice = (set) => ({
       set({ isLoading: false });
     }
   },
+
+  //Approve trade
+  ApproveTrade: async (item) => {
+    set({ isLoading: true });
+    try {
+      const { data } = await axiosClient.post(API_APPROVE_TRADE, item);
+      set({ response: data });
+    } catch (error) {
+      set({ error: error.message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  //Deny trade
 });

@@ -20,6 +20,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const RequestTrade = () => {
   const getSellerProduct = useStore((state) => state.getSellerProduct);
+  const state = useStore();
 
   useEffect(() => {
     getSellerProduct();
@@ -50,9 +51,19 @@ const RequestTrade = () => {
   }, [getRequestList]);
   console.log("getRequestTradeData: ", getRequestTradeData);
 
-  const handleApprove = (productId) => {
+  //handleApprove
+  const handleApprove = async (RequestTradeid) => {
     // Handle the approve action
-    console.log("Approved product ID:", productId);
+    console.log("Approved RequestedChange:", RequestTradeid);
+    await state.ApproveTrade(RequestTradeid);
+    // Optionally, handle the response or error
+    if (state.error) {
+      console.error(state.error);
+      // Handle the error, e.g., show a toast notification
+    } else {
+      console.log("Trade approved successfully:", state.response);
+      // Handle the success, e.g., show a toast notification
+    }
   };
 
   const handleDeny = (productId) => {
@@ -180,7 +191,7 @@ const RequestTrade = () => {
                         variant="contained"
                         color="success"
                         startIcon={<CheckIcon />}
-                        onClick={() => handleApprove(item.productId)}
+                        onClick={() => handleApprove(item.exchangeRequestId)}
                       >
                         Approve
                       </Button>
@@ -188,7 +199,7 @@ const RequestTrade = () => {
                         variant="contained"
                         color="error"
                         startIcon={<CloseIcon />}
-                        onClick={() => handleDeny(item.productId)}
+                        onClick={() => handleDeny(item.exchangeRequestId)}
                       >
                         Deny
                       </Button>
