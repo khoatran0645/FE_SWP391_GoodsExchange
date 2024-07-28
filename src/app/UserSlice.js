@@ -76,7 +76,7 @@ export const createUserSlice = (set) => ({
     setLoading(set, true);
     try {
       const { data } = await axiosClient.put(API_UPDATE_PROFILE, form);
-      set({ userProfile: data });
+      set({ response: data });
     } catch (error) {
       setError(set, error);
     } finally {
