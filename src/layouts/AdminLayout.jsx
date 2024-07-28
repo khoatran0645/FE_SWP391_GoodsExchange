@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid, Button, Typography } from "@mui/material";
 import { useNavigate, Outlet } from "react-router-dom";
-import AdminNavBar from "./AdminNavBar";
+import AdminNavBar from "../features/admin/AdminNavBar";
 
 export default function AdminLayout() {
   const navigate = useNavigate();
@@ -30,26 +30,6 @@ export default function AdminLayout() {
           >
             Panel
           </Typography>
-          <Button
-            variant="outlined"
-            onClick={() => navigate("/admin/admin-mod")}
-            sx={{
-              marginBottom: 2,
-              color: "#333",
-              borderColor: "#333",
-              "&:hover": {
-                backgroundColor: "black",
-                color: "white",
-                borderColor: "#333",
-              },
-              width: "100%",
-              borderRadius: "4px",
-              padding: "10px",
-              textTransform: "none",
-            }}
-          >
-            Moderator Management
-          </Button>
           <Button
             variant="outlined"
             onClick={() => navigate("/admin/admin-user")}

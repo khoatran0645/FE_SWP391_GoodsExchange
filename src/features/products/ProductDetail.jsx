@@ -94,15 +94,6 @@ export default function ProductDetail() {
               {location?.state?.productName?.charAt(0).toUpperCase() +
                 location?.state?.productName?.slice(1)}
             </Typography>
-            <Typography
-              variant="h4"
-              sx={{
-                color: "#ff5722",
-                fontWeight: "bold",
-              }}
-            >
-              {addDots(location?.state?.price)} VND
-            </Typography>
             <Typography variant="body1" color={"gray"}>
               {location?.state?.description}
             </Typography>
@@ -217,9 +208,11 @@ export default function ProductDetail() {
                 <Box display="flex" alignItems="center">
                   <CreateRating />
                 </Box> */}
-                <Box display="flex" alignItems="center">
-                  <CreateTrade productDetail={productDetail?.data} />
-                </Box>
+                {auth ? (
+                  <Box display="flex" alignItems="center">
+                    <CreateTrade productDetail={productDetail?.data} />
+                  </Box>
+                ) : null}
               </Box>
             </Box>
           </Box>

@@ -123,7 +123,7 @@ export default function AddModerator({ onAdd }) {
           },
         }}
       >
-        Create Moderator Account
+        Create User Account
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle textAlign="center">Add Moderator Account</DialogTitle>
