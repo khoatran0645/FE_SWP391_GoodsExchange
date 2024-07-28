@@ -5,6 +5,7 @@ import {
   API_GET_ALL_RECEIVE_TRADE_LIST,
   API_APPROVE_TRADE,
   API_DENY_TRADE,
+  API_GET_ALL_CALCEL_REQUEST_TRADE_LIST,
 } from "../constant";
 
 const initialState = {
@@ -16,7 +17,8 @@ const initialState = {
 };
 
 const setLoading = (set, isLoading) => set({ isLoading });
-const setError = (set, error) => set({ error: { message: error.message, code: error.code } });
+const setError = (set, error) =>
+  set({ error: { message: error.message, code: error.code } });
 
 export const createExchangeSlice = (set) => ({
   ...initialState,
@@ -51,6 +53,19 @@ export const createExchangeSlice = (set) => ({
     try {
       const { data } = await axiosClient.get(API_GET_ALL_RECEIVE_TRADE_LIST);
       set({ getReceiveTradeData: data });
+    } catch (error) {
+      setError(set, error);
+    } finally {
+      setLoading(set, false);
+    }
+  },
+  getCancelRequestList: async () => {
+    setLoading(set, true);
+    try {
+      const { data } = await axiosClient.get(
+        API_GET_ALL_CALCEL_REQUEST_TRADE_LIST
+      );
+      set({ getCancelTradeData: data });
     } catch (error) {
       setError(set, error);
     } finally {
