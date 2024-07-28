@@ -12,6 +12,10 @@ import {
   Pagination,
   Stack,
 } from "@mui/material";
+import CardHeader from "@mui/material/CardHeader";
+import Avatar from "@mui/material/Avatar";
+import CardMedia from "@mui/material/CardMedia";
+import { red } from "@mui/material/colors";
 import { toast } from "react-toastify";
 import NavBarMo from "./NavBarMo";
 import ModeratorPage from "./ModeratorPage";
@@ -45,7 +49,12 @@ export default function ManageReports() {
     await approveReport(selectedReport);
     const response = useStore.getState().response;
     fetchData();
-    toast.success("You've successfully approved");
+    toast.success("You've successfully approved"),
+      {
+        style: {
+          marginTop: "50px",
+        },
+      };
     handleCloseDialog();
   };
 
@@ -54,7 +63,12 @@ export default function ManageReports() {
     const response = useStore.getState().response;
     if (response?.data) {
       fetchData();
-      toast.success(response?.message || "You've successfully denied");
+      toast.success(response?.message || "You've successfully denied"),
+        {
+          style: {
+            marginTop: "50px",
+          },
+        };
     } else {
       toast.error("Error");
     }
@@ -95,17 +109,34 @@ export default function ManageReports() {
           marginTop: "100px",
           width: "70%",
           flexFlow: "column",
+          marginLeft: "200px",
         }}
       >
         <ModeratorPage />
-
+        {listReport?.length === 0 && (
+          <Typography variant="h6">Empty</Typography>
+        )}
         {listReport?.map((item, index) => (
           <Paper key={index} sx={{ p: 3, mb: 2, minWidth: "500px" }}>
-            <Typography variant="h6">{item.reason}</Typography>
-            <Typography variant="body1">
-              {item.reportMade} reported {item.reportReceived} for product name:{" "}
-              {item.productName}
-            </Typography>
+            <CardHeader
+              avatar={
+                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                  {item.reportMade[0]}
+                </Avatar>
+              }
+              title={item.reportMade}
+              subheader={item.uploadDate}
+            />
+            <CardMedia
+              component="img"
+              height="190" // Adjusted height
+              image={item?.productImages[0]?.imagePath}
+              alt={item.productName}
+            />
+            <Typography variant="h6">To: {item.reportReceived}</Typography>
+            <Typography variant="body1">Reason: {item.reason}</Typography>
+            <Typography variant="body1">Product: {item.productName}</Typography>
+
             <Box
               sx={{
                 mt: 2,
@@ -131,17 +162,19 @@ export default function ManageReports() {
             </Box>
           </Paper>
         ))}
-        <Stack spacing={2}>
-          <Pagination
-            count={totalPage}
-            page={page}
-            onChange={handlePageChange}
-            sx={{ mt: 3 }}
-            variant="outlined"
-            color="primary"
-            shape="rounded"
-          />
-        </Stack>
+        {listReport?.length !== 0 && (
+          <Stack spacing={2}>
+            <Pagination
+              count={totalPage}
+              page={page}
+              onChange={handlePageChange}
+              sx={{ mt: 3 }}
+              variant="outlined"
+              color="primary"
+              shape="rounded"
+            />
+          </Stack>
+        )}
       </Box>
 
       <Dialog open={openDialog} onClose={handleCloseDialog}>
