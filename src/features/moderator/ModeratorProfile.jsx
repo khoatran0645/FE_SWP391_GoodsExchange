@@ -48,7 +48,7 @@ export default function ModeratorProfile() {
       setValue("email", profileDetail.email);
       setValue("dateOfBirth", dayjs(profileDetail.dateOfBirth));
     }
-  }, [profileDetail, setValue]);
+  }, [profileDetail]);
 
   const onSubmit = async (data) => {
     const formattedData = {

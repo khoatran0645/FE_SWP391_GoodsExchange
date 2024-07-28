@@ -40,6 +40,7 @@ export default function ManageCategories() {
     CategoryId: "",
     CategoryName: "",
   });
+  const [error, setError] = useState("");
 
   const createCategory = useStore((state) => state.createCategory);
   const getAllCategories = useStore((state) => state.getAllCategories);
@@ -68,6 +69,11 @@ export default function ManageCategories() {
   };
 
   const handleSaveCategory = async () => {
+    if (!/^[A-Za-z]+$/.test(newCategory.CategoryName)) {
+      setError("Category Name must contain only letters.");
+      return;
+    }
+    setError("");
     try {
       await createCategory(newCategory);
       const response = useStore.getState().response;
@@ -96,6 +102,7 @@ export default function ManageCategories() {
   const handleCancelAddCategory = () => {
     setOpenAddDialog(false);
     setNewCategory({ CategoryName: "" });
+    setError("");
   };
 
   const handleEditCategory = (category) => {
@@ -107,6 +114,11 @@ export default function ManageCategories() {
   };
 
   const handleUpdateCategory = async () => {
+    if (!/^[A-Za-z]+$/.test(categoryToEdit.CategoryName)) {
+      setError("Category Name must contain only letters.");
+      return;
+    }
+    setError("");
     try {
       await updateCategory(categoryToEdit);
       const response = useStore.getState().response;
@@ -124,7 +136,7 @@ export default function ManageCategories() {
             }
           })
         );
-        toast.success("Bạn đã update thành công", {
+        toast.success("Update Successful", {
           style: {
             marginTop: "50px",
           },
@@ -132,7 +144,7 @@ export default function ManageCategories() {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Cập nhật danh mục thất bại");
+      toast.error("Update Failed!");
     }
     setOpenEditDialog(false);
     setCategoryToEdit({ CategoryId: "", CategoryName: "" });
@@ -160,13 +172,14 @@ export default function ManageCategories() {
   const handleCancelEditCategory = () => {
     setOpenEditDialog(false);
     setCategoryToEdit({ CategoryId: "", CategoryName: "" });
+    setError("");
   };
 
   return (
     <>
       <NavBarMo />
       <ModeratorPage />
-      <Grid container justifyContent="center" marginLeft="150px">
+      <Grid container justifyContent="center" marginLeft="200px">
         <Grid item xs={12} md={8}>
           <Box sx={{ p: 2, mt: 8 }}>
             <Typography
@@ -174,7 +187,7 @@ export default function ManageCategories() {
               gutterBottom
               align="center"
               marginTop="10px"
-              marginBottom="25px"
+              marginBottom="50px"
               marginLeft="50px"
             >
               Manage Categories
@@ -255,7 +268,7 @@ export default function ManageCategories() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancelDelete}>Cancel</Button>
-          <Button onClick={handleConfirmDelete} color="secondary">
+          <Button onClick={handleConfirmDelete} sx={{ color: "red" }}>
             Delete
           </Button>
         </DialogActions>
@@ -270,15 +283,17 @@ export default function ManageCategories() {
             label="Name"
             type="text"
             fullWidth
-            value={newCategory.categoryName}
+            value={newCategory.CategoryName}
             onChange={(e) =>
-              setNewCategory({ ...newCategory, categoryName: e.target.value })
+              setNewCategory({ ...newCategory, CategoryName: e.target.value })
             }
+            error={!!error}
+            helperText={error}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancelAddCategory}>Cancel</Button>
-          <Button onClick={handleSaveCategory} color="primary">
+          <Button onClick={handleSaveCategory} sx={{ color: "green" }}>
             Save
           </Button>
         </DialogActions>
@@ -300,11 +315,13 @@ export default function ManageCategories() {
                 CategoryName: e.target.value,
               })
             }
+            error={!!error}
+            helperText={error}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancelEditCategory}>Cancel</Button>
-          <Button onClick={handleUpdateCategory} color="primary">
+          <Button onClick={handleUpdateCategory} sx={{ color: "green" }}>
             Update
           </Button>
         </DialogActions>

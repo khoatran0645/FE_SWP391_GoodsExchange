@@ -107,7 +107,12 @@ export default function ModeratorPage() {
           <List>
             <Typography
               variant="h6"
-              sx={{ marginBottom: 1, padding: 1, alignContent: "center" }}
+              sx={{
+                marginBottom: 1,
+                padding: 1,
+                alignContent: "center",
+                textAlign: "center",
+              }}
             >
               Moderator Panel
             </Typography>
