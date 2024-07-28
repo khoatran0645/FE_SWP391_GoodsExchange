@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import useStore from "../../app/store";
 import { toast } from "react-toastify";
+import AddIcon from "@mui/icons-material/Add";
 
 const validationSchema = yup.object({
   firstName: yup.string().required("First Name is required."),
@@ -107,7 +108,7 @@ export default function AddModerator({ onAdd }) {
   return (
     <>
       <Button
-        size="large"
+        size="medium"
         onClick={handleClickOpen}
         sx={{
           float: "right",
@@ -123,7 +124,7 @@ export default function AddModerator({ onAdd }) {
           },
         }}
       >
-        Create User Account
+        Add Moderator Account
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle textAlign="center">Add Moderator Account</DialogTitle>

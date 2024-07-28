@@ -27,7 +27,7 @@ import ModeratorProfile from "./features/moderator/ModeratorProfile";
 import { ThemeProvider, createTheme } from "@mui/material";
 import useStore from "./app/store";
 import AdminLayout from "./layouts/AdminLayout";
-import AdminUser from "./features/admin/AdminUser";
+import AdminModerator from "./features/admin/AdminModerator";
 import Dashboard from "./features/admin/Dashboard";
 import ForgotPassword from "./features/auth/ForgotPassword";
 import ProfileLayout from "./features/profile/ProfileLayout";
@@ -35,6 +35,7 @@ import RequestTrade from "./features/profile/RequestTrade";
 import ReceiveTrade from "./features/profile/ReceiveTrade";
 import InventoryTrade from "./features/profile/InventoryTrade";
 import TransactionTrade from "./features/profile/TransactionTrade";
+import AdminUser from "./features/admin/AdminUser";
 export default function App() {
   const colorMode = useStore((state) => state.colorMode);
   const userInfo = useStore((state) => state.userInfo);
@@ -89,9 +90,10 @@ export default function App() {
         {/*---------------------------------------------------------------------------------- */}
 
         <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminUser />} />
-          <Route path="admin-user" element={<AdminUser />} />
+          <Route index element={<Dashboard />} />
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="admin-moderator" element={<AdminModerator />} />
+          <Route path="admin-user" element={<AdminUser />} />
         </Route>
 
         {/*---------------------------------------------------------------------------------- */}

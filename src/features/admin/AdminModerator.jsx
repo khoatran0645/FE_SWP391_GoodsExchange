@@ -14,10 +14,11 @@ import {
   Container,
   Pagination,
 } from "@mui/material";
+import AddModerator from "./AddModerator";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 
-export default function AdminUser() {
+export default function AdminModerator() {
   const [page, setPage] = useState(1);
   const postListUser = useStore((state) => state.postListUser);
   const patchStatusModerator = useStore((state) => state.patchStatusModerator);
@@ -49,18 +50,22 @@ export default function AdminUser() {
     setPage(value);
   };
 
-  const userRoleList = listUser.filter((user) => user.roleName === "User");
+  const moderatorRoleList = listUser.filter(
+    (user) => user.roleName === "Moderator"
+  );
 
   return (
     <>
       <Container>
         <Box marginTop={1}>
           <Typography variant="h4" gutterBottom textAlign={"center"}>
-            User List
+            Moderator List
           </Typography>
 
+          <AddModerator onAdd={fetchUser} />
+
           <TableContainer component={Paper}>
-            <Table sx={{ tableLayout: "fixed" }} aria-label="User table">
+            <Table sx={{ tableLayout: "fixed" }} aria-label="Moderator table">
               <TableHead>
                 <TableRow>
                   <TableCell>First Name</TableCell>
@@ -71,19 +76,22 @@ export default function AdminUser() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {userRoleList.length > 0 ? (
-                  userRoleList.map((user) => (
-                    <TableRow key={user.userId}>
-                      <TableCell>{user.firstName}</TableCell>
-                      <TableCell>{user.lastName}</TableCell>
-                      <TableCell>{user.email}</TableCell>
-                      <TableCell>{user.roleName}</TableCell>
+                {moderatorRoleList.length > 0 ? (
+                  moderatorRoleList.map((moderator) => (
+                    <TableRow key={moderator.userId}>
+                      <TableCell>{moderator.firstName}</TableCell>
+                      <TableCell>{moderator.lastName}</TableCell>
+                      <TableCell>{moderator.email}</TableCell>
+                      <TableCell>{moderator.roleName}</TableCell>
                       <TableCell>
                         <IconButton
-                          onClick={() => handleDelete(user.userId, user.status)}
+                          color={moderator.status ? "error" : "success"}
+                          onClick={() =>
+                            handleDelete(moderator.userId, moderator.status)
+                          }
                           aria-label="toggle status"
                         >
-                          {user.status ? (
+                          {moderator.status ? (
                             <ToggleOnIcon
                               style={{ color: "green", fontSize: "2.5rem" }}
                             />
@@ -99,20 +107,18 @@ export default function AdminUser() {
                 ) : (
                   <TableRow>
                     <TableCell colSpan={5} align="center">
-                      No users found
+                      No moderators found
                     </TableCell>
                   </TableRow>
                 )}
               </TableBody>
             </Table>
           </TableContainer>
-
           <Box display="flex" justifyContent="center" marginTop={2}>
             <Pagination
               count={totalPages}
               page={page}
               onChange={handleChangePage}
-              color="primary"
               sx={{
                 "& .MuiPaginationItem-root": {
                   color: "black",

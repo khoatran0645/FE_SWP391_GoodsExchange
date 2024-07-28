@@ -5,7 +5,7 @@ import {
   API_USER_PROFILE_ID,
   API_UPDATE_PROFILE,
   API_CHANGING_PASSWORD,
-  API_GET_ALL_MODERATOR_LIST,
+  API_GET_ALL_USER_LIST,
   API_CREATE_MODERATOR_ACCOUNT,
   API_PATCH_STATUS_MODERATOR,
 } from "./../constant";
@@ -103,16 +103,16 @@ export const createUserSlice = (set) => ({
   },
 
   // ADMIN API
-  postListModerator: async (pageIndex, pageSize) => {
+  postListUser: async (pageIndex, pageSize) => {
     setLoading(set, true);
     try {
       const { data } = await axiosClient.post(
-        API_GET_ALL_MODERATOR_LIST.replace("{PageIndex}", pageIndex).replace(
+        API_GET_ALL_USER_LIST.replace("{PageIndex}", pageIndex).replace(
           "{PageSize}",
           pageSize
         )
       );
-      set({ moderatorList: data.data.items });
+      set({ userList: data.data.items, totalPages: data.data.totalPage });
     } catch (error) {
       setError(set, error);
     } finally {
