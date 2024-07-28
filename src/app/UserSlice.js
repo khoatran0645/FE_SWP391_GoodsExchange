@@ -14,68 +14,78 @@ const initialState = {
   isLoading: false,
   error: null,
   userProfile: null,
+  userInfo: null,
   auth: false,
   response: null,
 };
 
+const setLoading = (set, isLoading) => set({ isLoading });
+const setError = (set, error) =>
+  set({ error: { message: error.message, code: error.code } });
 
 export const createUserSlice = (set) => ({
   ...initialState,
 
+  setAuth: (auth) => set({ auth }),
 
-  setAuth: (auth) => set({ auth: auth }),
-
+  logout: () => {
+    localStorage.clear();
+    sessionStorage.clear();
+    set({ auth: false, error: null, userProfile: null, userInfo: null });
+  },
   postLogin: async (form) => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.post(API_LOGIN, form);
       set({ userInfo: data });
+      set({ auth: true });
     } catch (error) {
-      set({ error: error.Message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 
   postRegister: async (form) => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.post(API_REGISTER, form);
       set({ response: data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
+
   getProfileUserById: async (id) => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.get(
         API_USER_PROFILE_ID.replace("{id}", id)
       );
       set({ userProfile: data.data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 
   updateProfileUser: async (form) => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.put(API_UPDATE_PROFILE, form);
       set({ userProfile: data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 
   changingPasswordOfCurrentlyUser: async (form) => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.patch(API_CHANGING_PASSWORD, form);
       set({ response: data });
@@ -84,15 +94,16 @@ export const createUserSlice = (set) => ({
         const validationErrors = error.response.data.errors;
         set({ error: validationErrors });
       } else {
-        set({ error: error.message });
+        setError(set, error);
       }
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
+
   // ADMIN API
   postListModerator: async (pageIndex, pageSize) => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.post(
         API_GET_ALL_MODERATOR_LIST.replace("{PageIndex}", pageIndex).replace(
@@ -102,42 +113,42 @@ export const createUserSlice = (set) => ({
       );
       set({ moderatorList: data.data.items });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 
   postCreateModeratorAccount: async (form) => {
-    set({ isLoading: true });
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.post(
         API_CREATE_MODERATOR_ACCOUNT,
         form
       );
-
       set({ response: data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
-  // DEACTIVE MODERATOR
-  patchStatusModerator: async (id, isAcive) => {
-    set({ isLoading: true });
+
+  // DEACTIVATE MODERATOR
+  patchStatusModerator: async (id, isActive) => {
+    setLoading(set, true);
     try {
       const { data } = await axiosClient.patch(
         API_PATCH_STATUS_MODERATOR.replace("{id}", id).replace(
           "{status}",
-          isAcive
+          isActive
         )
       );
       set({ response: data });
     } catch (error) {
-      set({ error: error.message });
+      setError(set, error);
     } finally {
-      set({ isLoading: false });
+      setLoading(set, false);
     }
   },
 });
