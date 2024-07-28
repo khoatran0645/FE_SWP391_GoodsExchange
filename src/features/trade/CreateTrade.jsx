@@ -45,8 +45,12 @@ export default function CreateTrade({ productDetail }) {
     await sendRequest({
       currentProductId: params.id,
       targetProductId: selectedProduct?.productId,
-    }).then(toast.success("Send request success!"));
-    console.log("error", error);
+    });
+    if(isLoading == false && error == null){
+      toast.success("Trade created successfully");
+    }else{
+      toast.error(error);
+    }
 
     setOpen(false);
     setSelectedProduct(null);
