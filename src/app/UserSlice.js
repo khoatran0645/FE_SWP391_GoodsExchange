@@ -19,10 +19,20 @@ const initialState = {
   response: null,
 };
 
+const setLoading = (set, isLoading) => set({ isLoading });
+const setError = (set, error) =>
+  set({ error: { message: error.message, code: error.code } });
+
 export const createUserSlice = (set) => ({
   ...initialState,
 
-  setAuth: (auth) => set({ auth: auth }),
+  setAuth: (auth) => set({ auth }),
+
+  logout: () => {
+    localStorage.clear();
+    sessionStorage.clear();
+    set({ auth: false, error: null, userProfile: null, userInfo: null });
+  },
 
   postLogin: async (form) => {
     setLoading(set, true);
