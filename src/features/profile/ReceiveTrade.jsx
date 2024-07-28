@@ -28,7 +28,7 @@ function ReceiveTrade() {
   const sellerProductList = useStore((state) => state.sellerProductList);
 
   console.log("sellerProductList: ", sellerProductList?.data.items);
-
+  //GET REECEIVE TRADE
   const { getReceiveList, getReceiveTradeData, isLoading, error } = useStore(
     (state) => ({
       getReceiveList: state.getReceiveList,
