@@ -18,7 +18,7 @@ import {
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 
-function ReceiveTrade() {
+function TransactionTrade() {
   const getSellerProduct = useStore((state) => state.getSellerProduct);
   const state = useStore();
 
@@ -78,7 +78,6 @@ function ReceiveTrade() {
       // Handle the success, e.g., show a toast notification
     }
   };
-
   return (
     <>
       <TableContainer component={Paper}>
@@ -192,7 +191,7 @@ function ReceiveTrade() {
                     </Box>
                   </TableCell>
 
-                  <TableCell>
+                  {/* <TableCell>
                     <Box
                       sx={{ display: "flex", justifyContent: "center", gap: 1 }}
                     >
@@ -213,7 +212,7 @@ function ReceiveTrade() {
                         Deny
                       </Button>
                     </Box>
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               ))
             ) : (
@@ -230,4 +229,4 @@ function ReceiveTrade() {
   );
 }
 
-export default ReceiveTrade;
+export default TransactionTrade;

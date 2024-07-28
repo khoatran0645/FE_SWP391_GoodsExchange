@@ -22,7 +22,10 @@ export const API_GET_ALL_REQUEST_TRADE_LIST = "/exchanges/send-request-list";
 // Get Receive Trade List
 export const API_GET_ALL_RECEIVE_TRADE_LIST = "/exchanges/receive-request-list";
 // Approve Trade
-export const API_APPROVE_TRADE = "/exchanges/confirm-request";
+export const API_APPROVE_TRADE =
+  "/exchanges/confirm-request/?requestid={requestId}";
+//Deny Trade
+export const API_DENY_TRADE = "/exchanges/deny-request?requestid={requestId}";
 
 //------------------------------------------------------------------------------------------------------------------------------
 //* Product APIs
@@ -32,8 +35,7 @@ export const API_GET_PRODUCTS_HOMEPAGE =
 export const API_SEARCH_PRODUCTS_FOR_USER =
   "/products/all?PageIndex=1&PageSize=10&ProductName={keyword}&IsApproved=true&IsActive=true";
 export const API_GET_PRODUCT_BY_ID = "/products/{id}";
-export const API_GET_PRODUCT_SELLER =
-  "/products/user/products?PageIndex=1&PageSize=10";
+export const API_GET_PRODUCT_SELLER = "products/user?PageIndex=1&PageSize=10";
 export const API_UPDATE_PRODUCT = "/products/update";
 //! DANGER
 export const API_DELETE_PRODUCT = "/products/id?id={id}";
