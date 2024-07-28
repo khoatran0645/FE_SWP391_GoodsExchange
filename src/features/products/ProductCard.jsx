@@ -153,7 +153,7 @@ export default function ProductCard({
               5
             </Typography>
           </Box>
-          <Typography
+          {/* <Typography
             gutterBottom
             variant="h6"
             component="div"
@@ -164,7 +164,7 @@ export default function ProductCard({
             }}
           >
             {item.price} VND
-          </Typography>
+          </Typography> */}
         </CardContent>
       </CardActionArea>
     </Card>
