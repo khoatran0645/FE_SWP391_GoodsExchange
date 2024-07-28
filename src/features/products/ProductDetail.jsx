@@ -94,15 +94,6 @@ export default function ProductDetail() {
               {location?.state?.productName?.charAt(0).toUpperCase() +
                 location?.state?.productName?.slice(1)}
             </Typography>
-            {/* <Typography
-              variant="h4"
-              sx={{
-                color: "#ff5722",
-                fontWeight: "bold",
-              }}
-            >
-              {addDots(location?.state?.price)} VND
-            </Typography> */}
             <Typography variant="body1" color={"gray"}>
               {location?.state?.description}
             </Typography>

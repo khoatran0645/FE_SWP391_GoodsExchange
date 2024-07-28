@@ -6,7 +6,7 @@ import HomeLayout from "./layouts/HomeLayout";
 import EmptyLayout from "./layouts/EmptyLayout";
 import ChatLayout from "./layouts/ChatLayout";
 
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
 import ProductDetail from "./features/products/ProductDetail";
 import NotFound from "./pages/NotFound";
 import Login from "./features/auth/Login";
@@ -26,8 +26,7 @@ import ModeratorProfile from "./features/moderator/ModeratorProfile";
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import useStore from "./app/store";
-import AdminMod from "./features/admin/AdminMod";
-import AdminLayout from "./features/admin/AdminLayout";
+import AdminLayout from "./layouts/AdminLayout";
 import AdminUser from "./features/admin/AdminUser";
 import Dashboard from "./features/admin/Dashboard";
 import ForgotPassword from "./features/auth/ForgotPassword";
@@ -90,8 +89,7 @@ export default function App() {
         {/*---------------------------------------------------------------------------------- */}
 
         <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminMod />} />
-          <Route path="admin-mod" element={<AdminMod />} />
+          <Route index element={<AdminUser />} />
           <Route path="admin-user" element={<AdminUser />} />
           <Route path="dashboard" element={<Dashboard />} />
         </Route>
