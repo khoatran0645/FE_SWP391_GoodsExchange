@@ -17,6 +17,7 @@ const initialState = {
   userInfo: null,
   auth: false,
   response: null,
+  userId: null,
 };
 
 const setLoading = (set, isLoading) => set({ isLoading });
@@ -28,10 +29,18 @@ export const createUserSlice = (set) => ({
 
   setAuth: (auth) => set({ auth }),
 
+  setUserId: (id) => set({ userId: id }),
+
   logout: () => {
     localStorage.clear();
     sessionStorage.clear();
-    set({ auth: false, error: null, userProfile: null, userInfo: null });
+    set({
+      auth: false,
+      error: null,
+      userProfile: null,
+      userInfo: null,
+      userId: null,
+    });
   },
 
   postLogin: async (form) => {

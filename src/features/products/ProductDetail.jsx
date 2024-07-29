@@ -20,6 +20,7 @@ import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import { addDots } from "./../../utils/helper";
 import CreateTrade from "../trade/CreateTrade";
+import UpdateProduct from "./UpdateProduct";
 
 export default function ProductDetail() {
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
@@ -30,6 +31,7 @@ export default function ProductDetail() {
 
   const getProductById = useStore((state) => state.getProductById);
   const auth = useStore((state) => state.auth);
+  const userId = useStore((state) => state.userId);
   const getSearchProductForUser = useStore(
     (state) => state.getSearchProductForUser
   );
@@ -208,11 +210,11 @@ export default function ProductDetail() {
                 <Box display="flex" alignItems="center">
                   <CreateRating />
                 </Box> */}
-                {auth && (
+                {auth && userId !== productDetail?.data?.userUploadId && (
                   <Box display="flex" alignItems="center">
                     <CreateTrade productDetail={productDetail?.data} />
                   </Box>
-                )}
+                ) || <UpdateProduct productId = {params.id} product = {productDetail?.data}/>}
               </Box>
             </Box>
           </Box>

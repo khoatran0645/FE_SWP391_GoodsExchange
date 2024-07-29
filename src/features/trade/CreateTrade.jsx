@@ -46,7 +46,8 @@ export default function CreateTrade({ productDetail }) {
       currentProductId: selectedProduct?.productId,
       targetProductId: params.id,
     });
-    if (isLoading == false && error == null) {
+
+    if(!isLoading && error == null){
       toast.success("Trade created successfully");
     } else {
       toast.error(error);

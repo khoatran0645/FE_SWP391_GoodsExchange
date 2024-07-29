@@ -8,6 +8,7 @@ import {
   API_DENY_PRODUCT_MOD,
   API_GET_PRODUCT_SELLER,
   API_SEARCH_PRODUCTS_FOR_USER,
+  API_UPDATE_PRODUCT,
 } from "../constant";
 
 const initialState = {
@@ -134,6 +135,18 @@ export const createProductSlice = (set) => ({
         API_SEARCH_PRODUCTS_FOR_USER.replace("{keyword}", keyword)
       );
       set({ searchResult: data });
+    } catch (error) {
+      setError(set, error);
+    } finally {
+      setLoading(set, false);
+    }
+  },
+
+  updateProduct: async (form) => {
+    setLoading(set, true);
+    try {
+      const { data } = await axiosClient.put(API_UPDATE_PRODUCT, form);
+      set({ response: data });
     } catch (error) {
       setError(set, error);
     } finally {
