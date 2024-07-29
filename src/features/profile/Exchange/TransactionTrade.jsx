@@ -77,17 +77,16 @@ function TransactionTrade() {
         <TableHead>
           <TableRow>
             <TableCell align="center" colSpan={5}>
-              <Typography variant="h6">Trade Details</Typography>
+              <Typography variant="h6">Transaction Details</Typography>
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align="center">Currently User Product</TableCell>
-            <TableCell align="center">Currently User Product Name</TableCell>
-            <TableCell align="center">Sender&apos;s Product</TableCell>
-            <TableCell align="center">Sender&apos;s Product Name</TableCell>
+            <TableCell align="center">My Product</TableCell>
+
+            <TableCell align="center">Target&apos;s Product</TableCell>
+
             <TableCell align="center">Sender Avatar</TableCell>
             <TableCell align="center">Action</TableCell>
-            <TableCell align="center">Status</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -112,9 +111,6 @@ function TransactionTrade() {
                       sx={{ objectFit: "contain", borderRadius: "8px" }}
                     />
                   </Box>
-                </TableCell>
-
-                <TableCell>
                   <Typography
                     variant="body2"
                     sx={{
@@ -130,7 +126,7 @@ function TransactionTrade() {
                   </Typography>
                 </TableCell>
 
-                {/* Sender's Product Image and Name */}
+                {/* target's Product Image and Name */}
                 <TableCell>
                   <Box
                     sx={{
@@ -148,8 +144,6 @@ function TransactionTrade() {
                       sx={{ objectFit: "contain", borderRadius: "8px" }}
                     />
                   </Box>
-                </TableCell>
-                <TableCell>
                   <Typography
                     variant="body2"
                     sx={{
