@@ -17,6 +17,8 @@ import {
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import CreateRating from "../../rating/CreateRating";
+import CreateReport from "../../report/CreateReport";
 
 function TransactionTrade() {
   const getSellerProduct = useStore((state) => state.getSellerProduct);
@@ -187,22 +189,30 @@ function TransactionTrade() {
                   <Box
                     sx={{ display: "flex", justifyContent: "center", gap: 1 }}
                   >
-                    <Button
-                      variant="contained"
-                      color="success"
-                      startIcon={<CheckIcon />}
-                      // onClick={() => handleApprove(item.exchangeRequestId)}
-                    >
-                      Rating
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      startIcon={<CloseIcon />}
-                      // onClick={() => handleDeny(item.exchangeRequestId)}
-                    >
-                      Report
-                    </Button>
+                    {item.status === "Complete" ? (
+                      <>
+                        <CreateRating />
+                        <CreateReport />
+                      </>
+                    ) : item.status === "Cancelled" ? (
+                      <Button
+                        variant="contained"
+                        color="error"
+                        // startIcon={<CloseIcon />}
+                        // onClick={() => handleCancel(item.exchangeRequestId)}
+                      >
+                        Cancelled
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color="warning"
+                        // startIcon={<CloseIcon />}
+                        // onClick={() => handleDeny(item.exchangeRequestId)}
+                      >
+                        Pending
+                      </Button>
+                    )}
                   </Box>
                 </TableCell>
               </TableRow>

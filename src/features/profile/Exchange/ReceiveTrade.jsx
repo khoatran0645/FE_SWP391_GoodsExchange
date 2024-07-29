@@ -197,22 +197,73 @@ function ReceiveTrade() {
                   <Box
                     sx={{ display: "flex", justifyContent: "center", gap: 1 }}
                   >
-                    <Button
-                      variant="contained"
-                      color="success"
-                      startIcon={<CheckIcon />}
-                      onClick={() => handleApprove(item.exchangeRequestId)}
-                    >
-                      Approve
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      startIcon={<CloseIcon />}
-                      onClick={() => handleDeny(item.exchangeRequestId)}
-                    >
-                      Deny
-                    </Button>
+                    {item.receiverStatus === 2 && item.senderStatus === 1 ? (
+                      <>
+                        <Button
+                          variant="contained"
+                          color="success"
+                          startIcon={<CheckIcon />}
+                          onClick={() => handleApprove(item.exchangeRequestId)}
+                        >
+                          Approve
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="error"
+                          startIcon={<CloseIcon />}
+                          onClick={() => handleDeny(item.exchangeRequestId)}
+                        >
+                          Deny
+                        </Button>
+                      </>
+                    ) : item.receiverStatus === 1 && item.senderStatus === 2 ? (
+                      <>
+                        <Button
+                          variant="contained"
+                          color="success"
+                          startIcon={<CheckIcon />}
+                          onClick={() => handleApprove(item.exchangeRequestId)}
+                        >
+                          Approve
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="error"
+                          startIcon={<CloseIcon />}
+                          onClick={() => handleDeny(item.exchangeRequestId)}
+                        >
+                          Deny
+                        </Button>
+                      </>
+                    ) : item.receiverStatus === 2 && item.senderStatus === 2 ? (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<CheckIcon />}
+                        onClick={() => handleComplete(item.exchangeRequestId)}
+                      >
+                        Complete
+                      </Button>
+                    ) : (
+                      <>
+                        <Button
+                          variant="contained"
+                          color="success"
+                          startIcon={<CheckIcon />}
+                          onClick={() => handleApprove(item.exchangeRequestId)}
+                        >
+                          Approve
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="error"
+                          startIcon={<CloseIcon />}
+                          onClick={() => handleDeny(item.exchangeRequestId)}
+                        >
+                          Deny
+                        </Button>
+                      </>
+                    )}
                   </Box>
                 </TableCell>
               </TableRow>
