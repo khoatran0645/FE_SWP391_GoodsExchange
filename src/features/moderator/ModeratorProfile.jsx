@@ -74,7 +74,7 @@ export default function ModeratorProfile() {
         sx={{
           display: "flex",
           alignItems: "center",
-          marginTop: "100px",
+          marginTop: "120px",
           width: "70%",
           flexFlow: "column",
           marginLeft: "300px",

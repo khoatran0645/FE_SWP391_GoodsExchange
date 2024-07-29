@@ -55,7 +55,7 @@ export default function ManageProduct() {
   }, [page]);
 
   const handleApprove = async (item) => {
-    await approveProduct(item, true);
+    await approveProduct(item.productId, true);
     // Update the listProduct state to remove the approved product
     setListProduct((prevList) => {
       const newList = [...prevList]; // Create a copy of the array
@@ -77,7 +77,7 @@ export default function ManageProduct() {
   };
 
   const handleDeny = async (item) => {
-    await denyProduct(item, false);
+    await denyProduct(item.productId, false);
     // Update the listProduct state to remove the denied product
     setListProduct((prevList) => {
       const newList = [...prevList]; // Create a copy of the array
@@ -146,7 +146,9 @@ export default function ManageProduct() {
           }}
         >
           {listProduct?.length === 0 && (
-            <Typography variant="h6">Nothing to moderate yet.</Typography>
+            <Typography variant="h6" fontFamily="Lucida Sans Unicode">
+              Nothing to moderate yet.
+            </Typography>
           )}
           {listProduct?.map((product) => (
             <Card

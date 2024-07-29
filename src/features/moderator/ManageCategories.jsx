@@ -17,6 +17,7 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import {
   Add as AddIcon,
@@ -30,7 +31,6 @@ import { toast } from "react-toastify";
 
 export default function ManageCategories() {
   const [categories, setCategories] = useState([]);
-
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
@@ -50,9 +50,9 @@ export default function ManageCategories() {
   useEffect(() => {
     const getAllCategoriesOnInit = async () => {
       await getAllCategories();
+      setCategories(useStore.getState().categories.data);
     };
     getAllCategoriesOnInit();
-    setCategories(useStore.getState().categories.data);
   }, []);
 
   const handleDelete = (id) => {
@@ -77,7 +77,6 @@ export default function ManageCategories() {
     try {
       await createCategory(newCategory);
       const response = useStore.getState().response;
-      console.log(response.data);
       if (response) {
         setCategories([
           {
@@ -85,7 +84,7 @@ export default function ManageCategories() {
           },
           ...categories,
         ]);
-        toast.success("Bạn đã add categories thành công", {
+        toast.success("Category added successfully", {
           style: {
             marginTop: "50px",
           },
@@ -93,7 +92,7 @@ export default function ManageCategories() {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Thêm danh mục thất bại");
+      toast.error("Failed to add category");
     }
     setOpenAddDialog(false);
     setNewCategory({ CategoryName: "" });
@@ -123,7 +122,6 @@ export default function ManageCategories() {
       await updateCategory(categoryToEdit);
       const response = useStore.getState().response;
       if (response) {
-        console.log(response);
         setCategories(
           categories.map((category) => {
             if (category.categoryId === categoryToEdit.CategoryId) {
@@ -136,7 +134,7 @@ export default function ManageCategories() {
             }
           })
         );
-        toast.success("Update Successful", {
+        toast.success("Update successful", {
           style: {
             marginTop: "50px",
           },
@@ -144,7 +142,7 @@ export default function ManageCategories() {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Update Failed!");
+      toast.error("Update failed!");
     }
     setOpenEditDialog(false);
     setCategoryToEdit({ CategoryId: "", CategoryName: "" });
@@ -154,15 +152,14 @@ export default function ManageCategories() {
     await deleteCategory(categoryToDelete);
     const response = useStore.getState().response;
     if (response) {
-      console.log(response);
       setCategories(
         categories.filter(
           (category) => category.categoryId !== categoryToDelete
         )
       );
-      toast.success("You've successfully delete", {
+      toast.success("Category deleted successfully", {
         style: {
-          marginTop: "50px", // Adjust the value as needed
+          marginTop: "50px",
         },
       });
     }
@@ -180,7 +177,7 @@ export default function ManageCategories() {
       <NavBarMo />
       <ModeratorPage />
       <Grid container justifyContent="center" marginLeft="200px">
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={10}>
           <Box sx={{ p: 2, mt: 8 }}>
             <Typography
               variant="h4"
@@ -188,16 +185,19 @@ export default function ManageCategories() {
               align="center"
               marginTop="10px"
               marginBottom="50px"
-              marginLeft="50px"
+              fontFamily="Lucida Sans Unicode"
             >
               Manage Categories
             </Typography>
-            <Grid container justifyContent="end" sx={{ mb: 2 }}>
+            <Grid container justifyContent="flex-end" sx={{ mb: 2 }}>
               <Button
                 variant="contained"
                 color="primary"
                 onClick={handleAddCategory}
                 startIcon={<AddIcon />}
+                sx={{
+                  backgroundColor: "rgb(241, 86, 82)",
+                }}
               >
                 Add New Category
               </Button>
@@ -206,47 +206,81 @@ export default function ManageCategories() {
               sx={{
                 maxWidth: "100%",
                 mx: "auto",
-                marginLeft: "20px",
-              }} // Changed marginLeft to shift the table 50px to the right
+              }}
             >
-              <TableContainer component={Paper}>
+              <TableContainer
+                component={Paper}
+                sx={{ margin: 2, boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
+              >
                 <Table>
-                  <TableHead>
+                  <TableHead sx={{ backgroundColor: "#1f1f1f" }}>
                     <TableRow>
-                      <TableCell align="center" style={{ minWidth: "100px" }}>
+                      <TableCell
+                        align="center"
+                        sx={{
+                          minWidth: 100,
+                          color: "white",
+                          fontWeight: "bold",
+                          padding: 2,
+                        }}
+                      >
                         ID
                       </TableCell>
-                      <TableCell align="center" style={{ minWidth: "200px" }}>
+                      <TableCell
+                        align="center"
+                        sx={{
+                          minWidth: 200,
+                          color: "white",
+                          fontWeight: "bold",
+                          padding: 2,
+                        }}
+                      >
                         Name
                       </TableCell>
-                      <TableCell align="center" style={{ minWidth: "150px" }}>
+                      <TableCell
+                        align="center"
+                        sx={{
+                          minWidth: 150,
+                          color: "white",
+                          fontWeight: "bold",
+                          padding: 2,
+                        }}
+                      >
                         Actions
                       </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {categories.map((category) => (
-                      <TableRow key={category.categoryId}>
-                        <TableCell align="center">
+                      <TableRow
+                        key={category.categoryId}
+                        sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}
+                      >
+                        <TableCell align="center" sx={{ padding: 2 }}>
                           {category.categoryId}
                         </TableCell>
-                        <TableCell align="center">
+                        <TableCell align="center" sx={{ padding: 2 }}>
                           {category.categoryName}
                         </TableCell>
-                        <TableCell align="center">
-                          <IconButton
-                            color="primary"
-                            onClick={() => handleEditCategory(category)}
-                          >
-                            <EditIcon />
-                          </IconButton>
-
-                          <IconButton
-                            color="secondary"
-                            onClick={() => handleDelete(category.categoryId)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
+                        <TableCell align="center" sx={{ padding: 2 }}>
+                          <Tooltip title="Edit">
+                            <IconButton
+                              color="primary"
+                              sx={{ marginX: 1 }}
+                              onClick={() => handleEditCategory(category)}
+                            >
+                              <EditIcon />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title="Delete">
+                            <IconButton
+                              color="secondary"
+                              sx={{ marginX: 1 }}
+                              onClick={() => handleDelete(category.categoryId)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </Tooltip>
                         </TableCell>
                       </TableRow>
                     ))}
