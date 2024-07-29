@@ -1,153 +1,37 @@
+import React from "react";
+import useStore from "../../../app/store";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
-  Avatar,
-  Paper,
-  Grid,
-  Button,
-  Typography,
-  Badge,
-  IconButton,
-  Box,
-  Tabs,
-  Tab,
-  Stack,
   Card,
   CardContent,
-  CardMedia,
   CardActionArea,
-  Rating,
+  Grid,
+  Typography,
+  Box,
+  CardMedia,
+  Button,
 } from "@mui/material";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 import PersonIcon from "@mui/icons-material/Person";
 import GradeIcon from "@mui/icons-material/Grade";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import NavBar from "../common/NavBar";
-import { useNavigate } from "react-router-dom";
-import useStore from "../../app/store";
-import CreateNewProduct from "../products/CreateNewProduct";
-import ProductCard from "../products/ProductCard";
 
-import { red } from "@mui/material/colors";
-import ProfileLayout from "./ProfileLayout";
-
-const Profile = () => {
-  const navigate = useNavigate();
-
-  const userProfile = useStore((state) => state.userProfile);
-  const productList = useStore((state) => state.productList);
-  console.log("productList", productList);
+function InventoryTrade() {
   const getSellerProduct = useStore((state) => state.getSellerProduct);
+  const state = useStore();
 
   useEffect(() => {
     getSellerProduct();
   }, []);
-  // console.log(getSellerProduct)
 
   const sellerProductList = useStore((state) => state.sellerProductList);
 
-  console.log("sellerProductList", sellerProductList?.data.items);
-
-  const [value, setValue] = useState("1");
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const waitingList = () => {
-    return sellerProductList?.data.items.filter(
-      (item) => item.isApproved === false && item.isActive === true
-    );
-  };
-
-  const showingList = () => {
-    return sellerProductList?.data.items.filter(
-      (item) => item.isApproved === true && item.isActive === true
-    );
-  };
-
-  const soldList = () => {
-    return sellerProductList?.data.items.filter(
-      (item) => item.isApproved === true && item.isActive === false
-    );
-  };
-  const [open, setOpen] = useState(true);
-
+  console.log("sellerProductList: ", sellerProductList?.data.items);
   return (
     <>
       {/* <Sidebar /> */}
-      <Grid container justifyContent={"center"}>
-        <Grid container justifyContent="flex-end">
-          <Grid item>
-            <CreateNewProduct />
-          </Grid>
-        </Grid>
 
-        <Grid item xs={12} md={12}>
-          <Box
-            sx={{
-              p: 2,
-              border: "1px solid #e0e0e0",
-              borderRadius: 2,
-              textAlign: "center",
-              position: "relative",
-              bgcolor: "#fafafa",
-            }}
-          >
-            <Box sx={{ position: "relative", display: "inline-block" }}>
-              <Badge
-                overlap="circular"
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                badgeContent={
-                  <IconButton
-                    sx={{
-                      bgcolor: "white",
-                      border: "1px solid #e0e0e0",
-                      padding: "2px",
-                    }}
-                  ></IconButton>
-                }
-              >
-                <Avatar
-                  alt={userProfile.lastName}
-                  src={userProfile?.userImageUrl}
-                  sx={{ width: 100, height: 100 }}
-                />
-              </Badge>
-            </Box>
-
-            <Typography variant="h6" sx={{ mt: 1 }}>
-              {userProfile.lastName} {userProfile.firstName}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
-              Phone: {userProfile.phoneNumber}
-            </Typography>
-
-            {userProfile && userProfile.averageNumberStars ? (
-              <Rating
-                name="read-only"
-                value={userProfile.averageNumberStars}
-                readOnly
-                precision={0.5}
-                size="small"
-              />
-            ) : (
-              <Typography variant="body2" color="textSecondary">
-                No ratings yet
-              </Typography>
-            )}
-            <Button
-              variant="outlined"
-              fullWidth
-              sx={{ mt: 1 }}
-              onClick={() => navigate("edit-profile")}
-            >
-              Chỉnh sửa trang cá nhân
-            </Button>
-          </Box>
-        </Grid>
-      </Grid>
       <Grid item xs={12} md={8}>
         <Grid item xs={10}>
           <Grid container spacing={1}>
@@ -305,6 +189,6 @@ const Profile = () => {
       </Grid>
     </>
   );
-};
+}
 
-export default Profile;
+export default InventoryTrade;

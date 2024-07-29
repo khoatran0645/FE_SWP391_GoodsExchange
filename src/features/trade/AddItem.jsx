@@ -1,11 +1,9 @@
 import * as React from "react";
 import { Button, Dialog, Box, Grid, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useStore from "../../app/store";
 import ProductCard from "../products/ProductCard";
-import { useEffect } from "react";
-import { ArrowBack } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 export default function AddItem({ onSelectProduct }) {
@@ -29,6 +27,12 @@ export default function AddItem({ onSelectProduct }) {
       getSellerProduct();
     }
   }, [open, getSellerProduct]);
+
+  // Filter products with status "Approved"
+  const approvedProducts =
+    sellerProductList?.data?.items.filter(
+      (item) => item.status === "Approved"
+    ) || [];
 
   return (
     <>
@@ -66,7 +70,7 @@ export default function AddItem({ onSelectProduct }) {
             Item You Have
           </Typography>
           <Grid container spacing={2}>
-            {sellerProductList?.data?.items.map((item) => (
+            {approvedProducts.map((item) => (
               <Grid item xs={4} key={item.productId}>
                 <ProductCard
                   item={item}
