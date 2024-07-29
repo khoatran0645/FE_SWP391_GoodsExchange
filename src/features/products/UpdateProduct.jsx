@@ -1,10 +1,7 @@
 import { useState, useRef } from "react";
 import { toast } from "react-toastify";
-import { styled } from "@mui/material/styles";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+
 import {
-  ImageList,
-  ImageListItem,
   CircularProgress,
   Button,
   TextField,
@@ -16,15 +13,13 @@ import {
 } from "@mui/material";
 
 import useStore from "../../app/store";
-
-export default function CreateNewProduct() {
+export default function UpdateProduct(props) {
+  // console.log("props", props);
   const [open, setOpen] = useState(false);
   const autocompleteRef = useRef(null);
-  const createNewProduct = useStore((state) => state.createNewProduct);
+  const updateProduct = useStore((state) => state.updateProduct);
   const isLoading = useStore((state) => state.isLoading);
   const auth = useStore((state) => state.auth);
-  const [selectedFile, setSelectedFile] = useState([]);
-  // console.log("selectedFile", selectedFile);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -44,21 +39,6 @@ export default function CreateNewProduct() {
 
   // console.log("options", options);
 
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: 1,
-    overflow: "hidden",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    whiteSpace: "nowrap",
-    width: 1,
-  });
-
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files);
-  };
   return (
     <>
       {auth && (
@@ -72,47 +52,43 @@ export default function CreateNewProduct() {
             },
           }}
         >
-          Post new product
+          Update product
         </Button>
       )}
-
       <Dialog
+        fullWidth
         open={open}
         onClose={handleClose}
         PaperProps={{
+          sx: {
+            maxHeight: "80vh",
+          },
           component: "form",
           onSubmit: async (event) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
-
+            formData.append("ProductId", props.productId);
             const selectedCategory =
               autocompleteRef.current?.querySelector("input").value;
             const selectedOption = options.find(
               (option) => option.label === selectedCategory
             );
 
-            // console.log(selectedFile);
-            Array.from(selectedFile).forEach((file) => {
-              formData.append("Images", file);
-            });
 
             const formJson = Object.fromEntries(formData.entries());
             formJson.CategoryId = selectedOption ? selectedOption.key : null;
-
             formData.append("CategoryId", formJson.CategoryId);
+
             console.log("data", formJson);
 
             useStore.setState({ response: null, error: null });
-            await createNewProduct(formData);
+            // await updateProduct(formJson);
             const response = useStore.getState().response;
             const error = useStore.getState().error;
             console.log("response", response);
             console.log("error", error);
             if (!error) {
-              setSelectedFile([]);
-              toast.success(
-                "Product created successfully. Please wait for Moderator approval."
-              );
+              toast.success("Update Successfully");
             } else {
               toast.error(error.message);
               // toast.error(error);
@@ -122,12 +98,8 @@ export default function CreateNewProduct() {
           },
         }}
       >
-        <DialogTitle>Create new product</DialogTitle>
+        <DialogTitle>Update product</DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>
-            To subscribe to this website, please enter your email address here.
-            We will send updates occasionally.
-          </DialogContentText> */}
           <TextField
             autoFocus
             required
@@ -165,56 +137,6 @@ export default function CreateNewProduct() {
               />
             )}
           />
-          {/* <TextField
-            required
-            margin="dense"
-            id="imageURL"
-            name="productImageUrl"
-            label="Image URL"
-            type="text"
-            fullWidth
-            variant="standard"
-            defaultValue="https://via.placeholder.com/150"
-          /> */}
-          <Button
-            component="label"
-            // role={undefined}
-            variant="contained"
-            tabIndex={-1}
-            startIcon={<CloudUploadIcon />}
-            sx={{
-              marginTop: 1,
-              backgroundColor: "white",
-              border: "1px solid black",
-              color: "black",
-              "&:hover": {
-                backgroundColor: "white",
-              },
-            }}
-          >
-            Upload images
-            <VisuallyHiddenInput
-              type="file"
-              multiple
-              onChange={handleFileChange}
-            />
-          </Button>
-          {selectedFile?.length > 0 && (
-            <ImageList
-              // sx={{ width: 500, height: 450 }}
-              cols={3}
-              rowHeight={164}
-            >
-              {Array.from(selectedFile).map((item, index) => {
-                const url = URL.createObjectURL(item);
-                return (
-                  <ImageListItem key={index} sx={{ width: 164, height: 164 }}>
-                    <img src={url} alt={`file-${index}`} loading="lazy" />
-                  </ImageListItem>
-                );
-              })}
-            </ImageList>
-          )}
         </DialogContent>
         <DialogActions>
           <Button
