@@ -184,7 +184,7 @@ function ReceiveTrade() {
                       alt={item.targetProductName}
                       sx={{ objectFit: "contain", borderRadius: "8px" }}
                     />
-                    <Typography>{item.receiverName}</Typography>
+                    <Typography>{item.senderName}</Typography>
                   </Box>
                 </TableCell>
                 <TableCell>

@@ -185,8 +185,8 @@ function TransactionTrade() {
                   >
                     {item.status === "Complete" ? (
                       <>
-                        <CreateRating />
-                        <CreateReport />
+                        <CreateRating targetId={item.targetProductId} />
+                        <CreateReport targetId={item.targetProductId} />
                       </>
                     ) : item.status === "Cancelled" ? (
                       <Button
