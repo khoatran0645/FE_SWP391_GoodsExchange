@@ -85,14 +85,12 @@ function ReceiveTrade() {
         <TableHead>
           <TableRow>
             <TableCell align="center" colSpan={5}>
-              <Typography variant="h6">Trade Details</Typography>
+              <Typography variant="h6">Receive Details</Typography>
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align="center">Currently User Product</TableCell>
-            <TableCell align="center">Currently User Product Name</TableCell>
-            <TableCell align="center">Sender&apos;s Product</TableCell>
-            <TableCell align="center">Sender&apos;s Product Name</TableCell>
+            <TableCell align="center">My Product</TableCell>
+            <TableCell align="center">Target&apos;s Product</TableCell>
             <TableCell align="center">Sender Avatar</TableCell>
             <TableCell align="center">Action</TableCell>
             {/* <TableCell align="center">Status</TableCell> */}
@@ -120,9 +118,7 @@ function ReceiveTrade() {
                       sx={{ objectFit: "contain", borderRadius: "8px" }}
                     />
                   </Box>
-                </TableCell>
 
-                <TableCell>
                   <Typography
                     variant="body2"
                     sx={{
@@ -138,7 +134,7 @@ function ReceiveTrade() {
                   </Typography>
                 </TableCell>
 
-                {/* Sender's Product Image and Name */}
+                {/* Sender&apos;s Product Image and Name */}
                 <TableCell>
                   <Box
                     sx={{
@@ -156,8 +152,7 @@ function ReceiveTrade() {
                       sx={{ objectFit: "contain", borderRadius: "8px" }}
                     />
                   </Box>
-                </TableCell>
-                <TableCell>
+
                   <Typography
                     variant="body2"
                     sx={{
@@ -189,10 +184,9 @@ function ReceiveTrade() {
                       alt={item.targetProductName}
                       sx={{ objectFit: "contain", borderRadius: "8px" }}
                     />
-                    <Typography>{item.senderName}</Typography>
+                    <Typography>{item.receiverName}</Typography>
                   </Box>
                 </TableCell>
-
                 <TableCell>
                   <Box
                     sx={{ display: "flex", justifyContent: "center", gap: 1 }}
