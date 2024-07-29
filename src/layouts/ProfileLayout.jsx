@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Button, Typography } from "@mui/material";
 import { useNavigate, Outlet } from "react-router-dom";
-import NavBar from "../common/NavBar";
+import NavBar from "../features/common/NavBar";
 
 export default function ProfileLayout() {
   const navigate = useNavigate();
@@ -26,15 +26,20 @@ export default function ProfileLayout() {
         >
           <Typography
             variant="h5"
-            sx={{ marginBottom: 3, textAlign: "center", color: "#333" }}
+            sx={{
+              marginBottom: 3,
+              textAlign: "center",
+              color: "#333",
+              fontFamily: "fantasy",
+            }}
           >
-            Profile
+            PROFILE PANEL
           </Typography>
           <Button
             variant="outlined"
             onClick={() => navigate("/profile")}
             sx={{
-              marginBottom: 2,
+              marginBottom: 3,
               color: "#333",
               borderColor: "#333",
               "&:hover": {
@@ -74,7 +79,7 @@ export default function ProfileLayout() {
             variant="outlined"
             onClick={() => navigate("receive-trade")}
             sx={{
-              marginBottom: 2,
+              marginBottom: 3,
               color: "#333",
               borderColor: "#333",
               "&:hover": {
@@ -94,7 +99,7 @@ export default function ProfileLayout() {
             variant="outlined"
             onClick={() => navigate("transaction-trade")}
             sx={{
-              marginBottom: 2,
+              marginBottom: 3,
               color: "#333",
               borderColor: "#333",
               "&:hover": {

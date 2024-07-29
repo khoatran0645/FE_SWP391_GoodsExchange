@@ -72,7 +72,7 @@ export const API_UPDATE_PROFILE = "/users/update-account";
 export const API_CHANGING_PASSWORD = "/users/Changing-Password";
 
 // Admin manage moderator
-export const API_GET_ALL_MODERATOR_LIST =
-  "/users/list-moderators?PageIndex={PageIndex}&PageSize={PageSize}";
+export const API_GET_ALL_USER_LIST =
+  "/users/list-users?PageIndex={PageIndex}&PageSize={PageSize}";
 export const API_CREATE_MODERATOR_ACCOUNT = "/users/CreateAccount";
 export const API_PATCH_STATUS_MODERATOR = "/users/status/{id}?status={status}";

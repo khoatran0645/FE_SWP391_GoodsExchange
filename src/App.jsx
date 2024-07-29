@@ -11,8 +11,8 @@ import ProductDetail from "./features/products/ProductDetail";
 import NotFound from "./pages/NotFound";
 import Login from "./features/auth/Login";
 
-import Profile from "./features/profile/Profile";
-import EditProfile from "./features/profile/EditProfile";
+import Profile from "./features/profile/Profile/Profile";
+import EditProfile from "./features/profile/Profile/EditProfile";
 
 import Chat from "./pages/Chat";
 import ChatDetail from "./features/chat/ChatDetail";
@@ -27,14 +27,15 @@ import ModeratorProfile from "./features/moderator/ModeratorProfile";
 import { ThemeProvider, createTheme } from "@mui/material";
 import useStore from "./app/store";
 import AdminLayout from "./layouts/AdminLayout";
-import AdminUser from "./features/admin/AdminUser";
+import AdminModerator from "./features/admin/AdminModerator";
 import Dashboard from "./features/admin/Dashboard";
 import ForgotPassword from "./features/auth/ForgotPassword";
-import ProfileLayout from "./features/profile/ProfileLayout";
-import RequestTrade from "./features/profile/RequestTrade";
-import ReceiveTrade from "./features/profile/ReceiveTrade";
-import InventoryTrade from "./features/profile/InventoryTrade";
-import TransactionTrade from "./features/profile/TransactionTrade";
+import ProfileLayout from "./layouts/ProfileLayout";
+import RequestTrade from "./features/profile/Exchange/RequestTrade";
+import ReceiveTrade from "./features/profile/Exchange/ReceiveTrade";
+import InventoryTrade from "./features/profile/Exchange/InventoryTrade";
+import TransactionTrade from "./features/profile/Exchange/TransactionTrade";
+import AdminUser from "./features/admin/AdminUser";
 export default function App() {
   const colorMode = useStore((state) => state.colorMode);
   const userInfo = useStore((state) => state.userInfo);
@@ -89,9 +90,10 @@ export default function App() {
         {/*---------------------------------------------------------------------------------- */}
 
         <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminUser />} />
-          <Route path="admin-user" element={<AdminUser />} />
+          <Route index element={<Dashboard />} />
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="admin-moderator" element={<AdminModerator />} />
+          <Route path="admin-user" element={<AdminUser />} />
         </Route>
 
         {/*---------------------------------------------------------------------------------- */}
@@ -114,11 +116,13 @@ export default function App() {
         <Route path="/profile" element={<ProfileLayout />}>
           <Route index element={<Profile />} />
           <Route path="profile-info" element={<Profile />} />
+          <Route path="/profile/edit-profile" element={<EditProfile />} />
           <Route path="request-trade" element={<RequestTrade />} />
           <Route path="receive-trade" element={<ReceiveTrade />} />
           <Route path="transaction-trade" element={<TransactionTrade />} />
           <Route path="inventory-trade" element={<InventoryTrade />} />
         </Route>
+
         {/*---------------------------------------------------------------------------------- */}
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -1,5 +1,5 @@
 import React from "react";
-import useStore from "../../app/store";
+import useStore from "../../../app/store";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
@@ -95,6 +95,7 @@ const RequestTrade = () => {
             <TableCell align="center">Sender&apos;s Product Name</TableCell>
             <TableCell align="center">Sender Avatar</TableCell>
             <TableCell align="center">Action</TableCell>
+            {/* <TableCell align="center">Status</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>

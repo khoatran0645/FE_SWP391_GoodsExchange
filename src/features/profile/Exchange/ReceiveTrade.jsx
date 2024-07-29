@@ -1,5 +1,5 @@
 import React from "react";
-import useStore from "../../app/store";
+import useStore from "../../../app/store";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
@@ -18,7 +18,7 @@ import {
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 
-function TransactionTrade() {
+function ReceiveTrade() {
   const getSellerProduct = useStore((state) => state.getSellerProduct);
   const state = useStore();
 
@@ -30,18 +30,27 @@ function TransactionTrade() {
 
   console.log("sellerProductList: ", sellerProductList?.data.items);
   //GET REECEIVE TRADE
-  const { getCancelRequestList, getCancelRequestListData, isLoading, error } =
-    useStore((state) => ({
-      getCancelRequestList: state.getCancelRequestList,
-      getCancelRequestListData: state.getCancelTradeData,
+  const { getReceiveList, getReceiveTradeData, isLoading, error } = useStore(
+    (state) => ({
+      getReceiveList: state.getReceiveList,
+      getReceiveTradeData: state.getReceiveTradeData,
       isLoading: state.isLoading,
       error: state.error,
-    }));
+    })
+  );
 
   useEffect(() => {
-    getCancelRequestList(); // Call the API function when the component mounts
-  }, [getCancelRequestList]);
-  console.log("getCancelRequestListData: ", getCancelRequestListData);
+    getReceiveList(); // Call the API function when the component mounts
+  }, [getReceiveList]);
+
+  useEffect(() => {
+    console.log("getReceiveTradeData:", getReceiveTradeData);
+  }, [getReceiveTradeData]);
+  useEffect(() => {
+    getReceiveList(); // Call the API function when the component mounts
+  }, [getReceiveList]);
+  const getReceiveTradeData1 = useStore((state) => state.getReceiveTradeData);
+  console.log("getReceiveTradeData1: ", getReceiveTradeData1);
 
   const handleApprove = async (RequestTradeid) => {
     // Handle the approve action
@@ -69,6 +78,7 @@ function TransactionTrade() {
       // Handle the success, e.g., show a toast notification
     }
   };
+
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -85,11 +95,12 @@ function TransactionTrade() {
             <TableCell align="center">Sender&apos;s Product Name</TableCell>
             <TableCell align="center">Sender Avatar</TableCell>
             <TableCell align="center">Action</TableCell>
+            {/* <TableCell align="center">Status</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
-          {getCancelRequestListData?.length > 0 ? (
-            getCancelRequestListData?.map((item) => (
+          {getReceiveTradeData?.length > 0 ? (
+            getReceiveTradeData?.map((item) => (
               <TableRow key={item.productId}>
                 {/* Currently User Product Image and Name */}
                 <TableCell>
@@ -190,17 +201,17 @@ function TransactionTrade() {
                       variant="contained"
                       color="success"
                       startIcon={<CheckIcon />}
-                      // onClick={() => handleApprove(item.exchangeRequestId)}
+                      onClick={() => handleApprove(item.exchangeRequestId)}
                     >
-                      Rating
+                      Approve
                     </Button>
                     <Button
                       variant="contained"
                       color="error"
                       startIcon={<CloseIcon />}
-                      // onClick={() => handleDeny(item.exchangeRequestId)}
+                      onClick={() => handleDeny(item.exchangeRequestId)}
                     >
-                      Report
+                      Deny
                     </Button>
                   </Box>
                 </TableCell>
@@ -219,4 +230,4 @@ function TransactionTrade() {
   );
 }
 
-export default TransactionTrade;
+export default ReceiveTrade;
