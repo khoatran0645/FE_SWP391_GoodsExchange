@@ -9,11 +9,11 @@ import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
-import {toast} from "react-toastify";
-import  useStore from "../../app/store";
+import { toast } from "react-toastify";
+import useStore from "../../app/store";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export default function CreateRating() {
+export default function CreateRating({ targetId }) {
   const sendRatingFromBuyer = useStore((state) => state.sendRatingFromBuyer);
   const [numberStars, setNumberStars] = useState(5);
   const [open, setOpen] = useState(false);
@@ -34,10 +34,10 @@ export default function CreateRating() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const feedback = formData.get("feedback");
-
+    console.log("targetId: ", targetId, "feedback: ", feedback);
     const result = {
       feedback: feedback,
-      productId: location.state.productId,
+      productId: targetId,
       numberStars: numberStars,
     };
     try {
