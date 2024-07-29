@@ -24,8 +24,9 @@ import { toast } from "react-toastify";
 
 export default function Login() {
   const postLogin = useStore((state) => state.postLogin);
-  const setAuth = useStore((state) => state.setAuth);
   const getProfileUserById = useStore((state) => state.getProfileUserById);
+
+  const setUserId = useStore((state) => state.setUserId);
 
   const navigate = useNavigate();
 
@@ -54,7 +55,7 @@ export default function Login() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const userInfo = useStore((state) => state.userInfo);
+
   // useEffect(() => {
   //   const token = sessionStorage.getItem("token");
   //   console.log("userInfo", userInfo);
@@ -94,19 +95,19 @@ export default function Login() {
     }
     await postLogin({ username, password });
     const userInfo = useStore.getState().userInfo;
+    const auth = useStore.getState().auth;
     console.log("userInfo", userInfo);
 
-    if (userInfo) {
+    if (auth) {
       if (rememberme) {
         localStorage.setItem("token", userInfo.data.token);
       } else {
         sessionStorage.setItem("token", userInfo.data.token);
       }
-      // sessionStorage.setItem("token", userInfo.data.token);
       const decoded = jwtDecode(userInfo.data.token);
+      setUserId(decoded.id);
       console.log("decoded", decoded);
       await getProfileUserById(decoded.id);
-      setAuth(true);
       if (userInfo.data.role == "Moderator") {
         navigate("/manage-products");
       } else if (userInfo.data.role == "Administrator") {
