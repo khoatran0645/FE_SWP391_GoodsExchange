@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -25,17 +25,10 @@ import { toast } from "react-toastify";
 export default function Login() {
   const postLogin = useStore((state) => state.postLogin);
   const getProfileUserById = useStore((state) => state.getProfileUserById);
-
   const setUserId = useStore((state) => state.setUserId);
 
   const navigate = useNavigate();
 
-  const responseMessage = (response) => {
-    console.log(response);
-  };
-  const errorMessage = (error) => {
-    console.log(error);
-  };
   const formStyle = {
     display: "flex",
     flexFlow: "column",
@@ -50,67 +43,55 @@ export default function Login() {
   };
 
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    rememberme: false,
+  });
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
-  // useEffect(() => {
-  //   const token = sessionStorage.getItem("token");
-  //   console.log("userInfo", userInfo);
-  //   // console.log("token", token);
-  //   if (token) {
-  //     // Redirect to "/"
-  //     if (userInfo?.data.role == "Moderator") {
-  //       navigate("/moderator-profile");
-  //     } else if (userInfo?.data.role == "Administrator") {
-  //       navigate("/admin");
-  //     } else {
-  //       navigate("/");
-  //     }
-  //   }
-  // }, []);
-
-  const formDataRef = useRef({
-    username: "",
-    password: "",
-    rememberme: false,
-  });
-
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
-    formDataRef.current[name] = type === "checkbox" ? checked : value;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const onLoginClick = async (e) => {
     e.preventDefault();
 
-    const { username, password } = formDataRef.current;
-    const rememberme = formDataRef.current.rememberme;
-    console.log("rememberme", rememberme);
+    const { username, password, rememberme } = formData;
+
     if (!username || !password) {
       toast.error("Please enter your username and password");
       return;
     }
+
     await postLogin({ username, password });
     const userInfo = useStore.getState().userInfo;
     const auth = useStore.getState().auth;
-    console.log("userInfo", userInfo);
 
     if (auth) {
+      const token = userInfo.data.token;
       if (rememberme) {
-        localStorage.setItem("token", userInfo.data.token);
+        localStorage.setItem("token", token);
       } else {
-        sessionStorage.setItem("token", userInfo.data.token);
+        sessionStorage.setItem("token", token);
       }
-      const decoded = jwtDecode(userInfo.data.token);
+
+      const decoded = jwtDecode(token);
       setUserId(decoded.id);
-      console.log("decoded", decoded);
       await getProfileUserById(decoded.id);
-      if (userInfo.data.role == "Moderator") {
-        navigate("/manage-products");
-      } else if (userInfo.data.role == "Administrator") {
+
+      if (userInfo.data.role === "Moderator") {
+        navigate("/moderator");
+      } else if (userInfo.data.role === "Administrator") {
         navigate("/admin");
       } else {
         navigate("/");
@@ -120,44 +101,18 @@ export default function Login() {
 
   return (
     <Box sx={formStyle}>
-      <Typography
-        sx={{
-          marginBottom: "20px",
-        }}
-        variant="h5"
-        gutterBottom
-      >
+      <Typography sx={{ marginBottom: "20px" }} variant="h5" gutterBottom>
         Login to your Account
       </Typography>
-      {/* <GoogleLogin
-        logo_alignment="center"
-        onSuccess={responseMessage}
-        onError={errorMessage}
-      />
-      <Typography
-        sx={{
-          margin: "10px 0",
-          alignSelf: "center",
-          fontSize: "14px",
-        }}
-        variant="caption"
-      >
-        Or
-      </Typography> */}
 
-      <FormControl
-        sx={{
-          marginBottom: "10px",
-        }}
-        variant="outlined"
-      >
+      <FormControl sx={{ marginBottom: "10px" }} variant="outlined">
         <InputLabel htmlFor="outlined-username">Username</InputLabel>
         <OutlinedInput
           id="outlined-username"
           name="username"
           label="Username"
+          value={formData.username}
           onChange={handleChange}
-          defaultValue={formDataRef.current.username}
         />
       </FormControl>
 
@@ -167,6 +122,8 @@ export default function Login() {
           id="outlined-adornment-password"
           name="password"
           type={showPassword ? "text" : "password"}
+          value={formData.password}
+          onChange={handleChange}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
@@ -180,8 +137,6 @@ export default function Login() {
             </InputAdornment>
           }
           label="Password"
-          onChange={handleChange}
-          defaultValue={formDataRef.current.password}
         />
       </FormControl>
 
@@ -189,8 +144,8 @@ export default function Login() {
         control={
           <Checkbox
             name="rememberme"
+            checked={formData.rememberme}
             onChange={handleChange}
-            defaultChecked={formDataRef.current.rememberme}
           />
         }
         label="Remember me"
@@ -199,9 +154,7 @@ export default function Login() {
         sx={{
           marginBottom: "10px",
           backgroundColor: "#FF204E",
-          "&:hover": {
-            backgroundColor: "#FF204E",
-          },
+          "&:hover": { backgroundColor: "#FF204E" },
         }}
         variant="contained"
         onClick={onLoginClick}
@@ -212,9 +165,7 @@ export default function Login() {
         sx={{
           marginBottom: "10px",
           backgroundColor: "black",
-          "&:hover": {
-            backgroundColor: "black",
-          },
+          "&:hover": { backgroundColor: "black" },
         }}
         variant="contained"
         onClick={() => navigate("/")}
@@ -224,10 +175,7 @@ export default function Login() {
       <Typography>
         Not registered yet?{" "}
         <NavLink
-          style={{
-            textDecoration: "none",
-            color: "#2E86ab",
-          }}
+          style={{ textDecoration: "none", color: "#2E86ab" }}
           to="/register"
         >
           Create an account

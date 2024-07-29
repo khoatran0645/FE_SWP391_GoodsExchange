@@ -40,6 +40,7 @@ export const createUserSlice = (set) => ({
       userProfile: null,
       userInfo: null,
       userId: null,
+      userList: null,
     });
   },
 
