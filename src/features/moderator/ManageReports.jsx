@@ -114,7 +114,9 @@ export default function ManageReports() {
       >
         <ModeratorPage />
         {listReport?.length === 0 && (
-          <Typography variant="h6">Empty</Typography>
+          <Typography variant="h6" fontFamily="Lucida Sans Unicode">
+            Empty
+          </Typography>
         )}
         {listReport?.map((item, index) => (
           <Paper key={index} sx={{ p: 3, mb: 2, minWidth: "500px" }}>

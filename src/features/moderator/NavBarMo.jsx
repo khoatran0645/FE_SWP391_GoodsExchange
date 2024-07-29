@@ -64,10 +64,7 @@ export default function NavBar() {
   };
 
   return (
-    <AppBar
-      position="fixed"
-      sx={{ backgroundColor: "black", zIndex: "99999999" }}
-    >
+    <AppBar position="fixed" sx={{ backgroundColor: "black", zIndex: "1201" }}>
       <Container maxWidth="100%" sx={{ display: "flex" }}>
         <Toolbar
           disableGutters
