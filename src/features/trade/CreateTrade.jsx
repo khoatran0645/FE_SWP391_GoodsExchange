@@ -43,12 +43,12 @@ export default function CreateTrade({ productDetail }) {
     event.preventDefault();
     // console.log("form", {"currentProductId": params.id, "targetProductId": selectedProduct?.productId});
     await sendRequest({
-      currentProductId: params.id,
-      targetProductId: selectedProduct?.productId,
+      currentProductId: selectedProduct?.productId,
+      targetProductId: params.id,
     });
-    if(isLoading == false && error == null){
+    if (isLoading == false && error == null) {
       toast.success("Trade created successfully");
-    }else{
+    } else {
       toast.error(error);
     }
 
