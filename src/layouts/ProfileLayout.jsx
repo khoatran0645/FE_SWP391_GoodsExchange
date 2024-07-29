@@ -37,7 +37,7 @@ export default function ProfileLayout() {
           </Typography>
           <Button
             variant="outlined"
-            onClick={() => navigate("/profile")}
+            onClick={() => navigate("/profile/")}
             sx={{
               marginBottom: 3,
               color: "#333",
@@ -57,7 +57,7 @@ export default function ProfileLayout() {
           </Button>
           <Button
             variant="outlined"
-            onClick={() => navigate("request-trade")}
+            onClick={() => navigate("/profile/request-trade")}
             sx={{
               marginBottom: 3,
               color: "#333",
@@ -77,7 +77,7 @@ export default function ProfileLayout() {
           </Button>
           <Button
             variant="outlined"
-            onClick={() => navigate("receive-trade")}
+            onClick={() => navigate("/profile/receive-trade")}
             sx={{
               marginBottom: 3,
               color: "#333",
@@ -97,7 +97,7 @@ export default function ProfileLayout() {
           </Button>
           <Button
             variant="outlined"
-            onClick={() => navigate("transaction-trade")}
+            onClick={() => navigate("/profile/transaction-trade")}
             sx={{
               marginBottom: 3,
               color: "#333",
@@ -118,7 +118,7 @@ export default function ProfileLayout() {
           </Button>
           <Button
             variant="outlined"
-            onClick={() => navigate("inventory-trade")}
+            onClick={() => navigate("/profile/inventory-trade")}
             sx={{
               color: "#333",
               borderColor: "#333",

@@ -121,7 +121,7 @@ export default function ModeratorPage() {
                 fullWidth
                 variant="outlined"
                 sx={{ marginBottom: 1, display: "block" }}
-                onClick={() => navigate("/manage-products")}
+                onClick={() => navigate("/moderator/manage-products")}
               >
                 Manage Product
               </Button>
@@ -129,7 +129,7 @@ export default function ModeratorPage() {
                 fullWidth
                 variant="outlined"
                 sx={{ marginBottom: 1, display: "block" }}
-                onClick={() => navigate("/manage-reports")}
+                onClick={() => navigate("/moderator/manage-reports")}
               >
                 Manage Report
               </Button>
@@ -137,7 +137,7 @@ export default function ModeratorPage() {
                 fullWidth
                 variant="outlined"
                 sx={{ marginBottom: 1, display: "block" }}
-                onClick={() => navigate("/manage-categories")}
+                onClick={() => navigate("/moderator/manage-categories")}
               >
                 Manage Categories
               </Button>
@@ -145,7 +145,7 @@ export default function ModeratorPage() {
                 fullWidth
                 variant="outlined"
                 sx={{ display: "block" }}
-                onClick={() => navigate("/moderator-profile")}
+                onClick={() => navigate("/moderator/moderator-profile")}
               >
                 Manage Profile
               </Button>

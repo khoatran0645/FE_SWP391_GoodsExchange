@@ -59,7 +59,7 @@ export default function NavBar() {
   };
 
   const handleLogoClick = () => {
-    navigate("/manage-products");
+    navigate("/moderator/manage-products");
     window.location.reload(); // F5 lại trang
   };
 
@@ -82,7 +82,7 @@ export default function NavBar() {
               onClick={handleLogoClick}
             />
             <Link
-              to="/manage-products"
+              to="/moderator/manage-products"
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <Typography
