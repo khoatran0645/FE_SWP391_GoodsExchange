@@ -21,14 +21,16 @@ import CloseIcon from "@mui/icons-material/Close";
 function ReceiveTrade() {
   const getSellerProduct = useStore((state) => state.getSellerProduct);
   const state = useStore();
+  const [showPhoneNumber, setShowPhoneNumber] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
 
   useEffect(() => {
     getSellerProduct();
   }, []);
-
+  const productDetail = useStore((state) => state.productDetail);
   const sellerProductList = useStore((state) => state.sellerProductList);
-
-  console.log("sellerProductList: ", sellerProductList?.data.items);
+  const auth = useStore((state) => state.auth);
+  // console.log("sellerProductList: ", sellerProductList?.data.items);
   //GET REECEIVE TRADE
   const { getReceiveList, getReceiveTradeData, isLoading, error } = useStore(
     (state) => ({
@@ -38,20 +40,22 @@ function ReceiveTrade() {
       error: state.error,
     })
   );
+  const getProductById = useStore((state) => state.getProductById);
 
   useEffect(() => {
     getReceiveList(); // Call the API function when the component mounts
   }, [getReceiveList]);
-
   useEffect(() => {
     console.log("getReceiveTradeData:", getReceiveTradeData);
   }, [getReceiveTradeData]);
-  useEffect(() => {
-    getReceiveList(); // Call the API function when the component mounts
-  }, [getReceiveList]);
-  const getReceiveTradeData1 = useStore((state) => state.getReceiveTradeData);
-  console.log("getReceiveTradeData1: ", getReceiveTradeData1);
+  console.log("get product ID : ", getReceiveTradeData.targetProductId);
 
+  // useEffect(() => {
+  //  getProductById(getReceiveTradeData.targetProductId);
+  // });
+  // console.log("productDetail : ", productDetail);
+
+  //APPROVE / DENY TRADE
   const handleApprove = async (RequestTradeid) => {
     // Handle the approve action
     console.log("Approved RequestedChange:", RequestTradeid);
@@ -78,7 +82,20 @@ function ReceiveTrade() {
       // Handle the success, e.g., show a toast notification
     }
   };
-
+  const handleShowPhoneNumber = async (targetProductId) => {
+    if (auth) {
+      await getProductById(targetProductId);
+      setSelectedProductId(targetProductId);
+      setShowPhoneNumber(true);
+      setTimeout(() => {
+        setShowPhoneNumber(false);
+        setSelectedProductId(null);
+        window.location.reload();
+      }, 30000); // Reset after 30 seconds
+    } else {
+      navigate("/login");
+    }
+  };
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -191,7 +208,7 @@ function ReceiveTrade() {
                   <Box
                     sx={{ display: "flex", justifyContent: "center", gap: 1 }}
                   >
-                    {item.receiverStatus === 2 && item.senderStatus === 1 ? (
+                    {item.status === "Created" ? (
                       <>
                         <Button
                           variant="contained"
@@ -210,6 +227,29 @@ function ReceiveTrade() {
                           Deny
                         </Button>
                       </>
+                    ) : item.receiverStatus === 1 && item.senderStatus === 1 ? (
+                      !showPhoneNumber ||
+                      selectedProductId !== item.targetProductId ? (
+                        <Button
+                          onClick={() =>
+                            handleShowPhoneNumber(item.targetProductId)
+                          }
+                          sx={{
+                            backgroundColor: "white",
+                            border: "1px solid black",
+                            color: "black",
+                            "&:hover": {
+                              backgroundColor: "white",
+                            },
+                          }}
+                        >
+                          Show phone number
+                        </Button>
+                      ) : (
+                        <Typography sx={{ fontSize: 23 }}>
+                          {productDetail?.data?.userPhoneNumber}
+                        </Typography>
+                      )
                     ) : item.receiverStatus === 1 && item.senderStatus === 2 ? (
                       <>
                         <Button
