@@ -9,6 +9,7 @@ import {
   API_CREATE_MODERATOR_ACCOUNT,
   API_PATCH_STATUS_MODERATOR,
 } from "./../constant";
+import Cookies from "js-cookie";
 
 const initialState = {
   isLoading: false,
@@ -18,6 +19,7 @@ const initialState = {
   auth: false,
   response: null,
   userId: null,
+  userList: null,
 };
 
 const setLoading = (set, isLoading) => set({ isLoading });
@@ -34,13 +36,13 @@ export const createUserSlice = (set) => ({
   logout: () => {
     localStorage.clear();
     sessionStorage.clear();
+    Cookies.remove("token");
     set({
       auth: false,
       error: null,
       userProfile: null,
       userInfo: null,
       userId: null,
-      userList: null,
     });
   },
 

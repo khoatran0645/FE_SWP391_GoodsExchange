@@ -16,17 +16,20 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
 
 import { GoogleLogin } from "@react-oauth/google";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 
 import useStore from "../../app/store";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
+
+import Cookies from "js-cookie";
 
 export default function Login() {
   const postLogin = useStore((state) => state.postLogin);
   const getProfileUserById = useStore((state) => state.getProfileUserById);
   const setUserId = useStore((state) => state.setUserId);
 
+  // console.log("location", window.location.origin);
   const navigate = useNavigate();
 
   const formStyle = {
@@ -79,22 +82,34 @@ export default function Login() {
 
     if (auth) {
       const token = userInfo.data.token;
-      if (rememberme) {
-        localStorage.setItem("token", token);
-      } else {
-        sessionStorage.setItem("token", token);
-      }
-
       const decoded = jwtDecode(token);
       setUserId(decoded.id);
       await getProfileUserById(decoded.id);
+      // convert expire to Date
+      const expireDate = new Date(decoded.exp * 1000);
+      console.log("expireDate", expireDate.toUTCString());
+
+      // Cookies.set("jwt_expire_time", expireDate.toUTCString(), {
+      //   expires: expireDate,
+      // });
+
+      if (rememberme) {
+        Cookies.set("token", userInfo.data.token, {
+          expires: expireDate,
+          // expires: 5 / 1440,
+        });
+        // localStorage.setItem("token", token);
+      } else {
+        Cookies.set("token", userInfo.data.token);
+        // sessionStorage.setItem("token", token);
+      }
 
       if (userInfo.data.role === "Moderator") {
-        navigate("/moderator");
+        navigate("/moderator", { replace: true });
       } else if (userInfo.data.role === "Administrator") {
-        navigate("/admin");
+        navigate("/admin", { replace: true });
       } else {
-        navigate("/");
+        navigate("/", { replace: true });
       }
     }
   };
