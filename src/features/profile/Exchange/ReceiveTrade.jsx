@@ -48,7 +48,7 @@ function ReceiveTrade() {
   useEffect(() => {
     console.log("getReceiveTradeData:", getReceiveTradeData);
   }, [getReceiveTradeData]);
-  console.log("get product ID : ", getReceiveTradeData.targetProductId);
+  // console.log("get product ID : ", getReceiveTradeData.targetProductId);
 
   // useEffect(() => {
   //  getProductById(getReceiveTradeData.targetProductId);
