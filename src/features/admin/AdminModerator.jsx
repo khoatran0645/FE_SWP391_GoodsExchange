@@ -72,7 +72,7 @@ export default function AdminModerator() {
                   <TableCell>Last Name</TableCell>
                   <TableCell>Email</TableCell>
                   <TableCell>Role</TableCell>
-                  <TableCell>Actions</TableCell>
+                  <TableCell>Active</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
