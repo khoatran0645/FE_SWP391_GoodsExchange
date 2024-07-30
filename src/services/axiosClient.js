@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-
+import Cookies from "js-cookie";
 const axiosClient = axios.create({
   baseURL: import.meta.env.VITE_BE_BASE_URL,
   // timeout: 10000,
@@ -10,7 +10,8 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
   (config) => {
-    const token = sessionStorage.getItem("token") || localStorage.getItem("token");
+    // const token = sessionStorage.getItem("token") || localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
