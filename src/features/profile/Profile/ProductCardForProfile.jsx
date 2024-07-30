@@ -48,9 +48,9 @@ export default function ProductCardForProfile({ item, onSelect }) {
     if (status === "Exchange is in progress") {
       return "Progressing Exchange";
     }
-    if (status === "Hidden") {
-      return "Exchange Successful";
-    }
+    // if (status === "Hidden") {
+    //   return "Exchange Successful";
+    // }
     return status;
   };
 

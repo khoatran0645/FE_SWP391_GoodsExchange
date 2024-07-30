@@ -16,7 +16,7 @@ import useStore from "../../app/store";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export default function CreateReport() {
+export default function CreateReport(targetId) {
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const sendReportFromBuyer = useStore((state) => state.sendReportFromBuyer);
@@ -36,7 +36,6 @@ export default function CreateReport() {
 
   const handleClickOpen = () => {
     auth ? setOpen(true) : navigate("/login");
-    
   };
 
   const handleClose = () => {
@@ -79,7 +78,7 @@ export default function CreateReport() {
 
       const result = {
         reason: combinedReasons,
-        productId: location.state.productId,
+        productId: targetId,
       };
 
       try {
@@ -104,7 +103,6 @@ export default function CreateReport() {
   return (
     <>
       <Button
-
         onClick={handleClickOpen}
         sx={{
           backgroundColor: "red",
