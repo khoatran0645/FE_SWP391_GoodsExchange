@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-
+import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 const RequestTrade = () => {
   // const getSellerProduct = useStore((state) => state.getSellerProduct);
   const state = useStore();
@@ -84,7 +84,7 @@ const RequestTrade = () => {
             <TableCell align="center">Target&apos;s Product</TableCell>
             <TableCell align="center">Target Avatar</TableCell>
             <TableCell align="center">Action</TableCell>
-            {/* <TableCell align="center">Status</TableCell> */}
+            <TableCell align="center">Status</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -182,7 +182,15 @@ const RequestTrade = () => {
                   <Box
                     sx={{ display: "flex", justifyContent: "center", gap: 1 }}
                   >
-                    {item.receiverStatus === 2 && item.senderStatus === 1 ? (
+                    {item.status === "Created" ? (
+                      <Button
+                        variant="contained"
+                        color="warning"
+                        startIcon={<HourglassEmptyIcon />}
+                      >
+                        Pending
+                      </Button>
+                    ) : item.receiverStatus === 1 && item.senderStatus === 1 ? (
                       <>
                         <Button
                           variant="contained"
@@ -202,30 +210,19 @@ const RequestTrade = () => {
                         </Button>
                       </>
                     ) : item.receiverStatus === 1 && item.senderStatus === 2 ? (
-                      <>
-                        <Button
-                          variant="contained"
-                          color="success"
-                          startIcon={<CheckIcon />}
-                          onClick={() => handleApprove(item.exchangeRequestId)}
-                        >
-                          Approve
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="error"
-                          startIcon={<CloseIcon />}
-                          onClick={() => handleDeny(item.exchangeRequestId)}
-                        >
-                          Deny
-                        </Button>
-                      </>
+                      <Button
+                        variant="contained"
+                        color="warning"
+                        startIcon={<HourglassEmptyIcon />}
+                      >
+                        Pending
+                      </Button>
                     ) : item.receiverStatus === 2 && item.senderStatus === 2 ? (
                       <Button
                         variant="contained"
                         color="primary"
                         startIcon={<CheckIcon />}
-                        onClick={() => handleComplete(item.exchangeRequestId)}
+                        // onClick={() => handleComplete(item.exchangeRequestId)}
                       >
                         Complete
                       </Button>
