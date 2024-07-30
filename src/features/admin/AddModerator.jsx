@@ -86,7 +86,6 @@ export default function AddModerator({ onAdd }) {
 
         const response = await postCreateModeratorAccount(formDataToSend);
         console.log(response);
-        toast.success("Create moderator account successfully!");
         setOpen(false);
         resetForm();
         onAdd();
