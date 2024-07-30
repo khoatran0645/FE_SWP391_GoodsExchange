@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import { useEffect } from "react";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material";
@@ -41,13 +41,13 @@ import TransactionTrade from "./features/profile/Exchange/TransactionTrade";
 import ProtectedRoute from "./ProtectedRoute";
 import { jwtDecode } from "jwt-decode";
 import AccessDenied from "./pages/AccessDenied";
-
+import Cookies from "js-cookie";
 
 export default function App() {
   const colorMode = useStore((state) => state.colorMode);
   const setUserId = useStore((state) => state.setUserId);
-  const setAuth = useStore((state) => state.setAuth);
-  const logout  = useStore((state) => state.logout);
+  const userInfo = useStore((state) => state.userInfo);
+  const logout = useStore((state) => state.logout);
 
   const navigate = useNavigate();
   const darkTheme = createTheme({
@@ -57,23 +57,21 @@ export default function App() {
   });
 
   useEffect(() => {
-    const token =
-      localStorage.getItem("token") || sessionStorage.getItem("token");
-    if (token) {
-      const decoded = jwtDecode(token);
-      setUserId(decoded.id);
-      setAuth(true);
-      // Redirect based on role
-      // if (decoded.role === "Moderator") {
-      //   navigate("/moderator");
-      // } else if (decoded.role === "Administrator") {
-      //   navigate("/admin");
-      // } else {
-      //   navigate("/");
-      // }
-    }
-    else{
+    const token = Cookies.get("token");
+    // console.log("token", token);
+    if (!token) {
       logout();
+    }
+    if (
+      userInfo?.data.role == "Administrator" &&
+      window.location.pathname == "/"
+    ) {
+      navigate("/admin");
+    } else if (
+      userInfo?.data.role == "Moderator" &&
+      window.location.pathname == "/"
+    ) {
+      navigate("/moderator");
     }
   }, []);
 
@@ -81,8 +79,7 @@ export default function App() {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <Routes>
-
-      <Route path="/" element={<EmptyLayout />}>
+        <Route path="/" element={<EmptyLayout />}>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
@@ -96,7 +93,12 @@ export default function App() {
           </Route>
         </Route>
 
-        <Route path="profile" element={<ProtectedRoute element={<ProfileLayout />} roles={['User']} />}>
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute element={<ProfileLayout />} roles={["User"]} />
+          }
+        >
           <Route index element={<Profile />} />
           <Route path="profile-info" element={<Profile />} />
           <Route path="edit-profile" element={<EditProfile />} />
@@ -106,22 +108,35 @@ export default function App() {
           <Route path="inventory-trade" element={<InventoryTrade />} />
         </Route>
 
-        <Route path="/admin" element={<ProtectedRoute element={<AdminLayout />} roles={['Administrator']} />}>
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute
+              element={<AdminLayout />}
+              roles={["Administrator"]}
+            />
+          }
+        >
           <Route index element={<Dashboard />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="admin-moderator" element={<AdminModerator />} />
           <Route path="admin-user" element={<AdminUser />} />
         </Route>
 
-        <Route path="/moderator" element={<ProtectedRoute element={<EmptyLayout />} roles={['Moderator']}/>}>
-        <Route index element={<ManageProduct />} />
+        <Route
+          path="/moderator"
+          element={
+            <ProtectedRoute element={<EmptyLayout />} roles={["Moderator"]} />
+          }
+        >
+          <Route index element={<ManageProduct />} />
           <Route path="manage-products" element={<ManageProduct />} />
           <Route path="moderator-profile" element={<ModeratorProfile />} />
           <Route path="manage-reports" element={<ManageReports />} />
           <Route path="manage-categories" element={<ManageCategories />} />
         </Route>
 
-        <Route path="access-denied" element={<AccessDenied />} />
+        <Route path="/access-denied" element={<AccessDenied />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </ThemeProvider>
