@@ -26,7 +26,10 @@ export default function AdminUser() {
   const patchStatusModerator = useStore((state) => state.patchStatusModerator);
   const userList = useStore((state) => state.userList);
   const totalPages = useStore((state) => state.totalPages);
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+  const [sortConfig, setSortConfig] = useState({
+    key: "numberReports",
+    direction: "desc",
+  });
 
   useEffect(() => {
     fetchUser();
@@ -118,17 +121,7 @@ export default function AdminUser() {
                       )}
                     </IconButton>
                   </TableCell>
-                  <TableCell align="center">
-                    Actions
-                    <IconButton onClick={() => handleSort("status")}>
-                      {sortConfig.key === "status" &&
-                      sortConfig.direction === "asc" ? (
-                        <ArrowUpwardIcon />
-                      ) : (
-                        <ArrowDownwardIcon />
-                      )}
-                    </IconButton>
-                  </TableCell>
+                  <TableCell align="center">Active</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
