@@ -29,6 +29,7 @@ function TransactionTrade() {
   }, []);
 
   const sellerProductList = useStore((state) => state.sellerProductList);
+  const userId = useStore((state) => state.userId);
 
   console.log("sellerProductList: ", sellerProductList?.data.items);
   //GET REECEIVE TRADE
@@ -106,8 +107,16 @@ function TransactionTrade() {
                       component="img"
                       height="120"
                       width="120"
-                      image={`${item.currentProductImage}?w=120&h=120&fit=crop&auto=format`}
-                      alt={item.currentProductName}
+                      image={`${
+                        userId === item.senderId
+                          ? item.currentProductImage
+                          : item.targetProductImage
+                      }?w=120&h=120&fit=crop&auto=format`}
+                      alt={
+                        userId === item.senderId
+                          ? item.currentProductName
+                          : item.targetProductName
+                      }
                       sx={{ objectFit: "contain", borderRadius: "8px" }}
                     />
                   </Box>
@@ -122,7 +131,9 @@ function TransactionTrade() {
                       ml: 1,
                     }}
                   >
-                    {item.currentProductName}
+                    {userId === item.senderId
+                      ? item.currentProductName
+                      : item.targetProductName}
                   </Typography>
                 </TableCell>
 
@@ -139,7 +150,11 @@ function TransactionTrade() {
                       component="img"
                       height="120"
                       width="120"
-                      image={`${item.targetProductImage}?w=120&h=120&fit=crop&auto=format`}
+                      image={`${
+                        userId !== item.senderId
+                          ? item.currentProductImage
+                          : item.targetProductImage
+                      }?w=120&h=120&fit=crop&auto=format`}
                       alt={item.targetProductName}
                       sx={{ objectFit: "contain", borderRadius: "8px" }}
                     />
@@ -155,7 +170,9 @@ function TransactionTrade() {
                       ml: 1,
                     }}
                   >
-                    {item.targetProductName}
+                    {userId !== item.senderId
+                      ? item.currentProductName
+                      : item.targetProductName}
                   </Typography>
                 </TableCell>
 
@@ -185,8 +202,20 @@ function TransactionTrade() {
                   >
                     {item.status === "Complete" ? (
                       <>
-                        <CreateRating targetId={item.targetProductId} />
-                        <CreateReport targetId={item.targetProductId} />
+                        <CreateRating
+                          targetId={
+                            userId !== item.senderId
+                              ? item.currentProductId
+                              : item.targetProductId
+                          }
+                        />
+                        <CreateReport
+                          targetId={
+                            userId !== item.senderId
+                              ? item.currentProductId
+                              : item.targetProductId
+                          }
+                        />
                       </>
                     ) : item.status === "Cancelled" ? (
                       <Button
