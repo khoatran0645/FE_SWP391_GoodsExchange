@@ -51,7 +51,7 @@ export default function ProductDetail() {
     originalWidth: 500,
   }));
 
-  console.log(productDetail);
+  // console.log(productDetail);
 
   const searchResult = useStore((state) => state.searchResult);
 
@@ -131,7 +131,7 @@ export default function ProductDetail() {
                   variant="h4"
                   marginX={0.75}
                   marginY={1}
-                  fontFamily={"fantasy"}
+                  // fontFamily={"fantasy"}
                 >
                   <Button
                     onClick={() =>
@@ -140,7 +140,7 @@ export default function ProductDetail() {
                     style={{ textTransform: "none", color: "inherit" }}
                     sx={{
                       fontSize: "2rem",
-                      fontFamily: "fantasy",
+                      // fontFamily: "fantasy",
                     }}
                   >
                     {(
@@ -210,11 +210,16 @@ export default function ProductDetail() {
                 <Box display="flex" alignItems="center">
                   <CreateRating />
                 </Box> */}
-                {auth && userId !== productDetail?.data?.userUploadId && (
+                {(auth && userId !== productDetail?.data?.userUploadId && (
                   <Box display="flex" alignItems="center">
                     <CreateTrade productDetail={productDetail?.data} />
                   </Box>
-                ) || <UpdateProduct productId = {params.id} product = {productDetail?.data}/>}
+                )) || (
+                  <UpdateProduct
+                    productId={params.id}
+                    product={productDetail?.data}
+                  />
+                )}
               </Box>
             </Box>
           </Box>

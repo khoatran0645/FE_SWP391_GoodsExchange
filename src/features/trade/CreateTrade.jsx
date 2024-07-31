@@ -7,6 +7,7 @@ import {
   Grid,
   Box,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import { useState } from "react";
 import ProductCard from "../products/ProductCard";
@@ -19,12 +20,12 @@ import { toast } from "react-toastify";
 
 export default function CreateTrade({ productDetail }) {
   const params = useParams();
-  console.log("params", params);
+  // console.log("params", params);
   const [open, setOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   // console.log("productDetail", productDetail);
-  console.log("selectedProduct", selectedProduct);
+  // console.log("selectedProduct", selectedProduct);
 
   const sendRequest = useStore((state) => state.sendRequest);
   const error = useStore((state) => state.error);
@@ -41,13 +42,16 @@ export default function CreateTrade({ productDetail }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    useStore.setState({
+      error: null,
+    });
     // console.log("form", {"currentProductId": params.id, "targetProductId": selectedProduct?.productId});
     await sendRequest({
       currentProductId: selectedProduct?.productId,
       targetProductId: params.id,
     });
 
-    if(!isLoading && error == null){
+    if (!isLoading && error == null) {
       toast.success("Trade created successfully");
     } else {
       toast.error(error);
@@ -77,7 +81,7 @@ export default function CreateTrade({ productDetail }) {
       </Button>
       <Dialog
         open={open}
-        onClose={handleClose}
+        // onClose={handleClose}
         PaperProps={{
           component: "form",
           onSubmit: handleSubmit,
@@ -93,19 +97,21 @@ export default function CreateTrade({ productDetail }) {
             position: "relative",
           }}
         >
-          <Button
-            onClick={handleClose}
-            sx={{
-              color: "black",
-              display: "flex",
-              alignItems: "center",
-              minWidth: "auto",
-              position: "absolute",
-              left: "16px",
-            }}
-          >
-            <ArrowBack sx={{ fontSize: 30 }} />
-          </Button>
+          {!isLoading && (
+            <Button
+              onClick={handleClose}
+              sx={{
+                color: "black",
+                display: "flex",
+                alignItems: "center",
+                minWidth: "auto",
+                position: "absolute",
+                left: "16px",
+              }}
+            >
+              <ArrowBack sx={{ fontSize: 30 }} />
+            </Button>
+          )}
           <Box
             sx={{
               flexGrow: 1,
@@ -170,20 +176,24 @@ export default function CreateTrade({ productDetail }) {
                 justifyContent="center"
               >
                 <Box display="flex" flexDirection="column" alignItems="center">
-                  <Button
-                    type="submit"
-                    sx={{
-                      backgroundColor: "#FF204E",
-                      color: "white",
-                      "&:hover": {
+                  {!isLoading ? (
+                    <Button
+                      type="submit"
+                      sx={{
                         backgroundColor: "#FF204E",
-                      },
-                      mb: 1,
-                      width: "100%",
-                    }}
-                  >
-                    Confirm
-                  </Button>
+                        color: "white",
+                        "&:hover": {
+                          backgroundColor: "#FF204E",
+                        },
+                        mb: 1,
+                        width: "100%",
+                      }}
+                    >
+                      Confirm
+                    </Button>
+                  ) : (
+                    <CircularProgress />
+                  )}
                 </Box>
               </Grid>
               <Grid item xs={5}>

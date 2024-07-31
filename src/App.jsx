@@ -100,6 +100,7 @@ export default function App() {
           }
         >
           <Route index element={<Profile />} />
+          <Route path=":id" element={<Profile />} />
           <Route path="profile-info" element={<Profile />} />
           <Route path="edit-profile" element={<EditProfile />} />
           <Route path="request-trade" element={<RequestTrade />} />
