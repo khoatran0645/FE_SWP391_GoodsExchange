@@ -18,6 +18,7 @@ import {
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
+import { toast } from "react-toastify";
 const RequestTrade = () => {
   // const getSellerProduct = useStore((state) => state.getSellerProduct);
   const state = useStore();
@@ -47,6 +48,7 @@ const RequestTrade = () => {
   const handleApprove = async (RequestTradeid) => {
     // Handle the approve action
     console.log("Approved RequestedChange:", RequestTradeid);
+
     await state.approveTrade(RequestTradeid);
     // Optionally, handle the response or error
     if (state.error) {
@@ -55,6 +57,7 @@ const RequestTrade = () => {
     } else {
       console.log("Trade approved successfully:", state.response);
       // Handle the success, e.g., show a toast notification
+      toast.success("Approved RequestChange");
     }
   };
 
@@ -198,7 +201,7 @@ const RequestTrade = () => {
                           startIcon={<CheckIcon />}
                           onClick={() => handleApprove(item.exchangeRequestId)}
                         >
-                          Approve
+                          Done
                         </Button>
                         <Button
                           variant="contained"
