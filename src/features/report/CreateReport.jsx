@@ -16,7 +16,7 @@ import useStore from "../../app/store";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export default function CreateReport(targetId) {
+export default function CreateReport({ targetId }) {
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const sendReportFromBuyer = useStore((state) => state.sendReportFromBuyer);

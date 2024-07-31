@@ -132,7 +132,7 @@ export default function ManageReports() {
             <CardMedia
               component="img"
               height="190" // Adjusted height
-              image={item?.productImages[0]?.imagePath}
+              image={item?.productImages}
               alt={item.productName}
             />
             <Typography variant="h6">To: {item.reportReceived}</Typography>
