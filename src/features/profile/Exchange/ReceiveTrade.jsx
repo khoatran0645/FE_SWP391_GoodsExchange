@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import { toast } from "react-toastify";
 
 function ReceiveTrade() {
   const getSellerProduct = useStore((state) => state.getSellerProduct);
@@ -59,6 +60,7 @@ function ReceiveTrade() {
   const handleApprove = async (RequestTradeid) => {
     // Handle the approve action
     console.log("Approved RequestedChange:", RequestTradeid);
+
     await state.approveTrade(RequestTradeid);
     // Optionally, handle the response or error
     if (state.error) {
@@ -66,6 +68,8 @@ function ReceiveTrade() {
       // Handle the error, e.g., show a toast notification
     } else {
       console.log("Trade approved successfully:", state.response);
+      toast.success("Trade approved successfully");
+
       // Handle the success, e.g., show a toast notification
     }
   };
@@ -73,12 +77,15 @@ function ReceiveTrade() {
   const handleDeny = async (productId) => {
     // Handle the deny action
     console.log("Denied product ID:", productId);
+    toast.success("Denied successfully");
+
     await state.denyTrade(productId);
     if (state.error) {
       console.error(state.error);
       // Handle the error, e.g., show a toast notification
     } else {
-      console.log("Trade approved successfully:", state.response);
+      // console.log("Trade approved successfully:", state.response);
+      toast.success("Trade deny successfully");
       // Handle the success, e.g., show a toast notification
     }
   };
@@ -216,7 +223,7 @@ function ReceiveTrade() {
                           startIcon={<CheckIcon />}
                           onClick={() => handleApprove(item.exchangeRequestId)}
                         >
-                          Approve
+                          Approve Request
                         </Button>
                         <Button
                           variant="contained"
@@ -258,7 +265,7 @@ function ReceiveTrade() {
                           startIcon={<CheckIcon />}
                           onClick={() => handleApprove(item.exchangeRequestId)}
                         >
-                          Approve
+                          Done transaction
                         </Button>
                         <Button
                           variant="contained"
