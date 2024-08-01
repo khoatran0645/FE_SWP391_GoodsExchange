@@ -46,6 +46,7 @@ export default function ProfileLayout() {
           >
             PROFILE PANEL
           </Typography>
+
           <Button
             variant="outlined"
             onClick={() => {
@@ -115,7 +116,7 @@ export default function ProfileLayout() {
               </Button>
               <Button
                 variant="outlined"
-                onClick={() => navigate("/profile/transaction-trade")}
+                onClick={() => navigate("/profile/transaction-cancelled")}
                 sx={{
                   marginBottom: 3,
                   color: "#333",
@@ -128,13 +129,37 @@ export default function ProfileLayout() {
                   width: "100%",
                   borderRadius: "4px",
                   padding: "10px",
+
                   textTransform: "none",
                 }}
               >
-                Transaction Trade
+                Transaction Cancelled
               </Button>
+              <Button
+                variant="outlined"
+                onClick={() => navigate("/profile/transaction-complete")}
+                sx={{
+                  marginBottom: 3,
+                  color: "#333",
+                  borderColor: "#333",
+                  "&:hover": {
+                    backgroundColor: "black",
+                    color: "white",
+                    borderColor: "#333",
+                  },
+                  width: "100%",
+                  borderRadius: "4px",
+                  padding: "10px",
+
+                  textTransform: "none",
+                }}
+              >
+                Transaction Complete
+              </Button>
+              
             </>
           )}
+
           <Button
             variant="outlined"
             onClick={() => {

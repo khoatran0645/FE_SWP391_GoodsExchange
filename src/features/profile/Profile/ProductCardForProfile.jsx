@@ -21,9 +21,9 @@ ProductCardForProfile.propTypes = {
 
 const statusColors = {
   "Awaiting approval": "#FFC107", // Amber
-  Approved: "#4CAF50", // Green
-  Rejected: "#F44336", // Red
-  Hidden: "#9E9E9E", // Grey
+  "Approved": "#4CAF50", // Green
+  "Rejected": "#F44336", // Red
+  "Hidden": "#9E9E9E", // Grey
   "Progressing Exchange": "#2196F3", // Blue
   "Exchange Successful": "#00BFAE", // Teal
 };
@@ -204,7 +204,7 @@ export default function ProductCardForProfile({ item, onSelect }) {
                 textOverflow: "ellipsis",
               }}
             >
-              {formatStatus(item.status)}
+              {formatStatus(item.status)} 
             </Typography>
           </Box>
         </CardContent>

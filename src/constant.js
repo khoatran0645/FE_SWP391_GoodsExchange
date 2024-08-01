@@ -27,8 +27,10 @@ export const API_GET_ALL_CALCEL_REQUEST_TRADE_LIST =
 // Approve Trade
 export const API_APPROVE_TRADE =
   "/exchanges/confirm-request/?requestid={requestId}";
-//Deny Trade
+// Deny Trade
 export const API_DENY_TRADE = "/exchanges/deny-request?requestid={requestId}";
+// Get Transactions Complete
+export const API_GET_TRANSACTIONS_COMPLETE = "/transactions/transactions";
 
 //------------------------------------------------------------------------------------------------------------------------------
 //* Product APIs
@@ -60,8 +62,8 @@ export const API_POST_RATING = "ratings/send-rating";
 export const API_POST_REPORT = "/reports/send-report";
 export const API_GET_ALL_REPORTS =
   "/reports/all?PageIndex={PageIndex}&PageSize={PageSize}";
-export const API_APPROVE_REPORT_MOD = "reports/approve/{id}";
-export const API_DENY_REPORT_MOD = "reports/deny/{id}";
+export const API_APPROVE_REPORT_MOD = "/reports/status/{id}?status=1";
+export const API_DENY_REPORT_MOD = "/reports/status/{id}?status=2";
 
 //------------------------------------------------------------------------------------------------------------------------------
 //* User APIs
