@@ -1,8 +1,9 @@
 import { Typography, Grid, Slider } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import NavBar from "../features/common/NavBar";
-import SearchAppBar from "../features/common/SearchBar";
+import SearchAppBar from "../features/common/SearchAppBar";
 import StickyFooter from "../features/common/Footer";
+import SearchProduct from "../features/products/SearchProduct";
 
 export default function HomeLayout() {
   return (

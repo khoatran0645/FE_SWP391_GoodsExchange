@@ -131,35 +131,6 @@ export default function SearchAppBar() {
           </Stack>
         </Toolbar>
       </AppBar>
-      {/* <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Create a New Post</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            To create a new post, please enter the details here.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Post Title"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            margin="dense"
-            id="description"
-            label="Description"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Submit</Button>
-        </DialogActions>
-      </Dialog> */}
     </Box>
   );
 }
