@@ -48,6 +48,7 @@ export default function ManageProduct() {
     const productList = useStore.getState().productList;
     setTotalPage(productList.data.totalPage);
     setListProduct(productList.data.items);
+    console.log(productList);
   };
 
   React.useEffect(() => {

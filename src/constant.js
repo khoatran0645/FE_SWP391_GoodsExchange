@@ -27,8 +27,11 @@ export const API_GET_ALL_CALCEL_REQUEST_TRADE_LIST =
 // Approve Trade
 export const API_APPROVE_TRADE =
   "/exchanges/confirm-request/?requestid={requestId}";
-//Deny Trade
+// Deny Trade
 export const API_DENY_TRADE = "/exchanges/deny-request?requestid={requestId}";
+// Get Transactions Complete
+export const API_GET_TRANSACTIONS_COMPLETE =
+  "/transactions/transactions";
 
 //------------------------------------------------------------------------------------------------------------------------------
 //* Product APIs

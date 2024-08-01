@@ -16,10 +16,11 @@ import {
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-import YourProductCard from "./Card/YourProductCard";
-import ProductExchangeCard from "./Card/ProductExchangeCard";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
+import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
+import ReceiveProductExchangeCard from "./Card/ReceiveProductExchangeCard";
+import ReceiveYourProductCard from "./Card/ReceiveYourProductCard";
 
 const ReceiveTrade = () => {
   const getSellerProduct = useStore((state) => state.getSellerProduct);
@@ -75,6 +76,7 @@ const ReceiveTrade = () => {
     if (state.error) {
       console.error(state.error);
     } else {
+      console.log("Trade denied successfully:", state.response);
       // console.log("Trade approved successfully:", state.response);
       toast.success("Trade deny successfully");
       // Handle the success, e.g., show a toast notification
@@ -100,6 +102,8 @@ const ReceiveTrade = () => {
     ?.slice()
     .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
 
+  console.log(sortedReceiveListData);
+
   const formatDate = (dateCreated) => {
     return dayjs(dateCreated).format("DD/MM/YYYY");
   };
@@ -122,137 +126,94 @@ const ReceiveTrade = () => {
             <TableCell align="center" sx={{ width: "20%" }}>
               Product Exchange
             </TableCell>
-            <TableCell align="center">Action</TableCell>
             <TableCell align="center">Status</TableCell>
+            <TableCell align="center">Action</TableCell>
             <TableCell align="center">Date Created</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {sortedReceiveListData?.length > 0 ? (
             sortedReceiveListData.map((item) => (
-              <TableRow key={item.productId}>
-                {/* Your Product Card */}
+              <TableRow key={item.currentProductId}>
+                {/* YourProductCell */}
+
                 <TableCell align="center" sx={{ width: "20%" }}>
-                  <YourProductCard product={item} />
+                  <ReceiveYourProductCard product={item} />
                 </TableCell>
 
-                {/* Product Exchange Card */}
                 <TableCell align="center" sx={{ width: "20%" }}>
-                  <ProductExchangeCard product={item} />
+                  <ReceiveProductExchangeCard product={item} />
                 </TableCell>
 
-                <TableCell align="center">
-                  <Box sx={{ display: "flex", justifyContent: "center" }}>
-                    <Button
-                      color="error"
-                      onClick={() => handleDeny(item.exchangeRequestId)}
-                    >
-                      <CloseIcon />
-                    </Button>
-                    <Button
-                      color="success"
-                      onClick={() => handleApprove(item.exchangeRequestId)}
-                    >
-                      <CheckIcon />
-                    </Button>
-                  </Box>
-                </TableCell>
-                <TableCell align="center">
-                  <Box
-                    sx={{ display: "flex", justifyContent: "center", gap: 1 }}
-                  >
-                    {item.status === "Created" ? (
-                      <>
-                        {/* <Button
-                          variant="contained"
-                          color="success"
-                          startIcon={<CheckIcon />}
-                          onClick={() => handleApprove(item.exchangeRequestId)}
-                        >
-                          Approve Request
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="error"
-                          startIcon={<CloseIcon />}
-                          onClick={() => handleDeny(item.exchangeRequestId)}
-                        >
-                          Deny
-                        </Button> */}
-                      </>
-                    ) : item.receiverStatus === 1 && item.senderStatus === 1 ? (
-                      !showPhoneNumber ||
-                      selectedProductId !== item.targetProductId ? (
-                        <Button
-                          onClick={() =>
-                            handleShowPhoneNumber(item.targetProductId)
-                          }
-                          sx={{
-                            backgroundColor: "white",
-                            border: "1px solid black",
-                            color: "black",
-                            "&:hover": {
-                              backgroundColor: "white",
-                            },
-                          }}
-                        >
-                          Show phone number
-                        </Button>
-                      ) : (
-                        <Typography sx={{ fontSize: 23 }}>
-                          {productDetail?.data?.userPhoneNumber}
-                        </Typography>
-                      )
-                    ) : item.receiverStatus === 1 && item.senderStatus === 2 ? (
-                      <>
-                        <Button
-                          variant="contained"
-                          color="success"
-                          startIcon={<CheckIcon />}
-                          onClick={() => handleApprove(item.exchangeRequestId)}
-                        >
-                          Done transaction
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="error"
-                          startIcon={<CloseIcon />}
-                          onClick={() => handleDeny(item.exchangeRequestId)}
-                        >
-                          Deny
-                        </Button>
-                      </>
-                    ) : item.receiverStatus === 2 && item.senderStatus === 2 ? (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        startIcon={<CheckIcon />}
-                        onClick={() => handleComplete(item.exchangeRequestId)}
-                      >
-                        Complete
-                      </Button>
-                    ) : (
-                      <>
-                        <Button
-                          variant="contained"
-                          color="success"
-                          startIcon={<CheckIcon />}
-                          onClick={() => handleApprove(item.exchangeRequestId)}
-                        >
-                          Approve
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="error"
-                          startIcon={<CloseIcon />}
-                          onClick={() => handleDeny(item.exchangeRequestId)}
-                        >
-                          Deny
-                        </Button>
-                      </>
+                {/* ProductExchangeCell */}
+
+                <TableCell align="center" sx={{ width: "20%" }}>
+                  <Typography>
+                    {item.status === "Created" && (
+                      <Typography>
+                        Do you want to accept this trade with{" "}
+                        <span style={{ fontWeight: "bold" }}>
+                          {item.senderName}{" "}
+                        </span>
+                        ?
+                      </Typography>
                     )}
-                  </Box>
+                    {item.senderStatus === 1 &&
+                      item.receiverStatus === 1 &&
+                      "Exchange processing"}
+                    {item.senderStatus === 2 && item.receiverStatus === 1 && (
+                      <Typography>
+                        Did you exchange this product with{" "}
+                        <span style={{ fontWeight: "bold" }}>
+                          {item.senderName}{" "}
+                        </span>
+                        ?
+                      </Typography>
+                    )}
+                  </Typography>
                 </TableCell>
+
+                <TableCell align="center" sx={{ width: "20%" }}>
+                  {item.status === "Created" && (
+                    <>
+                      <Button
+                        color="error"
+                        onClick={() => handleDeny(item.exchangeRequestId)}
+                      >
+                        <CloseIcon />
+                      </Button>
+                      <Button
+                        color="success"
+                        onClick={() => handleApprove(item.exchangeRequestId)}
+                      >
+                        <CheckIcon />
+                      </Button>
+                    </>
+                  )}
+
+                  {item.senderStatus === 1 && item.receiverStatus === 1 && (
+                    <HourglassEmptyIcon sx={{ color: "black" }} />
+                  )}
+
+                  {item.senderStatus === 2 && item.receiverStatus === 1 && (
+                    <>
+                      <Button
+                        color="error"
+                        onClick={() => handleDeny(item.exchangeRequestId)}
+                      >
+                        <CloseIcon />
+                      </Button>
+                      <Button
+                        color="success"
+                        onClick={() => handleApprove(item.exchangeRequestId)}
+                      >
+                        <CheckIcon />
+                      </Button>
+                    </>
+                  )}
+                </TableCell>
+
+                {/* DateCreatedCell */}
                 <TableCell align="center">
                   {formatDate(item.dateCreated)}
                 </TableCell>

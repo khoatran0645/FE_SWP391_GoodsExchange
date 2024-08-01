@@ -6,24 +6,34 @@ import Typography from "@mui/material/Typography";
 import { Box, Divider } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
+import useStore from "../../../../app/store";
 
-export default function ProductExchangeCard({ product }) {
+export default function RequestYourProductCard({ product }) {
   const navigate = useNavigate();
+  const userId = useStore((state) => state.userId);
 
   return (
     <Card sx={{ maxWidth: 345, border: "3px solid black", boxShadow: 5 }}>
       <Box
-        component="div" // Change from "button" to "div" to remove button styling
-        onClick={() => navigate(`/products/${product.targetProductId}`)}
+        component="div"
+        onClick={() => navigate(`/products/${product.currentProductId}`)}
         sx={{
-          cursor: "pointer", // Ensure the cursor indicates a clickable item
+          cursor: "pointer",
         }}
       >
         <CardMedia
           component="img"
-          alt={product.targetProductName}
+          alt={
+            userId === product.senderId
+              ? product.currentProductName
+              : product.targetProductName
+          }
           height="140"
-          image={product.targetProductImage}
+          image={
+            userId === product.senderId
+              ? product.currentProductImage
+              : product.targetProductImage
+          }
         />
       </Box>
       <Divider sx={{ backgroundColor: "black", height: "2px" }} />
@@ -39,7 +49,9 @@ export default function ProductExchangeCard({ product }) {
             mb: 1, // Adjust margin-bottom if needed
           }}
         >
-          {product.targetProductName}
+          {userId === product.senderId
+            ? product.currentProductName
+            : product.targetProductName}
         </Typography>
         <Box
           sx={{
@@ -55,7 +67,6 @@ export default function ProductExchangeCard({ product }) {
               alignItems: "center",
               cursor: "pointer",
             }}
-            onClick={() => navigate("/profile-info")}
           >
             <Avatar
               src={product.userImage}
@@ -63,7 +74,9 @@ export default function ProductExchangeCard({ product }) {
             />
           </Box>
           <Typography variant="body2" color="text.secondary">
-            {product.receiverName}
+            {userId === product.senderId
+              ? product.senderName
+              : product.receiverName}
           </Typography>
         </Box>
       </CardContent>

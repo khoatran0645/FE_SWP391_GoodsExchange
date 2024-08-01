@@ -9,17 +9,17 @@ import {
   TableRow,
   Paper,
   Typography,
-  Box,
   Button,
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import dayjs from "dayjs";
-import ProductExchangeCard from "./Card/ProductExchangeCard";
-import YourProductCard from "./Card/YourProductCard";
+import RequestProductExchangeCard from "./Card/RequestProductExchangeCard";
+import RequestYourProductCard from "./Card/RequestYourProductCard";
 
 import { toast } from "react-toastify";
+
 const RequestTrade = () => {
   const state = useStore();
 
@@ -74,6 +74,8 @@ const RequestTrade = () => {
     ?.slice()
     .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
 
+  console.log(sortedRequestListData);
+
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -92,8 +94,8 @@ const RequestTrade = () => {
             <TableCell align="center" sx={{ width: "20%" }}>
               Product Exchange
             </TableCell>
-            <TableCell align="center">Action</TableCell>
             <TableCell align="center">Status</TableCell>
+            <TableCell align="center">Action</TableCell>
             <TableCell align="center">Date Created</TableCell>
           </TableRow>
         </TableHead>
@@ -101,72 +103,76 @@ const RequestTrade = () => {
           {sortedRequestListData?.length > 0 ? (
             sortedRequestListData.map((item) => (
               <TableRow key={item.currentProductId}>
-                {/* Your Product Card */}
+                {/* YourProductCell */}
                 <TableCell align="center" sx={{ width: "20%" }}>
-                  <YourProductCard product={item} />
+                  <RequestYourProductCard product={item} />
                 </TableCell>
 
-                {/* Product Exchange Card */}
+                {/* ProductExchangeCell */}
                 <TableCell align="center" sx={{ width: "20%" }}>
-                  <ProductExchangeCard product={item} />
+                  <RequestProductExchangeCard product={item} />
                 </TableCell>
 
-                <TableCell align="center">
-                  <Box sx={{ display: "flex", justifyContent: "center" }}>
-                    <Button
-                      color="error"
-                      onClick={() => handleDeny(item.exchangeRequestId)}
-                    >
-                      <CloseIcon />
-                    </Button>
-                    <Button
-                      color="success"
-                      onClick={() => handleApprove(item.exchangeRequestId)}
-                    >
-                      <CheckIcon />
-                    </Button>
-                  </Box>
+                <TableCell align="center" sx={{ width: "20%" }}>
+                  <Typography>
+                    {item.status === "Created" && (
+                      <Typography>
+                        Waiting for{" "}
+                        <span style={{ fontWeight: "bold" }}>
+                          {item.receiverName}{" "}
+                        </span>
+                        to accept this trade
+                      </Typography>
+                    )}
+                    {item.senderStatus === 1 && item.receiverStatus === 1 && (
+                      <Typography>
+                        Did you exchange this product with{" "}
+                        <span style={{ fontWeight: "bold" }}>
+                          {item.receiverName}{" "}
+                        </span>
+                        ?
+                      </Typography>
+                    )}
+                    {item.senderStatus === 2 && item.receiverStatus === 1 && (
+                      <Typography>
+                        Waiting for{" "}
+                        <span style={{ fontWeight: "bold" }}>
+                          {item.receiverName}{" "}
+                        </span>
+                        confirm !
+                      </Typography>
+                    )}
+                  </Typography>
                 </TableCell>
-                <TableCell align="center">
-                  <Box
-                    sx={{ display: "flex", justifyContent: "center", gap: 1 }}
-                  >
-                    {item.status === "Created" ? (
+
+                <TableCell align="center" sx={{ width: "20%" }}>
+                  {item.status === "Created" && (
+                    <HourglassEmptyIcon sx={{ color: "black" }} />
+                  )}
+
+                  {item.senderStatus === 1 && item.receiverStatus === 1 && (
+                    <>
                       <Button
-                        variant="contained"
-                        color="warning"
-                        startIcon={<HourglassEmptyIcon />}
+                        color="error"
+                        onClick={() => handleDeny(item.exchangeRequestId)}
                       >
-                        Pending
+                        <CloseIcon />
                       </Button>
-                    ) : item.receiverStatus === 1 && item.senderStatus === 1 ? (
                       <Button
-                        variant="contained"
-                        color="warning"
-                        startIcon={<HourglassEmptyIcon />}
-                      >
-                        Pending
-                      </Button>
-                    ) : item.receiverStatus === 2 && item.senderStatus === 2 ? (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        startIcon={<CheckIcon />}
-                      >
-                        Complete
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
                         color="success"
                         onClick={() => handleApprove(item.exchangeRequestId)}
-                        startIcon={<CheckIcon />}
                       >
-                        Approve
+                        <CheckIcon />
                       </Button>
-                    )}
-                  </Box>
+                    </>
+                  )}
+
+                  {item.senderStatus === 2 && item.receiverStatus === 1 && (
+                    <HourglassEmptyIcon sx={{ color: "black" }} />
+                  )}
                 </TableCell>
+
+                {/* DateCreatedCell */}
                 <TableCell align="center">
                   {formatDate(item.dateCreated)}
                 </TableCell>

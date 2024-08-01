@@ -97,7 +97,7 @@ export default function ProfileLayout() {
           </Button>
           <Button
             variant="outlined"
-            onClick={() => navigate("/profile/transaction-trade")}
+            onClick={() => navigate("/profile/transaction-complete")}
             sx={{
               marginBottom: 3,
               color: "#333",
@@ -114,7 +114,28 @@ export default function ProfileLayout() {
               textTransform: "none",
             }}
           >
-            Transaction Trade
+            Transaction Complete
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => navigate("/profile/transaction-cancelled")}
+            sx={{
+              marginBottom: 3,
+              color: "#333",
+              borderColor: "#333",
+              "&:hover": {
+                backgroundColor: "black",
+                color: "white",
+                borderColor: "#333",
+              },
+              width: "100%",
+              borderRadius: "4px",
+              padding: "10px",
+
+              textTransform: "none",
+            }}
+          >
+            Transaction Cancelled
           </Button>
           <Button
             variant="outlined"
@@ -134,7 +155,7 @@ export default function ProfileLayout() {
               textTransform: "none",
             }}
           >
-            Inventory Trade
+            Inventory
           </Button>
         </Grid>
         <Grid item lg={10} sm={12} sx={{ padding: 2 }}>

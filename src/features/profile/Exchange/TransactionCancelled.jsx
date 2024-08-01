@@ -19,10 +19,11 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import CreateRating from "../../rating/CreateRating";
 import CreateReport from "../../report/CreateReport";
-import YourProductCard from "./Card/YourProductCard";
-import ProductExchangeCard from "./Card/ProductExchangeCard";
+import YourProductCard from "./Card/RequestYourProductCard";
+import ProductExchangeCard from "./Card/RequestProductExchangeCard";
+import dayjs from "dayjs";
 
-function TransactionTrade() {
+function TransactionCancelled() {
   const getSellerProduct = useStore((state) => state.getSellerProduct);
   const state = useStore();
 
@@ -74,13 +75,17 @@ function TransactionTrade() {
       // Handle the success, e.g., show a toast notification
     }
   };
+
+  const formatDate = (dateCreated) => {
+    return dayjs(dateCreated).format("DD/MM/YYYY");
+  };
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
             <TableCell align="center" colSpan={5}>
-              <Typography variant="h6">Transaction Details</Typography>
+              <Typography variant="h4" fontFamily={"fantasy"}>Transaction Cancelled</Typography>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -88,8 +93,8 @@ function TransactionTrade() {
 
             <TableCell align="center">Product Exchange</TableCell>
 
-            <TableCell align="center">Action</TableCell>
             <TableCell align="center">Status</TableCell>
+            <TableCell align="center">Action</TableCell>
             <TableCell align="center">Date Created</TableCell>
           </TableRow>
         </TableHead>
@@ -97,37 +102,16 @@ function TransactionTrade() {
           {getCancelRequestListData?.length > 0 ? (
             getCancelRequestListData?.map((item) => (
               <TableRow key={item.productId}>
-                {/* Currently User Product Image and Name */}
                 <TableCell align="center" sx={{ width: "20%" }}>
                   <YourProductCard product={item} />
                 </TableCell>
 
-                {/* target's Product Image and Name */}
                 <TableCell align="center" sx={{ width: "20%" }}>
                   <ProductExchangeCard product={item} />
                 </TableCell>
 
+                <TableCell align="center">{item.status}</TableCell>
                 <TableCell align="center">
-                  {/* <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="100"
-                      width="100"
-                      image={`${item.userImage}?w=100&h=100&fit=crop&auto=format`}
-                      alt={item.targetProductName}
-                      sx={{ objectFit: "contain", borderRadius: "8px" }}
-                    />
-                    <Typography>{item.senderName}</Typography>
-                  </Box> */}
-                </TableCell>
-
-                <TableCell>
                   <Box
                     sx={{ display: "flex", justifyContent: "center", gap: 1 }}
                   >
@@ -148,26 +132,12 @@ function TransactionTrade() {
                           }
                         />
                       </>
-                    ) : item.status === "Cancelled" ? (
-                      <Button
-                        variant="contained"
-                        color="error"
-                        // startIcon={<CloseIcon />}
-                        // onClick={() => handleCancel(item.exchangeRequestId)}
-                      >
-                        Cancelled
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        color="warning"
-                        // startIcon={<CloseIcon />}
-                        // onClick={() => handleDeny(item.exchangeRequestId)}
-                      >
-                        Pending
-                      </Button>
-                    )}
+                    ) : null}
                   </Box>
+                </TableCell>
+
+                <TableCell align="center">
+                  {formatDate(item.dateCreated)}
                 </TableCell>
               </TableRow>
             ))
@@ -184,4 +154,4 @@ function TransactionTrade() {
   );
 }
 
-export default TransactionTrade;
+export default TransactionCancelled;
