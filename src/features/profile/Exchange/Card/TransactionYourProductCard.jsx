@@ -8,7 +8,7 @@ import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
 import useStore from "../../../../app/store";
 
-export default function RequestYourProductCard({ product }) {
+export default function TransactionYourProductCard({ transaction }) {
   const navigate = useNavigate();
   const userId = useStore((state) => state.userId);
 
@@ -16,24 +16,16 @@ export default function RequestYourProductCard({ product }) {
     <Card sx={{ maxWidth: 345, border: "3px solid black", boxShadow: 5 }}>
       <Box
         component="div"
-        onClick={() => navigate(`/products/${product.currentProductId}`)}
+        onClick={() => navigate(`/transactions/${transaction.transactionId}`)}
         sx={{
           cursor: "pointer",
         }}
       >
         <CardMedia
           component="img"
-          alt={
-            userId === product.senderId
-              ? product.currentProductName
-              : product.targetProductName
-          }
+          alt={transaction.currentProductName}
           height="140"
-          image={
-            userId === product.senderId
-              ? product.currentProductImage
-              : product.targetProductImage
-          }
+          image={transaction.currentProductImage}
         />
       </Box>
       <Divider sx={{ backgroundColor: "black", height: "2px" }} />
@@ -46,39 +38,33 @@ export default function RequestYourProductCard({ product }) {
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
-            mb: 1, // Adjust margin-bottom if needed
+            mb: 1,
           }}
         >
-          {userId === product.senderId
-            ? product.productName
-            : product.targetProductName}
+          {transaction.currentProductName}
         </Typography>
+        {/* <Typography variant="body2" color="text.secondary">
+          {`Transaction ID: ${transaction.transactionId}`}
+        </Typography> */}
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            mt: 1,
           }}
         >
-          <Box
-            component="div"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              cursor: "pointer",
-            }}
-          >
-            <Avatar
-              src={product.userImage}
-              sx={{ width: 20, height: 20, marginRight: 1 }}
-            />
-          </Box>
+          <Avatar
+            src={transaction.userImage}
+            sx={{ width: 20, height: 20, marginRight: 1 }}
+          />
           <Typography variant="body2" color="text.secondary">
-            {userId === product.senderId
-              ? product.senderName
-              : product.receiverName}
+            {transaction.userName}
           </Typography>
         </Box>
+        {/* <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+          {`Date: ${transaction.date}`}
+        </Typography> */}
       </CardContent>
     </Card>
   );

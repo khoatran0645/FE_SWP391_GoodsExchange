@@ -85,16 +85,15 @@ function TransactionCancelled() {
         <TableHead>
           <TableRow>
             <TableCell align="center" colSpan={5}>
-              <Typography variant="h4" fontFamily={"fantasy"}>Transaction Cancelled</Typography>
+              <Typography variant="h4" fontFamily={"fantasy"}>
+                Transaction Cancelled
+              </Typography>
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align="center">Your Product</TableCell>
-
+            <TableCell align="center">Your Product</TableCell>{" "}
             <TableCell align="center">Product Exchange</TableCell>
-
             <TableCell align="center">Status</TableCell>
-            <TableCell align="center">Action</TableCell>
             <TableCell align="center">Date Created</TableCell>
           </TableRow>
         </TableHead>
@@ -110,30 +109,25 @@ function TransactionCancelled() {
                   <ProductExchangeCard product={item} />
                 </TableCell>
 
-                <TableCell align="center">{item.status}</TableCell>
                 <TableCell align="center">
-                  <Box
-                    sx={{ display: "flex", justifyContent: "center", gap: 1 }}
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      backgroundColor: "#F44336", // Red background
+                      color: "white",
+                      padding: "6px 12px",
+                      borderRadius: "4px",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      display: "inline-block",
+                      textTransform: "uppercase", // Capitalize text
+                      cursor: "default", // Non-clickable
+                      boxShadow: 2, // Subtle shadow
+                      fontSize: "14px",
+                    }}
                   >
-                    {item.status === "Complete" ? (
-                      <>
-                        <CreateRating
-                          targetId={
-                            userId !== item.senderId
-                              ? item.currentProductId
-                              : item.targetProductId
-                          }
-                        />
-                        <CreateReport
-                          targetId={
-                            userId !== item.senderId
-                              ? item.currentProductId
-                              : item.targetProductId
-                          }
-                        />
-                      </>
-                    ) : null}
-                  </Box>
+                    {item.status}
+                  </Typography>
                 </TableCell>
 
                 <TableCell align="center">
