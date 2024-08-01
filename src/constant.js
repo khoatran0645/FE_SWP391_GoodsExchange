@@ -47,8 +47,8 @@ export const API_DELETE_PRODUCT = "/products/id?id={id}";
 // Moderator manage product
 export const API_GET_ALL_PRODUCT_MOD =
   "/products/moderator/all?PageIndex={PageIndex}&PageSize={PageSize}";
-export const API_APPROVE_PRODUCT_MOD = "/products/approve/{id}";
-export const API_DENY_PRODUCT_MOD = "products/deny/{id}";
+export const API_APPROVE_PRODUCT_MOD = "/products/status/{id}?status=1";
+export const API_DENY_PRODUCT_MOD = "/products/status/{id}?status=2";
 
 //------------------------------------------------------------------------------------------------------------------------------
 //* Rating APIs
