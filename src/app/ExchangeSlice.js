@@ -8,6 +8,7 @@ import {
   API_GET_ALL_CANCEL_REQUEST_TRADE_LIST,
   API_GET_TRANSACTIONS_COMPLETE,
 } from "../constant";
+import { toast } from "react-toastify";
 
 const initialState = {
   response: null,
@@ -26,13 +27,16 @@ export const createExchangeSlice = (set) => ({
 
   // Create Exchange
   sendRequest: async (form) => {
+    console.log(form);
     setLoading(set, true);
     try {
       const { data } = await axiosClient.post(API_SEND_TRADE_REQUEST, form);
       console.log(data);
-      set({ response: data });
+      set({ response: await data });
+      toast.success("Request sent successfully");
     } catch (error) {
       setError(set, error);
+      // toast.error("Request sent failed");
     } finally {
       setLoading(set, false);
     }

@@ -44,22 +44,20 @@ export default function CreateTrade({ productDetail }) {
     event.preventDefault();
     useStore.setState({
       error: null,
+      response: null,
     });
+    const res = useStore.getState().response;
+    console.log("res1", res);
+
     // console.log("form", {"currentProductId": params.id, "targetProductId": selectedProduct?.productId});
     sendRequest({
       currentProductId: selectedProduct?.productId,
       targetProductId: params.id,
     });
 
-    if (isLoading == false) {
-      if (error == null) {
-        toast.success("Trade request sent successfully");
-      } else {
-        toast.error(error);
-      }
-    } else {
-      toast.info("Please wait...");
-    }
+    
+
+    console.log("res2", res);
 
     setOpen(false);
     setSelectedProduct(null);
