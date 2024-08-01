@@ -42,7 +42,7 @@ export default function Profile() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log("otherUserProductList", otherUserProductList);
+  console.log("userProfile", userProfile);
 
   return (
     <Grid container justifyContent={"center"} spacing={2}>
@@ -95,17 +95,19 @@ export default function Profile() {
 
           {userProfile?.averageNumberStars ||
           otherProfile?.averageNumberStars ? (
-            <Rating
-              name="read-only"
-              value={
-                isOwner
-                  ? userProfile.averageNumberStars
-                  : otherProfile?.averageNumberStars
-              }
-              readOnly
-              precision={0.5}
-              size="small"
-            />
+            <Typography>
+              <Rating
+                name="read-only"
+                value={
+                  isOwner
+                    ? userProfile.averageNumberStars
+                    : otherProfile?.averageNumberStars
+                }
+                readOnly
+                precision={0.5}
+                size="small"
+              />
+            </Typography>
           ) : (
             <Typography variant="body2" color="textSecondary">
               No ratings yet
