@@ -6,6 +6,7 @@ import {
   API_APPROVE_TRADE,
   API_DENY_TRADE,
   API_GET_ALL_CALCEL_REQUEST_TRADE_LIST,
+  API_GET_TRANSACTIONS_COMPLETE,
 } from "../constant";
 
 const initialState = {
@@ -59,6 +60,7 @@ export const createExchangeSlice = (set) => ({
       setLoading(set, false);
     }
   },
+
   getCancelRequestList: async () => {
     setLoading(set, true);
     try {
@@ -98,6 +100,19 @@ export const createExchangeSlice = (set) => ({
       );
       set({ response: data });
       console.log("denyTrade: ", data);
+    } catch (error) {
+      setError(set, error);
+    } finally {
+      setLoading(set, false);
+    }
+  },
+
+  //get Transaction Complete
+  getTransactionsCompleteList: async () => {
+    setLoading(set, true);
+    try {
+      const { data } = await axiosClient.get(API_GET_TRANSACTIONS_COMPLETE);
+      set({ transactionCompleteData: data });
     } catch (error) {
       setError(set, error);
     } finally {

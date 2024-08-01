@@ -196,7 +196,7 @@ export default function Login() {
           Create an account
         </NavLink>
       </Typography>
-      <NavLink
+      {/* <NavLink
         style={{
           fontWeight: "normal",
           textDecoration: "none",
@@ -207,7 +207,7 @@ export default function Login() {
         to="/forgot-password"
       >
         Forgot password?
-      </NavLink>
+      </NavLink> */}
     </Box>
   );
 }
