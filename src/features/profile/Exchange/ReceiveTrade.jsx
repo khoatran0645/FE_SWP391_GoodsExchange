@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import useStore from "../../../app/store";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -17,21 +16,25 @@ import {
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import YourProductCard from "./Card/YourProductCard";
+import ProductExchangeCard from "./Card/ProductExchangeCard";
+import dayjs from "dayjs";
 
-function ReceiveTrade() {
+const ReceiveTrade = () => {
   const getSellerProduct = useStore((state) => state.getSellerProduct);
   const state = useStore();
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getSellerProduct();
-  }, []);
+  }, [getSellerProduct]);
+
   const productDetail = useStore((state) => state.productDetail);
   const sellerProductList = useStore((state) => state.sellerProductList);
   const auth = useStore((state) => state.auth);
-  // console.log("sellerProductList: ", sellerProductList?.data.items);
-  //GET REECEIVE TRADE
+
   const { getReceiveList, getReceiveTradeData, isLoading, error } = useStore(
     (state) => ({
       getReceiveList: state.getReceiveList,
@@ -40,48 +43,35 @@ function ReceiveTrade() {
       error: state.error,
     })
   );
+
   const getProductById = useStore((state) => state.getProductById);
 
   useEffect(() => {
     getReceiveList(); // Call the API function when the component mounts
   }, [getReceiveList]);
-  useEffect(() => {
-    console.log("getReceiveTradeData:", getReceiveTradeData);
-  }, [getReceiveTradeData]);
-  // console.log("get product ID : ", getReceiveTradeData.targetProductId);
 
-  // useEffect(() => {
-  //  getProductById(getReceiveTradeData.targetProductId);
-  // });
-  // console.log("productDetail : ", productDetail);
-
-  //APPROVE / DENY TRADE
+  // Handle approve action
   const handleApprove = async (RequestTradeid) => {
-    // Handle the approve action
     console.log("Approved RequestedChange:", RequestTradeid);
     await state.approveTrade(RequestTradeid);
-    // Optionally, handle the response or error
     if (state.error) {
       console.error(state.error);
-      // Handle the error, e.g., show a toast notification
     } else {
       console.log("Trade approved successfully:", state.response);
-      // Handle the success, e.g., show a toast notification
     }
   };
 
+  // Handle deny action
   const handleDeny = async (productId) => {
-    // Handle the deny action
     console.log("Denied product ID:", productId);
     await state.denyTrade(productId);
     if (state.error) {
       console.error(state.error);
-      // Handle the error, e.g., show a toast notification
     } else {
-      console.log("Trade approved successfully:", state.response);
-      // Handle the success, e.g., show a toast notification
+      console.log("Trade denied successfully:", state.response);
     }
   };
+
   const handleShowPhoneNumber = async (targetProductId) => {
     if (auth) {
       await getProductById(targetProductId);
@@ -96,121 +86,75 @@ function ReceiveTrade() {
       navigate("/login");
     }
   };
+
+  const sortedReceiveListData = getReceiveTradeData
+    ?.slice()
+    .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
+
+  const formatDate = (dateCreated) => {
+    return dayjs(dateCreated).format("DD/MM/YYYY");
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
             <TableCell align="center" colSpan={5}>
-              <Typography variant="h6">Receive Details</Typography>
+              <Typography variant="h4" fontFamily={"fantasy"}>
+                Receive Details
+              </Typography>
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align="center">My Product</TableCell>
-            <TableCell align="center">Target&apos;s Product</TableCell>
-            <TableCell align="center">Sender Avatar</TableCell>
+            <TableCell align="center" sx={{ width: "20%" }}>
+              Your Product
+            </TableCell>
+            <TableCell align="center" sx={{ width: "20%" }}>
+              Product Exchange
+            </TableCell>
             <TableCell align="center">Action</TableCell>
-            {/* <TableCell align="center">Status</TableCell> */}
+            <TableCell align="center">Status</TableCell>
+            <TableCell align="center">Date Created</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {getReceiveTradeData?.length > 0 ? (
-            getReceiveTradeData?.map((item) => (
+          {sortedReceiveListData?.length > 0 ? (
+            sortedReceiveListData.map((item) => (
               <TableRow key={item.productId}>
-                {/* Currently User Product Image and Name */}
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="120"
-                      width="120"
-                      image={`${item.currentProductImage}?w=120&h=120&fit=crop&auto=format`}
-                      alt={item.currentProductName}
-                      sx={{ objectFit: "contain", borderRadius: "8px" }}
-                    />
-                  </Box>
-
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      whiteSpace: "normal",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      textAlign: "center",
-                      mt: 1,
-                      ml: 1,
-                    }}
-                  >
-                    {item.currentProductName}
-                  </Typography>
+                {/* Your Product Card */}
+                <TableCell align="center" sx={{ width: "20%" }}>
+                  <YourProductCard product={item} />
                 </TableCell>
 
-                {/* Sender&apos;s Product Image and Name */}
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="120"
-                      width="120"
-                      image={`${item.targetProductImage}?w=120&h=120&fit=crop&auto=format`}
-                      alt={item.targetProductName}
-                      sx={{ objectFit: "contain", borderRadius: "8px" }}
-                    />
-                  </Box>
-
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      whiteSpace: "normal",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      textAlign: "center",
-                      mt: 1,
-                      ml: 1,
-                    }}
-                  >
-                    {item.targetProductName}
-                  </Typography>
+                {/* Product Exchange Card */}
+                <TableCell align="center" sx={{ width: "20%" }}>
+                  <ProductExchangeCard product={item} />
                 </TableCell>
 
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="100"
-                      width="100"
-                      image={`${item.userImage}?w=100&h=100&fit=crop&auto=format`}
-                      alt={item.targetProductName}
-                      sx={{ objectFit: "contain", borderRadius: "8px" }}
-                    />
-                    <Typography>{item.senderName}</Typography>
+                <TableCell align="center">
+                  <Box sx={{ display: "flex", justifyContent: "center" }}>
+                    <Button
+                      color="error"
+                      onClick={() => handleDeny(item.exchangeRequestId)}
+                    >
+                      <CloseIcon />
+                    </Button>
+                    <Button
+                      color="success"
+                      onClick={() => handleApprove(item.exchangeRequestId)}
+                    >
+                      <CheckIcon />
+                    </Button>
                   </Box>
                 </TableCell>
-                <TableCell>
+                <TableCell align="center">
                   <Box
                     sx={{ display: "flex", justifyContent: "center", gap: 1 }}
                   >
                     {item.status === "Created" ? (
                       <>
-                        <Button
+                        {/* <Button
                           variant="contained"
                           color="success"
                           startIcon={<CheckIcon />}
@@ -225,7 +169,7 @@ function ReceiveTrade() {
                           onClick={() => handleDeny(item.exchangeRequestId)}
                         >
                           Deny
-                        </Button>
+                        </Button> */}
                       </>
                     ) : item.receiverStatus === 1 && item.senderStatus === 1 ? (
                       !showPhoneNumber ||
@@ -300,6 +244,9 @@ function ReceiveTrade() {
                     )}
                   </Box>
                 </TableCell>
+                <TableCell align="center">
+                  {formatDate(item.dateCreated)}
+                </TableCell>
               </TableRow>
             ))
           ) : (
@@ -313,6 +260,6 @@ function ReceiveTrade() {
       </Table>
     </TableContainer>
   );
-}
+};
 
 export default ReceiveTrade;

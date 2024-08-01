@@ -19,6 +19,8 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import CreateRating from "../../rating/CreateRating";
 import CreateReport from "../../report/CreateReport";
+import YourProductCard from "./Card/YourProductCard";
+import ProductExchangeCard from "./Card/ProductExchangeCard";
 
 function TransactionTrade() {
   const getSellerProduct = useStore((state) => state.getSellerProduct);
@@ -81,12 +83,13 @@ function TransactionTrade() {
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align="center">My Product</TableCell>
+            <TableCell align="center">Your Product</TableCell>
 
-            <TableCell align="center">Target&apos;s Product</TableCell>
+            <TableCell align="center">Product Exchange</TableCell>
 
-            <TableCell align="center">Sender Avatar</TableCell>
             <TableCell align="center">Action</TableCell>
+            <TableCell align="center">Status</TableCell>
+            <TableCell align="center">Date Created</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -94,73 +97,17 @@ function TransactionTrade() {
             getCancelRequestListData?.map((item) => (
               <TableRow key={item.productId}>
                 {/* Currently User Product Image and Name */}
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="120"
-                      width="120"
-                      image={`${item.currentProductImage}?w=120&h=120&fit=crop&auto=format`}
-                      alt={item.currentProductName}
-                      sx={{ objectFit: "contain", borderRadius: "8px" }}
-                    />
-                  </Box>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      whiteSpace: "normal",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      textAlign: "center",
-                      mt: 1,
-                      ml: 1,
-                    }}
-                  >
-                    {item.currentProductName}
-                  </Typography>
+                <TableCell align="center" sx={{ width: "20%" }}>
+                  <YourProductCard product={item} />
                 </TableCell>
 
                 {/* target's Product Image and Name */}
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="120"
-                      width="120"
-                      image={`${item.targetProductImage}?w=120&h=120&fit=crop&auto=format`}
-                      alt={item.targetProductName}
-                      sx={{ objectFit: "contain", borderRadius: "8px" }}
-                    />
-                  </Box>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      whiteSpace: "normal",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      textAlign: "center",
-                      mt: 1,
-                      ml: 1,
-                    }}
-                  >
-                    {item.targetProductName}
-                  </Typography>
+                <TableCell align="center" sx={{ width: "20%" }}>
+                  <ProductExchangeCard product={item} />
                 </TableCell>
 
-                <TableCell>
-                  <Box
+                <TableCell align="center">
+                  {/* <Box
                     sx={{
                       display: "flex",
                       flexDirection: "column",
@@ -176,7 +123,7 @@ function TransactionTrade() {
                       sx={{ objectFit: "contain", borderRadius: "8px" }}
                     />
                     <Typography>{item.senderName}</Typography>
-                  </Box>
+                  </Box> */}
                 </TableCell>
 
                 <TableCell>

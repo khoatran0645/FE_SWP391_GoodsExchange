@@ -33,6 +33,8 @@ export default function Profile() {
     setValue(newValue);
   };
 
+  console.log(sellerProductList);
+
   return (
     <>
       <Grid container justifyContent={"center"} spacing={2}>
@@ -77,13 +79,15 @@ export default function Profile() {
             </Typography>
 
             {userProfile && userProfile.averageNumberStars ? (
-              <Rating
-                name="read-only"
-                value={userProfile.averageNumberStars}
-                readOnly
-                precision={0.5}
-                size="small"
-              />
+              <Typography>
+                <Rating
+                  name="read-only"
+                  value={userProfile.averageNumberStars}
+                  readOnly
+                  precision={0.5}
+                  size="small"
+                />
+              </Typography>
             ) : (
               <Typography variant="body2" color="textSecondary">
                 No ratings yet

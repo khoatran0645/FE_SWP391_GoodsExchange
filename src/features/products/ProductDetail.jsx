@@ -62,13 +62,13 @@ export default function ProductDetail() {
       item.productId !== location?.state?.productId
   );
 
-  if (!location?.state) {
-    return (
-      <Typography variant="h4" align="center">
-        Product details are unavailable. Please try again.
-      </Typography>
-    );
-  }
+  // if (!location?.state) {
+  //   return (
+  //     <Typography variant="h4" align="center">
+  //       Product details are unavailable. Please try again.
+  //     </Typography>
+  //   );
+  // }
 
   return (
     <>
@@ -93,11 +93,11 @@ export default function ProductDetail() {
               variant="h3"
               sx={{ fontWeight: "bold", fontFamily: "sans-serif" }}
             >
-              {location?.state?.productName?.charAt(0).toUpperCase() +
-                location?.state?.productName?.slice(1)}
+              {productDetail?.data?.productName?.charAt(0).toUpperCase() +
+                productDetail?.data?.productName?.slice(1)}
             </Typography>
             <Typography variant="body1" color={"gray"}>
-              {location?.state?.description}
+              {productDetail?.data?.description}
             </Typography>
           </Box>
           <hr style={{ borderTop: "2px solid black" }} />
@@ -135,7 +135,7 @@ export default function ProductDetail() {
                 >
                   <Button
                     onClick={() =>
-                      navigate(`/profile/${productDetail?.data?.userUploadId}`)
+                      navigate(`/profile-info/${productDetail?.data?.userUploadId}`)
                     }
                     style={{ textTransform: "none", color: "inherit" }}
                     sx={{
@@ -168,7 +168,7 @@ export default function ProductDetail() {
                 />
                 <Box>
                   <Typography variant="body2" component="p" marginLeft={0.5}>
-                    {location?.state?.averageNumberStars} (
+                    {productDetail?.data?.averageNumberStars} (
                     {productDetail?.data?.numberOfRatings} reviews)
                   </Typography>
                 </Box>
@@ -210,11 +210,16 @@ export default function ProductDetail() {
                 <Box display="flex" alignItems="center">
                   <CreateRating />
                 </Box> */}
-                {auth && userId !== productDetail?.data?.userUploadId && (
+                {(auth && userId !== productDetail?.data?.userUploadId && (
                   <Box display="flex" alignItems="center">
                     <CreateTrade productDetail={productDetail?.data} />
                   </Box>
-                ) || <UpdateProduct productId = {params.id} product = {productDetail?.data}/>}
+                )) || (
+                  <UpdateProduct
+                    productId={params.id}
+                    product={productDetail?.data}
+                  />
+                )}
               </Box>
             </Box>
           </Box>

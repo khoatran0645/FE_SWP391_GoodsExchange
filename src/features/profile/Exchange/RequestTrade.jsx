@@ -1,7 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useStore from "../../../app/store";
-import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -12,22 +10,17 @@ import {
   Paper,
   Typography,
   Box,
-  CardMedia,
   Button,
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
+import dayjs from "dayjs";
+import ProductExchangeCard from "./Card/ProductExchangeCard";
+import YourProductCard from "./Card/YourProductCard";
+
 const RequestTrade = () => {
-  // const getSellerProduct = useStore((state) => state.getSellerProduct);
   const state = useStore();
-
-  // useEffect(() => {
-  //   getSellerProduct();
-  // }, [getSellerProduct]);
-
-  // const sellerProductList = useStore((state) => state.sellerProductList);
-  // console.log("sellerProductList: ", sellerProductList?.data.items);
 
   const { getRequestList, getRequestListData, isLoading, error } = useStore(
     (state) => ({
@@ -41,14 +34,11 @@ const RequestTrade = () => {
   useEffect(() => {
     getRequestList(); // Call the API function when the component mounts
   }, [getRequestList]);
-  console.log("getRequestTradeData: ", getRequestListData);
 
-  //handleApprove
+  // Handle approve action
   const handleApprove = async (RequestTradeid) => {
-    // Handle the approve action
     console.log("Approved RequestedChange:", RequestTradeid);
     await state.approveTrade(RequestTradeid);
-    // Optionally, handle the response or error
     if (state.error) {
       console.log(state.error);
       // Handle the error, e.g., show a toast notification
@@ -58,127 +48,83 @@ const RequestTrade = () => {
     }
   };
 
+  // Handle deny action
   const handleDeny = async (productId) => {
-    // Handle the deny action
     console.log("Denied product ID:", productId);
     await state.denyTrade(productId);
     if (state.error) {
       console.error(state.error);
       // Handle the error, e.g., show a toast notification
     } else {
-      console.log("Trade approved successfully:", state.response);
+      console.log("Trade denied successfully:", state.response);
       // Handle the success, e.g., show a toast notification
     }
   };
+
+  // Format date
+  const formatDate = (dateCreated) => {
+    return dayjs(dateCreated).format("DD/MM/YYYY");
+  };
+
+  // Sort data by createDate in descending order
+  const sortedRequestListData = getRequestListData
+    ?.slice()
+    .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
+
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
             <TableCell align="center" colSpan={5}>
-              <Typography variant="h6">Request Details</Typography>
+              <Typography variant="h4" fontFamily={"fantasy"}>
+                Request Details
+              </Typography>
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align="center">My Product</TableCell>
-            <TableCell align="center">Target&apos;s Product</TableCell>
-            <TableCell align="center">Target Avatar</TableCell>
+            <TableCell align="center" sx={{ width: "20%" }}>
+              Your Product
+            </TableCell>
+            <TableCell align="center" sx={{ width: "20%" }}>
+              Product Exchange
+            </TableCell>
             <TableCell align="center">Action</TableCell>
             <TableCell align="center">Status</TableCell>
+            <TableCell align="center">Date Created</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {getRequestListData?.length > 0 ? (
-            getRequestListData?.map((item) => (
-              <TableRow key={item.productId}>
-                {/* Currently User Product Image and Name */}
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="120"
-                      width="120"
-                      image={`${item.currentProductImage}?w=120&h=120&fit=crop&auto=format`}
-                      alt={item.currentProductName}
-                      sx={{ objectFit: "contain", borderRadius: "8px" }}
-                    />
-                  </Box>
-
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      whiteSpace: "normal",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      textAlign: "center",
-                      mt: 1,
-                      ml: 1,
-                    }}
-                  >
-                    {item.currentProductName}
-                  </Typography>
+          {sortedRequestListData?.length > 0 ? (
+            sortedRequestListData.map((item) => (
+              <TableRow key={item.currentProductId}>
+                {/* Your Product Card */}
+                <TableCell align="center" sx={{ width: "20%" }}>
+                  <YourProductCard product={item} />
                 </TableCell>
 
-                {/* Sender&apos;s Product Image and Name */}
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="120"
-                      width="120"
-                      image={`${item.targetProductImage}?w=120&h=120&fit=crop&auto=format`}
-                      alt={item.targetProductName}
-                      sx={{ objectFit: "contain", borderRadius: "8px" }}
-                    />
-                  </Box>
-
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      whiteSpace: "normal",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      textAlign: "center",
-                      mt: 1,
-                      ml: 1,
-                    }}
-                  >
-                    {item.targetProductName}
-                  </Typography>
+                {/* Product Exchange Card */}
+                <TableCell align="center" sx={{ width: "20%" }}>
+                  <ProductExchangeCard product={item} />
                 </TableCell>
 
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="100"
-                      width="100"
-                      image={`${item.userImage}?w=100&h=100&fit=crop&auto=format`}
-                      alt={item.targetProductName}
-                      sx={{ objectFit: "contain", borderRadius: "8px" }}
-                    />
-                    <Typography>{item.receiverName}</Typography>
+                <TableCell align="center">
+                  <Box sx={{ display: "flex", justifyContent: "center" }}>
+                    <Button
+                      color="error"
+                      onClick={() => handleDeny(item.exchangeRequestId)}
+                    >
+                      <CloseIcon />
+                    </Button>
+                    <Button
+                      color="success"
+                      onClick={() => handleApprove(item.exchangeRequestId)}
+                    >
+                      <CheckIcon />
+                    </Button>
                   </Box>
                 </TableCell>
-                <TableCell>
+                <TableCell align="center">
                   <Box
                     sx={{ display: "flex", justifyContent: "center", gap: 1 }}
                   >
@@ -191,25 +137,6 @@ const RequestTrade = () => {
                         Pending
                       </Button>
                     ) : item.receiverStatus === 1 && item.senderStatus === 1 ? (
-                      <>
-                        <Button
-                          variant="contained"
-                          color="success"
-                          startIcon={<CheckIcon />}
-                          onClick={() => handleApprove(item.exchangeRequestId)}
-                        >
-                          Approve
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="error"
-                          startIcon={<CloseIcon />}
-                          onClick={() => handleDeny(item.exchangeRequestId)}
-                        >
-                          Deny
-                        </Button>
-                      </>
-                    ) : item.receiverStatus === 1 && item.senderStatus === 2 ? (
                       <Button
                         variant="contained"
                         color="warning"
@@ -222,31 +149,23 @@ const RequestTrade = () => {
                         variant="contained"
                         color="primary"
                         startIcon={<CheckIcon />}
-                        // onClick={() => handleComplete(item.exchangeRequestId)}
                       >
                         Complete
                       </Button>
                     ) : (
-                      <>
-                        <Button
-                          variant="contained"
-                          color="success"
-                          startIcon={<CheckIcon />}
-                          onClick={() => handleApprove(item.exchangeRequestId)}
-                        >
-                          Approve
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="error"
-                          startIcon={<CloseIcon />}
-                          onClick={() => handleDeny(item.exchangeRequestId)}
-                        >
-                          Deny
-                        </Button>
-                      </>
+                      <Button
+                        variant="contained"
+                        color="success"
+                        onClick={() => handleApprove(item.exchangeRequestId)}
+                        startIcon={<CheckIcon />}
+                      >
+                        Approve
+                      </Button>
                     )}
                   </Box>
+                </TableCell>
+                <TableCell align="center">
+                  {formatDate(item.dateCreated)}
                 </TableCell>
               </TableRow>
             ))
