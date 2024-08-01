@@ -72,7 +72,7 @@ export default function Profile() {
               }
             >
               <Avatar
-                alt={isOwner ? userProfile.lastName : otherProfile.lastName}
+                alt={isOwner ? userProfile.lastName : otherProfile?.lastName}
                 src={
                   isOwner
                     ? userProfile.userImageUrl
@@ -90,7 +90,7 @@ export default function Profile() {
           </Typography>
           <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
             Phone:{" "}
-            {isOwner ? userProfile.phoneNumber : otherProfile.phoneNumber}
+            {isOwner ? userProfile.phoneNumber : otherProfile?.phoneNumber}
           </Typography>
 
           {userProfile?.averageNumberStars ||
@@ -100,7 +100,7 @@ export default function Profile() {
               value={
                 isOwner
                   ? userProfile.averageNumberStars
-                  : otherProfile.averageNumberStars
+                  : otherProfile?.averageNumberStars
               }
               readOnly
               precision={0.5}
