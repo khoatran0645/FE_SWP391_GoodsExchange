@@ -46,17 +46,17 @@ export default function SortOptions({ sortValue, handleSortChange }) {
           label="Name Descending"
         />
         <Typography variant="h6" fontFamily={"fantasy"}>
-          Star
+          Stars
         </Typography>
         <FormControlLabel
-          value="Star Ascending"
+          value="Stars Ascending"
           control={<Radio />}
-          label="Star Ascending"
+          label="Stars Ascending"
         />
         <FormControlLabel
-          value="Star Descending"
+          value="Stars Descending"
           control={<Radio />}
-          label="Star Descending"
+          label="Stars Descending"
         />
       </RadioGroup>
     </Container>

@@ -1,12 +1,8 @@
 import {
   Grid,
-  Typography,
   Box,
+  Typography,
   Container,
-  FormControlLabel,
-  Checkbox,
-  RadioGroup,
-  Radio,
   Stack,
   Pagination,
 } from "@mui/material";
@@ -15,16 +11,33 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import ProductCard from "./ProductCard";
 import useStore from "../../app/store";
+import SortOptions from "../../pages/Home/SortOptions";
+import CategoryFilter from "../../pages/Home/CategoryFilter";
 
 function SearchProduct() {
+  const getAllCategories = useStore((state) => state.getAllCategories);
+  const categories = useStore((state) => state.categories) || [];
   const searchResult = useStore((state) => state.searchResult);
   const [page, setPage] = useState(1);
-  const [categoryFilters, setCategoryFilters] = useState({
-    Electronics: false,
-    "Art Supplies": false,
-    "School Supplies": false,
-  });
-  const [sortValue, setSortValue] = useState("Name Ascending");
+  const [categoryFilters, setCategoryFilters] = useState({});
+  const [sortValue, setSortValue] = useState("Newest");
+
+  useEffect(() => {
+    getAllCategories();
+  }, []);
+
+  useEffect(() => {
+    if (categories?.data) {
+      setCategoryFilters(
+        categories.data.reduce((acc, category) => {
+          acc[category.categoryName] = false;
+          return acc;
+        }, {})
+      );
+    }
+  }, [categories]);
+
+  console.log("categories", categories);
 
   const handleChangePage = (event, value) => {
     setPage(value);
@@ -57,6 +70,16 @@ function SearchProduct() {
 
       // Apply sorting
       switch (sortValue) {
+        case "Newest":
+          filteredProducts.sort(
+            (a, b) => new Date(b.uploadDate) - new Date(a.uploadDate)
+          );
+          break;
+        case "Oldest":
+          filteredProducts.sort(
+            (a, b) => new Date(a.uploadDate) - new Date(b.uploadDate)
+          );
+          break;
         case "Name Ascending":
           filteredProducts.sort((a, b) =>
             a.productName.localeCompare(b.productName)
@@ -67,11 +90,15 @@ function SearchProduct() {
             b.productName.localeCompare(a.productName)
           );
           break;
-        case "Price Ascending":
-          filteredProducts.sort((a, b) => a.price - b.price);
+        case "Stars Ascending":
+          filteredProducts.sort(
+            (a, b) => a.averageNumberStars - b.averageNumberStars
+          );
           break;
-        case "Price Descending":
-          filteredProducts.sort((a, b) => b.price - a.price);
+        case "Stars Descending":
+          filteredProducts.sort(
+            (a, b) => b.averageNumberStars - a.averageNumberStars
+          );
           break;
         default:
           break;
@@ -85,7 +112,7 @@ function SearchProduct() {
   const getNewestProducts = () => {
     if (searchResult?.data?.items) {
       return searchResult.data.items
-        .sort((a, b) => new Date(b.approveDate) - new Date(a.approveDate))
+        .sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate))
         .slice(0, 10);
     }
     return [];
@@ -106,11 +133,11 @@ function SearchProduct() {
     <>
       <Typography
         variant="h3"
-        align="center"
-        gutterBottom
         fontFamily={"fantasy"}
+        textAlign={"center"}
+        sx={{ mb: "1rem" }}
       >
-        Search Products
+        SEARCH PRODUCT
       </Typography>
       <Box
         sx={{
@@ -162,104 +189,22 @@ function SearchProduct() {
           ))}
         </Carousel>
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
-        <Typography variant="h5" fontFamily={"fantasy"} sx={{ mr: 4, mt: 1 }}>
-          Category
-        </Typography>
-        <FormControlLabel
-          sx={{
-            mt: 0.7,
-            mr: 6,
-          }}
-          control={
-            <Checkbox
-              checked={categoryFilters.Electronics}
-              onChange={handleCategoryChange}
-              name="Electronics"
-            />
-          }
-          label="Electronics"
-        />
-        <FormControlLabel
-          sx={{
-            mt: 0.7,
-            mr: 6,
-          }}
-          control={
-            <Checkbox
-              checked={categoryFilters["Art Supplies"]}
-              onChange={handleCategoryChange}
-              name="Art Supplies"
-            />
-          }
-          label="Art Supplies"
-        />
-        <FormControlLabel
-          sx={{
-            mt: 0.7,
-          }}
-          control={
-            <Checkbox
-              checked={categoryFilters["School Supplies"]}
-              onChange={handleCategoryChange}
-              name="School Supplies"
-            />
-          }
-          label="School Supplies"
-        />
-      </Box>
       <Grid container spacing={1}>
+        <Grid item lg={12}>
+          <CategoryFilter
+            categories={categories.data}
+            categoryFilters={categoryFilters}
+            handleCategoryChange={handleCategoryChange}
+          />
+        </Grid>
         <Grid item xs={2}>
-          <Container
-            sx={{
-              backgroundColor: "#f9f9f9",
-              padding: 2,
-              borderRadius: "8px",
-              boxShadow: 1,
-              height: "100%",
-            }}
-          >
-            <Typography
-              variant="h4"
-              component="div"
-              gutterBottom
-              textAlign="center"
-              sx={{ mb: 2, fontWeight: 600 }}
-            >
-              Sort By
-            </Typography>
-            <RadioGroup value={sortValue} onChange={handleSortChange}>
-              <Typography variant="h6" fontFamily={"fantasy"}>
-                Product Name
-              </Typography>
-              <FormControlLabel
-                value="Name Ascending"
-                control={<Radio />}
-                label="Name Ascending"
-              />
-              <FormControlLabel
-                value="Name Descending"
-                control={<Radio />}
-                label="Name Descending"
-              />
-              <Typography variant="h6" fontFamily={"fantasy"}>
-                Product Price
-              </Typography>
-              <FormControlLabel
-                value="Price Ascending"
-                control={<Radio />}
-                label="Price Ascending"
-              />
-              <FormControlLabel
-                value="Price Descending"
-                control={<Radio />}
-                label="Price Descending"
-              />
-            </RadioGroup>
-          </Container>
+          <SortOptions
+            sortValue={sortValue}
+            handleSortChange={handleSortChange}
+          />
         </Grid>
 
-        <Grid item xs={10}>
+        <Grid item lg={10}>
           <Grid container spacing={1}>
             {filteredSortedProducts.length > 0 ? (
               filteredSortedProducts.map((item) => (
@@ -281,7 +226,7 @@ function SearchProduct() {
           </Grid>
           <Stack spacing={2} alignItems="center" marginTop={5}>
             <Pagination
-              count={searchResult?.data.totalPage}
+              count={searchResult?.data.totalPage || 1}
               page={page}
               onChange={handleChangePage}
             />
