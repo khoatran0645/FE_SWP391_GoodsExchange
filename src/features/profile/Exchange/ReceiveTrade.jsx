@@ -19,6 +19,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import YourProductCard from "./Card/YourProductCard";
 import ProductExchangeCard from "./Card/ProductExchangeCard";
 import dayjs from "dayjs";
+import { toast } from "react-toastify";
 
 const ReceiveTrade = () => {
   const getSellerProduct = useStore((state) => state.getSellerProduct);
@@ -53,22 +54,30 @@ const ReceiveTrade = () => {
   // Handle approve action
   const handleApprove = async (RequestTradeid) => {
     console.log("Approved RequestedChange:", RequestTradeid);
+
     await state.approveTrade(RequestTradeid);
     if (state.error) {
       console.error(state.error);
     } else {
       console.log("Trade approved successfully:", state.response);
+      toast.success("Trade approved successfully");
+
+      // Handle the success, e.g., show a toast notification
     }
   };
 
   // Handle deny action
   const handleDeny = async (productId) => {
     console.log("Denied product ID:", productId);
+    toast.success("Denied successfully");
+
     await state.denyTrade(productId);
     if (state.error) {
       console.error(state.error);
     } else {
-      console.log("Trade denied successfully:", state.response);
+      // console.log("Trade approved successfully:", state.response);
+      toast.success("Trade deny successfully");
+      // Handle the success, e.g., show a toast notification
     }
   };
 
@@ -160,7 +169,7 @@ const ReceiveTrade = () => {
                           startIcon={<CheckIcon />}
                           onClick={() => handleApprove(item.exchangeRequestId)}
                         >
-                          Approve
+                          Approve Request
                         </Button>
                         <Button
                           variant="contained"
@@ -202,7 +211,7 @@ const ReceiveTrade = () => {
                           startIcon={<CheckIcon />}
                           onClick={() => handleApprove(item.exchangeRequestId)}
                         >
-                          Approve
+                          Done transaction
                         </Button>
                         <Button
                           variant="contained"

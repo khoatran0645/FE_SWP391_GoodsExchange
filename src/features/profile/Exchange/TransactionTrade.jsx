@@ -31,6 +31,7 @@ function TransactionTrade() {
   }, []);
 
   const sellerProductList = useStore((state) => state.sellerProductList);
+  const userId = useStore((state) => state.userId);
 
   console.log("sellerProductList: ", sellerProductList?.data.items);
   //GET REECEIVE TRADE
@@ -132,8 +133,20 @@ function TransactionTrade() {
                   >
                     {item.status === "Complete" ? (
                       <>
-                        <CreateRating targetId={item.targetProductId} />
-                        <CreateReport targetId={item.targetProductId} />
+                        <CreateRating
+                          targetId={
+                            userId !== item.senderId
+                              ? item.currentProductId
+                              : item.targetProductId
+                          }
+                        />
+                        <CreateReport
+                          targetId={
+                            userId !== item.senderId
+                              ? item.currentProductId
+                              : item.targetProductId
+                          }
+                        />
                       </>
                     ) : item.status === "Cancelled" ? (
                       <Button

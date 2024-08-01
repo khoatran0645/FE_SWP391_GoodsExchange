@@ -19,6 +19,7 @@ import dayjs from "dayjs";
 import ProductExchangeCard from "./Card/ProductExchangeCard";
 import YourProductCard from "./Card/YourProductCard";
 
+import { toast } from "react-toastify";
 const RequestTrade = () => {
   const state = useStore();
 
@@ -38,6 +39,7 @@ const RequestTrade = () => {
   // Handle approve action
   const handleApprove = async (RequestTradeid) => {
     console.log("Approved RequestedChange:", RequestTradeid);
+
     await state.approveTrade(RequestTradeid);
     if (state.error) {
       console.log(state.error);
@@ -45,6 +47,7 @@ const RequestTrade = () => {
     } else {
       console.log("Trade approved successfully:", state.response);
       // Handle the success, e.g., show a toast notification
+      toast.success("Approved RequestChange");
     }
   };
 
