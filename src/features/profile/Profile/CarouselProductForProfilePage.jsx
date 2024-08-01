@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 
 export default function CarouselProductForProfilePage({ sellerProductList }) {
   const itemsPerPage = 6;
-  const [categories, setCategories] = useState([]);
+  const getSellerProduct = useStore((state) => state.getSellerProduct);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
@@ -37,9 +37,7 @@ export default function CarouselProductForProfilePage({ sellerProductList }) {
     await deleteProduct(categoryToDelete);
     const response = useStore.getState().response;
     if (response) {
-      setCategories(
-        categories.filter((category) => category.productId !== categoryToDelete)
-      );
+      await getSellerProduct();
       toast.success("Product deleted successfully", {
         style: {
           marginTop: "50px",
