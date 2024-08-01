@@ -217,7 +217,7 @@ export default function ProductDetail() {
                 )) || (
                   <UpdateProduct
                     productId={params.id}
-                    product={productDetail?.data}
+                    productDetail={productDetail?.data}
                   />
                 )}
               </Box>

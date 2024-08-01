@@ -29,6 +29,7 @@ export const createExchangeSlice = (set) => ({
     setLoading(set, true);
     try {
       const { data } = await axiosClient.post(API_SEND_TRADE_REQUEST, form);
+      console.log(data);
       set({ response: data });
     } catch (error) {
       setError(set, error);
