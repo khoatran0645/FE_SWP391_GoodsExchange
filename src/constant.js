@@ -22,16 +22,15 @@ export const API_GET_ALL_REQUEST_TRADE_LIST = "/exchanges/send-request-list";
 // Get Receive Trade List
 export const API_GET_ALL_RECEIVE_TRADE_LIST = "/exchanges/receive-request-list";
 // Get Cancel Trade List
-export const API_GET_ALL_CALCEL_REQUEST_TRADE_LIST =
-  "/exchanges/status-request-list";
+export const API_GET_ALL_CANCEL_REQUEST_TRADE_LIST =
+  "/exchanges/rejected-request-list";
 // Approve Trade
 export const API_APPROVE_TRADE =
   "/exchanges/confirm-request/?requestid={requestId}";
 // Deny Trade
 export const API_DENY_TRADE = "/exchanges/deny-request?requestid={requestId}";
 // Get Transactions Complete
-export const API_GET_TRANSACTIONS_COMPLETE =
-  "/transactions/transactions";
+export const API_GET_TRANSACTIONS_COMPLETE = "/transactions/transactions";
 
 //------------------------------------------------------------------------------------------------------------------------------
 //* Product APIs

@@ -6,34 +6,24 @@ import Typography from "@mui/material/Typography";
 import { Box, Divider } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
-import useStore from "../../../../app/store";
 
-export default function RequestYourProductCard({ product }) {
+export default function TransactionProductExchangCard({ transaction }) {
   const navigate = useNavigate();
-  const userId = useStore((state) => state.userId);
 
   return (
     <Card sx={{ maxWidth: 345, border: "3px solid black", boxShadow: 5 }}>
       <Box
         component="div"
-        onClick={() => navigate(`/products/${product.currentProductId}`)}
+        onClick={() => navigate(`/transactions/${transaction.id}`)}
         sx={{
           cursor: "pointer",
         }}
       >
         <CardMedia
           component="img"
-          alt={
-            userId === product.senderId
-              ? product.currentProductName
-              : product.targetProductName
-          }
+          alt={transaction.targetProductName}
           height="140"
-          image={
-            userId === product.senderId
-              ? product.currentProductImage
-              : product.targetProductImage
-          }
+          image={transaction.tarProductImage}
         />
       </Box>
       <Divider sx={{ backgroundColor: "black", height: "2px" }} />
@@ -46,37 +36,26 @@ export default function RequestYourProductCard({ product }) {
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
-            mb: 1, // Adjust margin-bottom if needed
+            mb: 1,
           }}
         >
-          {userId === product.senderId
-            ? product.productName
-            : product.targetProductName}
+          {transaction.targetProductName}
         </Typography>
+
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            mt: 1, // Adjust margin-top if needed
           }}
         >
-          <Box
-            component="div"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              cursor: "pointer",
-            }}
-          >
-            <Avatar
-              src={product.userImage}
-              sx={{ width: 20, height: 20, marginRight: 1 }}
-            />
-          </Box>
+          <Avatar
+            src={transaction.userImage}
+            sx={{ width: 20, height: 20, marginRight: 1 }}
+          />
           <Typography variant="body2" color="text.secondary">
-            {userId === product.senderId
-              ? product.senderName
-              : product.receiverName}
+            {transaction.receiverName}
           </Typography>
         </Box>
       </CardContent>

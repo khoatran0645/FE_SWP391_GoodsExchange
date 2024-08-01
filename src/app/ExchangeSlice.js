@@ -5,7 +5,7 @@ import {
   API_GET_ALL_RECEIVE_TRADE_LIST,
   API_APPROVE_TRADE,
   API_DENY_TRADE,
-  API_GET_ALL_CALCEL_REQUEST_TRADE_LIST,
+  API_GET_ALL_CANCEL_REQUEST_TRADE_LIST,
   API_GET_TRANSACTIONS_COMPLETE,
 } from "../constant";
 
@@ -65,7 +65,7 @@ export const createExchangeSlice = (set) => ({
     setLoading(set, true);
     try {
       const { data } = await axiosClient.get(
-        API_GET_ALL_CALCEL_REQUEST_TRADE_LIST
+        API_GET_ALL_CANCEL_REQUEST_TRADE_LIST
       );
       set({ getCancelTradeData: data });
     } catch (error) {
