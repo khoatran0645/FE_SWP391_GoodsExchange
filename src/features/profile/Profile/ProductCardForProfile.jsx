@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   Typography,
@@ -7,50 +7,54 @@ import {
   CardActionArea,
   Box,
   Divider,
-  Button,
+  IconButton,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import PersonIcon from "@mui/icons-material/Person";
 import AutoAwesomeMotion from "@mui/icons-material/AutoAwesomeMotion";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import dayjs from "dayjs"; // Import dayjs for date formatting
 
 ProductCardForProfile.propTypes = {
   item: PropTypes.object.isRequired,
-  onSelect: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
 const statusColors = {
   "Awaiting approval": "#FFC107", // Amber
-  "Approved": "#4CAF50", // Green
-  "Rejected": "#F44336", // Red
-  "Hidden": "#9E9E9E", // Grey
+  Approved: "#4CAF50", // Green
+  Rejected: "#F44336", // Red
+  Hidden: "#9E9E9E", // Grey
   "Progressing Exchange": "#2196F3", // Blue
   "Exchange Successful": "#00BFAE", // Teal
 };
 
-export default function ProductCardForProfile({ item, onSelect }) {
-  const handleClick = () => {
-    if (onSelect) {
-      onSelect(item);
+export default function ProductCardForProfile({ item, onDelete }) {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleDeleteClick = () => {
+    handleMenuClose();
+    if (onDelete) {
+      onDelete(item.productId);
     }
   };
 
-  const iconStyle = {
-    color: "#555",
-    fontSize: "1.2rem",
-    marginRight: 0.5,
-  };
+  const formattedDate = dayjs(item.createDate).format("DD/MM/YYYY");
 
-  // const formattedDate = dayjs(item?.createDate).format("DD/MM/YYYY");
-
-  // Convert status to display format
   const formatStatus = (status) => {
     if (status === "Exchange is in progress") {
       return "Progressing Exchange";
     }
-    // if (status === "Hidden") {
-    //   return "Exchange Successful";
-    // }
     return status;
   };
 
@@ -60,7 +64,7 @@ export default function ProductCardForProfile({ item, onSelect }) {
   return (
     <Card
       sx={{
-        maxWidth: 345,
+        maxWidth: 375,
         minWidth: 200,
         marginX: 1,
         marginY: 1,
@@ -74,7 +78,7 @@ export default function ProductCardForProfile({ item, onSelect }) {
         },
       }}
     >
-      <CardActionArea onClick={handleClick}>
+      <CardActionArea>
         <Box
           sx={{
             position: "relative",
@@ -93,7 +97,26 @@ export default function ProductCardForProfile({ item, onSelect }) {
           />
         </Box>
         <Divider sx={{ borderBottomWidth: 2, borderColor: "GrayText" }} />
-        <CardContent>
+        <CardContent
+          sx={{
+            position: "relative",
+            padding: "40px",
+          }}
+        >
+          {onDelete && (
+            <Box sx={{ position: "absolute", top: 8, right: 8, zIndex: 999 }}>
+              <IconButton onClick={handleMenuOpen}>
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+              >
+                <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
+              </Menu>
+            </Box>
+          )}
           <Typography
             gutterBottom
             variant="h6"
@@ -110,29 +133,6 @@ export default function ProductCardForProfile({ item, onSelect }) {
           >
             {item.productName}
           </Typography>
-          {/* <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              mb: 1,
-            }}
-          >
-            <Typography
-              variant="body2"
-              sx={{
-                color: "#555",
-                textAlign: "center",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                mx: 1,
-              }}
-            >
-              {formattedDate}
-            </Typography>
-          </Box> */}
           <Box
             sx={{
               display: "flex",
@@ -142,7 +142,9 @@ export default function ProductCardForProfile({ item, onSelect }) {
               mb: 1,
             }}
           >
-            <PersonIcon sx={iconStyle} />
+            <PersonIcon
+              sx={{ color: "#555", fontSize: "1.2rem", marginRight: 0.5 }}
+            />
             <Typography
               variant="body2"
               sx={{
@@ -166,7 +168,9 @@ export default function ProductCardForProfile({ item, onSelect }) {
               mb: 1,
             }}
           >
-            <AutoAwesomeMotion sx={iconStyle} />
+            <AutoAwesomeMotion
+              sx={{ color: "#555", fontSize: "1.2rem", marginRight: 0.5 }}
+            />
             <Typography
               variant="body2"
               sx={{
@@ -204,7 +208,7 @@ export default function ProductCardForProfile({ item, onSelect }) {
                 textOverflow: "ellipsis",
               }}
             >
-              {formatStatus(item.status)} 
+              {formatStatus(item.status)}
             </Typography>
           </Box>
         </CardContent>
