@@ -101,6 +101,7 @@ export default function App() {
           }
         >
           <Route index element={<Profile />} />
+          <Route path=":id" element={<Profile />} />
           <Route path="profile-info" element={<Profile />} />
           <Route path="edit-profile" element={<EditProfile />} />
           <Route path="request-trade" element={<RequestTrade />} />
@@ -108,6 +109,9 @@ export default function App() {
           <Route path="transaction-complete" element={<TransactionComplete />} />
           <Route path="transaction-cancelled" element={<TransactionCancelled />} />
           <Route path="inventory-trade" element={<InventoryTrade />} />
+          <Route path=":id/inventory-trade" element={<InventoryTrade />} />
+          <Route path="rating" element={<h1>My Rating</h1>} />
+          <Route path=":id/rating" element={<h1>Rating other</h1>} />
         </Route>
 
         <Route

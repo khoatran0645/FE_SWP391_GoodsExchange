@@ -20,6 +20,7 @@ const initialState = {
   response: null,
   userId: null,
   userList: null,
+  otherProfile: null,
 };
 
 const setLoading = (set, isLoading) => set({ isLoading });
@@ -43,6 +44,7 @@ export const createUserSlice = (set) => ({
       userProfile: null,
       userInfo: null,
       userId: null,
+      otherProfile: null,
     });
   },
 
@@ -78,6 +80,19 @@ export const createUserSlice = (set) => ({
         API_USER_PROFILE_ID.replace("{id}", id)
       );
       set({ userProfile: data.data });
+    } catch (error) {
+      setError(set, error);
+    } finally {
+      setLoading(set, false);
+    }
+  },
+  getProfileOtherById: async (id) => {
+    setLoading(set, true);
+    try {
+      const { data } = await axiosClient.get(
+        API_USER_PROFILE_ID.replace("{id}", id)
+      );
+      set({ otherProfile: data.data });
     } catch (error) {
       setError(set, error);
     } finally {

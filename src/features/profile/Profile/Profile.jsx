@@ -9,90 +9,110 @@ import {
   Box,
   Rating,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useStore from "../../../app/store";
 import CreateNewProduct from "../../products/CreateNewProduct";
 import ProductCard from "../../products/ProductCard";
 import CarouselProductForProfilePage from "./CarouselProductForProfilePage";
 
 export default function Profile() {
+  const [isOwner, setIsOwner] = useState(true);
+  const params = useParams();
   const navigate = useNavigate();
-
   const userProfile = useStore((state) => state.userProfile);
+  const otherProfile = useStore((state) => state.otherProfile);
   const getSellerProduct = useStore((state) => state.getSellerProduct);
+  const getOtherUserProduct = useStore((state) => state.getOtherUserProduct);
 
   useEffect(() => {
-    getSellerProduct();
+    if (params.id) {
+      setIsOwner(false);
+      getOtherUserProduct(params.id);
+    } else {
+      getSellerProduct();
+    }
   }, []);
 
   const sellerProductList = useStore((state) => state.sellerProductList);
+
+  const otherUserProductList = useStore((state) => state.otherUserProductList);
 
   const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  console.log(sellerProductList);
+  console.log("otherUserProductList", otherUserProductList);
 
   return (
-    <>
-      <Grid container justifyContent={"center"} spacing={2}>
-        <Grid item xs={12} md={12}>
-          <Box
-            sx={{
-              p: 2,
-              border: "1px solid #e0e0e0",
-              borderRadius: 2,
-              textAlign: "center",
-              position: "relative",
-              bgcolor: "#fafafa",
-            }}
-          >
-            <Box sx={{ position: "relative", display: "inline-block" }}>
-              <Badge
-                overlap="circular"
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                badgeContent={
-                  <IconButton
-                    sx={{
-                      bgcolor: "white",
-                      border: "1px solid #e0e0e0",
-                      padding: "2px",
-                    }}
-                  ></IconButton>
+    <Grid container justifyContent={"center"} spacing={2}>
+      <Grid item xs={12} md={12}>
+        <Box
+          sx={{
+            p: 2,
+            border: "1px solid #e0e0e0",
+            borderRadius: 2,
+            textAlign: "center",
+            position: "relative",
+            bgcolor: "#fafafa",
+          }}
+        >
+          <Box sx={{ position: "relative", display: "inline-block" }}>
+            <Badge
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              badgeContent={
+                <IconButton
+                  sx={{
+                    bgcolor: "white",
+                    border: "1px solid #e0e0e0",
+                    padding: "2px",
+                  }}
+                ></IconButton>
+              }
+            >
+              <Avatar
+                alt={isOwner ? userProfile.lastName : otherProfile?.lastName}
+                src={
+                  isOwner
+                    ? userProfile.userImageUrl
+                    : otherProfile?.userImageUrl
                 }
-              >
-                <Avatar
-                  alt={userProfile.lastName}
-                  src={userProfile?.userImageUrl}
-                  sx={{ width: 100, height: 100 }}
-                />
-              </Badge>
-            </Box>
+                sx={{ width: 100, height: 100 }}
+              />
+            </Badge>
+          </Box>
 
-            <Typography variant="h6" sx={{ mt: 1 }}>
-              {userProfile.lastName} {userProfile.firstName}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
-              Phone: {userProfile.phoneNumber}
-            </Typography>
+          <Typography variant="h6" sx={{ mt: 1 }}>
+            {isOwner
+              ? userProfile.lastName + " " + userProfile.firstName
+              : otherProfile?.lastName + " " + otherProfile?.firstName}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+            Phone:{" "}
+            {isOwner ? userProfile.phoneNumber : otherProfile?.phoneNumber}
+          </Typography>
 
-            {userProfile && userProfile.averageNumberStars ? (
-              <Typography>
-                <Rating
-                  name="read-only"
-                  value={userProfile.averageNumberStars}
-                  readOnly
-                  precision={0.5}
-                  size="small"
-                />
-              </Typography>
-            ) : (
-              <Typography variant="body2" color="textSecondary">
-                No ratings yet
-              </Typography>
-            )}
+          {userProfile?.averageNumberStars ||
+          otherProfile?.averageNumberStars ? (
+            <Rating
+              name="read-only"
+              value={
+                isOwner
+                  ? userProfile.averageNumberStars
+                  : otherProfile?.averageNumberStars
+              }
+              readOnly
+              precision={0.5}
+              size="small"
+            />
+          ) : (
+            <Typography variant="body2" color="textSecondary">
+              No ratings yet
+            </Typography>
+          )}
+
+          {isOwner && (
             <Button
               variant="outlined"
               sx={{
@@ -110,7 +130,9 @@ export default function Profile() {
             >
               Edit Profile
             </Button>
-          </Box>
+          )}
+        </Box>
+        {isOwner ? (
           <Box>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -145,8 +167,10 @@ export default function Profile() {
               </Grid>
             </Grid>
           </Box>
-        </Grid>
+        ) : (
+          <></>
+        )}
       </Grid>
-    </>
+    </Grid>
   );
 }

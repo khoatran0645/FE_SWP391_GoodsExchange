@@ -51,7 +51,7 @@ export default function ProductDetail() {
     originalWidth: 500,
   }));
 
-  console.log(productDetail);
+  // console.log(productDetail);
 
   const searchResult = useStore((state) => state.searchResult);
 
@@ -131,16 +131,16 @@ export default function ProductDetail() {
                   variant="h4"
                   marginX={0.75}
                   marginY={1}
-                  fontFamily={"fantasy"}
+                  // fontFamily={"fantasy"}
                 >
                   <Button
                     onClick={() =>
-                      navigate(`/profile-info/${productDetail?.data?.userUploadId}`)
+                      navigate(`/profile/${productDetail?.data?.userUploadId}`)
                     }
                     style={{ textTransform: "none", color: "inherit" }}
                     sx={{
                       fontSize: "2rem",
-                      fontFamily: "fantasy",
+                      // fontFamily: "fantasy",
                     }}
                   >
                     {(
