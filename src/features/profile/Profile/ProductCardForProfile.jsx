@@ -41,7 +41,7 @@ export default function ProductCardForProfile({ item, onSelect }) {
     marginRight: 0.5,
   };
 
-  const formattedDate = dayjs(item.createDate).format("DD/MM/YYYY");
+  // const formattedDate = dayjs(item?.createDate).format("DD/MM/YYYY");
 
   // Convert status to display format
   const formatStatus = (status) => {

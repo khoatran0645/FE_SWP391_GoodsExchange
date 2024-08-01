@@ -9,6 +9,7 @@ import {
   API_GET_PRODUCT_SELLER,
   API_SEARCH_PRODUCTS_FOR_USER,
   API_UPDATE_PRODUCT,
+  API_GET_OTHER_PRODUCT,
 } from "../constant";
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   productList: null,
   productDetail: null,
   sellerProductList: null,
+  otherUserProductList: null,
   searchResult: null,
 };
 
@@ -37,6 +39,7 @@ export const createProductSlice = (set) => ({
           pageSize
         )
       );
+      console.log("data", data);
       set({ productList: data, productDetail: null });
     } catch (error) {
       setError(set, error);
@@ -147,6 +150,20 @@ export const createProductSlice = (set) => ({
     try {
       const { data } = await axiosClient.put(API_UPDATE_PRODUCT, form);
       set({ response: data });
+    } catch (error) {
+      setError(set, error);
+    } finally {
+      setLoading(set, false);
+    }
+  },
+
+  getOtherUserProduct: async (id) => {
+    setLoading(set, true);
+    try {
+      const { data } = await axiosClient.post(
+        API_GET_OTHER_PRODUCT.replace("{id}", id)
+      );
+      set({ otherUserProductList: data });
     } catch (error) {
       setError(set, error);
     } finally {

@@ -38,7 +38,7 @@ export default function Home() {
     getProductsForHomePage(page, 12, categoryFilters);
   }, [page, categoryFilters]);
 
-  console.log(productList);
+  // console.log(productList);
 
   const handleChangePage = (event, value) => {
     setPage(value);

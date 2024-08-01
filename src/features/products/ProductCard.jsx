@@ -17,7 +17,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import dayjs from "dayjs"; // Import dayjs for date formatting
 
 ProductCard.propTypes = {
-  item: PropTypes.object.isRequired,
+  item: PropTypes.object,
   isDisable: PropTypes.bool,
   onSelect: PropTypes.func,
   cardType: PropTypes.oneOf(["trade", "have"]).isRequired,
