@@ -10,6 +10,7 @@ import {
   API_SEARCH_PRODUCTS_FOR_USER,
   API_UPDATE_PRODUCT,
   API_GET_OTHER_PRODUCT,
+  API_DELETE_PRODUCT,
 } from "../constant";
 
 const initialState = {
@@ -165,6 +166,19 @@ export const createProductSlice = (set) => ({
         API_GET_OTHER_PRODUCT.replace("{id}", id)
       );
       set({ otherUserProductList: data });
+    } catch (error) {
+      setError(set, error);
+    } finally {
+      setLoading(set, false);
+    }
+  },
+  deleteProduct: async (id) => {
+    setLoading(set, true);
+    try {
+      const { data } = await axiosClient.delete(
+        API_DELETE_PRODUCT.replace("{id}", id)
+      );
+      set({ response: data });
     } catch (error) {
       setError(set, error);
     } finally {
