@@ -46,7 +46,7 @@ export default function ProductCard({
   };
 
   // Format the approved date
-  const formattedDate = dayjs(item.approvedDate).format("DD/MM/YYYY");
+  const formattedDate = dayjs(item.uploadDate).format("DD/MM/YYYY");
 
   return (
     <Card

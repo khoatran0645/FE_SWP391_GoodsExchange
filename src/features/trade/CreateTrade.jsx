@@ -40,21 +40,25 @@ export default function CreateTrade({ productDetail }) {
     setSelectedProduct(null);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     useStore.setState({
       error: null,
     });
     // console.log("form", {"currentProductId": params.id, "targetProductId": selectedProduct?.productId});
-    await sendRequest({
+    sendRequest({
       currentProductId: selectedProduct?.productId,
       targetProductId: params.id,
     });
 
-    if (!isLoading && error == null) {
-      toast.success("Trade created successfully");
+    if (isLoading == false) {
+      if (error == null) {
+        toast.success("Trade request sent successfully");
+      } else {
+        toast.error(error);
+      }
     } else {
-      toast.error(error);
+      toast.info("Please wait...");
     }
 
     setOpen(false);

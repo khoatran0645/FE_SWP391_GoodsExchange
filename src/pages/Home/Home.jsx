@@ -73,13 +73,14 @@ export default function Home() {
       switch (sortValue) {
         case "Newest":
           filteredProducts.sort(
-            (a, b) => new Date(a.approveDate) - new Date(b.approveDate)
+            (a, b) => new Date(b.uploadDate) - new Date(a.uploadDate)
           );
           break;
         case "Oldest":
           filteredProducts.sort(
-            (a, b) => new Date(b.approveDate) - new Date(a.approveDate)
+            (a, b) => new Date(a.uploadDate) - new Date(b.uploadDate)
           );
+          break;
         case "Name Ascending":
           filteredProducts.sort((a, b) =>
             a.productName.localeCompare(b.productName)
@@ -90,12 +91,12 @@ export default function Home() {
             b.productName.localeCompare(a.productName)
           );
           break;
-        case "Star Ascending":
+        case "Stars Ascending":
           filteredProducts.sort(
             (a, b) => a.averageNumberStars - b.averageNumberStars
           );
           break;
-        case "Star Descending":
+        case "Stars Descending":
           filteredProducts.sort(
             (a, b) => b.averageNumberStars - a.averageNumberStars
           );
@@ -112,7 +113,7 @@ export default function Home() {
   const getNewestProducts = () => {
     if (productList?.data?.items) {
       return productList.data.items
-        .sort((a, b) => new Date(b.approveDate) - new Date(a.approveDate))
+        .sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate))
         .slice(0, 10);
     }
     return [];

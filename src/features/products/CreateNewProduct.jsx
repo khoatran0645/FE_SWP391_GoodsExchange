@@ -103,7 +103,12 @@ export default function CreateNewProduct() {
             console.log("data", formJson);
 
             useStore.setState({ response: null, error: null });
-            await createNewProduct(formData);
+            if (selectedFile.length > 0) {
+              await createNewProduct(formData);
+            } else {
+              toast.error("Please upload at least one image");
+              return;
+            }
             const response = useStore.getState().response;
             const error = useStore.getState().error;
             console.log("response", response);
