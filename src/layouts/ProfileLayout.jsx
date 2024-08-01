@@ -48,7 +48,11 @@ export default function ProfileLayout() {
           </Typography>
           <Button
             variant="outlined"
-            onClick={() => navigate("/profile/")}
+            onClick={() => {
+              isOwner
+                ? navigate("/profile")
+                : navigate("/profile/" + params.id);
+            }}
             sx={{
               marginBottom: 3,
               color: "#333",
@@ -124,34 +128,63 @@ export default function ProfileLayout() {
                   width: "100%",
                   borderRadius: "4px",
                   padding: "10px",
-
                   textTransform: "none",
                 }}
               >
                 Transaction Trade
               </Button>
-              <Button
-                variant="outlined"
-                onClick={() => navigate("/profile/inventory-trade")}
-                sx={{
-                  color: "#333",
-                  borderColor: "#333",
-                  "&:hover": {
-                    backgroundColor: "black",
-                    color: "white",
-                    borderColor: "#333",
-                  },
-                  width: "100%",
-                  borderRadius: "4px",
-                  padding: "10px",
-
-                  textTransform: "none",
-                }}
-              >
-                Inventory Trade
-              </Button>
             </>
           )}
+          <Button
+            variant="outlined"
+            onClick={() => {
+              isOwner
+                ? navigate("/profile/inventory-trade")
+                : navigate(`/profile/${params.id}/inventory-trade`);
+            }}
+            sx={{
+              marginBottom: 3,
+              color: "#333",
+              borderColor: "#333",
+              "&:hover": {
+                backgroundColor: "black",
+                color: "white",
+                borderColor: "#333",
+              },
+              width: "100%",
+              borderRadius: "4px",
+              padding: "10px",
+
+              textTransform: "none",
+            }}
+          >
+            Inventory Trade
+          </Button>
+
+          <Button
+            variant="outlined"
+            onClick={() => {
+              isOwner
+                ? navigate("/profile/rating")
+                : navigate(`/profile/${params.id}/rating`);
+            }}
+            sx={{
+              marginBottom: 3,
+              color: "#333",
+              borderColor: "#333",
+              "&:hover": {
+                backgroundColor: "black",
+                color: "white",
+                borderColor: "#333",
+              },
+              width: "100%",
+              borderRadius: "4px",
+              padding: "10px",
+              textTransform: "none",
+            }}
+          >
+            Rating
+          </Button>
         </Grid>
         <Grid item lg={10} sm={12} sx={{ padding: 2 }}>
           <Outlet />

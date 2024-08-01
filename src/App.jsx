@@ -107,6 +107,9 @@ export default function App() {
           <Route path="receive-trade" element={<ReceiveTrade />} />
           <Route path="transaction-trade" element={<TransactionTrade />} />
           <Route path="inventory-trade" element={<InventoryTrade />} />
+          <Route path=":id/inventory-trade" element={<InventoryTrade />} />
+          <Route path= "rating" element={<h1>My Rating</h1>} />
+          <Route path= ":id/rating" element={<h1>Rating other</h1>} />
         </Route>
 
         <Route

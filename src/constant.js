@@ -40,6 +40,7 @@ export const API_SEARCH_PRODUCTS_FOR_USER =
 export const API_GET_PRODUCT_BY_ID = "/products/{id}";
 export const API_GET_PRODUCT_SELLER = "/products/user?PageIndex=1&PageSize=10";
 export const API_UPDATE_PRODUCT = "/products/update";
+export const API_GET_OTHER_PRODUCT = "/products/user/{id}";
 //! DANGER
 export const API_DELETE_PRODUCT = "/products/id?id={id}";
 

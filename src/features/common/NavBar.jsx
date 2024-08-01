@@ -55,13 +55,13 @@ export default function NavBar() {
     getAllCategories();
   }, []);
 
-  const categories = useStore((state) => state.categories);
+  // const categories = useStore((state) => state.categories);
   // console.log("categories", categories);
-  const options =
-    categories?.data?.map((category) => ({
-      key: category.categoryId,
-      label: category.categoryName,
-    })) || [];
+  // const options =
+  //   categories?.data?.map((category) => ({
+  //     key: category.categoryId,
+  //     label: category.categoryName,
+  //   })) || [];
 
   // console.log("options", options);
 

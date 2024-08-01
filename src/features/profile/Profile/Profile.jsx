@@ -9,7 +9,7 @@ import {
   Box,
   Rating,
 } from "@mui/material";
-import { useNavigate, useParams, useOutletContext } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useStore from "../../../app/store";
 import CreateNewProduct from "../../products/CreateNewProduct";
 import ProductCard from "../../products/ProductCard";
@@ -22,10 +22,12 @@ export default function Profile() {
   const userProfile = useStore((state) => state.userProfile);
   const otherProfile = useStore((state) => state.otherProfile);
   const getSellerProduct = useStore((state) => state.getSellerProduct);
+  const getOtherUserProduct = useStore((state) => state.getOtherUserProduct);
 
   useEffect(() => {
     if (params.id) {
       setIsOwner(false);
+      getOtherUserProduct(params.id);
     } else {
       getSellerProduct();
     }
@@ -33,12 +35,14 @@ export default function Profile() {
 
   const sellerProductList = useStore((state) => state.sellerProductList);
 
+  const otherUserProductList = useStore((state) => state.otherUserProductList);
+
   const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  // console.log("otherProfile", otherProfile);
+  console.log("otherUserProductList", otherUserProductList);
 
   return (
     <Grid container justifyContent={"center"} spacing={2}>

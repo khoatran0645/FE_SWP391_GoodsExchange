@@ -32,16 +32,13 @@ axiosClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log("error", error.response.data.Message);
+    console.log("error", error);
     if (error.response) {
       if (error.response.status === 400) {
         toast.error(error.response.data.Message);
       } else if (error.response.status === 401) {
-        // Optionally, you can redirect to a login page
         window.location.href = "/login";
-      } else if (error.response.status === 404) {
-        // Handle not found error (e.g., show a notification)
-        // toast.error(error.response.data.Message);
+      } else if (error.response.status >= 404 && error.response.status < 500) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -53,7 +50,7 @@ axiosClient.interceptors.response.use(
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Server error",
+          text: error.response.statusText,
         });
       }
     } else if (error.request) {
@@ -65,8 +62,6 @@ axiosClient.interceptors.response.use(
         text: "Network error",
       });
     } else {
-      // Handle other errors
-      // toast.error("An unexpected error occurred");
       Swal.fire({
         icon: "error",
         title: "Oops...",
