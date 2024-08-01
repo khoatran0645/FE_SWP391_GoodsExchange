@@ -152,7 +152,7 @@ export default function ManageReports() {
                 sx={{ mr: 1 }}
                 onClick={() => handleOpenDialog(item, "approve")}
               >
-                Ban
+                Accept
               </Button>
               <Button
                 variant="contained"

@@ -95,7 +95,8 @@ export const createProductSlice = (set) => ({
     setLoading(set, true);
     try {
       const { data } = await axiosClient.patch(
-        API_APPROVE_PRODUCT_MOD.replace("{id}", productId)
+        API_APPROVE_PRODUCT_MOD.replace("{id}", productId),
+        { status: 1 }
       );
       set({ response: data });
     } catch (error) {

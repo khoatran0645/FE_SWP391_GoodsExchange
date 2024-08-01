@@ -30,8 +30,7 @@ export const API_APPROVE_TRADE =
 // Deny Trade
 export const API_DENY_TRADE = "/exchanges/deny-request?requestid={requestId}";
 // Get Transactions Complete
-export const API_GET_TRANSACTIONS_COMPLETE =
-  "/transactions/transactions";
+export const API_GET_TRANSACTIONS_COMPLETE = "/transactions/transactions";
 
 //------------------------------------------------------------------------------------------------------------------------------
 //* Product APIs
@@ -50,8 +49,8 @@ export const API_DELETE_PRODUCT = "/products/id?id={id}";
 // Moderator manage product
 export const API_GET_ALL_PRODUCT_MOD =
   "/products/moderator/all?PageIndex={PageIndex}&PageSize={PageSize}";
-export const API_APPROVE_PRODUCT_MOD = "/products/approve/{id}";
-export const API_DENY_PRODUCT_MOD = "products/deny/{id}";
+export const API_APPROVE_PRODUCT_MOD = "/products/status/{id}?status=1";
+export const API_DENY_PRODUCT_MOD = "/products/status/{id}?status=2";
 
 //------------------------------------------------------------------------------------------------------------------------------
 //* Rating APIs
@@ -63,8 +62,8 @@ export const API_POST_RATING = "ratings/send-rating";
 export const API_POST_REPORT = "/reports/send-report";
 export const API_GET_ALL_REPORTS =
   "/reports/all?PageIndex={PageIndex}&PageSize={PageSize}";
-export const API_APPROVE_REPORT_MOD = "reports/approve/{id}";
-export const API_DENY_REPORT_MOD = "reports/deny/{id}";
+export const API_APPROVE_REPORT_MOD = "/reports/status/{id}?status=1";
+export const API_DENY_REPORT_MOD = "/reports/status/{id}?status=2";
 
 //------------------------------------------------------------------------------------------------------------------------------
 //* User APIs
