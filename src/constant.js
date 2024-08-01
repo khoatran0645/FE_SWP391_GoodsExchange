@@ -8,7 +8,7 @@
 //* Category APIs
 export const API_CREATE_CATEGORY = "/categories"; //need auth
 export const API_GET_ALL_CATEGORIES = "/categories";
-export const API_UPDATE_CATEGORY = "/categories"; // need auth
+export const API_UPDATE_CATEGORY = "/categories/{id}"; // need auth
 export const API_GET_CATEGORY_BY_ID = "/categories/{id}";
 //! DANGER
 export const API_DELETE_CATEGORY = "/categories/{id}"; //need auth

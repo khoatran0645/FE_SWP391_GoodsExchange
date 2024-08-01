@@ -14,7 +14,8 @@ const initialState = {
 };
 
 const setLoading = (set, isLoading) => set({ isLoading });
-const setError = (set, error) => set({ error: { message: error.message, code: error.code } });
+const setError = (set, error) =>
+  set({ error: { message: error.message, code: error.code } });
 
 export const createCategorySlice = (set) => ({
   ...initialState,
@@ -46,7 +47,10 @@ export const createCategorySlice = (set) => ({
   updateCategory: async (form) => {
     setLoading(set, true);
     try {
-      const { data } = await axiosClient.put(API_UPDATE_CATEGORY, form);
+      const { data } = await axiosClient.put(
+        API_UPDATE_CATEGORY.replace("{id}", form?.CategoryId),
+        form
+      );
       set({ response: data });
     } catch (error) {
       setError(set, error);

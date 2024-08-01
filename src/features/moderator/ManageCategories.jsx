@@ -69,8 +69,8 @@ export default function ManageCategories() {
   };
 
   const handleSaveCategory = async () => {
-    if (!/^[A-Za-z]+$/.test(newCategory.CategoryName)) {
-      setError("Category Name must contain only letters.");
+    if (!/^[A-Za-z ]+$/.test(newCategory.CategoryName)) {
+      setError("Category Name invalid");
       return;
     }
     setError("");
@@ -113,8 +113,8 @@ export default function ManageCategories() {
   };
 
   const handleUpdateCategory = async () => {
-    if (!/^[A-Za-z]+$/.test(categoryToEdit.CategoryName)) {
-      setError("Category Name must contain only letters.");
+    if (!/^[A-Za-z ]+$/.test(categoryToEdit.CategoryName)) {
+      setError("Category Name invalid.");
       return;
     }
     setError("");
