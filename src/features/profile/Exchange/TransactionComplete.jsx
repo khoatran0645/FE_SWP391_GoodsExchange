@@ -68,7 +68,7 @@ function TransactionComplete() {
                       currentProductImage:
                         item.exchangeRequest.currentProductImage,
                       userImage: item.exchangeRequest.senderImage, // Example field, adjust as needed
-                      userName: item.exchangeRequest.senderName, // Example field, adjust as needed
+                      userName: item.exchangeRequest.senderId === userId ? item.exchangeRequest.senderName : item.exchangeRequest.receiverName, // Example field, adjust as needed
                       date: formatDate(item.exchangeRequest.startTime),
                     }}
                   />
@@ -83,7 +83,7 @@ function TransactionComplete() {
                           item.exchangeRequest.targetProductImage,
                         userImage: item.exchangeRequest.receiverImage,
                         status: item.status, // Adjust as needed
-                        receiverName: item.exchangeRequest.receiverName, // Adjust as needed
+                        receiverName: item.exchangeRequest.senderId !== userId ?item.exchangeRequest.senderName   : item.exchangeRequest.receiverName, // Adjust as needed
                         date: formatDate(item.exchangeRequest.startTime),
                       }}
                     />
