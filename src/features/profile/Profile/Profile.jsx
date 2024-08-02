@@ -43,6 +43,7 @@ export default function Profile() {
     setValue(newValue);
   };
   console.log("userProfile", userProfile);
+  console.log("sellerProductList", sellerProductList);
 
   return (
     <Grid container justifyContent={"center"} spacing={2}>

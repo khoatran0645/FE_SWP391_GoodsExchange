@@ -50,7 +50,7 @@ export default function RequestYourProductCard({ product }) {
           }}
         >
           {userId === product.senderId
-            ? product.productName
+            ? product.currentProductName
             : product.targetProductName}
         </Typography>
         <Box
