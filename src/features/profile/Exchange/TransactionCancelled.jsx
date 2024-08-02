@@ -22,6 +22,7 @@ import CreateReport from "../../report/CreateReport";
 import YourProductCard from "./Card/RequestYourProductCard";
 import ProductExchangeCard from "./Card/RequestProductExchangeCard";
 import dayjs from "dayjs";
+import TransactionCancelled from './TransactionCancelled';
 
 function TransactionCancelled() {
   const getSellerProduct = useStore((state) => state.getSellerProduct);
@@ -86,7 +87,7 @@ function TransactionCancelled() {
           <TableRow>
             <TableCell align="center" colSpan={5}>
               <Typography variant="h4" fontFamily={"fantasy"}>
-                Transaction Cancelled
+                Request Cancelled
               </Typography>
             </TableCell>
           </TableRow>
@@ -138,7 +139,7 @@ function TransactionCancelled() {
           ) : (
             <TableRow>
               <TableCell colSpan={5} align="center">
-                <Typography variant="h6">No Products</Typography>
+                <Typography variant="h6">No Transaction</Typography>
               </TableCell>
             </TableRow>
           )}

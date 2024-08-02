@@ -8,14 +8,13 @@ import {
   Box,
   Divider,
   IconButton,
-  Menu,
-  MenuItem,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import PersonIcon from "@mui/icons-material/Person";
 import AutoAwesomeMotion from "@mui/icons-material/AutoAwesomeMotion";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import dayjs from "dayjs"; // Import dayjs for date formatting
+import UpdateProduct from "../../products/UpdateProduct";
 
 ProductCardForProfile.propTypes = {
   item: PropTypes.object.isRequired,
@@ -103,20 +102,23 @@ export default function ProductCardForProfile({ item, onDelete }) {
             padding: "40px",
           }}
         >
-          {onDelete && (
-            <Box sx={{ position: "absolute", top: 8, right: 8, zIndex: 999 }}>
-              <IconButton onClick={handleMenuOpen}>
-                <MoreVertIcon />
-              </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleMenuClose}
-              >
-                <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
-              </Menu>
-            </Box>
-          )}
+          {/* Flex container to align DeleteForeverIcon and UpdateProduct */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mb: 2, // Adjust margin as needed
+            }}
+          >
+            <UpdateProduct />
+            <IconButton
+              onClick={handleDeleteClick}
+              sx={{ marginRight: 2 }} // Space between icon and button
+            >
+              <DeleteForeverIcon sx={{ color: "red" }} />
+            </IconButton>
+          </Box>
           <Typography
             gutterBottom
             variant="h6"

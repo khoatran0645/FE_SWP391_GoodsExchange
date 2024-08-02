@@ -92,7 +92,7 @@ export default function ProfileLayout() {
                   textTransform: "none",
                 }}
               >
-                Request Trade
+                Request
               </Button>
               <Button
                 variant="outlined"
@@ -112,7 +112,7 @@ export default function ProfileLayout() {
                   textTransform: "none",
                 }}
               >
-                Receive Trade
+                Receive
               </Button>
               <Button
                 variant="outlined"
@@ -133,7 +133,7 @@ export default function ProfileLayout() {
                   textTransform: "none",
                 }}
               >
-                Transaction Cancelled
+                Transaction Cancel
               </Button>
               <Button
                 variant="outlined"
@@ -156,7 +156,6 @@ export default function ProfileLayout() {
               >
                 Transaction Complete
               </Button>
-              
             </>
           )}
 
@@ -183,7 +182,7 @@ export default function ProfileLayout() {
               textTransform: "none",
             }}
           >
-            Inventory Trade
+            Inventory
           </Button>
 
           <Button

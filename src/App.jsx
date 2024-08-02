@@ -6,7 +6,6 @@ import useStore from "./app/store";
 
 import HomeLayout from "./layouts/HomeLayout";
 import EmptyLayout from "./layouts/EmptyLayout";
-import ChatLayout from "./layouts/ChatLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import ProfileLayout from "./layouts/ProfileLayout";
 
@@ -20,8 +19,6 @@ import ForgotPassword from "./features/auth/ForgotPassword";
 import Profile from "./features/profile/Profile/Profile";
 import EditProfile from "./features/profile/Profile/EditProfile";
 
-import Chat from "./pages/Chat";
-import ChatDetail from "./features/chat/ChatDetail";
 import SearchProduct from "./features/products/SearchProduct";
 
 import ManageProduct from "./features/moderator/ManageProduct";
@@ -39,7 +36,6 @@ import InventoryTrade from "./features/profile/Exchange/InventoryTrade";
 import TransactionComplete from "./features/profile/Exchange/TransactionComplete";
 
 import ProtectedRoute from "./ProtectedRoute";
-import { jwtDecode } from "jwt-decode";
 import AccessDenied from "./pages/AccessDenied";
 import Cookies from "js-cookie";
 import TransactionCancelled from "./features/profile/Exchange/TransactionCancelled";
