@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   Typography,
@@ -15,6 +15,7 @@ import AutoAwesomeMotion from "@mui/icons-material/AutoAwesomeMotion";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import dayjs from "dayjs"; // Import dayjs for date formatting
 import UpdateProduct from "../../products/UpdateProduct";
+import { useParams } from "react-router-dom";
 
 ProductCardForProfile.propTypes = {
   item: PropTypes.object.isRequired,
@@ -23,15 +24,26 @@ ProductCardForProfile.propTypes = {
 
 const statusColors = {
   "Awaiting Approval": "#FFC107", // Amber
-  "Approved": "#4CAF50", // Green
-  "Rejected": "#F44336", // Red
-  "Hidden": "#9E9E9E", // Grey
+  Approved: "#4CAF50", // Green
+  Rejected: "#F44336", // Red
+  Hidden: "#9E9E9E", // Grey
   "Progressing Exchange": "#2196F3", // Blue
   "Exchange Successful": "#00BFAE", // Teal
 };
 
 export default function ProductCardForProfile({ item, onDelete }) {
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const [isOwner, setIsOwner] = useState(true);
+  const params = useParams();
+
+  useEffect(() => {
+    if (params.id) {
+      setIsOwner(false);
+    }
+  }, []);
+
+  console.log("params", params);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -107,22 +119,25 @@ export default function ProductCardForProfile({ item, onDelete }) {
           }}
         >
           {/* Flex container to align DeleteForeverIcon and UpdateProduct */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              mb: 2, // Adjust margin as needed
-            }}
-          >
-            <UpdateProduct />
-            <IconButton
-              onClick={handleDeleteClick}
-              sx={{ marginRight: 2 }} // Space between icon and button
+          {isOwner && (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mb: 2, // Adjust margin as needed
+              }}
             >
-              <DeleteForeverIcon sx={{ color: "red" }} />
-            </IconButton>
-          </Box>
+              <UpdateProduct />
+              <IconButton
+                onClick={handleDeleteClick}
+                sx={{ marginRight: 2 }} // Space between icon and button
+              >
+                <DeleteForeverIcon sx={{ color: "red" }} />
+              </IconButton>
+            </Box>
+          )}
+
           <Typography
             gutterBottom
             variant="h6"
@@ -191,32 +206,34 @@ export default function ProductCardForProfile({ item, onDelete }) {
               {item.categoryName}
             </Typography>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              mt: 1,
-              px: 2,
-              py: 1,
-              borderRadius: 1,
-              bgcolor: statusColors[formatStatus(item.status)] || "#FFF",
-            }}
-          >
-            <Typography
-              variant="body2"
+          {isOwner && (
+            <Box
               sx={{
-                color: "#FFF",
-                fontWeight: "bold",
-                textAlign: "center",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                mt: 1,
+                px: 2,
+                py: 1,
+                borderRadius: 1,
+                bgcolor: statusColors[formatStatus(item.status)] || "#FFF",
               }}
             >
-              {formatStatus(item.status)}
-            </Typography>
-          </Box>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "#FFF",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {formatStatus(item.status)}
+              </Typography>
+            </Box>
+          )}
         </CardContent>
       </CardActionArea>
     </Card>
