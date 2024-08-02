@@ -115,16 +115,12 @@ function TransactionComplete() {
                     <>
                       <CreateRating
                         targetId={
-                          userId !== item.exchangeRequest.senderId
-                            ? item.exchangeRequest.currentProductId
-                            : item.exchangeRequest.targetProductId
+                          item.exchangeRequest.targetProductId
                         }
                       />
                       <CreateReport
                         targetId={
-                          userId !== item.exchangeRequest.senderId
-                            ? item.exchangeRequest.currentProductId
-                            : item.exchangeRequest.targetProductId
+                          item.exchangeRequest.targetProductId
                         }
                       />
                     </>
