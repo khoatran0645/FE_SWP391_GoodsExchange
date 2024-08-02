@@ -23,10 +23,10 @@ ProductCardForProfile.propTypes = {
 };
 
 const statusColors = {
-  "Awaiting approval": "#FFC107", // Amber
-  Approved: "#4CAF50", // Green
-  Rejected: "#F44336", // Red
-  Hidden: "#9E9E9E", // Grey
+  "Awaiting Approval": "#FFC107", // Amber
+  "Approved": "#4CAF50", // Green
+  "Rejected": "#F44336", // Red
+  "Hidden": "#9E9E9E", // Grey
   "Progressing Exchange": "#2196F3", // Blue
   "Exchange Successful": "#00BFAE", // Teal
 };
@@ -52,8 +52,12 @@ export default function ProductCardForProfile({ item, onDelete }) {
   const formattedDate = dayjs(item.createDate).format("DD/MM/YYYY");
 
   const formatStatus = (status) => {
-    if (status === "Exchange is in progress") {
+    if (status === "AreExchanging") {
       return "Progressing Exchange";
+    } else if (status === "ExchangeSuccessful") {
+      return "Exchange Successful";
+    } else if (status === "AwaitingApproval") {
+      return "Awaiting Approval";
     }
     return status;
   };

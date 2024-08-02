@@ -13,11 +13,11 @@ export default function TransactionProductExchangCard({ transaction }) {
   return (
     <Card sx={{ maxWidth: 345, border: "3px solid black", boxShadow: 5 }}>
       <Box
-        component="div"
-        onClick={() => navigate(`/transactions/${transaction.id}`)}
-        sx={{
-          cursor: "pointer",
-        }}
+        // component="div"
+        // onClick={() => navigate(`/transactions/${transaction.id}`)}
+        // sx={{
+        //   cursor: "pointer",
+        // }}
       >
         <CardMedia
           component="img"
