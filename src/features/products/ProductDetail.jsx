@@ -225,18 +225,19 @@ export default function ProductDetail() {
           </Box>
         </Grid>
       </Grid>
-      <Typography variant="h4" align="left">
-        Similar Products
-      </Typography>
-      <ImageList sx={{ width: "100%" }} cols={10}>
-        {filteredSearchResult?.length > 0 ? (
-          filteredSearchResult.map((item) => (
-            <ProductCard key={item.productId} item={item} />
-          ))
-        ) : (
-          <Typography variant="h4">No Product Found</Typography>
-        )}
-      </ImageList>
+      {filteredSearchResult?.length > 0 && (
+        <>
+          <Typography variant="h4" align="left">
+            Similar Products
+          </Typography>
+          <ImageList sx={{ width: "100%" }} cols={10}>
+            {filteredSearchResult?.length > 0 &&
+              filteredSearchResult.map((item) => (
+                <ProductCard key={item.productId} item={item} />
+              ))}
+          </ImageList>
+        </>
+      )}
     </>
   );
 }
