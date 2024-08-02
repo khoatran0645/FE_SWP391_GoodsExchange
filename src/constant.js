@@ -56,6 +56,7 @@ export const API_DENY_PRODUCT_MOD = "/products/status/{id}?status=2";
 //* Rating APIs
 export const API_GET_RATING_STAR = "/ratings/id?id={id}";
 export const API_POST_RATING = "ratings/send-rating";
+export const API_GET_RATING_LIST_OF_USER = "ratings/user/{id}";
 
 //------------------------------------------------------------------------------------------------------------------------------
 //* Report APIs

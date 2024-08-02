@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
-import { ThemeProvider, createTheme } from "@mui/material";
+import {ThemeProvider, createTheme } from "@mui/material";
 import useStore from "./app/store";
 
 import HomeLayout from "./layouts/HomeLayout";
@@ -34,6 +34,8 @@ import RequestTrade from "./features/profile/Exchange/RequestTrade";
 import ReceiveTrade from "./features/profile/Exchange/ReceiveTrade";
 import InventoryTrade from "./features/profile/Exchange/InventoryTrade";
 import TransactionComplete from "./features/profile/Exchange/TransactionComplete";
+
+import ViewRating from "./features/rating/ViewRating";
 
 import ProtectedRoute from "./ProtectedRoute";
 import AccessDenied from "./pages/AccessDenied";
@@ -106,8 +108,8 @@ export default function App() {
           <Route path="transaction-cancelled" element={<TransactionCancelled />} />
           <Route path="inventory-trade" element={<InventoryTrade />} />
           <Route path=":id/inventory-trade" element={<InventoryTrade />} />
-          <Route path="rating" element={<h1>My Rating</h1>} />
-          <Route path=":id/rating" element={<h1>Rating other</h1>} />
+          <Route path="rating" element={<ViewRating/>} />
+          <Route path=":id/rating" element={<ViewRating/>} />
         </Route>
 
         <Route
