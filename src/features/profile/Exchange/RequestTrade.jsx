@@ -181,7 +181,7 @@ const RequestTrade = () => {
           ) : (
             <TableRow>
               <TableCell colSpan={5} align="center">
-                <Typography variant="h6">No Products</Typography>
+                <Typography variant="h6">No Request</Typography>
               </TableCell>
             </TableRow>
           )}

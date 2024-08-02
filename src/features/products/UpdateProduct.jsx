@@ -15,6 +15,7 @@ import {
   ImageListItem,
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 
 import useStore from "../../app/store";
 export default function UpdateProduct({ productId, productDetail }) {
@@ -61,16 +62,17 @@ export default function UpdateProduct({ productId, productDetail }) {
     <>
       {auth && (
         <Button
-          variant="contained"
+          // variant="contained"
+
           onClick={handleClickOpen}
-          sx={{
-            backgroundColor: "#FF204E",
-            "&:hover": {
-              backgroundColor: "#FF204E",
-            },
-          }}
+          // sx={{
+          //   backgroundColor: "#FF204E",
+          //   "&:hover": {
+          //     backgroundColor: "#FF204E",
+          //   },
+          // }}
         >
-          Update product
+          <AutoFixHighIcon sx={{ color: "orange" }}/>
         </Button>
       )}
       <Dialog
